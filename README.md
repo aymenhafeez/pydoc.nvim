@@ -5,7 +5,7 @@ Type `:help <keyword>` and nvim will show you the available options.
 
 This plugin is 90% a copy of https://github.com/girishji/pythondoc.vim, which is based on https://github.com/sphinx-contrib/vimbuilder to compile shpinx documentations into vim help files.
 
-In addition to pythondoc.vim, this plugin let's you choose between Python versions: 3.8, 3.9. 3.10. 3.11, 3.12.
+In addition to pythondoc.vim, this plugin let's you choose between Python versions: 3.8 to 3.14.
 
 ---
 [![asciicast](https://asciinema.org/a/661709.svg)](https://asciinema.org/a/661709)
