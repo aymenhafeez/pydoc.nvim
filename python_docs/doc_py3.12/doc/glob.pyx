@@ -1,5 +1,5 @@
-Python 3.12.3
-*glob.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*glob.pyx*                                    Last change: 2025 Dec 20
 
 "glob" — Unix style pathname pattern expansion
 **********************************************
@@ -66,6 +66,11 @@ glob.glob(pathname, *, root_dir=None, dir_fd=None, recursive=False, include_hidd
      Using the “"**"” pattern in large directory trees may consume an
      inordinate amount of time.
 
+   Note:
+
+     This function may return duplicate path names if _pathname_
+     contains multiple “"**"” patterns and _recursive_ is true.
+
    Changed in version 3.5: Support for recursive globs using “"**"”.
 
    Changed in version 3.10: Added the _root_dir_ and _dir_fd_
@@ -84,6 +89,11 @@ glob.iglob(pathname, *, root_dir=None, dir_fd=None, recursive=False, include_hid
    Raises an auditing event "glob.glob/2" with arguments "pathname",
    "recursive", "root_dir", "dir_fd".
 
+   Note:
+
+     This function may return duplicate path names if _pathname_
+     contains multiple “"**"” patterns and _recursive_ is true.
+
    Changed in version 3.5: Support for recursive globs using “"**"”.
 
    Changed in version 3.10: Added the _root_dir_ and _dir_fd_
@@ -99,7 +109,7 @@ glob.escape(pathname)
    sharepoints are not escaped, e.g. on Windows "escape('//?/c:/Quo
    vadis?.txt')" returns "'//?/c:/Quo vadis[?].txt'".
 
-   New in version 3.4.
+   Added in version 3.4.
 
 For example, consider a directory containing the following files:
 "1.gif", "2.txt", "card.gif" and a subdirectory "sub" which contains

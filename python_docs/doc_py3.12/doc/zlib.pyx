@@ -1,5 +1,5 @@
-Python 3.12.3
-*zlib.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*zlib.pyx*                                    Last change: 2025 Dec 20
 
 "zlib" — Compression compatible with **gzip**
 *********************************************
@@ -256,7 +256,7 @@ Decompress.eof
    This makes it possible to distinguish between a properly formed
    compressed stream, and an incomplete or truncated one.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 Decompress.decompress(data, max_length=0)
 
@@ -312,7 +312,7 @@ zlib.ZLIB_RUNTIME_VERSION
    The version string of the zlib library actually loaded by the
    interpreter.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 See also:
 

@@ -1,5 +1,5 @@
-Python 3.9.19
-*sqlite3.pyx*                                 Last change: 2024 May 24
+Python 3.9.25
+*sqlite3.pyx*                                 Last change: 2025 Dec 20
 
 "sqlite3" — DB-API 2.0 interface for SQLite databases
 *****************************************************

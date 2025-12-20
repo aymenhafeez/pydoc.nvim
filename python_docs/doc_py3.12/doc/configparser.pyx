@@ -1,5 +1,5 @@
-Python 3.12.3
-*configparser.pyx*                            Last change: 2024 May 24
+Python 3.12.12
+*configparser.pyx*                            Last change: 2025 Dec 20
 
 "configparser" — Configuration file parser
 ******************************************
@@ -102,7 +102,7 @@ back and explore the data it holds.
    'no'
    >>> topsecret['Port']
    '50022'
-   >>> for key in config['forge.example']:  
+   >>> for key in config['forge.example']:
    ...     print(key)
    user
    compressionlevel
@@ -120,21 +120,24 @@ insensitive and stored in lowercase [1].
 It is possible to read several configurations into a single
 "ConfigParser", where the most recently added configuration has the
 highest priority. Any conflicting keys are taken from the more recent
-configuration while the previously existing keys are retained.
+configuration while the previously existing keys are retained. The
+example below reads in an "override.ini" file, which will override any
+conflicting keys from the "example.ini" file.
 >
-   >>> another_config = configparser.ConfigParser()
-   >>> another_config.read('example.ini')
-   ['example.ini']
-   >>> another_config['topsecret.server.example']['Port']
-   '50022'
-   >>> another_config.read_string("[topsecret.server.example]\nPort=48484")
-   >>> another_config['topsecret.server.example']['Port']
-   '48484'
-   >>> another_config.read_dict({"topsecret.server.example": {"Port": 21212}})
-   >>> another_config['topsecret.server.example']['Port']
-   '21212'
-   >>> another_config['topsecret.server.example']['ForwardX11']
-   'no'
+   [DEFAULT]
+   ServerAliveInterval = -1
+<
+>
+   >>> config_override = configparser.ConfigParser()
+   >>> config_override['DEFAULT'] = {'ServerAliveInterval': '-1'}
+   >>> with open('override.ini', 'w') as configfile:
+   ...     config_override.write(configfile)
+   ...
+   >>> config_override = configparser.ConfigParser()
+   >>> config_override.read(['example.ini', 'override.ini'])
+   ['example.ini', 'override.ini']
+   >>> print(config_override.get('DEFAULT', 'ServerAliveInterval'))
+   -1
 <
 This behaviour is equivalent to a "ConfigParser.read()" call with
 several files passed to the _filenames_ parameter.
@@ -363,7 +366,7 @@ class configparser.ExtendedInterpolation
 Mapping Protocol Access
 =======================
 
-New in version 3.2.
+Added in version 3.2.
 
 Mapping protocol access is a generic name for functionality that
 enables using custom objects as if they were dictionaries.  In case of
@@ -905,6 +908,28 @@ class configparser.ConfigParser(defaults=None, dict_type=dict, allow_no_value=Fa
    datatype.  Every converter gets its own corresponding "get*()"
    method on the parser object and section proxies.
 
+   It is possible to read several configurations into a single
+   "ConfigParser", where the most recently added configuration has the
+   highest priority. Any conflicting keys are taken from the more
+   recent configuration while the previously existing keys are
+   retained. The example below reads in an "override.ini" file, which
+   will override any conflicting keys from the "example.ini" file.
+>
+      [DEFAULT]
+      ServerAliveInterval = -1
+<
+>
+      >>> config_override = configparser.ConfigParser()
+      >>> config_override['DEFAULT'] = {'ServerAliveInterval': '-1'}
+      >>> with open('override.ini', 'w') as configfile:
+      ...     config_override.write(configfile)
+      ...
+      >>> config_override = configparser.ConfigParser()
+      >>> config_override.read(['example.ini', 'override.ini'])
+      ['example.ini', 'override.ini']
+      >>> print(config_override.get('DEFAULT', 'ServerAliveInterval'))
+      -1
+<
    Changed in version 3.1: The default _dict_type_ is
    "collections.OrderedDict".
 
@@ -1003,7 +1028,7 @@ class configparser.ConfigParser(defaults=None, dict_type=dict, allow_no_value=Fa
       read.  If not given and _f_ has a "name" attribute, that is used
       for _source_; the default is "'<???>'".
 
-      New in version 3.2: Replaces "readfp()".
+      Added in version 3.2: Replaces "readfp()".
 
    read_string(string, source='<string>')
 
@@ -1013,7 +1038,7 @@ class configparser.ConfigParser(defaults=None, dict_type=dict, allow_no_value=Fa
       the string passed.  If not given, "'<string>'" is used.  This
       should commonly be a filesystem path or a URL.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    read_dict(dictionary, source='<dict>')
 
@@ -1029,7 +1054,7 @@ class configparser.ConfigParser(defaults=None, dict_type=dict, allow_no_value=Fa
 
       This method can be used to copy state between parsers.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    get(section, option, *, raw=False, vars=None[, fallback])
 
@@ -1058,7 +1083,7 @@ class configparser.ConfigParser(defaults=None, dict_type=dict, allow_no_value=Fa
    getfloat(section, option, *, raw=False, vars=None[, fallback])
 
       A convenience method which coerces the _option_ in the specified
-      _section_ to a floating point number.  See "get()" for
+      _section_ to a floating-point number.  See "get()" for
       explanation of _raw_, _vars_ and _fallback_.
 
    getboolean(section, option, *, raw=False, vars=None[, fallback])

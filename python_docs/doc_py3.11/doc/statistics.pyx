@@ -1,5 +1,5 @@
-Python 3.11.9
-*statistics.pyx*                              Last change: 2024 May 24
+Python 3.11.14
+*statistics.pyx*                              Last change: 2025 Dec 20
 
 "statistics" — Mathematical statistics functions
 ************************************************

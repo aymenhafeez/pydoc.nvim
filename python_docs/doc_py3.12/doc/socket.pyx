@@ -1,5 +1,5 @@
-Python 3.12.3
-*socket.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*socket.pyx*                                  Last change: 2025 Dec 20
 
 "socket" — Low-level networking interface
 *****************************************
@@ -138,7 +138,7 @@ follows:
   used if ID and unit number of the kernel control are known or if a
   registered ID is used.
 
-  New in version 3.3.
+  Added in version 3.3.
 
 * "AF_BLUETOOTH" supports the following protocols and address formats:
 
@@ -177,7 +177,7 @@ follows:
 
   Some algorithm types require more recent Kernels.
 
-  New in version 3.6.
+  Added in version 3.6.
 
 * "AF_VSOCK" allows communication between virtual machines and their
   hosts. The sockets are represented as a "(CID, port)" tuple where
@@ -187,7 +187,7 @@ follows:
 
   See _vsock(7)_
 
-  New in version 3.7.
+  Added in version 3.7.
 
 * "AF_PACKET" is a low-level interface directly to network devices.
   The addresses are represented by the tuple "(ifname, proto[,
@@ -230,7 +230,7 @@ follows:
 
   Availability: Linux >= 4.7.
 
-  New in version 3.8.
+  Added in version 3.8.
 
 * "IPPROTO_UDPLITE" is a variant of UDP which allows you to specify
   what portion of a packet is covered with the checksum. It adds two
@@ -247,7 +247,7 @@ follows:
 
   Availability: Linux >= 2.6.20, FreeBSD >= 10.1
 
-  New in version 3.9.
+  Added in version 3.9.
 
 * "AF_HYPERV" is a Windows-only socket based interface for
   communicating with Hyper-V hosts and guests. The address family is
@@ -277,7 +277,7 @@ follows:
   The "service_id" is the service identifier of the registered
   service.
 
-  New in version 3.12.
+  Added in version 3.12.
 
 If you use a hostname in the _host_ portion of IPv4/v6 socket address,
 the program may show a nondeterministic behavior, as Python uses the
@@ -361,7 +361,7 @@ Constants
    The AF_* and SOCK_* constants are now "AddressFamily" and
    "SocketKind" "IntEnum" collections.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 socket.AF_UNIX
 socket.AF_INET
@@ -402,7 +402,7 @@ socket.SOCK_NONBLOCK
 
    Availability: Linux >= 2.6.27.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 SO_*
 socket.SOMAXCONN
@@ -467,7 +467,7 @@ CAN_*
 
    Availability: Linux >= 2.6.25, NetBSD >= 8.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.11: NetBSD support was added.
 
@@ -485,7 +485,7 @@ CAN_BCM_*
      The "CAN_BCM_CAN_FD_FRAME" flag is only available on Linux >=
      4.8.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 socket.CAN_RAW_FD_FRAMES
 
@@ -498,7 +498,7 @@ socket.CAN_RAW_FD_FRAMES
 
    Availability: Linux >= 3.6.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 socket.CAN_RAW_JOIN_FILTERS
 
@@ -509,7 +509,7 @@ socket.CAN_RAW_JOIN_FILTERS
 
    Availability: Linux >= 4.1.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 socket.CAN_ISOTP
 
@@ -518,7 +518,7 @@ socket.CAN_ISOTP
 
    Availability: Linux >= 2.6.25.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 socket.CAN_J1939
 
@@ -527,7 +527,7 @@ socket.CAN_J1939
 
    Availability: Linux >= 5.4.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 socket.AF_DIVERT
 socket.PF_DIVERT
@@ -537,7 +537,7 @@ socket.PF_DIVERT
 
    Availability: FreeBSD >= 14.0.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 socket.AF_PACKET
 socket.PF_PACKET
@@ -558,7 +558,7 @@ socket.ETH_P_ALL
 
    Availability: Linux.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 socket.AF_RDS
 socket.PF_RDS
@@ -570,7 +570,7 @@ RDS_*
 
    Availability: Linux >= 2.6.30.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 socket.SIO_RCVALL
 socket.SIO_KEEPALIVE_VALS
@@ -595,7 +595,7 @@ ALG_*
 
    Availability: Linux >= 2.6.38.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 socket.AF_VSOCK
 socket.IOCTL_VM_SOCKETS_GET_LOCAL_CID
@@ -606,13 +606,13 @@ SO_VM*
 
    Availability: Linux >= 4.8.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 socket.AF_LINK
 
    Availability: BSD, macOS.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 socket.has_ipv6
 
@@ -652,7 +652,7 @@ socket.LOCAL_CREDS_PERSISTENT
    LOCAL_CREDS_PERSISTENT sends for each read, SCM_CREDS2 must be then
    used for the latter for the message type.
 
-   New in version 3.11.
+   Added in version 3.11.
 
    Availability: FreeBSD.
 
@@ -661,7 +661,7 @@ socket.SO_INCOMING_CPU
       Constant to optimize CPU locality, to be used in conjunction
       with "SO_REUSEPORT".
 
-   New in version 3.11.
+   Added in version 3.11.
 
    Availability: Linux >= 3.9
 
@@ -683,7 +683,7 @@ socket.HV_GUID_PARENT
 
    Availability: Windows.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 socket.ETHERTYPE_ARP
 socket.ETHERTYPE_IP
@@ -694,7 +694,16 @@ socket.ETHERTYPE_VLAN
 
    Availability: Linux, FreeBSD, macOS.
 
-   New in version 3.12.
+   Added in version 3.12.
+
+socket.SHUT_RD
+socket.SHUT_WR
+socket.SHUT_RDWR
+
+   These constants are used by the "shutdown()" method of socket
+   objects.
+
+   Availability: not WASI.
 
 
 Functions
@@ -816,16 +825,17 @@ socket.create_server(address, *, family=AF_INET, backlog=None, reuse_port=False,
    default reasonable value is chosen. _reuse_port_ dictates whether
    to set the "SO_REUSEPORT" socket option.
 
-   If _dualstack_ipv6_ is true and the platform supports it the socket
-   will be able to accept both IPv4 and IPv6 connections, else it will
-   raise "ValueError". Most POSIX platforms and Windows are supposed
-   to support this functionality. When this functionality is enabled
-   the address returned by "socket.getpeername()" when an IPv4
-   connection occurs will be an IPv6 address represented as an
-   IPv4-mapped IPv6 address. If _dualstack_ipv6_ is false it will
-   explicitly disable this functionality on platforms that enable it
-   by default (e.g. Linux). This parameter can be used in conjunction
-   with "has_dualstack_ipv6()":
+   If _dualstack_ipv6_ is true, _family_ is "AF_INET6" and the
+   platform supports it the socket will be able to accept both IPv4
+   and IPv6 connections, else it will raise "ValueError". Most POSIX
+   platforms and Windows are supposed to support this functionality.
+   When this functionality is enabled the address returned by
+   "socket.getpeername()" when an IPv4 connection occurs will be an
+   IPv6 address represented as an IPv4-mapped IPv6 address. If
+   _dualstack_ipv6_ is false it will explicitly disable this
+   functionality on platforms that enable it by default (e.g. Linux).
+   This parameter can be used in conjunction with
+   "has_dualstack_ipv6()":
 >
       import socket
 
@@ -841,14 +851,14 @@ socket.create_server(address, *, family=AF_INET, backlog=None, reuse_port=False,
      order to immediately reuse previous sockets which were bound on
      the same _address_ and remained in TIME_WAIT state.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 socket.has_dualstack_ipv6()
 
    Return "True" if the platform supports creating a TCP socket which
    can handle both IPv4 and IPv6 connections.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 socket.fromfd(fd, family, type, proto=0)
 
@@ -874,7 +884,7 @@ socket.fromshare(data)
 
    Availability: Windows.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 socket.SocketType
 
@@ -893,9 +903,12 @@ socket.close(fd)
    sockets. On some platforms (most noticeable Windows) "os.close()"
    does not work for socket file descriptors.
 
-   New in version 3.7.
+   Added in version 3.7.
 
-socket.getaddrinfo(host, port, family=0, type=0, proto=0, flags=0)
+socket.getaddrinfo(host, port, family=AF_UNSPEC, type=0, proto=0, flags=0)
+
+   This function wraps the C function "getaddrinfo" of the underlying
+   system.
 
    Translate the _host_/_port_ argument into a sequence of 5-tuples
    that contain all the necessary arguments for creating a socket
@@ -906,13 +919,15 @@ socket.getaddrinfo(host, port, family=0, type=0, proto=0, flags=0)
    "NULL" to the underlying C API.
 
    The _family_, _type_ and _proto_ arguments can be optionally
-   specified in order to narrow the list of addresses returned.
-   Passing zero as a value for each of these arguments selects the
-   full range of results. The _flags_ argument can be one or several
-   of the "AI_*" constants, and will influence how results are
-   computed and returned. For example, "AI_NUMERICHOST" will disable
-   domain name resolution and will raise an error if _host_ is a
-   domain name.
+   specified in order to provide options and limit the list of
+   addresses returned. Pass their default values ("AF_UNSPEC", 0, and
+   0, respectively) to not limit the results. See the note below for
+   details.
+
+   The _flags_ argument can be one or several of the "AI_*" constants,
+   and will influence how results are computed and returned. For
+   example, "AI_NUMERICHOST" will disable domain name resolution and
+   will raise an error if _host_ is a domain name.
 
    The function returns a list of 5-tuples with the following
    structure:
@@ -928,6 +943,26 @@ socket.getaddrinfo(host, port, family=0, type=0, proto=0, flags=0)
    2-tuple for "AF_INET", a "(address, port, flowinfo, scope_id)"
    4-tuple for "AF_INET6"), and is meant to be passed to the
    "socket.connect()" method.
+
+   Note:
+
+     If you intend to use results from "getaddrinfo()" to create a
+     socket (rather than, for example, retrieve _canonname_), consider
+     limiting the results by _type_ (e.g. "SOCK_STREAM" or
+     "SOCK_DGRAM") and/or _proto_ (e.g. "IPPROTO_TCP" or
+     "IPPROTO_UDP") that your application can handle.The behavior with
+     default values of _family_, _type_, _proto_ and _flags_ is
+     system-specific.Many systems (for example, most Linux
+     configurations) will return a sorted list of all matching
+     addresses. These addresses should generally be tried in order
+     until a connection succeeds (possibly tried in parallel, for
+     example, using a Happy Eyeballs algorithm). In these cases,
+     limiting the _type_ and/or _proto_ can help eliminate
+     unsuccessful or unusable connection attempts.Some systems will,
+     however, only return a single address. (For example, this was
+     reported on Solaris and AIX configurations.) On these systems,
+     limiting the _type_ and/or _proto_ helps ensure that this address
+     is usable.
 
    Raises an auditing event "socket.getaddrinfo" with arguments
    "host", "port", "family", "type", "protocol".
@@ -1195,7 +1230,7 @@ socket.CMSG_LEN(length)
 
    Most Unix platforms.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 socket.CMSG_SPACE(length)
 
@@ -1216,7 +1251,7 @@ socket.CMSG_SPACE(length)
 
    most Unix platforms.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 socket.getdefaulttimeout()
 
@@ -1241,7 +1276,7 @@ socket.sethostname(name)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 socket.if_nameindex()
 
@@ -1250,7 +1285,7 @@ socket.if_nameindex()
 
    Availability: Unix, Windows, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.8: Windows support was added.
 
@@ -1278,7 +1313,7 @@ socket.if_nametoindex(if_name)
 
    Availability: Unix, Windows, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.8: Windows support was added.
 
@@ -1293,7 +1328,7 @@ socket.if_indextoname(if_index)
 
    Availability: Unix, Windows, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.8: Windows support was added.
 
@@ -1311,7 +1346,7 @@ socket.send_fds(sock, buffers, fds[, flags[, address]])
 
    Unix platforms supporting "sendmsg()" and "SCM_RIGHTS" mechanism.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 socket.recv_fds(sock, bufsize, maxfds[, flags])
 
@@ -1323,7 +1358,7 @@ socket.recv_fds(sock, bufsize, maxfds[, flags])
 
    Unix platforms supporting "sendmsg()" and "SCM_RIGHTS" mechanism.
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Note:
 
@@ -1435,7 +1470,7 @@ socket.detach()
    the underlying file descriptor.  The file descriptor is returned,
    and can be reused for other purposes.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 socket.dup()
 
@@ -1462,7 +1497,7 @@ socket.get_inheritable()
    socket’s handle: "True" if the socket can be inherited in child
    processes, "False" if it cannot.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 socket.getpeername()
 
@@ -1499,7 +1534,7 @@ socket.getblocking()
 
    This is equivalent to checking "socket.gettimeout() != 0".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 socket.gettimeout()
 
@@ -1543,7 +1578,7 @@ socket.makefile(mode='r', buffering=None, *, encoding=None, errors=None, newline
    returned type depends on the arguments given to "makefile()".
    These arguments are interpreted the same way as by the built-in
    "open()" function, except the only supported _mode_ values are
-   "'r'" (default), "'w'" and "'b'".
+   "'r'" (default), "'w'", "'b'", or a combination of those.
 
    The socket must be in blocking mode; it can have a timeout, but the
    file object’s internal buffer may end up in an inconsistent state
@@ -1567,12 +1602,6 @@ socket.recv(bufsize[, flags])
    object indicates that the client has disconnected. See the Unix
    manual page _recv(2)_ for the meaning of the optional argument
    _flags_; it defaults to zero.
-
-   Note:
-
-     For best match with hardware and network realities, the value of
-     _bufsize_ should be a relatively small power of 2, for example,
-     4096.
 
    Changed in version 3.5: If the system call is interrupted and the
    signal handler does not raise an exception, the method now retries
@@ -1659,7 +1688,7 @@ socket.recvmsg(bufsize[, ancbufsize[, flags]])
 
    Most Unix platforms.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.5: If the system call is interrupted and the
    signal handler does not raise an exception, the method now retries
@@ -1702,7 +1731,7 @@ socket.recvmsg_into(buffers[, ancbufsize[, flags]])
 
    Most Unix platforms.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 socket.recvfrom_into(buffer[, nbytes[, flags]])
 
@@ -1810,7 +1839,7 @@ socket.sendmsg(buffers[, ancdata[, flags[, address]]])
    Raises an auditing event "socket.sendmsg" with arguments "self",
    "address".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.5: If the system call is interrupted and the
    signal handler does not raise an exception, the method now retries
@@ -1824,7 +1853,7 @@ socket.sendmsg_afalg([msg, ]*, op[, iv[, assoclen[, flags]]])
 
    Availability: Linux >= 2.6.38.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 socket.sendfile(file, offset=0, count=None)
 
@@ -1840,14 +1869,14 @@ socket.sendfile(file, offset=0, count=None)
    number of bytes which were sent. The socket must be of
    "SOCK_STREAM" type. Non-blocking sockets are not supported.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 socket.set_inheritable(inheritable)
 
    Set the inheritable flag of the socket’s file descriptor or
    socket’s handle.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 socket.setblocking(flag)
 
@@ -1866,7 +1895,7 @@ socket.setblocking(flag)
 socket.settimeout(value)
 
    Set a timeout on blocking socket operations.  The _value_ argument
-   can be a nonnegative floating point number expressing seconds, or
+   can be a nonnegative floating-point number expressing seconds, or
    "None". If a non-zero value is given, subsequent socket operations
    will raise a "timeout" exception if the timeout period _value_ has
    elapsed before the operation has completed.  If zero is given, the
@@ -1925,7 +1954,7 @@ socket.share(process_id)
 
    Availability: Windows.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 Note that there are no methods "read()" or "write()"; use "recv()" and
 "send()" without _flags_ argument instead.

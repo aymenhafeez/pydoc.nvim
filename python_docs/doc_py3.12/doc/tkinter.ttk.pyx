@@ -1,5 +1,5 @@
-Python 3.12.3
-*tkinter.ttk.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*tkinter.ttk.pyx*                             Last change: 2025 Dec 20
 
 "tkinter.ttk" — Tk themed widgets
 *********************************
@@ -602,13 +602,13 @@ class tkinter.ttk.Notebook
       This will extend the bindings for the toplevel window containing
       the notebook as follows:
 
-      * "Control-Tab": selects the tab following the currently
+      * "Control"-"Tab": selects the tab following the currently
         selected one.
 
-      * "Shift-Control-Tab": selects the tab preceding the currently
-        selected one.
+      * "Shift"-"Control"-"Tab": selects the tab preceding the
+        currently selected one.
 
-      * "Alt-K": where _K_ is the mnemonic (underlined) character of
+      * "Alt"-"K": where _K_ is the mnemonic (underlined) character of
         any tab, will select that tab.
 
       Multiple notebooks in a single toplevel may be enabled for

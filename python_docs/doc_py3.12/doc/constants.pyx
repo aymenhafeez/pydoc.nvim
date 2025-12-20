@@ -1,5 +1,5 @@
-Python 3.12.3
-*constants.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*constants.pyx*                               Last change: 2025 Dec 20
 
 Built-in Constants
 ******************
@@ -45,12 +45,12 @@ NotImplemented
      value being returned to Python code.See Implementing the
      arithmetic operations for examples.
 
-   Note:
+   Caution:
 
-     "NotImplementedError" and "NotImplemented" are not
-     interchangeable, even though they have similar names and
-     purposes. See "NotImplementedError" for details on when to use
-     it.
+     "NotImplemented" and "NotImplementedError" are not
+     interchangeable. This constant should only be used as described
+     above; see "NotImplementedError" for details on correct usage of
+     the exception.
 
    Changed in version 3.9: Evaluating "NotImplemented" in a boolean
    context is deprecated. While it currently evaluates as true, it
@@ -90,6 +90,12 @@ exit(code=None)
    Objects that when printed, print a message like “Use quit() or
    Ctrl-D (i.e. EOF) to exit”, and when called, raise "SystemExit"
    with the specified exit code.
+
+help
+
+   Object that when printed, prints the message “Type help() for
+   interactive help, or help(object) for help about object.”, and when
+   called, acts as described "elsewhere".
 
 copyright
 credits

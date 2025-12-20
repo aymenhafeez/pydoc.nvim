@@ -1,5 +1,5 @@
-Python 3.11.9
-*winreg.pyx*                                  Last change: 2024 May 24
+Python 3.11.14
+*winreg.pyx*                                  Last change: 2025 Dec 20
 
 "winreg" — Windows registry access
 **********************************

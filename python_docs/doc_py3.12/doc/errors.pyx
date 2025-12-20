@@ -1,5 +1,5 @@
-Python 3.12.3
-*errors.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*errors.pyx*                                  Last change: 2025 Dec 20
 
 8. Errors and Exceptions
 ************************
@@ -22,13 +22,14 @@ common kind of complaint you get while you are still learning Python:
                   ^^^^^
    SyntaxError: invalid syntax
 <
-The parser repeats the offending line and displays little ‘arrow’s
-pointing at the token in the line where the error was detected.  The
-error may be caused by the absence of a token _before_ the indicated
-token.  In the example, the error is detected at the function
-"print()", since a colon ("':'") is missing before it.  File name and
-line number are printed so you know where to look in case the input
-came from a script.
+The parser repeats the offending line and displays little arrows
+pointing at the place where the error was detected.  Note that this is
+not always the place that needs to be fixed.  In the example, the
+error is detected at the function "print()", since a colon ("':'") is
+missing just before it.
+
+The file name ("<stdin>" in our example) and line number are printed
+so you know where to look in case the input came from a file.
 
 
 8.2. Exceptions
@@ -80,7 +81,7 @@ Built-in Exceptions lists the built-in exceptions and their meanings.
 It is possible to write programs that handle selected exceptions. Look
 at the following example, which asks the user for input until a valid
 integer has been entered, but allows the user to interrupt the program
-(using "Control-C" or whatever the operating system supports); note
+(using "Control"-"C" or whatever the operating system supports); note
 that a user-generated interruption is signalled by raising the
 "KeyboardInterrupt" exception.
 >
@@ -120,11 +121,11 @@ parenthesized tuple, for example:
    ... except (RuntimeError, TypeError, NameError):
    ...     pass
 <
-A class in an "except" clause is compatible with an exception if it is
-the same class or a base class thereof (but not the other way around —
-an _except clause_ listing a derived class is not compatible with a
-base class). For example, the following code will print B, C, D in
-that order:
+A class in an "except" clause matches exceptions which are instances
+of the class itself or one of its derived classes (but not the other
+way around — an _except clause_ listing a derived class does not match
+instances of its base classes). For example, the following code will
+print B, C, D in that order:
 >
    class B(Exception):
        pass

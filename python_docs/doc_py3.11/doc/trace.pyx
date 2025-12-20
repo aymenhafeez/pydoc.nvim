@@ -1,5 +1,5 @@
-Python 3.11.9
-*trace.pyx*                                   Last change: 2024 May 24
+Python 3.11.14
+*trace.pyx*                                   Last change: 2025 Dec 20
 
 "trace" — Trace or track Python statement execution
 ***************************************************

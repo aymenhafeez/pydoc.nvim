@@ -1,5 +1,5 @@
-Python 3.12.3
-*select.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*select.pyx*                                  Last change: 2025 Dec 20
 
 "select" — Waiting for I/O completion
 *************************************
@@ -51,7 +51,7 @@ select.devpoll()
 
    The new file descriptor is non-inheritable.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.4: The new file descriptor is now non-
    inheritable.
@@ -132,7 +132,7 @@ select.select(rlist, wlist, xlist[, timeout])
    Empty iterables are allowed, but acceptance of three empty
    iterables is platform-dependent. (It is known to work on Unix but
    not on Windows.)  The optional _timeout_ argument specifies a time-
-   out as a floating point number in seconds.  When the _timeout_
+   out as a floating-point number in seconds.  When the _timeout_
    argument is omitted the function blocks until at least one file
    descriptor is ready.  A time-out value of zero specifies a poll and
    never blocks.
@@ -172,7 +172,7 @@ select.PIPE_BUF
 
    Availability: Unix
 
-   New in version 3.2.
+   Added in version 3.2.
 
 
 "/dev/poll" Polling Objects
@@ -188,19 +188,19 @@ devpoll.close()
 
    Close the file descriptor of the polling object.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 devpoll.closed
 
    "True" if the polling object is closed.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 devpoll.fileno()
 
    Return the file descriptor number of the polling object.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 devpoll.register(fd[, eventmask])
 
@@ -303,7 +303,7 @@ Edge and Level Trigger Polling (epoll) Objects
    | "EPOLLMSG"                | Ignored.                                        |
    +---------------------------+-------------------------------------------------+
 
-   New in version 3.6: "EPOLLEXCLUSIVE" was added.  It’s only
+   Added in version 3.6: "EPOLLEXCLUSIVE" was added.  It’s only
    supported by Linux Kernel 4.5 or later.
 
 epoll.close()

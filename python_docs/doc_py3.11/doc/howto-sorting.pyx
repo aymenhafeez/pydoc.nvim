@@ -1,5 +1,5 @@
-Python 3.11.9
-*howto-sorting.pyx*                           Last change: 2024 May 24
+Python 3.11.14
+*howto-sorting.pyx*                           Last change: 2025 Dec 20
 
 Sorting HOW TO
 **************

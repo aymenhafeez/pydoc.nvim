@@ -1,5 +1,5 @@
-Python 3.12.3
-*tk.pyx*                                      Last change: 2024 May 24
+Python 3.12.12
+*tk.pyx*                                      Last change: 2025 Dec 20
 
 Graphical User Interfaces with Tk
 *********************************
@@ -192,7 +192,7 @@ frameworks and tools.
 
   * Tix Commands
 
-* IDLE
+* IDLE — Python editor and shell
 
   * Menus
 
@@ -260,6 +260,6 @@ frameworks and tools.
 
     * Extensions
 
-  * idlelib
+  * idlelib — implementation of IDLE application
 
 vim:tw=78:ts=8:ft=help:norl:

@@ -1,5 +1,5 @@
-Python 3.12.3
-*tarfile.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*tarfile.pyx*                                 Last change: 2025 Dec 20
 
 "tarfile" — Read and write tar archive files
 ********************************************
@@ -232,6 +232,15 @@ exception tarfile.LinkOutsideDestinationError
    Raised to refuse extracting a symbolic link pointing outside the
    destination directory.
 
+exception tarfile.LinkFallbackError
+
+   Raised to refuse emulating a link (hard or symbolic) by extracting
+   another archive member, when that member would be rejected by the
+   filter location. The exception that was raised to reject the
+   replacement member is available as "BaseException.__context__".
+
+   Added in version 3.12.11.
+
 The following constants are available at the module level:
 
 tarfile.ENCODING
@@ -337,7 +346,8 @@ completed. Please note that in the event of an exception an archive
 opened for writing will not be finalized; only the internally used
 file object will be closed. See the Examples section for a use case.
 
-New in version 3.2: Added support for the context management protocol.
+Added in version 3.2: Added support for the context management
+protocol.
 
 class tarfile.TarFile(name=None, mode='r', fileobj=None, format=DEFAULT_FORMAT, tarinfo=TarInfo, dereference=False, ignore_zeros=False, encoding=ENCODING, errors='surrogateescape', pax_headers=None, debug=0, errorlevel=1)
 
@@ -543,7 +553,7 @@ TarFile.errorlevel: int
 
 TarFile.extraction_filter
 
-   New in version 3.12.
+   Added in version 3.12.
 
    The extraction filter used as a default for the _filter_ argument
    of "extract()" and "extractall()".
@@ -773,7 +783,7 @@ TarInfo.pax_headers: dict
 
 TarInfo.replace(name=..., mtime=..., mode=..., linkname=..., uid=..., gid=..., uname=..., gname=..., deep=True)
 
-   New in version 3.12.
+   Added in version 3.12.
 
    Return a _new_ copy of the "TarInfo" object with the given
    attributes changed. For example, to return a "TarInfo" with the
@@ -828,7 +838,7 @@ TarInfo.isdev()
 Extraction filters
 ==================
 
-New in version 3.12.
+Added in version 3.12.
 
 The _tar_ format is designed to capture all details of a UNIX-like
 filesystem, which makes it very powerful. Unfortunately, the features
@@ -926,6 +936,11 @@ tarfile.data_filter(member, path)
    Implements the "'data'" filter. In addition to what "tar_filter"
    does:
 
+   * Normalize link targets ("TarInfo.linkname") using
+     "os.path.normpath()". Note that this removes internal ".."
+     components, which may change the meaning of the link if the path
+     in "TarInfo.linkname" traverses symbolic links.
+
    * Refuse to extract links (hard or soft) that link to absolute
      paths, or ones that link outside the destination.
 
@@ -953,6 +968,8 @@ tarfile.data_filter(member, path)
 
    Return the modified "TarInfo" member.
 
+   Changed in version 3.12.11: Link targets are now normalized.
+
 
 Filter errors
 -------------
@@ -977,6 +994,8 @@ Here is an incomplete list of things to consider:
 * Extract to a "new temporary directory" to prevent e.g. exploiting
   pre-existing links, and to make it easier to clean up after a failed
   extraction.
+
+* Disallow symbolic links if you do not need the functionality.
 
 * When working with untrusted data, use external (e.g. OS-level)
   limits on disk, memory and CPU usage.
@@ -1080,7 +1099,7 @@ Such a filter can be written as, for example:
 Command-Line Interface
 ======================
 
-New in version 3.4.
+Added in version 3.4.
 
 The "tarfile" module provides a simple command-line interface to
 interact with tar archives.

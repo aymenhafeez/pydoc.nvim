@@ -1,5 +1,5 @@
-Python 3.8.19
-*dbm.pyx*                                     Last change: 2024 May 24
+Python 3.8.20
+*dbm.pyx*                                     Last change: 2025 Dec 20
 
 "dbm" — Interfaces to Unix “databases”
 **************************************

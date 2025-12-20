@@ -1,5 +1,5 @@
-Python 3.12.3
-*urllib.error.pyx*                            Last change: 2024 May 24
+Python 3.12.12
+*urllib.error.pyx*                            Last change: 2025 Dec 20
 
 "urllib.error" — Exception classes raised by urllib.request
 ***********************************************************
@@ -54,7 +54,7 @@ exception urllib.error.HTTPError(url, code, msg, hdrs, fp)
       The HTTP response headers for the HTTP request that caused the
       "HTTPError". An alias for _hdrs_ attribute.
 
-      New in version 3.4.
+      Added in version 3.4.
 
    fp
 

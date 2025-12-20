@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.contentmanager.pyx*                    Last change: 2024 May 24
+Python 3.12.12
+*email.contentmanager.pyx*                    Last change: 2025 Dec 20
 
 "email.contentmanager": Managing MIME Content
 *********************************************
@@ -8,7 +8,7 @@ Python 3.12.3
 
 ======================================================================
 
-New in version 3.6: [1]
+Added in version 3.6: [1]
 
 class email.contentmanager.ContentManager
 
@@ -58,12 +58,12 @@ class email.contentmanager.ContentManager
       * the type’s fully qualified name ("typ.__module__ + '.' +
         typ.__qualname__").
 
-      * the type’s qualname ("typ.__qualname__")
+      * the type’s "qualname" ("typ.__qualname__")
 
-      * the type’s name ("typ.__name__").
+      * the type’s "name" ("typ.__name__").
 
       If none of the above match, repeat all of the checks above for
-      each of the types in the _MRO_ ("typ.__mro__").  Finally, if no
+      each of the types in the _MRO_ ("typ.__mro__"). Finally, if no
       other key yields a handler, check for a handler for the key
       "None".  If there is no handler for "None", raise a "KeyError"
       for the fully qualified name of the type.
@@ -149,7 +149,14 @@ email.contentmanager.raw_data_manager
       ASCII values), raise a "ValueError".
 
       * For "str" objects, if _cte_ is not set use heuristics to
-        determine the most compact encoding.
+        determine the most compact encoding.  Prior to encoding,
+        "str.splitlines()" is used to normalize all line boundaries,
+        ensuring that each line of the payload is terminated by the
+        current policy’s "linesep" property (even if the original
+        string did not end with one).
+
+      * For "bytes" objects, _cte_ is taken to be base64 if not set,
+        and the aforementioned newline translation is not performed.
 
       * For "EmailMessage", per **RFC 2046**, raise an error if a
         _cte_ of "quoted-printable" or "base64" is requested for

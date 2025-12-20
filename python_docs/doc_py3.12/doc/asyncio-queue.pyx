@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-queue.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*asyncio-queue.pyx*                           Last change: 2025 Dec 20
 
 Queues
 ******
@@ -54,7 +54,7 @@ class asyncio.Queue(maxsize=0)
       If the queue was initialized with "maxsize=0" (the default),
       then "full()" never returns "True".
 
-   coroutine get()
+   async get()
 
       Remove and return an item from the queue. If queue is empty,
       wait until an item is available.
@@ -64,7 +64,7 @@ class asyncio.Queue(maxsize=0)
       Return an item if one is immediately available, else raise
       "QueueEmpty".
 
-   coroutine join()
+   async join()
 
       Block until all items in the queue have been received and
       processed.
@@ -75,7 +75,7 @@ class asyncio.Queue(maxsize=0)
       all work on it is complete.  When the count of unfinished tasks
       drops to zero, "join()" unblocks.
 
-   coroutine put(item)
+   async put(item)
 
       Put an item into the queue. If the queue is full, wait until a
       free slot is available before adding the item.
@@ -92,11 +92,11 @@ class asyncio.Queue(maxsize=0)
 
    task_done()
 
-      Indicate that a formerly enqueued task is complete.
+      Indicate that a formerly enqueued work item is complete.
 
-      Used by queue consumers. For each "get()" used to fetch a task,
-      a subsequent call to "task_done()" tells the queue that the
-      processing on the task is complete.
+      Used by queue consumers. For each "get()" used to fetch a work
+      item, a subsequent call to "task_done()" tells the queue that
+      the processing on the work item is complete.
 
       If a "join()" is currently blocking, it will resume when all
       items have been processed (meaning that a "task_done()" call was

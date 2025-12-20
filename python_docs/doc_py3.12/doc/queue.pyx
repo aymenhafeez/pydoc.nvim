@@ -1,5 +1,5 @@
-Python 3.12.3
-*queue.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*queue.pyx*                                   Last change: 2025 Dec 20
 
 "queue" — A synchronized queue class
 ************************************
@@ -78,7 +78,7 @@ class queue.SimpleQueue
    Constructor for an unbounded FIFO (first-in, first-out) queue.
    Simple queues lack advanced functionality such as task tracking.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 exception queue.Empty
 

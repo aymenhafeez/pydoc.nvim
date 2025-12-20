@@ -1,5 +1,5 @@
-Python 3.12.3
-*xml.etree.elementtree.pyx*                   Last change: 2024 May 24
+Python 3.12.12
+*xml.etree.elementtree.pyx*                   Last change: 2025 Dec 20
 
 "xml.etree.ElementTree" — The ElementTree XML API
 *************************************************
@@ -445,18 +445,18 @@ Supported XPath syntax
 +-------------------------+--------------------------------------------------------+
 | "[@attrib!='value']"    | Selects all elements for which the given attribute     |
 |                         | does not have the given value. The value cannot        |
-|                         | contain quotes.  New in version 3.10.                  |
+|                         | contain quotes.  Added in version 3.10.                |
 +-------------------------+--------------------------------------------------------+
 | "[tag]"                 | Selects all elements that have a child named "tag".    |
 |                         | Only immediate children are supported.                 |
 +-------------------------+--------------------------------------------------------+
 | "[.='text']"            | Selects all elements whose complete text content,      |
-|                         | including descendants, equals the given "text".  New   |
+|                         | including descendants, equals the given "text".  Added |
 |                         | in version 3.7.                                        |
 +-------------------------+--------------------------------------------------------+
 | "[.!='text']"           | Selects all elements whose complete text content,      |
 |                         | including descendants, does not equal the given        |
-|                         | "text".  New in version 3.10.                          |
+|                         | "text".  Added in version 3.10.                        |
 +-------------------------+--------------------------------------------------------+
 | "[tag='text']"          | Selects all elements that have a child named "tag"     |
 |                         | whose complete text content, including descendants,    |
@@ -464,7 +464,8 @@ Supported XPath syntax
 +-------------------------+--------------------------------------------------------+
 | "[tag!='text']"         | Selects all elements that have a child named "tag"     |
 |                         | whose complete text content, including descendants,    |
-|                         | does not equal the given "text".  New in version 3.10. |
+|                         | does not equal the given "text".  Added in version     |
+|                         | 3.10.                                                  |
 +-------------------------+--------------------------------------------------------+
 | "[position]"            | Selects all elements that are located at the given     |
 |                         | position.  The position can be either an integer (1 is |
@@ -490,7 +491,7 @@ xml.etree.ElementTree.canonicalize(xml_data=None, *, out=None, from_file=None, *
    C14N 2.0 transformation function.
 
    Canonicalization is a way to normalise XML output in a way that
-   allows byte-by-byte comparisons and digital signatures.  It reduced
+   allows byte-by-byte comparisons and digital signatures.  It reduces
    the freedom that XML serializers have and instead generates a more
    constrained XML representation.  The main restrictions regard the
    placement of namespace declarations, the ordering of attributes,
@@ -542,7 +543,7 @@ xml.etree.ElementTree.canonicalize(xml_data=None, *, out=None, from_file=None, *
    In the option list above, “a set” refers to any collection or
    iterable of strings, no ordering is expected.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 xml.etree.ElementTree.Comment(text=None)
 
@@ -585,7 +586,7 @@ xml.etree.ElementTree.fromstringlist(sequence, parser=None)
    the standard "XMLParser" parser is used.  Returns an "Element"
    instance.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 xml.etree.ElementTree.indent(tree, space='  ', level=0)
 
@@ -596,7 +597,7 @@ xml.etree.ElementTree.indent(tree, space='  ', level=0)
    default.  For indenting partial subtrees inside of an already
    indented tree, pass the initial indentation level as _level_.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 xml.etree.ElementTree.iselement(element)
 
@@ -666,7 +667,7 @@ xml.etree.ElementTree.register_namespace(prefix, uri)
    namespace uri.  Tags and attributes in this namespace will be
    serialized with the given prefix, if at all possible.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 xml.etree.ElementTree.SubElement(parent, tag, attrib={}, **extra)
 
@@ -714,7 +715,7 @@ xml.etree.ElementTree.tostringlist(element, encoding='us-ascii', method='xml', *
    sequence, except that "b"".join(tostringlist(element)) ==
    tostring(element)".
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.4: Added the _short_empty_elements_ parameter.
 
@@ -816,28 +817,25 @@ Functions
 xml.etree.ElementInclude.default_loader(href, parse, encoding=None)
 
    Default loader. This default loader reads an included resource from
-   disk.  _href_ is a URL. _parse_ is for parse mode either “xml” or
-   “text”.  _encoding_ is an optional text encoding.  If not given,
-   encoding is "utf-8".  Returns the expanded resource.  If the parse
-   mode is ""xml"", this is an ElementTree instance.  If the parse
-   mode is “text”, this is a Unicode string.  If the loader fails, it
-   can return None or raise an exception.
+   disk. _href_ is a URL.  _parse_ is for parse mode either “xml” or
+   “text”. _encoding_ is an optional text encoding.  If not given,
+   encoding is "utf-8". Returns the expanded resource. If the parse
+   mode is ""xml"", this is an "Element" instance. If the parse mode
+   is ""text"", this is a string. If the loader fails, it can return
+   "None" or raise an exception.
 
 xml.etree.ElementInclude.include(elem, loader=None, base_url=None, max_depth=6)
 
-   This function expands XInclude directives.  _elem_ is the root
-   element.  _loader_ is an optional resource loader.  If omitted, it
-   defaults to "default_loader()". If given, it should be a callable
-   that implements the same interface as "default_loader()".
-   _base_url_ is base URL of the original file, to resolve relative
-   include file references.  _max_depth_ is the maximum number of
-   recursive inclusions.  Limited to reduce the risk of malicious
-   content explosion. Pass a negative value to disable the limitation.
-
-   Returns the expanded resource.  If the parse mode is ""xml"", this
-   is an ElementTree instance.  If the parse mode is “text”, this is a
-   Unicode string.  If the loader fails, it can return None or raise
-   an exception.
+   This function expands XInclude directives in-place in tree pointed
+   by _elem_. _elem_ is either the root "Element" or an "ElementTree"
+   instance to find such element. _loader_ is an optional resource
+   loader.  If omitted, it defaults to "default_loader()". If given,
+   it should be a callable that implements the same interface as
+   "default_loader()".  _base_url_ is base URL of the original file,
+   to resolve relative include file references.  _max_depth_ is the
+   maximum number of recursive inclusions.  Limited to reduce the risk
+   of malicious content explosion. Pass "None" to disable the
+   limitation.
 
    Changed in version 3.9: Added the _base_url_ and _max_depth_
    parameters.
@@ -935,11 +933,10 @@ class xml.etree.ElementTree.Element(tag, attrib={}, **extra)
 
    extend(subelements)
 
-      Appends _subelements_ from a sequence object with zero or more
-      elements. Raises "TypeError" if a subelement is not an
-      "Element".
+      Appends _subelements_ from an iterable of elements. Raises
+      "TypeError" if a subelement is not an "Element".
 
-      New in version 3.2.
+      Added in version 3.2.
 
    find(match, namespaces=None)
 
@@ -981,7 +978,7 @@ class xml.etree.ElementTree.Element(tag, attrib={}, **extra)
       the iterator.  If the tree structure is modified during
       iteration, the result is undefined.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    iterfind(match, namespaces=None)
 
@@ -990,7 +987,7 @@ class xml.etree.ElementTree.Element(tag, attrib={}, **extra)
       _namespaces_ is an optional mapping from namespace prefix to
       full name.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    itertext()
 
@@ -998,7 +995,7 @@ class xml.etree.ElementTree.Element(tag, attrib={}, **extra)
       and all subelements, in document order, and returns all inner
       text.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    makeelement(tag, attrib)
 
@@ -1016,10 +1013,10 @@ class xml.etree.ElementTree.Element(tag, attrib={}, **extra)
    for working with subelements: "__delitem__()", "__getitem__()",
    "__setitem__()", "__len__()".
 
-   Caution: Elements with no subelements will test as "False".
-   Testing the truth value of an Element is deprecated and will raise
-   an exception in Python 3.14.  Use specific "len(elem)" or "elem is
-   None" test instead.:
+   Caution: Elements with no subelements will test as "False".  In a
+   future release of Python, all elements will test as "True"
+   regardless of whether subelements exist.  Instead, prefer explicit
+   "len(elem)" or "elem is not None" tests.:
 >
       element = root.find('foo')
 
@@ -1110,7 +1107,7 @@ class xml.etree.ElementTree.ElementTree(element=None, file=None)
 
       Same as "Element.iterfind()", starting at the root of the tree.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    parse(source, parser=None)
 
@@ -1242,7 +1239,7 @@ class xml.etree.ElementTree.TreeBuilder(element_factory=None, *, comment_factory
       Creates a comment with the given _text_.  If "insert_comments"
       is true, this will also add it to the tree.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    pi(target, text)
 
@@ -1250,7 +1247,7 @@ class xml.etree.ElementTree.TreeBuilder(element_factory=None, *, comment_factory
       _text_. If "insert_pis" is true, this will also add it to the
       tree.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    In addition, a custom "TreeBuilder" object can provide the
    following methods:
@@ -1262,7 +1259,7 @@ class xml.etree.ElementTree.TreeBuilder(element_factory=None, *, comment_factory
       identifier.  This method does not exist on the default
       "TreeBuilder" class.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    start_ns(prefix, uri)
 
@@ -1272,7 +1269,7 @@ class xml.etree.ElementTree.TreeBuilder(element_factory=None, *, comment_factory
       namespace and the declared namespace prefix name otherwise.
       _uri_ is the namespace URI.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    end_ns(prefix)
 
@@ -1280,7 +1277,7 @@ class xml.etree.ElementTree.TreeBuilder(element_factory=None, *, comment_factory
       a namespace prefix mapping, with the name of the _prefix_ that
       went out of scope.
 
-      New in version 3.8.
+      Added in version 3.8.
 
 class xml.etree.ElementTree.C14NWriterTarget(write, *, with_comments=False, strip_text=False, rewrite_prefixes=False, qname_aware_tags=None, qname_aware_attrs=None, exclude_attrs=None, exclude_tags=None)
 
@@ -1289,7 +1286,7 @@ class xml.etree.ElementTree.C14NWriterTarget(write, *, with_comments=False, stri
    translates the callback events directly into a serialised form
    using the _write_ function.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 
 XMLParser Objects
@@ -1306,7 +1303,7 @@ class xml.etree.ElementTree.XMLParser(*, target=None, encoding=None)
    overrides the encoding specified in the XML file.
 
    Changed in version 3.8: Parameters are now keyword-only. The _html_
-   argument no longer supported.
+   argument is no longer supported.
 
    close()
 
@@ -1334,7 +1331,7 @@ class xml.etree.ElementTree.XMLParser(*, target=None, encoding=None)
       "flush()" using "hasattr()" if used in code running across a
       variety of Python versions.
 
-      New in version 3.12.3.
+      Added in version 3.12.3.
 
    "XMLParser.feed()" calls _target_'s "start(tag, attrs_dict)" method
    for each opening tag, its "end(tag)" method for each closing tag,
@@ -1412,7 +1409,7 @@ class xml.etree.ElementTree.XMLPullParser(events=None)
       "flush()" using "hasattr()" if used in code running across a
       variety of Python versions.
 
-      New in version 3.12.3.
+      Added in version 3.12.3.
 
    close()
 
@@ -1453,7 +1450,7 @@ class xml.etree.ElementTree.XMLPullParser(events=None)
      element children; they may or may not be present.If you need a
      fully populated element, look for “end” events instead.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.8: The "comment" and "pi" events were added.
 

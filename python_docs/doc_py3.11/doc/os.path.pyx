@@ -1,5 +1,5 @@
-Python 3.11.9
-*os.path.pyx*                                 Last change: 2024 May 24
+Python 3.11.14
+*os.path.pyx*                                 Last change: 2025 Dec 20
 
 "os.path" — Common pathname manipulations
 *****************************************
@@ -305,10 +305,27 @@ os.path.realpath(path, *, strict=False)
    any symbolic links encountered in the path (if they are supported
    by the operating system).
 
-   If a path doesn’t exist or a symlink loop is encountered, and
-   _strict_ is "True", "OSError" is raised. If _strict_ is "False",
-   the path is resolved as far as possible and any remainder is
-   appended without checking whether it exists.
+   By default, the path is evaluated up to the first component that
+   does not exist, is a symlink loop, or whose evaluation raises
+   "OSError". All such components are appended unchanged to the
+   existing part of the path.
+
+   Some errors that are handled this way include “access denied”, “not
+   a directory”, or “bad argument to internal function”. Thus, the
+   resulting path may be missing or inaccessible, may still contain
+   links or loops, and may traverse non-directories.
+
+   This behavior can be modified by keyword arguments:
+
+   If _strict_ is "True", the first error encountered when evaluating
+   the path is re-raised. In particular, "FileNotFoundError" is raised
+   if _path_ does not exist, or another "OSError" if it is otherwise
+   inaccessible.
+
+   If _strict_ is "os.path.ALLOW_MISSING", errors other than
+   "FileNotFoundError" are re-raised (as with "strict=True"). Thus,
+   the returned path will not contain any symbolic links, but the
+   named file and some of its parent directories may be missing.
 
    Note:
 
@@ -324,6 +341,15 @@ os.path.realpath(path, *, strict=False)
    resolved on Windows.
 
    Changed in version 3.10: The _strict_ parameter was added.
+
+   Changed in version 3.11.13: The "ALLOW_MISSING" value for the
+   _strict_ parameter was added.
+
+os.path.ALLOW_MISSING
+
+   Special value used for the _strict_ argument in "realpath()".
+
+   New in version 3.11.13.
 
 os.path.relpath(path, start=os.curdir)
 

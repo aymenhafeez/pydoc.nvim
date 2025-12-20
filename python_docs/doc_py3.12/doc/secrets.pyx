@@ -1,10 +1,10 @@
-Python 3.12.3
-*secrets.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*secrets.pyx*                                 Last change: 2025 Dec 20
 
 "secrets" — Generate secure random numbers for managing secrets
 ***************************************************************
 
-New in version 3.6.
+Added in version 3.6.
 
 **Source code:** Lib/secrets.py
 
@@ -33,17 +33,17 @@ class secrets.SystemRandom
    sources provided by the operating system.  See
    "random.SystemRandom" for additional details.
 
-secrets.choice(sequence)
+secrets.choice(seq)
 
    Return a randomly chosen element from a non-empty sequence.
 
-secrets.randbelow(n)
+secrets.randbelow(exclusive_upper_bound)
 
-   Return a random int in the range [0, _n_).
+   Return a random int in the range [0, _exclusive_upper_bound_).
 
 secrets.randbits(k)
 
-   Return an int with _k_ random bits.
+   Return a non-negative int with _k_ random bits.
 
 
 Generating tokens
@@ -58,7 +58,7 @@ secrets.token_bytes([nbytes=None])
    Return a random byte string containing _nbytes_ number of bytes. If
    _nbytes_ is "None" or not supplied, a reasonable default is used.
 >
-      >>> token_bytes(16)  
+      >>> token_bytes(16)
       b'\xebr\x17D*t\xae\xd4\xe3S\xb6\xe2\xebP1\x8b'
 <
 secrets.token_hex([nbytes=None])
@@ -67,7 +67,7 @@ secrets.token_hex([nbytes=None])
    _nbytes_ random bytes, each byte converted to two hex digits.  If
    _nbytes_ is "None" or not supplied, a reasonable default is used.
 >
-      >>> token_hex(16)  
+      >>> token_hex(16)
       'f9bf78b9a18ce6d46a0cd2b0b86df9da'
 <
 secrets.token_urlsafe([nbytes=None])
@@ -77,7 +77,7 @@ secrets.token_urlsafe([nbytes=None])
    in approximately 1.3 characters.  If _nbytes_ is "None" or not
    supplied, a reasonable default is used.
 >
-      >>> token_urlsafe(16)  
+      >>> token_urlsafe(16)
       'Drmhze6EPcv0fN_81Bj-nA'
 <
 
@@ -131,7 +131,7 @@ Generate an eight-character alphanumeric password:
 <
 Note:
 
-  Applications should not store passwords in a recoverable format,
+  Applications should not **store passwords in a recoverable format**,
   whether plain text or encrypted.  They should be salted and hashed
   using a cryptographically strong one-way (irreversible) hash
   function.

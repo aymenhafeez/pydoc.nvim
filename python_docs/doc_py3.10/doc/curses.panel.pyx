@@ -1,5 +1,5 @@
-Python 3.10.14
-*curses.panel.pyx*                            Last change: 2024 May 24
+Python 3.10.19
+*curses.panel.pyx*                            Last change: 2025 Dec 20
 
 "curses.panel" — A panel stack extension for curses
 ***************************************************

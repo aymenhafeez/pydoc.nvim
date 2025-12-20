@@ -1,5 +1,5 @@
-Python 3.12.3
-*imghdr.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*imghdr.pyx*                                  Last change: 2025 Dec 20
 
 "imghdr" — Determine the type of an image
 *****************************************
@@ -59,7 +59,7 @@ return value from "what()":
 | "'exr'"      | OpenEXR Files                       |
 +--------------+-------------------------------------+
 
-New in version 3.5: The _exr_ and _webp_ formats were added.
+Added in version 3.5: The _exr_ and _webp_ formats were added.
 
 You can extend the list of file types "imghdr" can recognize by
 appending to this variable:

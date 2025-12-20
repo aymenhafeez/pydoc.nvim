@@ -1,5 +1,5 @@
-Python 3.12.3
-*threading.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*threading.pyx*                               Last change: 2025 Dec 20
 
 "threading" — Thread-based parallelism
 **************************************
@@ -103,7 +103,7 @@ threading.excepthook(args, /)
 
    See also: "sys.excepthook()" handles uncaught exceptions.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 threading.__excepthook__
 
@@ -111,7 +111,7 @@ threading.__excepthook__
    so that the original value can be restored in case they happen to
    get replaced with broken or alternative objects.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 threading.get_ident()
 
@@ -121,7 +121,7 @@ threading.get_ident()
    specific data.  Thread identifiers may be recycled when a thread
    exits and another thread is created.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 threading.get_native_id()
 
@@ -134,7 +134,7 @@ threading.get_native_id()
    Availability: Windows, FreeBSD, Linux, macOS, OpenBSD, NetBSD, AIX,
    DragonFlyBSD.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 threading.enumerate()
 
@@ -149,7 +149,7 @@ threading.main_thread()
    Return the main "Thread" object.  In normal conditions, the main
    thread is the thread from which the Python interpreter was started.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 threading.settrace(func)
 
@@ -165,13 +165,13 @@ threading.settrace_all_threads(func)
    The _func_ will be passed to  "sys.settrace()" for each thread,
    before its "run()" method is called.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 threading.gettrace()
 
    Get the trace function as set by "settrace()".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 threading.setprofile(func)
 
@@ -187,13 +187,13 @@ threading.setprofile_all_threads(func)
    The _func_ will be passed to  "sys.setprofile()" for each thread,
    before its "run()" method is called.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 threading.getprofile()
 
    Get the profiler function as set by "setprofile()".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 threading.stack_size([size])
 
@@ -227,7 +227,7 @@ threading.TIMEOUT_MAX
    etc.). Specifying a timeout greater than this value will raise an
    "OverflowError".
 
-   New in version 3.2.
+   Added in version 3.2.
 
 This module defines a number of classes, which are detailed in the
 sections below.
@@ -396,7 +396,7 @@ class threading.Thread(group=None, target=None, name=None, args=(), kwargs={}, *
       optional timeout occurs.
 
       When the _timeout_ argument is present and not "None", it should
-      be a floating point number specifying a timeout for the
+      be a floating-point number specifying a timeout for the
       operation in seconds (or fractions thereof). As "join()" always
       returns "None", you must call "is_alive()" after "join()" to
       decide whether a timeout happened – if the thread is still
@@ -452,7 +452,7 @@ class threading.Thread(group=None, target=None, name=None, args=(), kwargs={}, *
       Availability: Windows, FreeBSD, Linux, macOS, OpenBSD, NetBSD,
       AIX, DragonFlyBSD.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    is_alive()
 
@@ -577,14 +577,24 @@ of “owning thread” and “recursion level” in addition to the
 locked/unlocked state used by primitive locks.  In the locked state,
 some thread owns the lock; in the unlocked state, no thread owns it.
 
-To lock the lock, a thread calls its "acquire()" method; this returns
-once the thread owns the lock.  To unlock the lock, a thread calls its
-"release()" method. "acquire()"/"release()" call pairs may be nested;
-only the final "release()" (the "release()" of the outermost pair)
-resets the lock to unlocked and allows another thread blocked in
-"acquire()" to proceed.
+Threads call a lock’s "acquire()" method to lock it, and its
+"release()" method to unlock it.
 
-Reentrant locks also support the context management protocol.
+Note:
+
+  Reentrant locks support the context management protocol, so it is
+  recommended to use "with" instead of manually calling "acquire()"
+  and "release()" to handle acquiring and releasing the lock for a
+  block of code.
+
+RLock’s "acquire()"/"release()" call pairs may be nested, unlike
+Lock’s "acquire()"/"release()". Only the final "release()" (the
+"release()" of the outermost pair) resets the lock to an unlocked
+state and allows another thread blocked in "acquire()" to proceed.
+
+"acquire()"/"release()" must be used in pairs: each acquire must have
+a release in the thread that has acquired the lock. Failing to call
+release as many times the lock has been acquired can lead to deadlock.
 
 class threading.RLock
 
@@ -602,29 +612,44 @@ class threading.RLock
 
       Acquire a lock, blocking or non-blocking.
 
-      When invoked without arguments: if this thread already owns the
-      lock, increment the recursion level by one, and return
-      immediately.  Otherwise, if another thread owns the lock, block
-      until the lock is unlocked.  Once the lock is unlocked (not
-      owned by any thread), then grab ownership, set the recursion
-      level to one, and return.  If more than one thread is blocked
-      waiting until the lock is unlocked, only one at a time will be
-      able to grab ownership of the lock. There is no return value in
-      this case.
+      See also:
 
-      When invoked with the _blocking_ argument set to "True", do the
-      same thing as when called without arguments, and return "True".
+        Using RLock as a context manager
+           Recommended over manual "acquire()" and "release()" calls
+           whenever practical.
 
-      When invoked with the _blocking_ argument set to "False", do not
-      block.  If a call without an argument would block, return
-      "False" immediately; otherwise, do the same thing as when called
-      without arguments, and return "True".
+      When invoked with the _blocking_ argument set to "True" (the
+      default):
 
-      When invoked with the floating-point _timeout_ argument set to a
-      positive value, block for at most the number of seconds
-      specified by _timeout_ and as long as the lock cannot be
-      acquired.  Return "True" if the lock has been acquired, "False"
-      if the timeout has elapsed.
+         * If no thread owns the lock, acquire the lock and return
+           immediately.
+
+         * If another thread owns the lock, block until we are able to
+           acquire lock, or _timeout_, if set to a positive float
+           value.
+
+         * If the same thread owns the lock, acquire the lock again,
+           and return immediately. This is the difference between
+           "Lock" and "RLock"; "Lock" handles this case the same as
+           the previous, blocking until the lock can be acquired.
+
+      When invoked with the _blocking_ argument set to "False":
+
+         * If no thread owns the lock, acquire the lock and return
+           immediately.
+
+         * If another thread owns the lock, return immediately.
+
+         * If the same thread owns the lock, acquire the lock again
+           and return immediately.
+
+      In all cases, if the thread was able to acquire the lock, return
+      "True". If the thread was unable to acquire the lock (i.e. if
+      not blocking or the timeout was reached) return "False".
+
+      If called multiple times, failing to call "release()" as many
+      times may lead to deadlock. Consider using "RLock" as a context
+      manager rather than calling acquire/release directly.
 
       Changed in version 3.2: The _timeout_ parameter is new.
 
@@ -640,7 +665,7 @@ class threading.RLock
 
       Only call this method when the calling thread owns the lock. A
       "RuntimeError" is raised if this method is called when the lock
-      is unlocked.
+      is not acquired.
 
       There is no return value.
 
@@ -749,7 +774,7 @@ class threading.Condition(lock=None)
       lock and returns.
 
       When the _timeout_ argument is present and not "None", it should
-      be a floating point number specifying a timeout for the
+      be a floating-point number specifying a timeout for the
       operation in seconds (or fractions thereof).
 
       When the underlying lock is an "RLock", it is not released using
@@ -787,7 +812,7 @@ class threading.Condition(lock=None)
       be held when called and is re-acquired on return.  The predicate
       is evaluated with the lock held.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    notify(n=1)
 
@@ -965,11 +990,11 @@ class threading.Event
       given, has not expired. The return value represents the reason
       that this blocking method returned; "True" if returning because
       the internal flag is set to true, or "False" if a timeout is
-      given and the the internal flag did not become true within the
-      given wait time.
+      given and the internal flag did not become true within the given
+      wait time.
 
       When the timeout argument is present and not "None", it should
-      be a floating point number specifying a timeout for the
+      be a floating-point number specifying a timeout for the
       operation in seconds, or fractions thereof.
 
       Changed in version 3.1: Previously, the method always returned
@@ -1017,7 +1042,7 @@ class threading.Timer(interval, function, args=None, kwargs=None)
 Barrier Objects
 ===============
 
-New in version 3.2.
+Added in version 3.2.
 
 This class provides a simple synchronization primitive for use by a
 fixed number of threads that need to wait for each other.  Each of the

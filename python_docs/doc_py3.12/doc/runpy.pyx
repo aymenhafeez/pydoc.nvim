@@ -1,5 +1,5 @@
-Python 3.12.3
-*runpy.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*runpy.pyx*                                   Last change: 2025 Dec 20
 
 "runpy" — Locating and executing Python modules
 ***********************************************
@@ -155,7 +155,7 @@ runpy.run_path(path_name, init_globals=None, run_name=None)
      Interface options for equivalent functionality on the command
      line ("python path/to/script").
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.4: Updated to take advantage of the module
    spec feature added by **PEP 451**. This allows "__cached__" to be

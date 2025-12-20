@@ -1,5 +1,5 @@
-Python 3.12.3
-*collections.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*collections.pyx*                             Last change: 2025 Dec 20
 
 "collections" — Container datatypes
 ***********************************
@@ -36,7 +36,7 @@ alternatives to Python’s general purpose built-in containers, "dict",
 "ChainMap" objects
 ==================
 
-New in version 3.3.
+Added in version 3.3.
 
 A "ChainMap" class is provided for quickly linking a number of
 mappings so they can be treated as a single unit.  It is often much
@@ -102,8 +102,8 @@ class collections.ChainMap(*maps)
       function.  A reference to "d.parents" is equivalent to:
       "ChainMap(*d.maps[1:])".
 
-   Note, the iteration order of a "ChainMap()" is determined by
-   scanning the mappings last to first:
+   Note, the iteration order of a "ChainMap" is determined by scanning
+   the mappings last to first:
 >
       >>> baseline = {'music': 'bach', 'art': 'rembrandt'}
       >>> adjustments = {'art': 'van gogh', 'opera': 'carmen'}
@@ -264,7 +264,7 @@ class collections.Counter([iterable-or-mapping])
    >>> c['sausage'] = 0                        # counter entry with a zero count
    >>> del c['sausage']                        # del actually removes the entry
 
-   New in version 3.1.
+   Added in version 3.1.
 
    Changed in version 3.7: As a "dict" subclass, "Counter" inherited
    the capability to remember insertion order.  Math operations on
@@ -309,7 +309,7 @@ class collections.Counter([iterable-or-mapping])
       >>> c
       Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})
 
-      New in version 3.2.
+      Added in version 3.2.
 
    total()
 
@@ -319,7 +319,7 @@ class collections.Counter([iterable-or-mapping])
       >>> c.total()
       15
 
-      New in version 3.10.
+      Added in version 3.10.
 
    The usual dictionary methods are available for "Counter" objects
    except for two which work differently for counters.
@@ -392,8 +392,8 @@ Counter({'a': 2})
 >>> -c
 Counter({'b': 4})
 
-New in version 3.3: Added support for unary plus, unary minus, and in-
-place multiset operations.
+Added in version 3.3: Added support for unary plus, unary minus, and
+in-place multiset operations.
 
 Note:
 
@@ -492,13 +492,13 @@ class collections.deque([iterable[, maxlen]])
 
       Create a shallow copy of the deque.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    count(x)
 
       Count the number of deque elements equal to _x_.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    extend(iterable)
 
@@ -517,7 +517,7 @@ class collections.deque([iterable[, maxlen]])
       _start_ and before index _stop_).  Returns the first match or
       raises "ValueError" if not found.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    insert(i, x)
 
@@ -526,7 +526,7 @@ class collections.deque([iterable[, maxlen]])
       If the insertion would cause a bounded deque to grow beyond
       _maxlen_, an "IndexError" is raised.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    pop()
 
@@ -548,7 +548,7 @@ class collections.deque([iterable[, maxlen]])
       Reverse the elements of the deque in-place and then return
       "None".
 
-      New in version 3.2.
+      Added in version 3.2.
 
    rotate(n=1)
 
@@ -565,7 +565,7 @@ class collections.deque([iterable[, maxlen]])
 
       Maximum size of a deque or "None" if unbounded.
 
-      New in version 3.1.
+      Added in version 3.1.
 
 In addition to the above, deques support iteration, pickling,
 "len(d)", "reversed(d)", "copy.copy(d)", "copy.deepcopy(d)",
@@ -830,8 +830,8 @@ collections.namedtuple(typename, field_names, *, rename=False, defaults=None, mo
    used to create tuple-like objects that have fields accessible by
    attribute lookup as well as being indexable and iterable.
    Instances of the subclass also have a helpful docstring (with
-   typename and field_names) and a helpful "__repr__()" method which
-   lists the tuple contents in a "name=value" format.
+   _typename_ and _field_names_) and a helpful "__repr__()" method
+   which lists the tuple contents in a "name=value" format.
 
    The _field_names_ are a sequence of strings such as "['x', 'y']".
    Alternatively, _field_names_ can be a single string with each
@@ -1100,7 +1100,7 @@ class collections.OrderedDict([items])
    Return an instance of a "dict" subclass that has methods
    specialized for rearranging dictionary order.
 
-   New in version 3.1.
+   Added in version 3.1.
 
    popitem(last=True)
 
@@ -1124,15 +1124,16 @@ class collections.OrderedDict([items])
          >>> ''.join(d)
          'bacde'
 <
-      New in version 3.2.
+      Added in version 3.2.
 
 In addition to the usual mapping methods, ordered dictionaries also
 support reverse iteration using "reversed()".
 
 Equality tests between "OrderedDict" objects are order-sensitive and
-are implemented as "list(od1.items())==list(od2.items())". Equality
-tests between "OrderedDict" objects and other "Mapping" objects are
-order-insensitive like regular dictionaries.  This allows
+are roughly equivalent to "list(od1.items())==list(od2.items())".
+
+Equality tests between "OrderedDict" objects and other "Mapping"
+objects are order-insensitive like regular dictionaries.  This allows
 "OrderedDict" objects to be substituted anywhere a regular dictionary
 is used.
 

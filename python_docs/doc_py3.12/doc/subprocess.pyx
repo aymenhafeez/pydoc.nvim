@@ -1,5 +1,5 @@
-Python 3.12.3
-*subprocess.pyx*                              Last change: 2024 May 24
+Python 3.12.12
+*subprocess.pyx*                              Last change: 2025 Dec 20
 
 "subprocess" — Subprocess management
 ************************************
@@ -49,7 +49,7 @@ subprocess.run(args, *, stdin=None, input=None, stdout=None, stderr=None, captur
 
    If _capture_output_ is true, stdout and stderr will be captured.
    When used, the internal "Popen" object is automatically created
-   with _stdout_ and _stdin_ both set to "PIPE". The _stdout_ and
+   with _stdout_ and _stderr_ both set to "PIPE". The _stdout_ and
    _stderr_ arguments may not be supplied at the same time as
    _capture_output_. If you wish to capture and combine both streams
    into one, set _stdout_ to "PIPE" and _stderr_ to "STDOUT", instead
@@ -103,7 +103,7 @@ subprocess.run(args, *, stdin=None, input=None, stdout=None, stderr=None, captur
       CompletedProcess(args=['ls', '-l', '/dev/null'], returncode=0,
       stdout=b'crw-rw-rw- 1 root root 1, 3 Jan 23 16:23 /dev/null\n', stderr=b'')
 <
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.6: Added _encoding_ and _errors_ parameters
 
@@ -155,7 +155,7 @@ class subprocess.CompletedProcess
 
       If "returncode" is non-zero, raise a "CalledProcessError".
 
-   New in version 3.5.
+   Added in version 3.5.
 
 subprocess.DEVNULL
 
@@ -163,7 +163,7 @@ subprocess.DEVNULL
    argument to "Popen" and indicates that the special file
    "os.devnull" will be used.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 subprocess.PIPE
 
@@ -181,7 +181,7 @@ exception subprocess.SubprocessError
 
    Base class for all other exceptions from this module.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 exception subprocess.TimeoutExpired
 
@@ -216,7 +216,7 @@ exception subprocess.TimeoutExpired
       may remain "None" instead of "b''" when no stderr output was
       observed.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.5: _stdout_ and _stderr_ attributes added
 
@@ -600,7 +600,7 @@ class subprocess.Popen(args, bufsize=-1, executable=None, stdin=None, stdout=Non
 
    Availability: POSIX
 
-   New in version 3.9.
+   Added in version 3.9.
 
    If _extra_groups_ is not "None", the setgroups() system call will
    be made in the child process prior to the execution of the
@@ -610,7 +610,7 @@ class subprocess.Popen(args, bufsize=-1, executable=None, stdin=None, stdout=Non
 
    Availability: POSIX
 
-   New in version 3.9.
+   Added in version 3.9.
 
    If _user_ is not "None", the setreuid() system call will be made in
    the child process prior to the execution of the subprocess. If the
@@ -620,14 +620,14 @@ class subprocess.Popen(args, bufsize=-1, executable=None, stdin=None, stdout=Non
 
    Availability: POSIX
 
-   New in version 3.9.
+   Added in version 3.9.
 
    If _umask_ is not negative, the umask() system call will be made in
    the child process prior to the execution of the subprocess.
 
    Availability: POSIX
 
-   New in version 3.9.
+   Added in version 3.9.
 
    If _env_ is not "None", it must be a mapping that defines the
    environment variables for the new process; these are used instead
@@ -650,9 +650,9 @@ class subprocess.Popen(args, bufsize=-1, executable=None, stdin=None, stdout=Non
    equivalent  to _text_ and is provided for backwards compatibility.
    By default, file objects are opened in binary mode.
 
-   New in version 3.6: _encoding_ and _errors_ were added.
+   Added in version 3.6: _encoding_ and _errors_ were added.
 
-   New in version 3.7: _text_ was added as a more readable alias for
+   Added in version 3.7: _text_ was added as a more readable alias for
    _universal_newlines_.
 
    If given, _startupinfo_ will be a "STARTUPINFO" object, which is
@@ -742,20 +742,28 @@ if the timeout expires before the process exits.
 
 Exceptions defined in this module all inherit from "SubprocessError".
 
-New in version 3.3: The "SubprocessError" base class was added.
+Added in version 3.3: The "SubprocessError" base class was added.
 
 
 Security Considerations
 =======================
 
-Unlike some other popen functions, this implementation will never
-implicitly call a system shell.  This means that all characters,
+Unlike some other popen functions, this library will not implicitly
+choose to call a system shell.  This means that all characters,
 including shell metacharacters, can safely be passed to child
 processes. If the shell is invoked explicitly, via "shell=True", it is
 the application’s responsibility to ensure that all whitespace and
 metacharacters are quoted appropriately to avoid shell injection
 vulnerabilities. On some platforms, it is possible to use
 "shlex.quote()" for this escaping.
+
+On Windows, batch files ("*.bat" or "*.cmd") may be launched by the
+operating system in a system shell regardless of the arguments passed
+to this library. This could result in arguments being parsed according
+to shell rules, but without any escaping added by Python. If you are
+intentionally launching a batch file with arguments from untrusted
+sources, consider passing "shell=True" to allow Python to escape
+special characters. See gh-114539 for additional discussion.
 
 
 Popen Objects
@@ -865,7 +873,7 @@ Popen.args
    The _args_ argument as it was passed to "Popen" – a sequence of
    program arguments or else a single string.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 Popen.stdin
 
@@ -1000,7 +1008,7 @@ class subprocess.STARTUPINFO(*, dwFlags=0, hStdInput=None, hStdOutput=None, hStd
            This also applies to standard handle redirection, which
            temporarily creates inheritable handles.
 
-      New in version 3.7.
+      Added in version 3.7.
 
 
 Windows Constants
@@ -1056,35 +1064,35 @@ subprocess.ABOVE_NORMAL_PRIORITY_CLASS
    A "Popen" "creationflags" parameter to specify that a new process
    will have an above average priority.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 subprocess.BELOW_NORMAL_PRIORITY_CLASS
 
    A "Popen" "creationflags" parameter to specify that a new process
    will have a below average priority.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 subprocess.HIGH_PRIORITY_CLASS
 
    A "Popen" "creationflags" parameter to specify that a new process
    will have a high priority.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 subprocess.IDLE_PRIORITY_CLASS
 
    A "Popen" "creationflags" parameter to specify that a new process
    will have an idle (lowest) priority.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 subprocess.NORMAL_PRIORITY_CLASS
 
    A "Popen" "creationflags" parameter to specify that a new process
-   will have an normal priority. (default)
+   will have a normal priority. (default)
 
-   New in version 3.7.
+   Added in version 3.7.
 
 subprocess.REALTIME_PRIORITY_CLASS
 
@@ -1096,14 +1104,14 @@ subprocess.REALTIME_PRIORITY_CLASS
    “talk” directly to hardware or that perform brief tasks that should
    have limited interruptions.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 subprocess.CREATE_NO_WINDOW
 
    A "Popen" "creationflags" parameter to specify that a new process
    will not create a window.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 subprocess.DETACHED_PROCESS
 
@@ -1111,7 +1119,7 @@ subprocess.DETACHED_PROCESS
    will not inherit its parent’s console. This value cannot be used
    with CREATE_NEW_CONSOLE.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 subprocess.CREATE_DEFAULT_ERROR_MODE
 
@@ -1121,14 +1129,14 @@ subprocess.CREATE_DEFAULT_ERROR_MODE
    particularly useful for multithreaded shell applications that run
    with hard errors disabled.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 subprocess.CREATE_BREAKAWAY_FROM_JOB
 
    A "Popen" "creationflags" parameter to specify that a new process
    is not associated with the job.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 
 Older high-level API
@@ -1244,7 +1252,7 @@ subprocess.check_output(args, *, stdin=None, stderr=None, shell=False, cwd=None,
       ...     shell=True)
       'ls: non_existent_file: No such file or directory\n'
 <
-   New in version 3.1.
+   Added in version 3.1.
 
    Changed in version 3.3: _timeout_ was added.
 
@@ -1254,7 +1262,7 @@ subprocess.check_output(args, *, stdin=None, stderr=None, shell=False, cwd=None,
    Changed in version 3.6: _encoding_ and _errors_ were added.  See
    "run()" for details.
 
-   New in version 3.7: _text_ was added as a more readable alias for
+   Added in version 3.7: _text_ was added as a more readable alias for
    _universal_newlines_.
 
    Changed in version 3.12: Changed Windows shell search order for
@@ -1577,8 +1585,8 @@ Please file issues any time you have to use these private knobs with a
 way to reproduce the issue you were seeing. Link to that issue from a
 comment in your code.
 
-New in version 3.8: "_USE_POSIX_SPAWN"
+Added in version 3.8: "_USE_POSIX_SPAWN"
 
-New in version 3.11: "_USE_VFORK"
+Added in version 3.11: "_USE_VFORK"
 
 vim:tw=78:ts=8:ft=help:norl:

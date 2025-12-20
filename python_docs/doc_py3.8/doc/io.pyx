@@ -1,5 +1,5 @@
-Python 3.8.19
-*io.pyx*                                      Last change: 2024 May 24
+Python 3.8.20
+*io.pyx*                                      Last change: 2025 Dec 20
 
 "io" — Core tools for working with streams
 ******************************************

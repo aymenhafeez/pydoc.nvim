@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-unicode.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*howto-unicode.pyx*                           Last change: 2025 Dec 20
 
 Unicode HOWTO
 *************
@@ -242,7 +242,7 @@ exception), "'replace'" (use "U+FFFD", "REPLACEMENT CHARACTER"),
 "'backslashreplace'" (inserts a "\xNN" escape sequence). The following
 examples show the differences:
 >
-   >>> b'\x80abc'.decode("utf-8", "strict")  
+   >>> b'\x80abc'.decode("utf-8", "strict")
    Traceback (most recent call last):
        ...
    UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0:
@@ -292,7 +292,7 @@ The following example shows the different results:
    >>> u = chr(40960) + 'abcd' + chr(1972)
    >>> u.encode('utf-8')
    b'\xea\x80\x80abcd\xde\xb4'
-   >>> u.encode('ascii')  
+   >>> u.encode('ascii')
    Traceback (most recent call last):
        ...
    UnicodeEncodeError: 'ascii' codec can't encode character '\ua000' in

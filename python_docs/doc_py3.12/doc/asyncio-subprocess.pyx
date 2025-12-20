@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-subprocess.pyx*                      Last change: 2024 May 24
+Python 3.12.12
+*asyncio-subprocess.pyx*                      Last change: 2025 Dec 20
 
 Subprocesses
 ************
@@ -57,13 +57,13 @@ See also the Examples subsection.
 Creating Subprocesses
 =====================
 
-coroutine asyncio.create_subprocess_exec(program, *args, stdin=None, stdout=None, stderr=None, limit=None, **kwds)
+async asyncio.create_subprocess_exec(program, *args, stdin=None, stdout=None, stderr=None, limit=None, **kwds)
 
    Create a subprocess.
 
    The _limit_ argument sets the buffer limit for "StreamReader"
-   wrappers for "Process.stdout" and "Process.stderr" (if
-   "subprocess.PIPE" is passed to _stdout_ and _stderr_ arguments).
+   wrappers for "stdout" and "stderr" (if "subprocess.PIPE" is passed
+   to _stdout_ and _stderr_ arguments).
 
    Return a "Process" instance.
 
@@ -72,13 +72,13 @@ coroutine asyncio.create_subprocess_exec(program, *args, stdin=None, stdout=None
 
    Changed in version 3.10: Removed the _loop_ parameter.
 
-coroutine asyncio.create_subprocess_shell(cmd, stdin=None, stdout=None, stderr=None, limit=None, **kwds)
+async asyncio.create_subprocess_shell(cmd, stdin=None, stdout=None, stderr=None, limit=None, **kwds)
 
    Run the _cmd_ shell command.
 
    The _limit_ argument sets the buffer limit for "StreamReader"
-   wrappers for "Process.stdout" and "Process.stderr" (if
-   "subprocess.PIPE" is passed to _stdout_ and _stderr_ arguments).
+   wrappers for "stdout" and "stderr" (if "subprocess.PIPE" is passed
+   to _stdout_ and _stderr_ arguments).
 
    Return a "Process" instance.
 
@@ -170,7 +170,7 @@ class asyncio.subprocess.Process
 
    See also the Subprocess and Threads section.
 
-   coroutine wait()
+   async wait()
 
       Wait for the child process to terminate.
 
@@ -184,7 +184,7 @@ class asyncio.subprocess.Process
         data. Use the "communicate()" method when using pipes to avoid
         this condition.
 
-   coroutine communicate(input=None)
+   async communicate(input=None)
 
       Interact with process:
 
@@ -215,7 +215,7 @@ class asyncio.subprocess.Process
       Note, that the data read is buffered in memory, so do not use
       this method if the data size is large or unlimited.
 
-      Changed in version 3.12: _stdin_ gets closed when _input=None_
+      Changed in version 3.12: _stdin_ gets closed when "input=None"
       too.
 
    send_signal(signal)

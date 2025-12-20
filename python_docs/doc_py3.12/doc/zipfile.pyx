@@ -1,5 +1,5 @@
-Python 3.12.3
-*zipfile.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*zipfile.pyx*                                 Last change: 2025 Dec 20
 
 "zipfile" — Work with ZIP archives
 **********************************
@@ -26,7 +26,7 @@ exception zipfile.BadZipFile
 
    The error raised for bad ZIP files.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 exception zipfile.BadZipfile
 
@@ -51,7 +51,7 @@ class zipfile.Path
    "pathlib.Path", including the full
    "importlib.resources.abc.Traversable" interface.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 class zipfile.PyZipFile
 
@@ -90,14 +90,14 @@ zipfile.ZIP_BZIP2
    The numeric constant for the BZIP2 compression method.  This
    requires the "bz2" module.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 zipfile.ZIP_LZMA
 
    The numeric constant for the LZMA compression method.  This
    requires the "lzma" module.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Note:
 
@@ -450,7 +450,7 @@ ZipFile.mkdir(zinfo_or_directory, mode=511)
 
    The archive must be opened with mode "'w'", "'x'" or "'a'".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 The following data attributes are also available:
 
@@ -484,6 +484,17 @@ class zipfile.Path(root, at='')
    "at" specifies the location of this Path within the zipfile, e.g.
    ‘dir/file.txt’, ‘dir/’, or ‘’. Defaults to the empty string,
    indicating the root.
+
+   Note:
+
+     The "Path" class does not sanitize filenames within the ZIP
+     archive. Unlike the "ZipFile.extract()" and
+     "ZipFile.extractall()" methods, it is the caller’s responsibility
+     to validate or sanitize filenames to prevent path traversal
+     vulnerabilities (e.g., filenames containing “..” or absolute
+     paths). When handling untrusted archives, consider resolving
+     filenames using "os.path.abspath()" and checking against the
+     target directory with "os.path.commonpath()".
 
 Path objects expose the following features of "pathlib.Path" objects:
 
@@ -531,19 +542,19 @@ Path.suffix
 
    The file extension of the final component.
 
-   New in version 3.11: Added "Path.suffix" property.
+   Added in version 3.11: Added "Path.suffix" property.
 
 Path.stem
 
    The final path component, without its suffix.
 
-   New in version 3.11: Added "Path.stem" property.
+   Added in version 3.11: Added "Path.stem" property.
 
 Path.suffixes
 
    A list of the path’s file extensions.
 
-   New in version 3.11: Added "Path.suffixes" property.
+   Added in version 3.11: Added "Path.suffixes" property.
 
 Path.read_text(*, **)
 
@@ -679,7 +690,7 @@ classmethod ZipInfo.from_file(filename, arcname=None, *, strict_timestamps=True)
    timestamp to 1980-01-01. Similar behavior occurs with files newer
    than 2107-12-31, the timestamp is also set to the limit.
 
-   New in version 3.6.
+   Added in version 3.6.
 
    Changed in version 3.6.2: The _filename_ parameter accepts a _path-
    like object_.
@@ -695,7 +706,7 @@ ZipInfo.is_dir()
 
    This uses the entry’s name: directories should always end with "/".
 
-   New in version 3.6.
+   Added in version 3.6.
 
 ZipInfo.filename
 
@@ -841,7 +852,7 @@ Command-line options
 
    Specify encoding of member names for "-l", "-e" and "-t".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 
 Decompression pitfalls

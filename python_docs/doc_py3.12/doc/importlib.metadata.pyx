@@ -1,10 +1,10 @@
-Python 3.12.3
-*importlib.metadata.pyx*                      Last change: 2024 May 24
+Python 3.12.12
+*importlib.metadata.pyx*                      Last change: 2025 Dec 20
 
 "importlib.metadata" – Accessing package metadata
 *************************************************
 
-New in version 3.8.
+Added in version 3.8.
 
 Changed in version 3.10: "importlib.metadata" is no longer
 provisional.
@@ -63,8 +63,8 @@ environment and installing something into it:
 You can get the version string for "wheel" by running the following:
 >
    (example) $ python
-   >>> from importlib.metadata import version  
-   >>> version('wheel')  
+   >>> from importlib.metadata import version
+   >>> version('wheel')
    '0.32.3'
 <
 You can also get a collection of entry points selectable by properties
@@ -74,11 +74,17 @@ contains a collection of EntryPoint objects.
 
 You can get the metadata for a distribution:
 >
-   >>> list(metadata('wheel'))  
+   >>> list(metadata('wheel'))
    ['Metadata-Version', 'Name', 'Version', 'Summary', 'Home-page', 'Author', 'Author-email', 'Maintainer', 'Maintainer-email', 'License', 'Project-URL', 'Project-URL', 'Project-URL', 'Keywords', 'Platform', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Classifier', 'Requires-Python', 'Provides-Extra', 'Requires-Dist', 'Requires-Dist']
 <
 You can also get a distribution’s version number, list its constituent
 files, and get a list of the distribution’s Distribution requirements.
+
+exception importlib.metadata.PackageNotFoundError
+
+   Subclass of "ModuleNotFoundError" raised by several functions in
+   this module when queried for a distribution package which is not
+   installed in the current Python environment.
 
 
 Functional API
@@ -90,58 +96,82 @@ This package provides the following functionality via its public API.
 Entry points
 ------------
 
-The "entry_points()" function returns a collection of entry points.
-Entry points are represented by "EntryPoint" instances; each
-"EntryPoint" has a ".name", ".group", and ".value" attributes and a
-".load()" method to resolve the value.  There are also ".module",
-".attr", and ".extras" attributes for getting the components of the
-".value" attribute.
+importlib.metadata.entry_points(**select_params)
+
+   Returns a "EntryPoints" instance describing entry points for the
+   current environment. Any given keyword parameters are passed to the
+   "select()" method for comparison to the attributes of the
+   individual entry point definitions.
+
+   Note: it is not currently possible to query for entry points based
+   on their "EntryPoint.dist" attribute (as different "Distribution"
+   instances do not currently compare equal, even if they have the
+   same attributes)
+
+class importlib.metadata.EntryPoints
+
+   Details of a collection of installed entry points.
+
+   Also provides a ".groups" attribute that reports all identified
+   entry point groups, and a ".names" attribute that reports all
+   identified entry point names.
+
+class importlib.metadata.EntryPoint
+
+   Details of an installed entry point.
+
+   Each "EntryPoint" instance has ".name", ".group", and ".value"
+   attributes and a ".load()" method to resolve the value. There are
+   also ".module", ".attr", and ".extras" attributes for getting the
+   components of the ".value" attribute, and ".dist" for obtaining
+   information regarding the distribution package that provides the
+   entry point.
 
 Query all entry points:
 >
-   >>> eps = entry_points()  
+   >>> eps = entry_points()
 <
-The "entry_points()" function returns an "EntryPoints" object, a
+The "entry_points()" function returns a "EntryPoints" object, a
 collection of all "EntryPoint" objects with "names" and "groups"
 attributes for convenience:
 >
-   >>> sorted(eps.groups)  
+   >>> sorted(eps.groups)
    ['console_scripts', 'distutils.commands', 'distutils.setup_keywords', 'egg_info.writers', 'setuptools.installation']
 <
-"EntryPoints" has a "select" method to select entry points matching
+"EntryPoints" has a "select()" method to select entry points matching
 specific properties. Select entry points in the "console_scripts"
 group:
 >
-   >>> scripts = eps.select(group='console_scripts')  
+   >>> scripts = eps.select(group='console_scripts')
 <
-Equivalently, since "entry_points" passes keyword arguments through to
-select:
+Equivalently, since "entry_points()" passes keyword arguments through
+to select:
 >
-   >>> scripts = entry_points(group='console_scripts')  
+   >>> scripts = entry_points(group='console_scripts')
 <
 Pick out a specific script named “wheel” (found in the wheel project):
 >
-   >>> 'wheel' in scripts.names  
+   >>> 'wheel' in scripts.names
    True
-   >>> wheel = scripts['wheel']  
+   >>> wheel = scripts['wheel']
 <
 Equivalently, query for that entry point during selection:
 >
-   >>> (wheel,) = entry_points(group='console_scripts', name='wheel')  
-   >>> (wheel,) = entry_points().select(group='console_scripts', name='wheel')  
+   >>> (wheel,) = entry_points(group='console_scripts', name='wheel')
+   >>> (wheel,) = entry_points().select(group='console_scripts', name='wheel')
 <
 Inspect the resolved entry point:
 >
-   >>> wheel  
+   >>> wheel
    EntryPoint(name='wheel', value='wheel.cli:main', group='console_scripts')
-   >>> wheel.module  
+   >>> wheel.module
    'wheel.cli'
-   >>> wheel.attr  
+   >>> wheel.attr
    'main'
-   >>> wheel.extras  
+   >>> wheel.extras
    []
-   >>> main = wheel.load()  
-   >>> main  
+   >>> main = wheel.load()
+   >>> main
    <function main at 0x103528488>
 <
 The "group" and "name" are arbitrary values defined by the package
@@ -162,16 +192,31 @@ backports.entry_points_selectable for compatibility options.
 Distribution metadata
 ---------------------
 
+importlib.metadata.metadata(distribution_name)
+
+   Return the distribution metadata corresponding to the named
+   distribution package as a "PackageMetadata" instance.
+
+   Raises "PackageNotFoundError" if the named distribution package is
+   not installed in the current Python environment.
+
+class importlib.metadata.PackageMetadata
+
+   A concrete implementation of the PackageMetadata protocol.
+
+   In addition to providing the defined protocol methods and
+   attributes, subscripting the instance is equivalent to calling the
+   "get()" method.
+
 Every Distribution Package includes some metadata, which you can
 extract using the "metadata()" function:
 >
-   >>> wheel_metadata = metadata('wheel')  
+   >>> wheel_metadata = metadata('wheel')
 <
-The keys of the returned data structure, a "PackageMetadata", name the
-metadata keywords, and the values are returned unparsed from the
-distribution metadata:
+The keys of the returned data structure name the metadata keywords,
+and the values are returned unparsed from the distribution metadata:
 >
-   >>> wheel_metadata['Requires-Python']  
+   >>> wheel_metadata['Requires-Python']
    '>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*'
 <
 "PackageMetadata" also presents a "json" attribute that returns all
@@ -180,11 +225,8 @@ the metadata in a JSON-compatible form per **PEP 566**:
    >>> wheel_metadata.json['requires_python']
    '>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*'
 <
-Note:
-
-  The actual type of the object returned by "metadata()" is an
-  implementation detail and should be accessed only through the
-  interface described by the PackageMetadata protocol.
+The full set of available metadata is not described here. See the PyPA
+Core metadata specification for additional details.
 
 Changed in version 3.10: The "Description" is now included in the
 metadata when presented through the payload. Line continuation
@@ -194,36 +236,59 @@ characters have been removed.The "json" attribute was added.
 Distribution versions
 ---------------------
 
+importlib.metadata.version(distribution_name)
+
+   Return the installed distribution package version for the named
+   distribution package.
+
+   Raises "PackageNotFoundError" if the named distribution package is
+   not installed in the current Python environment.
+
 The "version()" function is the quickest way to get a Distribution
 Package’s version number, as a string:
 >
-   >>> version('wheel')  
+   >>> version('wheel')
    '0.32.3'
 <
 
 Distribution files
 ------------------
 
-You can also get the full set of files contained within a
-distribution.  The "files()" function takes a Distribution Package
-name and returns all of the files installed by this distribution.
-Each file object returned is a "PackagePath", a "pathlib.PurePath"
-derived object with additional "dist", "size", and "hash" properties
-as indicated by the metadata.  For example:
+importlib.metadata.files(distribution_name)
+
+   Return the full set of files contained within the named
+   distribution package.
+
+   Raises "PackageNotFoundError" if the named distribution package is
+   not installed in the current Python environment.
+
+   Returns "None" if the distribution is found but the installation
+   database records reporting the files associated with the
+   distribuion package are missing.
+
+class importlib.metadata.PackagePath
+
+   A "pathlib.PurePath" derived object with additional "dist", "size",
+   and "hash" properties corresponding to the distribution package’s
+   installation metadata for that file.
+
+The "files()" function takes a Distribution Package name and returns
+all of the files installed by this distribution. Each file is reported
+as a "PackagePath" instance. For example:
 >
-   >>> util = [p for p in files('wheel') if 'util.py' in str(p)][0]  
-   >>> util  
+   >>> util = [p for p in files('wheel') if 'util.py' in str(p)][0]
+   >>> util
    PackagePath('wheel/util.py')
-   >>> util.size  
+   >>> util.size
    859
-   >>> util.dist  
+   >>> util.dist
    <importlib.metadata._hooks.PathDistribution object at 0x101e0cef0>
-   >>> util.hash  
+   >>> util.hash
    <FileHash mode: sha256 value: bYkw5oMccfazVCoYQwKkkemoVyMAFoR34mmKBx8R1NI>
 <
 Once you have the file, you can also read its contents:
 >
-   >>> print(util.read_text())  
+   >>> print(util.read_text())
    import base64
    import sys
    ...
@@ -232,31 +297,50 @@ Once you have the file, you can also read its contents:
            return s.encode('utf-8')
        return s
 <
-You can also use the "locate" method to get a the absolute path to the
+You can also use the "locate()" method to get the absolute path to the
 file:
 >
-   >>> util.locate()  
+   >>> util.locate()
    PosixPath('/home/gustav/example/lib/site-packages/wheel/util.py')
 <
-In the case where the metadata file listing files (RECORD or
-SOURCES.txt) is missing, "files()" will return "None". The caller may
-wish to wrap calls to "files()" in always_iterable or otherwise guard
-against this condition if the target distribution is not known to have
-the metadata present.
+In the case where the metadata file listing files ("RECORD" or
+"SOURCES.txt") is missing, "files()" will return "None". The caller
+may wish to wrap calls to "files()" in always_iterable or otherwise
+guard against this condition if the target distribution is not known
+to have the metadata present.
 
 
 Distribution requirements
 -------------------------
 
+importlib.metadata.requires(distribution_name)
+
+   Return the declared dependency specifiers for the named
+   distribution package.
+
+   Raises "PackageNotFoundError" if the named distribution package is
+   not installed in the current Python environment.
+
 To get the full set of requirements for a Distribution Package, use
 the "requires()" function:
 >
-   >>> requires('wheel')  
+   >>> requires('wheel')
    ["pytest (>=3.0.0) ; extra == 'test'", "pytest-cov ; extra == 'test'"]
 <
 
 Mapping import to distribution packages
 ---------------------------------------
+
+importlib.metadata.packages_distributions()
+
+   Return a mapping from the top level module and import package names
+   found via "sys.meta_path" to the names of the distribution packages
+   (if any) that provide the corresponding files.
+
+   To allow for namespace packages (which may have members provided by
+   multiple distribution packages), each top level import name maps to
+   a list of distribution names rather than mapping directly to a
+   single name.
 
 A convenience method to resolve the Distribution Package name (or
 names, in the case of a namespace package) that provide each
@@ -268,37 +352,56 @@ importable top-level Python module or Import Package:
 Some editable installs, do not supply top-level names, and thus this
 function is not reliable with such installs.
 
-New in version 3.10.
+Added in version 3.10.
 
 
 Distributions
 =============
 
-While the above API is the most common and convenient usage, you can
-get all of that information from the "Distribution" class.  A
-"Distribution" is an abstract object that represents the metadata for
-a Python Distribution Package.  You can get the "Distribution"
-instance:
+importlib.metadata.distribution(distribution_name)
+
+   Return a "Distribution" instance describing the named distribution
+   package.
+
+   Raises "PackageNotFoundError" if the named distribution package is
+   not installed in the current Python environment.
+
+class importlib.metadata.Distribution
+
+   Details of an installed distribution package.
+
+   Note: different "Distribution" instances do not currently compare
+   equal, even if they relate to the same installed distribution and
+   accordingly have the same attributes.
+
+While the module level API described above is the most common and
+convenient usage, you can get all of that information from the
+"Distribution" class. "Distribution" is an abstract object that
+represents the metadata for a Python Distribution Package. You can get
+the concrete "Distribution" subclass instance for an installed
+distribution package by calling the "distribution()" function:
 >
-   >>> from importlib.metadata import distribution  
-   >>> dist = distribution('wheel')  
+   >>> from importlib.metadata import distribution
+   >>> dist = distribution('wheel')
+   >>> type(dist)
+   <class 'importlib.metadata.PathDistribution'>
 <
 Thus, an alternative way to get the version number is through the
 "Distribution" instance:
 >
-   >>> dist.version  
+   >>> dist.version
    '0.32.3'
 <
-There are all kinds of additional metadata available on the
-"Distribution" instance:
+There are all kinds of additional metadata available on "Distribution"
+instances:
 >
-   >>> dist.metadata['Requires-Python']  
+   >>> dist.metadata['Requires-Python']
    '>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*'
-   >>> dist.metadata['License']  
+   >>> dist.metadata['License']
    'MIT'
 <
-The full set of available metadata is not described here. See the Core
-metadata specifications for additional details.
+The full set of available metadata is not described here. See the PyPA
+Core metadata specification for additional details.
 
 
 Distribution Discovery

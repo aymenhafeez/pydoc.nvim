@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.errors.pyx*                            Last change: 2024 May 24
+Python 3.12.12
+*email.errors.pyx*                            Last change: 2025 Dec 20
 
 "email.errors": Exception and Defect classes
 ********************************************
@@ -41,16 +41,14 @@ exception email.errors.BoundaryError
 
 exception email.errors.MultipartConversionError
 
-   Raised when a payload is added to a "Message" object using
-   "add_payload()", but the payload is already a scalar and the
-   message’s _Content-Type_ main type is not either _multipart_ or
-   missing.  "MultipartConversionError" multiply inherits from
-   "MessageError" and the built-in "TypeError".
-
-   Since "Message.add_payload()" is deprecated, this exception is
-   rarely raised in practice.  However the exception may also be
-   raised if the "attach()" method is called on an instance of a class
+   Raised if the "attach()" method is called on an instance of a class
    derived from "MIMENonMultipart" (e.g. "MIMEImage").
+   "MultipartConversionError" multiply inherits from "MessageError"
+   and the built-in "TypeError".
+
+exception email.errors.HeaderWriteError
+
+   Raised when an error occurs when the "generator" outputs headers.
 
 exception email.errors.MessageDefect
 
@@ -71,57 +69,75 @@ not.
 
 All defect classes are subclassed from "email.errors.MessageDefect".
 
-* "NoBoundaryInMultipartDefect" – A message claimed to be a multipart,
-  but had no _boundary_ parameter.
+exception email.errors.NoBoundaryInMultipartDefect
 
-* "StartBoundaryNotFoundDefect" – The start boundary claimed in the
-  _Content-Type_ header was never found.
+   A message claimed to be a multipart, but had no _boundary_
+   parameter.
 
-* "CloseBoundaryNotFoundDefect" – A start boundary was found, but no
-  corresponding close boundary was ever found.
+exception email.errors.StartBoundaryNotFoundDefect
 
-  New in version 3.3.
+   The start boundary claimed in the _Content-Type_ header was never
+   found.
 
-* "FirstHeaderLineIsContinuationDefect" – The message had a
-  continuation line as its first header line.
+exception email.errors.CloseBoundaryNotFoundDefect
 
-* "MisplacedEnvelopeHeaderDefect" - A “Unix From” header was found in
-  the middle of a header block.
+   A start boundary was found, but no corresponding close boundary was
+   ever found.
 
-* "MissingHeaderBodySeparatorDefect" - A line was found while parsing
-  headers that had no leading white space but contained no ‘:’.
-  Parsing continues assuming that the line represents the first line
-  of the body.
+   Added in version 3.3.
 
-  New in version 3.3.
+exception email.errors.FirstHeaderLineIsContinuationDefect
 
-* "MalformedHeaderDefect" – A header was found that was missing a
-  colon, or was otherwise malformed.
+   The message had a continuation line as its first header line.
 
-  Deprecated since version 3.3: This defect has not been used for
-  several Python versions.
+exception email.errors.MisplacedEnvelopeHeaderDefect
 
-* "MultipartInvariantViolationDefect" – A message claimed to be a
-  _multipart_, but no subparts were found.  Note that when a message
-  has this defect, its "is_multipart()" method may return "False" even
-  though its content type claims to be _multipart_.
+   A “Unix From” header was found in the middle of a header block.
 
-* "InvalidBase64PaddingDefect" – When decoding a block of base64
-  encoded bytes, the padding was not correct.  Enough padding is added
-  to perform the decode, but the resulting decoded bytes may be
-  invalid.
+exception email.errors.MissingHeaderBodySeparatorDefect
 
-* "InvalidBase64CharactersDefect" – When decoding a block of base64
-  encoded bytes, characters outside the base64 alphabet were
-  encountered. The characters are ignored, but the resulting decoded
-  bytes may be invalid.
+   A line was found while parsing headers that had no leading white
+   space but contained no ‘:’.  Parsing continues assuming that the
+   line represents the first line of the body.
 
-* "InvalidBase64LengthDefect" – When decoding a block of base64
-  encoded bytes, the number of non-padding base64 characters was
-  invalid (1 more than a multiple of 4).  The encoded block was kept
-  as-is.
+   Added in version 3.3.
 
-* "InvalidDateDefect" – When decoding an invalid or unparsable date
-  field. The original value is kept as-is.
+exception email.errors.MalformedHeaderDefect
+
+   A header was found that was missing a colon, or was otherwise
+   malformed.
+
+   Deprecated since version 3.3: This defect has not been used for
+   several Python versions.
+
+exception email.errors.MultipartInvariantViolationDefect
+
+   A message claimed to be a _multipart_, but no subparts were found.
+   Note that when a message has this defect, its "is_multipart()"
+   method may return "False" even though its content type claims to be
+   _multipart_.
+
+exception email.errors.InvalidBase64PaddingDefect
+
+   When decoding a block of base64 encoded bytes, the padding was not
+   correct. Enough padding is added to perform the decode, but the
+   resulting decoded bytes may be invalid.
+
+exception email.errors.InvalidBase64CharactersDefect
+
+   When decoding a block of base64 encoded bytes, characters outside
+   the base64 alphabet were encountered.  The characters are ignored,
+   but the resulting decoded bytes may be invalid.
+
+exception email.errors.InvalidBase64LengthDefect
+
+   When decoding a block of base64 encoded bytes, the number of non-
+   padding base64 characters was invalid (1 more than a multiple of
+   4).  The encoded block was kept as-is.
+
+exception email.errors.InvalidDateDefect
+
+   When decoding an invalid or unparsable date field.  The original
+   value is kept as-is.
 
 vim:tw=78:ts=8:ft=help:norl:

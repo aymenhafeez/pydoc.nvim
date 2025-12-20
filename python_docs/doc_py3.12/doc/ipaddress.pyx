@@ -1,5 +1,5 @@
-Python 3.12.3
-*ipaddress.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*ipaddress.pyx*                               Last change: 2025 Dec 20
 
 "ipaddress" — IPv4/IPv6 manipulation library
 ********************************************
@@ -20,7 +20,7 @@ represents a valid IP address or network definition, and so on.
 This is the full module API reference—for an overview and
 introduction, see An introduction to the ipaddress module.
 
-New in version 3.3.
+Added in version 3.3.
 
 
 Convenience factory functions
@@ -163,7 +163,7 @@ class ipaddress.IPv4Address(address)
       This is the name that could be used for performing a PTR lookup,
       not the resolved hostname itself.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    is_multicast
 
@@ -172,17 +172,60 @@ class ipaddress.IPv4Address(address)
 
    is_private
 
-      "True" if the address is allocated for private networks.  See
+      "True" if the address is defined as not globally reachable by
       iana-ipv4-special-registry (for IPv4) or iana-ipv6-special-
-      registry (for IPv6).
+      registry (for IPv6) with the following exceptions:
+
+      * "is_private" is "False" for the shared address space
+        ("100.64.0.0/10")
+
+      * For IPv4-mapped IPv6-addresses the "is_private" value is
+        determined by the semantics of the underlying IPv4 addresses
+        and the following condition holds (see
+        "IPv6Address.ipv4_mapped"):
+>
+           address.is_private == address.ipv4_mapped.is_private
+<
+      "is_private" has value opposite to "is_global", except for the
+      shared address space ("100.64.0.0/10" range) where they are both
+      "False".
+
+      Changed in version 3.12.4: Fixed some false positives and false
+      negatives.
+
+      * "192.0.0.0/24" is considered private with the exception of
+        "192.0.0.9/32" and "192.0.0.10/32" (previously: only the
+        "192.0.0.0/29" sub-range was considered private).
+
+      * "64:ff9b:1::/48" is considered private.
+
+      * "2002::/16" is considered private.
+
+      * There are exceptions within "2001::/23" (otherwise considered
+        private): "2001:1::1/128", "2001:1::2/128", "2001:3::/32",
+        "2001:4:112::/48", "2001:20::/28", "2001:30::/28". The
+        exceptions are not considered private.
 
    is_global
 
-      "True" if the address is allocated for public networks.  See
-      iana-ipv4-special-registry (for IPv4) or iana-ipv6-special-
-      registry (for IPv6).
+      "True" if the address is defined as globally reachable by iana-
+      ipv4-special-registry (for IPv4) or iana-ipv6-special-registry
+      (for IPv6) with the following exception:
 
-      New in version 3.4.
+      For IPv4-mapped IPv6-addresses the "is_private" value is
+      determined by the semantics of the underlying IPv4 addresses and
+      the following condition holds (see "IPv6Address.ipv4_mapped"):
+>
+         address.is_global == address.ipv4_mapped.is_global
+<
+      "is_global" has value opposite to "is_private", except for the
+      shared address space ("100.64.0.0/10" range) where they are both
+      "False".
+
+      Added in version 3.4.
+
+      Changed in version 3.12.4: Fixed some false positives and false
+      negatives, see "is_private" for details.
 
    is_unspecified
 
@@ -226,7 +269,7 @@ IPv4Address.__format__(fmt)
    >>> '{:#_n}'.format(ipaddress.IPv6Address('2001:db8::1000'))
    '0x2001_0db8_0000_0000_0000_0000_0000_1000'
 
-   New in version 3.9.
+   Added in version 3.9.
 
 class ipaddress.IPv6Address(address)
 
@@ -289,6 +332,8 @@ class ipaddress.IPv6Address(address)
 
    is_global
 
+      Added in version 3.4.
+
    is_unspecified
 
    is_reserved
@@ -296,8 +341,6 @@ class ipaddress.IPv6Address(address)
    is_loopback
 
    is_link_local
-
-      New in version 3.4: is_global
 
    is_site_local
 
@@ -337,7 +380,7 @@ IPv6Address.__format__(fmt)
 
    Refer to the corresponding method documentation in "IPv4Address".
 
-   New in version 3.9.
+   Added in version 3.9.
 
 
 Conversion to Strings and Integers
@@ -570,7 +613,7 @@ class ipaddress.IPv4Network(address, strict=True)
       in the result. Networks with a mask of 32 will return a list
       containing the single host address.
 
-      >>> list(ip_network('192.0.2.0/29').hosts())  
+      >>> list(ip_network('192.0.2.0/29').hosts())
       [IPv4Address('192.0.2.1'), IPv4Address('192.0.2.2'),
        IPv4Address('192.0.2.3'), IPv4Address('192.0.2.4'),
        IPv4Address('192.0.2.5'), IPv4Address('192.0.2.6')]
@@ -593,7 +636,7 @@ class ipaddress.IPv4Network(address, strict=True)
 
       >>> n1 = ip_network('192.0.2.0/28')
       >>> n2 = ip_network('192.0.2.1/32')
-      >>> list(n1.address_exclude(n2))  
+      >>> list(n1.address_exclude(n2))
       [IPv4Network('192.0.2.8/29'), IPv4Network('192.0.2.4/30'),
        IPv4Network('192.0.2.2/31'), IPv4Network('192.0.2.0/32')]
 
@@ -609,10 +652,10 @@ class ipaddress.IPv4Network(address, strict=True)
 
       >>> list(ip_network('192.0.2.0/24').subnets())
       [IPv4Network('192.0.2.0/25'), IPv4Network('192.0.2.128/25')]
-      >>> list(ip_network('192.0.2.0/24').subnets(prefixlen_diff=2))  
+      >>> list(ip_network('192.0.2.0/24').subnets(prefixlen_diff=2))
       [IPv4Network('192.0.2.0/26'), IPv4Network('192.0.2.64/26'),
        IPv4Network('192.0.2.128/26'), IPv4Network('192.0.2.192/26')]
-      >>> list(ip_network('192.0.2.0/24').subnets(new_prefix=26))  
+      >>> list(ip_network('192.0.2.0/24').subnets(new_prefix=26))
       [IPv4Network('192.0.2.0/26'), IPv4Network('192.0.2.64/26'),
        IPv4Network('192.0.2.128/26'), IPv4Network('192.0.2.192/26')]
       >>> list(ip_network('192.0.2.0/24').subnets(new_prefix=23))
@@ -648,7 +691,7 @@ class ipaddress.IPv4Network(address, strict=True)
       >>> b.subnet_of(a)
       True
 
-      New in version 3.7.
+      Added in version 3.7.
 
    supernet_of(other)
 
@@ -659,7 +702,7 @@ class ipaddress.IPv4Network(address, strict=True)
       >>> a.supernet_of(b)
       True
 
-      New in version 3.7.
+      Added in version 3.7.
 
    compare_networks(other)
 
@@ -995,7 +1038,7 @@ ipaddress.summarize_address_range(first, last)
 ipaddress.collapse_addresses(addresses)
 
    Return an iterator of the collapsed "IPv4Network" or "IPv6Network"
-   objects.  _addresses_ is an iterator of "IPv4Network" or
+   objects.  _addresses_ is an _iterable_ of "IPv4Network" or
    "IPv6Network" objects.  A "TypeError" is raised if _addresses_
    contains mixed version objects.
 

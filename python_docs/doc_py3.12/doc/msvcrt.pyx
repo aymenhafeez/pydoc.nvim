@@ -1,5 +1,5 @@
-Python 3.12.3
-*msvcrt.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*msvcrt.pyx*                                  Last change: 2025 Dec 20
 
 "msvcrt" — Useful routines from the MS VC++ runtime
 ***************************************************
@@ -95,7 +95,7 @@ msvcrt.getch()
    a keypress is not already available, but will not wait for "Enter"
    to be pressed. If the pressed key was a special function key, this
    will return "'\000'" or "'\xe0'"; the next call will return the
-   keycode. The "Control-C" keypress cannot be read with this
+   keycode. The "Control"-"C" keypress cannot be read with this
    function.
 
 msvcrt.getwch()

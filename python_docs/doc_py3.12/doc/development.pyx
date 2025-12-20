@@ -1,5 +1,5 @@
-Python 3.12.3
-*development.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*development.pyx*                             Last change: 2025 Dec 20
 
 Development Tools
 *****************
@@ -28,6 +28,8 @@ The list of modules described in this chapter is:
   * Annotating tuples
 
   * The type of class objects
+
+  * Annotating generators and coroutines
 
   * User-defined generic types
 
@@ -90,6 +92,8 @@ The list of modules described in this chapter is:
   * Simple Usage: Checking Examples in Docstrings
 
   * Simple Usage: Checking Examples in a Text File
+
+  * Command-line Usage
 
   * How It Works
 

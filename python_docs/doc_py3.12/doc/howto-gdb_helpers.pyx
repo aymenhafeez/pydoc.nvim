@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-gdb_helpers.pyx*                       Last change: 2024 May 24
+Python 3.12.12
+*howto-gdb_helpers.pyx*                       Last change: 2025 Dec 20
 
 Debugging C API extensions and CPython Internals with GDB
 *********************************************************
@@ -181,11 +181,11 @@ machine-level integer:
    $4 = 42
 <
 The internal structure can be revealed with a cast to PyLongObject*:
-
-   (gdb) p _(PyLongObject_)some_python_integer $5 = {ob_base =
-   {ob_base = {ob_refcnt = 8, ob_type = 0x3dad39f5e0}, ob_size = 1},
+>
+   (gdb) p *(PyLongObject*)some_python_integer
+   $5 = {ob_base = {ob_base = {ob_refcnt = 8, ob_type = 0x3dad39f5e0}, ob_size = 1},
    ob_digit = {42}}
-
+<
 A similar confusion can arise with the "str" type, where the output
 looks a lot like gdb’s built-in printer for "char *":
 >

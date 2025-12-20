@@ -1,5 +1,5 @@
-Python 3.10.14
-*shutil.pyx*                                  Last change: 2024 May 24
+Python 3.10.19
+*shutil.pyx*                                  Last change: 2025 Dec 20
 
 "shutil" — High-level file operations
 *************************************

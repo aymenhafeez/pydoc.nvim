@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-perf_profiling.pyx*                    Last change: 2024 May 24
+Python 3.12.12
+*howto-perf_profiling.pyx*                    Last change: 2025 Dec 20
 
 Python support for the Linux "perf" profiler
 ********************************************

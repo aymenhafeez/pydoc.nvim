@@ -1,5 +1,5 @@
-Python 3.12.3
-*python.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*python.pyx*                                  Last change: 2025 Dec 20
 
 Python Runtime Services
 ***********************
@@ -92,6 +92,8 @@ environment.  Here’s an overview:
 
   * The Warnings Filter
 
+    * Repeated Warning Suppression Criteria
+
     * Describing Warning Filters
 
     * Default Warning Filter
@@ -160,13 +162,17 @@ environment.  Here’s an overview:
 
 * "traceback" — Print or retrieve a stack traceback
 
+  * Module-Level Functions
+
   * "TracebackException" Objects
 
   * "StackSummary" Objects
 
   * "FrameSummary" Objects
 
-  * Traceback Examples
+  * Examples of Using the Module-Level Functions
+
+  * Examples of Using "TracebackException"
 
 * "__future__" — Future statement definitions
 

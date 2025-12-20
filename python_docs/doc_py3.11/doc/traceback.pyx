@@ -1,5 +1,5 @@
-Python 3.11.9
-*traceback.pyx*                               Last change: 2024 May 24
+Python 3.11.14
+*traceback.pyx*                               Last change: 2025 Dec 20
 
 "traceback" — Print or retrieve a stack traceback
 *************************************************

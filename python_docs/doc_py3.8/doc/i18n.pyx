@@ -1,5 +1,5 @@
-Python 3.8.19
-*i18n.pyx*                                    Last change: 2024 May 24
+Python 3.8.20
+*i18n.pyx*                                    Last change: 2025 Dec 20
 
 Internationalization
 ********************

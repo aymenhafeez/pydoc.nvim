@@ -1,5 +1,5 @@
-Python 3.12.3
-*errno.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*errno.pyx*                                   Last change: 2025 Dec 20
 
 "errno" — Standard errno system symbols
 ***************************************
@@ -420,7 +420,7 @@ errno.ENOTSUP
 
    Operation not supported
 
-   New in version 3.2.
+   Added in version 3.2.
 
 errno.EPFNOSUPPORT
 
@@ -541,7 +541,145 @@ errno.EQFULL
 
    Interface output queue is full
 
-   New in version 3.11.
+   Added in version 3.11.
+
+errno.ENOMEDIUM
+
+   No medium found
+
+errno.EMEDIUMTYPE
+
+   Wrong medium type
+
+errno.ENOKEY
+
+   Required key not available
+
+errno.EKEYEXPIRED
+
+   Key has expired
+
+errno.EKEYREVOKED
+
+   Key has been revoked
+
+errno.EKEYREJECTED
+
+   Key was rejected by service
+
+errno.ERFKILL
+
+   Operation not possible due to RF-kill
+
+errno.ELOCKUNMAPPED
+
+   Locked lock was unmapped
+
+errno.ENOTACTIVE
+
+   Facility is not active
+
+errno.EAUTH
+
+   Authentication error
+
+   Added in version 3.2.
+
+errno.EBADARCH
+
+   Bad CPU type in executable
+
+   Added in version 3.2.
+
+errno.EBADEXEC
+
+   Bad executable (or shared library)
+
+   Added in version 3.2.
+
+errno.EBADMACHO
+
+   Malformed Mach-o file
+
+   Added in version 3.2.
+
+errno.EDEVERR
+
+   Device error
+
+   Added in version 3.2.
+
+errno.EFTYPE
+
+   Inappropriate file type or format
+
+   Added in version 3.2.
+
+errno.ENEEDAUTH
+
+   Need authenticator
+
+   Added in version 3.2.
+
+errno.ENOATTR
+
+   Attribute not found
+
+   Added in version 3.2.
+
+errno.ENOPOLICY
+
+   Policy not found
+
+   Added in version 3.2.
+
+errno.EPROCLIM
+
+   Too many processes
+
+   Added in version 3.2.
+
+errno.EPROCUNAVAIL
+
+   Bad procedure for program
+
+   Added in version 3.2.
+
+errno.EPROGMISMATCH
+
+   Program version wrong
+
+   Added in version 3.2.
+
+errno.EPROGUNAVAIL
+
+   RPC prog. not avail
+
+   Added in version 3.2.
+
+errno.EPWROFF
+
+   Device power is off
+
+   Added in version 3.2.
+
+errno.EBADRPC
+
+   RPC struct is bad
+
+   Added in version 3.2.
+
+errno.ERPCMISMATCH
+
+   RPC version wrong
+
+   Added in version 3.2.
+
+errno.ESHLIBVERS
+
+   Shared library version mismatch
+
+   Added in version 3.2.
 
 errno.ENOTCAPABLE
 
@@ -550,24 +688,24 @@ errno.ENOTCAPABLE
 
    Availability: WASI, FreeBSD
 
-   New in version 3.11.1.
+   Added in version 3.11.1.
 
 errno.ECANCELED
 
    Operation canceled
 
-   New in version 3.2.
+   Added in version 3.2.
 
 errno.EOWNERDEAD
 
    Owner died
 
-   New in version 3.2.
+   Added in version 3.2.
 
 errno.ENOTRECOVERABLE
 
    State not recoverable
 
-   New in version 3.2.
+   Added in version 3.2.
 
 vim:tw=78:ts=8:ft=help:norl:

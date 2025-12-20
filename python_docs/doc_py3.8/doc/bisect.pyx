@@ -1,5 +1,5 @@
-Python 3.8.19
-*bisect.pyx*                                  Last change: 2024 May 24
+Python 3.8.20
+*bisect.pyx*                                  Last change: 2025 Dec 20
 
 "bisect" — Array bisection algorithm
 ************************************

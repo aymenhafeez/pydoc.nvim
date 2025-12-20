@@ -1,5 +1,5 @@
-Python 3.11.9
-*tarfile.pyx*                                 Last change: 2024 May 24
+Python 3.11.14
+*tarfile.pyx*                                 Last change: 2025 Dec 20
 
 "tarfile" — Read and write tar archive files
 ********************************************
@@ -222,6 +222,15 @@ exception tarfile.LinkOutsideDestinationError
 
    Raised to refuse extracting a symbolic link pointing outside the
    destination directory.
+
+exception tarfile.LinkFallbackError
+
+   Raised to refuse emulating a link (hard or symbolic) by extracting
+   another archive member, when that member would be rejected by the
+   filter location. The exception that was raised to reject the
+   replacement member is available as "BaseException.__context__".
+
+   New in version 3.11.13.
 
 The following constants are available at the module level:
 
@@ -923,6 +932,11 @@ tarfile.data_filter(member, path)
    Implements the "'data'" filter. In addition to what "tar_filter"
    does:
 
+   * Normalize link targets ("TarInfo.linkname") using
+     "os.path.normpath()". Note that this removes internal ".."
+     components, which may change the meaning of the link if the path
+     in "TarInfo.linkname" traverses symbolic links.
+
    * Refuse to extract links (hard or soft) that link to absolute
      paths, or ones that link outside the destination.
 
@@ -950,6 +964,8 @@ tarfile.data_filter(member, path)
 
    Return the modified "TarInfo" member.
 
+   Changed in version 3.11.13: Link targets are now normalized.
+
 
 Filter errors
 -------------
@@ -974,6 +990,8 @@ Here is an incomplete list of things to consider:
 * Extract to a "new temporary directory" to prevent e.g. exploiting
   pre-existing links, and to make it easier to clean up after a failed
   extraction.
+
+* Disallow symbolic links if you do not need the functionality.
 
 * When working with untrusted data, use external (e.g. OS-level)
   limits on disk, memory and CPU usage.

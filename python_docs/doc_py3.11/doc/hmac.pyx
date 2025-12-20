@@ -1,5 +1,5 @@
-Python 3.11.9
-*hmac.pyx*                                    Last change: 2024 May 24
+Python 3.11.14
+*hmac.pyx*                                    Last change: 2025 Dec 20
 
 "hmac" — Keyed-Hashing for Message Authentication
 *************************************************

@@ -1,5 +1,5 @@
-Python 3.11.9
-*multiprocessing.shared_memory.pyx*           Last change: 2024 May 24
+Python 3.11.14
+*multiprocessing.shared_memory.pyx*           Last change: 2025 Dec 20
 
 "multiprocessing.shared_memory" — Shared memory for direct access across processes
 **********************************************************************************

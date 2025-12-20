@@ -1,5 +1,5 @@
-Python 3.12.3
-*string.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*string.pyx*                                  Last change: 2025 Dec 20
 
 "string" — Common string operations
 ***********************************
@@ -54,9 +54,15 @@ string.punctuation
 
 string.printable
 
-   String of ASCII characters which are considered printable.  This is
-   a combination of "digits", "ascii_letters", "punctuation", and
-   "whitespace".
+   String of ASCII characters which are considered printable by
+   Python. This is a combination of "digits", "ascii_letters",
+   "punctuation", and "whitespace".
+
+   Note:
+
+     By design, "string.printable.isprintable()" returns "False". In
+     particular, "string.printable" is not printable in the POSIX
+     sense (see _LC_CTYPE_).
 
 string.whitespace
 
@@ -294,14 +300,16 @@ format specification typically modifies the result.
 
 The general form of a _standard format specifier_ is:
 
-   format_spec     ::= [[fill]align][sign]["z"]["#"]["0"][width][grouping_option]["." precision][type]
-   fill            ::= <any character>
-   align           ::= "<" | ">" | "=" | "^"
-   sign            ::= "+" | "-" | " "
-   width           ::= digit+
-   grouping_option ::= "_" | ","
-   precision       ::= digit+
-   type            ::= "b" | "c" | "d" | "e" | "E" | "f" | "F" | "g" | "G" | "n" | "o" | "s" | "x" | "X" | "%"
+   format_spec ::= [options][width][grouping]["." precision][type]
+   options     ::= [[fill]align][sign]["z"]["#"]["0"]
+   fill        ::= <any character>
+   align       ::= "<" | ">" | "=" | "^"
+   sign        ::= "+" | "-" | " "
+   width       ::= digit+
+   grouping    ::= "," | "_"
+   precision   ::= digit+
+   type        ::= "b" | "c" | "d" | "e" | "E" | "f" | "F" | "g"
+                   | "G" | "n" | "o" | "s" | "x" | "X" | "%"
 
 If a valid _align_ value is specified, it can be preceded by a _fill_
 character that can be any character and defaults to a space if
@@ -325,8 +333,9 @@ The meaning of the various alignment options is as follows:
 | "'='"     | Forces the padding to be placed after the sign (if any)    |
 |           | but before the digits.  This is used for printing fields   |
 |           | in the form ‘+000000120’. This alignment option is only    |
-|           | valid for numeric types.  It becomes the default for       |
-|           | numbers when ‘0’ immediately precedes the field width.     |
+|           | valid for numeric types, excluding "complex". It becomes   |
+|           | the default for numbers when ‘0’ immediately precedes the  |
+|           | field width.                                               |
 +-----------+------------------------------------------------------------+
 | "'^'"     | Forces the field to be centered within the available       |
 |           | space.                                                     |
@@ -342,13 +351,13 @@ the following:
 +-----------+------------------------------------------------------------+
 | Option    | Meaning                                                    |
 |===========|============================================================|
-| "'+'"     | indicates that a sign should be used for both positive as  |
+| "'+'"     | Indicates that a sign should be used for both positive as  |
 |           | well as negative numbers.                                  |
 +-----------+------------------------------------------------------------+
-| "'-'"     | indicates that a sign should be used only for negative     |
+| "'-'"     | Indicates that a sign should be used only for negative     |
 |           | numbers (this is the default behavior).                    |
 +-----------+------------------------------------------------------------+
-| space     | indicates that a leading space should be used on positive  |
+| space     | Indicates that a leading space should be used on positive  |
 |           | numbers, and a minus sign on negative numbers.             |
 +-----------+------------------------------------------------------------+
 
@@ -371,32 +380,44 @@ point character appears in the result of these conversions only if a
 digit follows it. In addition, for "'g'" and "'G'" conversions,
 trailing zeros are not removed from the result.
 
-The "','" option signals the use of a comma for a thousands separator.
-For a locale aware separator, use the "'n'" integer presentation type
-instead.
-
-Changed in version 3.1: Added the "','" option (see also **PEP 378**).
-
-The "'_'" option signals the use of an underscore for a thousands
-separator for floating point presentation types and for integer
-presentation type "'d'".  For integer presentation types "'b'", "'o'",
-"'x'", and "'X'", underscores will be inserted every 4 digits.  For
-other presentation types, specifying this option is an error.
-
-Changed in version 3.6: Added the "'_'" option (see also **PEP 515**).
-
-_width_ is a decimal integer defining the minimum total field width,
-including any prefixes, separators, and other formatting characters.
-If not specified, then the field width will be determined by the
-content.
+The _width_ is a decimal integer defining the minimum total field
+width, including any prefixes, separators, and other formatting
+characters. If not specified, then the field width will be determined
+by the content.
 
 When no explicit alignment is given, preceding the _width_ field by a
 zero ("'0'") character enables sign-aware zero-padding for numeric
-types.  This is equivalent to a _fill_ character of "'0'" with an
-_alignment_ type of "'='".
+types, excluding "complex".  This is equivalent to a _fill_ character
+of "'0'" with an _alignment_ type of "'='".
 
 Changed in version 3.10: Preceding the _width_ field by "'0'" no
 longer affects the default alignment for strings.
+
+The _grouping_ option after the _width_ field specifies a digit group
+separator for the integral part of a number. It can be one of the
+following:
+
++-----------+------------------------------------------------------------+
+| Option    | Meaning                                                    |
+|===========|============================================================|
+| "','"     | Inserts a comma every 3 digits for integer presentation    |
+|           | type "'d'" and floating-point presentation types,          |
+|           | excluding "'n'". For other presentation types, this option |
+|           | is not supported.                                          |
++-----------+------------------------------------------------------------+
+| "'_'"     | Inserts an underscore every 3 digits for integer           |
+|           | presentation type "'d'" and floating-point presentation    |
+|           | types, excluding "'n'". For integer presentation types     |
+|           | "'b'", "'o'", "'x'", and "'X'", underscores are inserted   |
+|           | every 4 digits. For other presentation types, this option  |
+|           | is not supported.                                          |
++-----------+------------------------------------------------------------+
+
+For a locale aware separator, use the "'n'" presentation type instead.
+
+Changed in version 3.1: Added the "','" option (see also **PEP 378**).
+
+Changed in version 3.6: Added the "'_'" option (see also **PEP 515**).
 
 The _precision_ is a decimal integer indicating how many digits should
 be displayed after the decimal point for presentation types "'f'" and
@@ -442,16 +463,16 @@ The available integer presentation types are:
    |           | as well.                                                   |
    +-----------+------------------------------------------------------------+
    | "'n'"     | Number. This is the same as "'d'", except that it uses the |
-   |           | current locale setting to insert the appropriate number    |
-   |           | separator characters.                                      |
+   |           | current locale setting to insert the appropriate digit     |
+   |           | group separators.                                          |
    +-----------+------------------------------------------------------------+
    | None      | The same as "'d'".                                         |
    +-----------+------------------------------------------------------------+
 
 In addition to the above presentation types, integers can be formatted
-with the floating point presentation types listed below (except "'n'"
+with the floating-point presentation types listed below (except "'n'"
 and "None"). When doing so, "float()" is used to convert the integer
-to a floating point number before formatting.
+to a floating-point number before formatting.
 
 The available presentation types for "float" and "Decimal" values are:
 
@@ -465,9 +486,8 @@ The available presentation types for "float" and "Decimal" values are:
    |           | decimal point, for a total of "p + 1" significant digits.  |
    |           | With no precision given, uses a precision of "6" digits    |
    |           | after the decimal point for "float", and shows all         |
-   |           | coefficient digits for "Decimal". If no digits follow the  |
-   |           | decimal point, the decimal point is also removed unless    |
-   |           | the "#" option is used.                                    |
+   |           | coefficient digits for "Decimal".  If "p=0", the decimal   |
+   |           | point is omitted unless the "#" option is used.            |
    +-----------+------------------------------------------------------------+
    | "'E'"     | Scientific notation. Same as "'e'" except it uses an upper |
    |           | case ‘E’ as the separator character.                       |
@@ -477,9 +497,8 @@ The available presentation types for "float" and "Decimal" values are:
    |           | following the decimal point. With no precision given, uses |
    |           | a precision of "6" digits after the decimal point for      |
    |           | "float", and uses a precision large enough to show all     |
-   |           | coefficient digits for "Decimal". If no digits follow the  |
-   |           | decimal point, the decimal point is also removed unless    |
-   |           | the "#" option is used.                                    |
+   |           | coefficient digits for "Decimal".  If "p=0", the decimal   |
+   |           | point is omitted unless the "#" option is used.            |
    +-----------+------------------------------------------------------------+
    | "'F'"     | Fixed-point notation. Same as "'f'", but converts "nan" to |
    |           | "NAN" and "inf" to "INF".                                  |
@@ -516,22 +535,39 @@ The available presentation types for "float" and "Decimal" values are:
    |           | and NaN are uppercased, too.                               |
    +-----------+------------------------------------------------------------+
    | "'n'"     | Number. This is the same as "'g'", except that it uses the |
-   |           | current locale setting to insert the appropriate number    |
-   |           | separator characters.                                      |
+   |           | current locale setting to insert the appropriate digit     |
+   |           | group separators for the integral part of a number.        |
    +-----------+------------------------------------------------------------+
    | "'%'"     | Percentage. Multiplies the number by 100 and displays in   |
    |           | fixed ("'f'") format, followed by a percent sign.          |
    +-----------+------------------------------------------------------------+
-   | None      | For "float" this is the same as "'g'", except that when    |
-   |           | fixed-point notation is used to format the result, it      |
-   |           | always includes at least one digit past the decimal point. |
-   |           | The precision used is as large as needed to represent the  |
-   |           | given value faithfully.  For "Decimal", this is the same   |
-   |           | as either "'g'" or "'G'" depending on the value of         |
+   | None      | For "float" this is like the "'g'" type, except that when  |
+   |           | fixed- point notation is used to format the result, it     |
+   |           | always includes at least one digit past the decimal point, |
+   |           | and switches to the scientific notation when "exp >= p -   |
+   |           | 1".  When the precision is not specified, the latter will  |
+   |           | be as large as needed to represent the given value         |
+   |           | faithfully.  For "Decimal", this is the same as either     |
+   |           | "'g'" or "'G'" depending on the value of                   |
    |           | "context.capitals" for the current decimal context.  The   |
    |           | overall effect is to match the output of "str()" as        |
    |           | altered by the other format modifiers.                     |
    +-----------+------------------------------------------------------------+
+
+The result should be correctly rounded to a given precision "p" of
+digits after the decimal point.  The rounding mode for "float" matches
+that of the "round()" builtin.  For "Decimal", the rounding mode of
+the current context will be used.
+
+The available presentation types for "complex" are the same as those
+for "float" ("'%'" is not allowed).  Both the real and imaginary
+components of a complex number are formatted as floating-point
+numbers, according to the specified presentation type.  They are
+separated by the mandatory sign of the imaginary part, the latter
+being terminated by a "j" suffix.  If the presentation type is
+missing, the result will match the output of "str()" (complex numbers
+with a non-zero real part are also surrounded by parentheses),
+possibly altered by other format modifiers.
 
 
 Format examples
@@ -623,10 +659,16 @@ Replacing "%x" and "%o" and converting the value to different bases:
    >>> "int: {0:d};  hex: {0:#x};  oct: {0:#o};  bin: {0:#b}".format(42)
    'int: 42;  hex: 0x2a;  oct: 0o52;  bin: 0b101010'
 <
-Using the comma as a thousands separator:
+Using the comma or the underscore as a digit group separator:
 >
    >>> '{:,}'.format(1234567890)
    '1,234,567,890'
+   >>> '{:_}'.format(1234567890)
+   '1_234_567_890'
+   >>> '{:_b}'.format(1234567890)
+   '100_1001_1001_0110_0000_0010_1101_0010'
+   >>> '{:_x}'.format(1234567890)
+   '4996_02d2'
 <
 Expressing a percentage:
 >
@@ -658,7 +700,7 @@ Nesting arguments and more complex examples:
    3232235521
    >>>
    >>> width = 5
-   >>> for num in range(5,12): 
+   >>> for num in range(5,12):
    ...     for base in 'dXob':
    ...         print('{0:{width}{base}}'.format(num, base=base, width=width), end=' ')
    ...     print()
@@ -739,14 +781,14 @@ class string.Template(template)
       Returns false if the template has invalid placeholders that will
       cause "substitute()" to raise "ValueError".
 
-      New in version 3.11.
+      Added in version 3.11.
 
    get_identifiers()
 
       Returns a list of the valid identifiers in the template, in the
       order they first appear, ignoring any invalid identifiers.
 
-      New in version 3.11.
+      Added in version 3.11.
 
    "Template" instances also provide one public data attribute:
 
@@ -807,7 +849,7 @@ override these class attributes:
   and outside braces). If given, this allows you to define different
   patterns for braced and unbraced placeholders.
 
-  New in version 3.7.
+  Added in version 3.7.
 
 * _flags_ – The regular expression flags that will be applied when
   compiling the regular expression used for recognizing substitutions.
@@ -815,7 +857,7 @@ override these class attributes:
   always be added to the flags, so custom _idpattern_s must follow
   conventions for verbose regular expressions.
 
-  New in version 3.2.
+  Added in version 3.2.
 
 Alternatively, you can provide the entire regular expression pattern
 by overriding the class attribute _pattern_.  If you do this, the

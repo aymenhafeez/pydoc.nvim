@@ -1,5 +1,5 @@
-Python 3.9.19
-*imghdr.pyx*                                  Last change: 2024 May 24
+Python 3.9.25
+*imghdr.pyx*                                  Last change: 2025 Dec 20
 
 "imghdr" — Determine the type of an image
 *****************************************

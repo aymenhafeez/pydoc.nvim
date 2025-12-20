@@ -1,5 +1,5 @@
-Python 3.12.3
-*math.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*math.pyx*                                    Last change: 2025 Dec 20
 
 "math" — Mathematical functions
 *******************************
@@ -46,7 +46,7 @@ math.comb(n, k)
    Raises "TypeError" if either of the arguments are not integers.
    Raises "ValueError" if either of the arguments are negative.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 math.copysign(x, y)
 
@@ -74,19 +74,20 @@ math.floor(x)
 
 math.fmod(x, y)
 
-   Return "fmod(x, y)", as defined by the platform C library. Note
-   that the Python expression "x % y" may not return the same result.
-   The intent of the C standard is that "fmod(x, y)" be exactly
-   (mathematically; to infinite precision) equal to "x - n*y" for some
-   integer _n_ such that the result has the same sign as _x_ and
-   magnitude less than "abs(y)".  Python’s "x % y" returns a result
-   with the sign of _y_ instead, and may not be exactly computable for
-   float arguments. For example, "fmod(-1e-100, 1e100)" is "-1e-100",
-   but the result of Python’s "-1e-100 % 1e100" is "1e100-1e-100",
-   which cannot be represented exactly as a float, and rounds to the
-   surprising "1e100".  For this reason, function "fmod()" is
-   generally preferred when working with floats, while Python’s "x %
-   y" is preferred when working with integers.
+   Return the floating-point remainder of "x / y", as defined by the
+   platform C library function "fmod(x, y)". Note that the Python
+   expression "x % y" may not return the same result.  The intent of
+   the C standard is that "fmod(x, y)" be exactly (mathematically; to
+   infinite precision) equal to "x - n*y" for some integer _n_ such
+   that the result has the same sign as _x_ and magnitude less than
+   "abs(y)".  Python’s "x % y" returns a result with the sign of _y_
+   instead, and may not be exactly computable for float arguments. For
+   example, "fmod(-1e-100, 1e100)" is "-1e-100", but the result of
+   Python’s "-1e-100 % 1e100" is "1e100-1e-100", which cannot be
+   represented exactly as a float, and rounds to the surprising
+   "1e100".  For this reason, function "fmod()" is generally preferred
+   when working with floats, while Python’s "x % y" is preferred when
+   working with integers.
 
 math.frexp(x)
 
@@ -98,7 +99,7 @@ math.frexp(x)
 
 math.fsum(iterable)
 
-   Return an accurate floating point sum of values in the iterable.
+   Return an accurate floating-point sum of values in the iterable.
    Avoids loss of precision by tracking multiple intermediate partial
    sums.
 
@@ -109,7 +110,7 @@ math.fsum(iterable)
    intermediate sum causing it to be off in its least significant bit.
 
    For further discussion and two alternative approaches, see the ASPN
-   cookbook recipes for accurate floating point summation.
+   cookbook recipes for accurate floating-point summation.
 
 math.gcd(*integers)
 
@@ -119,7 +120,7 @@ math.gcd(*integers)
    arguments.  If all arguments are zero, then the returned value is
    "0".  "gcd()" without arguments returns "0".
 
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.9: Added support for an arbitrary number of
    arguments. Formerly, only two arguments were supported.
@@ -130,27 +131,29 @@ math.isclose(a, b, *, rel_tol=1e-09, abs_tol=0.0)
    "False" otherwise.
 
    Whether or not two values are considered close is determined
-   according to given absolute and relative tolerances.
+   according to given absolute and relative tolerances.  If no errors
+   occur, the result will be: "abs(a-b) <= max(rel_tol * max(abs(a),
+   abs(b)), abs_tol)".
 
    _rel_tol_ is the relative tolerance – it is the maximum allowed
    difference between _a_ and _b_, relative to the larger absolute
    value of _a_ or _b_. For example, to set a tolerance of 5%, pass
    "rel_tol=0.05".  The default tolerance is "1e-09", which assures
    that the two values are the same within about 9 decimal digits.
-   _rel_tol_ must be greater than zero.
+   _rel_tol_ must be nonnegative and less than "1.0".
 
-   _abs_tol_ is the minimum absolute tolerance – useful for
-   comparisons near zero. _abs_tol_ must be at least zero.
-
-   If no errors occur, the result will be: "abs(a-b) <= max(rel_tol *
-   max(abs(a), abs(b)), abs_tol)".
+   _abs_tol_ is the absolute tolerance; it defaults to "0.0" and it
+   must be nonnegative.  When comparing "x" to "0.0", "isclose(x, 0)"
+   is computed as "abs(x) <= rel_tol  * abs(x)", which is "False" for
+   any nonzero "x" and _rel_tol_ less than "1.0".  So add an
+   appropriate positive _abs_tol_ argument to the call.
 
    The IEEE 754 special values of "NaN", "inf", and "-inf" will be
    handled according to IEEE rules.  Specifically, "NaN" is not
    considered close to any other value, including "NaN".  "inf" and
    "-inf" are only considered close to themselves.
 
-   New in version 3.5.
+   Added in version 3.5.
 
    See also: **PEP 485** – A function for testing approximate equality
 
@@ -159,7 +162,7 @@ math.isfinite(x)
    Return "True" if _x_ is neither an infinity nor a NaN, and "False"
    otherwise.  (Note that "0.0" _is_ considered finite.)
 
-   New in version 3.2.
+   Added in version 3.2.
 
 math.isinf(x)
 
@@ -182,7 +185,7 @@ math.isqrt(n)
    the exact square root of _n_. For positive _n_, this can be
    computed using "a = 1 + isqrt(n - 1)".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 math.lcm(*integers)
 
@@ -192,7 +195,7 @@ math.lcm(*integers)
    If any of the arguments is zero, then the returned value is "0".
    "lcm()" without arguments returns "1".
 
-   New in version 3.9.
+   Added in version 3.9.
 
 math.ldexp(x, i)
 
@@ -224,7 +227,7 @@ math.nextafter(x, y, steps=1)
 
    See also "math.ulp()".
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Changed in version 3.12: Added the _steps_ argument.
 
@@ -236,13 +239,13 @@ math.perm(n, k=None)
    Evaluates to "n! / (n - k)!" when "k <= n" and evaluates to zero
    when "k > n".
 
-   If _k_ is not specified or is None, then _k_ defaults to _n_ and
+   If _k_ is not specified or is "None", then _k_ defaults to _n_ and
    the function returns "n!".
 
    Raises "TypeError" if either of the arguments are not integers.
    Raises "ValueError" if either of the arguments are negative.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 math.prod(iterable, *, start=1)
 
@@ -253,7 +256,7 @@ math.prod(iterable, *, start=1)
    is intended specifically for use with numeric values and may reject
    non-numeric types.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 math.remainder(x, y)
 
@@ -271,11 +274,11 @@ math.remainder(x, y)
    the result of the remainder operation is zero, that zero will have
    the same sign as _x_.
 
-   On platforms using IEEE 754 binary floating-point, the result of
+   On platforms using IEEE 754 binary floating point, the result of
    this operation is always exactly representable: no rounding error
    is introduced.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 math.sumprod(p, q)
 
@@ -291,7 +294,7 @@ math.sumprod(p, q)
    For float and mixed int/float inputs, the intermediate products and
    sums are computed with extended precision.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 math.trunc(x)
 
@@ -327,7 +330,7 @@ math.ulp(x)
 
    See also "math.nextafter()" and "sys.float_info.epsilon".
 
-   New in version 3.9.
+   Added in version 3.9.
 
 Note that "frexp()" and "modf()" have a different call/return pattern
 than their C equivalents: they take a single argument and return a
@@ -348,7 +351,7 @@ math.cbrt(x)
 
    Return the cube root of _x_.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 math.exp(x)
 
@@ -360,7 +363,7 @@ math.exp2(x)
 
    Return _2_ raised to the power _x_.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 math.expm1(x)
 
@@ -376,7 +379,7 @@ math.expm1(x)
    >>> expm1(1e-5)    # result accurate to full precision
    1.0000050000166668e-05
 
-   New in version 3.2.
+   Added in version 3.2.
 
 math.log(x[, base])
 
@@ -396,7 +399,7 @@ math.log2(x)
    Return the base-2 logarithm of _x_. This is usually more accurate
    than "log(x, 2)".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    See also:
 
@@ -472,7 +475,7 @@ math.dist(p, q)
 >
       sqrt(sum((px - qx) ** 2.0 for px, qx in zip(p, q)))
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 math.hypot(*coordinates)
 
@@ -558,7 +561,7 @@ math.erf(x)
           'Cumulative distribution function for the standard normal distribution'
           return (1.0 + erf(x / sqrt(2.0))) / 2.0
 <
-   New in version 3.2.
+   Added in version 3.2.
 
 math.erfc(x)
 
@@ -567,20 +570,20 @@ math.erfc(x)
    values of _x_ where a subtraction from one would cause a loss of
    significance.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 math.gamma(x)
 
    Return the Gamma function at _x_.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 math.lgamma(x)
 
    Return the natural logarithm of the absolute value of the Gamma
    function at _x_.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 
 Constants
@@ -602,14 +605,14 @@ math.tau
    Hart’s video Pi is (still) Wrong, and start celebrating Tau day by
    eating twice as much pie!
 
-   New in version 3.6.
+   Added in version 3.6.
 
 math.inf
 
    A floating-point positive infinity.  (For negative infinity, use
    "-math.inf".)  Equivalent to the output of "float('inf')".
 
-   New in version 3.5.
+   Added in version 3.5.
 
 math.nan
 
@@ -630,7 +633,7 @@ math.nan
    >>> math.isnan(float('nan'))
    True
 
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.11: It is now always available.
 

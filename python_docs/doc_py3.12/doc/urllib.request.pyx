@@ -1,5 +1,5 @@
-Python 3.12.3
-*urllib.request.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*urllib.request.pyx*                          Last change: 2025 Dec 20
 
 "urllib.request" — Extensible library for opening URLs
 ******************************************************
@@ -147,17 +147,28 @@ urllib.request.build_opener([handler, ...])
 
 urllib.request.pathname2url(path)
 
-   Convert the pathname _path_ from the local syntax for a path to the
-   form used in the path component of a URL.  This does not produce a
-   complete URL.  The return value will already be quoted using the
-   "quote()" function.
+   Convert the given local path to a "file:" URL. This function uses
+   "quote()" function to encode the path. For historical reasons, the
+   return value omits the "file:" scheme prefix. This example shows
+   the function being used on Windows:
+>
+      >>> from urllib.request import pathname2url
+      >>> path = 'C:\\Program Files'
+      >>> 'file:' + pathname2url(path)
+      'file:///C:/Program%20Files'
+<
+urllib.request.url2pathname(url)
 
-urllib.request.url2pathname(path)
-
-   Convert the path component _path_ from a percent-encoded URL to the
-   local syntax for a path.  This does not accept a complete URL.
-   This function uses "unquote()" to decode _path_.
-
+   Convert the given "file:" URL to a local path. This function uses
+   "unquote()" to decode the URL. For historical reasons, the given
+   value _must_ omit the "file:" scheme prefix. This example shows the
+   function being used on Windows:
+>
+      >>> from urllib.request import url2pathname
+      >>> url = 'file:///C:/Program%20Files'
+      >>> url2pathname(url.removeprefix('file:'))
+      'C:\\Program Files'
+<
 urllib.request.getproxies()
 
    This helper function returns a dictionary of scheme to proxy server
@@ -216,7 +227,7 @@ class urllib.request.Request(url, data=None, headers={}, origin_req_host=None, u
 
    An appropriate "Content-Type" header should be included if the
    _data_ argument is present.  If this header has not been provided
-   and _data_ is not None, "Content-Type: application/x-www-form-
+   and _data_ is not "None", "Content-Type: application/x-www-form-
    urlencoded" will be added as a default.
 
    The next two arguments are only of interest for correct handling of
@@ -328,7 +339,7 @@ class urllib.request.HTTPPasswordMgrWithPriorAuth
    credentials immediately instead of waiting for a "401" response
    first.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 class urllib.request.AbstractBasicAuthHandler(password_mgr=None)
 
@@ -350,7 +361,7 @@ class urllib.request.AbstractBasicAuthHandler(password_mgr=None)
    super-URIs will automatically include the authentication
    credentials.
 
-   New in version 3.5: Added "is_authenticated" support.
+   Added in version 3.5: Added "is_authenticated" support.
 
 class urllib.request.HTTPBasicAuthHandler(password_mgr=None)
 
@@ -419,7 +430,7 @@ class urllib.request.DataHandler
 
    Open data URLs.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 class urllib.request.FTPHandler
 
@@ -497,7 +508,7 @@ Request.method
    subclass, or by passing a value in to the "Request" constructor via
    the _method_ argument.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.4: A default value can now be set in
    subclasses; previously it could only be set via the constructor
@@ -539,7 +550,7 @@ Request.remove_header(header)
    Remove named header from the request instance (both from regular
    and unredirected headers).
 
-   New in version 3.4.
+   Added in version 3.4.
 
 Request.get_full_url()
 
@@ -834,7 +845,7 @@ HTTPRedirectHandler.http_error_308(req, fp, code, msg, hdrs)
    redirect’ response. It does not allow changing the request method
    from "POST" to "GET".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 
 HTTPCookieProcessor Objects
@@ -1001,7 +1012,7 @@ FileHandler.file_open(req)
    is "'localhost'".
 
    Changed in version 3.2: This method is applicable only for local
-   hostnames.  When a remote hostname is given, an "URLError" is
+   hostnames.  When a remote hostname is given, a "URLError" is
    raised.
 
 
@@ -1016,7 +1027,7 @@ DataHandler.data_open(req)
    URLs so the URL may be wrapped in whatever source file it comes
    from. But even though some browsers don’t mind about a missing
    padding at the end of a base64 encoded data URL, this
-   implementation will raise an "ValueError" in that case.
+   implementation will raise a "ValueError" in that case.
 
 
 FTPHandler Objects
@@ -1079,17 +1090,13 @@ In addition to the examples below, more examples are given in HOWTO
 Fetch Internet Resources Using The urllib Package.
 
 This example gets the python.org main page and displays the first 300
-bytes of it.
+bytes of it:
 >
    >>> import urllib.request
    >>> with urllib.request.urlopen('http://www.python.org/') as f:
    ...     print(f.read(300))
    ...
-   b'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n\n\n<html
-   xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n\n<head>\n
-   <meta http-equiv="content-type" content="text/html; charset=utf-8" />\n
-   <title>Python Programming '
+   b'<!doctype html>\n<!--[if lt IE 7]>   <html class="no-js ie6 lt-ie7 lt-ie8 lt-ie9">   <![endif]-->\n<!--[if IE 7]>      <html class="no-js ie7 lt-ie8 lt-ie9">          <![endif]-->\n<!--[if IE 8]>      <html class="no-js ie8 lt-ie9">
 <
 Note that urlopen returns a bytes object.  This is because there is no
 way for urlopen to automatically determine the encoding of the byte
@@ -1097,28 +1104,38 @@ stream it receives from the HTTP server. In general, a program will
 decode the returned bytes object to string once it determines or
 guesses the appropriate encoding.
 
-The following W3C document,
-https://www.w3.org/International/O-charset, lists the various ways in
-which an (X)HTML or an XML document could have specified its encoding
+The following HTML spec document,
+https://html.spec.whatwg.org/#charset, lists the various ways in which
+an HTML or an XML document could have specified its encoding
 information.
 
+For additional information, see the W3C document:
+https://www.w3.org/International/questions/qa-html-encoding-
+declarations.
+
 As the python.org website uses _utf-8_ encoding as specified in its
-meta tag, we will use the same for decoding the bytes object.
+meta tag, we will use the same for decoding the bytes object:
 >
    >>> with urllib.request.urlopen('http://www.python.org/') as f:
    ...     print(f.read(100).decode('utf-8'))
    ...
-   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtm
+   <!doctype html>
+   <!--[if lt IE 7]>   <html class="no-js ie6 lt-ie7 lt-ie8 lt-ie9">   <![endif]-->
+   <!-
 <
 It is also possible to achieve the same result without using the
-_context manager_ approach.
+_context manager_ approach:
 >
    >>> import urllib.request
    >>> f = urllib.request.urlopen('http://www.python.org/')
-   >>> print(f.read(100).decode('utf-8'))
-   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtm
+   >>> try:
+   ...     print(f.read(100).decode('utf-8'))
+   ... finally:
+   ...     f.close()
+   ...
+   <!doctype html>
+   <!--[if lt IE 7]>   <html class="no-js ie6 lt-ie7 lt-ie8 lt-ie9">   <![endif]-->
+   <!--
 <
 In the following example, we are sending a data-stream to the stdin of
 a CGI and reading the data it returns to us. Note that this example
@@ -1161,7 +1178,8 @@ Use of Basic HTTP Authentication:
    opener = urllib.request.build_opener(auth_handler)
    # ...and install it globally so it can be used with urlopen.
    urllib.request.install_opener(opener)
-   urllib.request.urlopen('http://www.example.com/login.html')
+   with urllib.request.urlopen('http://www.example.com/login.html') as f:
+       print(f.read().decode('utf-8'))
 <
 "build_opener()" provides many handlers by default, including a
 "ProxyHandler".  By default, "ProxyHandler" uses the environment
@@ -1179,7 +1197,8 @@ support with "ProxyBasicAuthHandler".
 
    opener = urllib.request.build_opener(proxy_handler, proxy_auth_handler)
    # This time, rather than install the OpenerDirector, we use it directly:
-   opener.open('http://www.example.com/login.html')
+   with opener.open('http://www.example.com/login.html') as f:
+      print(f.read().decode('utf-8'))
 <
 Adding HTTP headers:
 
@@ -1190,7 +1209,8 @@ Use the _headers_ argument to the "Request" constructor, or:
    req.add_header('Referer', 'http://www.python.org/')
    # Customize the default User-Agent header value:
    req.add_header('User-Agent', 'urllib-example/0.1 (Contact: . . .)')
-   r = urllib.request.urlopen(req)
+   with urllib.request.urlopen(req) as f:
+       print(f.read().decode('utf-8'))
 <
 "OpenerDirector" automatically adds a _User-Agent_ header to every
 "Request".  To change this:
@@ -1198,7 +1218,8 @@ Use the _headers_ argument to the "Request" constructor, or:
    import urllib.request
    opener = urllib.request.build_opener()
    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-   opener.open('http://www.example.com/')
+   with opener.open('http://www.example.com/') as f:
+      print(f.read().decode('utf-8'))
 <
 Also, remember that a few standard headers (_Content-Length_,
 _Content-Type_ and _Host_) are added when the "Request" is passed to
@@ -1506,7 +1527,7 @@ class urllib.response.addinfourl
 
    status
 
-      New in version 3.9.
+      Added in version 3.9.
 
       Status code returned by server.
 

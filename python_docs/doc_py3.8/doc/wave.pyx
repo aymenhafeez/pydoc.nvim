@@ -1,5 +1,5 @@
-Python 3.8.19
-*wave.pyx*                                    Last change: 2024 May 24
+Python 3.8.20
+*wave.pyx*                                    Last change: 2025 Dec 20
 
 "wave" — Read and write WAV files
 *********************************

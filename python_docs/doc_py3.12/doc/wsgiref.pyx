@@ -1,5 +1,5 @@
-Python 3.12.3
-*wsgiref.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*wsgiref.pyx*                                 Last change: 2025 Dec 20
 
 "wsgiref" — WSGI Utilities and Reference Implementation
 *******************************************************
@@ -112,7 +112,7 @@ wsgiref.util.setup_testing_defaults(environ)
    NOT be used by actual WSGI servers or applications, since the data
    is fake!
 
-   Example usage:
+   Example usage (see also "demo_app()" for another example):
 >
       from wsgiref.util import setup_testing_defaults
       from wsgiref.simple_server import make_server
@@ -293,6 +293,9 @@ wsgiref.simple_server.demo_app(environ, start_response)
    for verifying that a WSGI server (such as "wsgiref.simple_server")
    is able to run a simple WSGI application correctly.
 
+   The _start_response_ callable should follow the "StartResponse"
+   protocol.
+
 class wsgiref.simple_server.WSGIServer(server_address, RequestHandlerClass)
 
    Create a "WSGIServer" instance.  _server_address_ should be a
@@ -467,7 +470,7 @@ class wsgiref.handlers.IISCGIHandler
    as "CGIHandler", i.e., by calling "IISCGIHandler().run(app)", where
    "app" is the WSGI application object you wish to invoke.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 class wsgiref.handlers.BaseCGIHandler(stdin, stdout, stderr, environ, multithread=True, multiprocess=False)
 
@@ -640,7 +643,9 @@ class wsgiref.handlers.BaseHandler
       This method can access the current error using
       "sys.exception()", and should pass that information to
       _start_response_ when calling it (as described in the “Error
-      Handling” section of **PEP 3333**).
+      Handling” section of **PEP 3333**). In particular, the
+      _start_response_ callable should follow the "StartResponse"
+      protocol.
 
       The default implementation just uses the "error_status",
       "error_headers", and "error_body" attributes to generate an
@@ -725,7 +730,7 @@ wsgiref.handlers.read_environ()
    probably want to use this routine instead of just copying values
    out of "os.environ" directly.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 
 "wsgiref.types" – WSGI types for static type checking
@@ -734,12 +739,12 @@ wsgiref.handlers.read_environ()
 This module provides various types for static type checking as
 described in **PEP 3333**.
 
-New in version 3.11.
+Added in version 3.11.
 
 class wsgiref.types.StartResponse
 
-   A "typing.Protocol" describing start_response() callables (**PEP
-   3333**).
+   A "typing.Protocol" describing **start_response()** callables
+   (**PEP 3333**).
 
 wsgiref.types.WSGIEnvironment
 
@@ -751,15 +756,15 @@ wsgiref.types.WSGIApplication
 
 class wsgiref.types.InputStream
 
-   A "typing.Protocol" describing a WSGI Input Stream.
+   A "typing.Protocol" describing a **WSGI Input Stream**.
 
 class wsgiref.types.ErrorStream
 
-   A "typing.Protocol" describing a WSGI Error Stream.
+   A "typing.Protocol" describing a **WSGI Error Stream**.
 
 class wsgiref.types.FileWrapper
 
-   A "typing.Protocol" describing a file wrapper. See
+   A "typing.Protocol" describing a **file wrapper**. See
    "wsgiref.util.FileWrapper" for a concrete implementation of this
    protocol.
 
@@ -767,7 +772,8 @@ class wsgiref.types.FileWrapper
 Examples
 ========
 
-This is a working “Hello World” WSGI application:
+This is a working “Hello World” WSGI application, where the
+_start_response_ callable should follow the "StartResponse" protocol:
 >
    """
    Every WSGI application must have an application object - a callable

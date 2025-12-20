@@ -1,5 +1,5 @@
-Python 3.12.3
-*pyexpat.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*pyexpat.pyx*                                 Last change: 2025 Dec 20
 
 "xml.parsers.expat" — Fast XML parsing using Expat
 **************************************************
@@ -188,7 +188,7 @@ xmlparser.SetReparseDeferralEnabled(enabled)
    amount of input is reached. Due to this delay, registered handlers
    may — depending of the sizing of input chunks pushed to Expat — no
    longer be called right after pushing new input to the parser.
-   Where immediate feedback and taking over responsiblity of
+   Where immediate feedback and taking over responsibility of
    protecting against denial of service from large tokens are both
    wanted, calling "SetReparseDeferralEnabled(False)" disables reparse
    deferral for the current Expat parser instance, temporarily or
@@ -200,14 +200,14 @@ xmlparser.SetReparseDeferralEnabled(enabled)
    availability of "SetReparseDeferralEnabled()" using "hasattr()" if
    used in code running across a variety of Python versions.
 
-   New in version 3.12.3.
+   Added in version 3.12.3.
 
 xmlparser.GetReparseDeferralEnabled()
 
    Returns whether reparse deferral is currently enabled for the given
    Expat parser instance.
 
-   New in version 3.12.3.
+   Added in version 3.12.3.
 
 "xmlparser" objects have the following attributes:
 
@@ -624,14 +624,14 @@ xml.parsers.expat.errors.codes
 
    A dictionary mapping string descriptions to their error codes.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 xml.parsers.expat.errors.messages
 
    A dictionary mapping numeric error codes to their string
    descriptions.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 xml.parsers.expat.errors.XML_ERROR_ASYNC_ENTITY
 

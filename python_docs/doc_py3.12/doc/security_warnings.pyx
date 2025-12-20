@@ -1,5 +1,5 @@
-Python 3.12.3
-*security_warnings.pyx*                       Last change: 2024 May 24
+Python 3.12.12
+*security_warnings.pyx*                       Last change: 2025 Dec 20
 
 Security Considerations
 ***********************

@@ -1,5 +1,5 @@
-Python 3.8.19
-*syslog.pyx*                                  Last change: 2024 May 24
+Python 3.8.20
+*syslog.pyx*                                  Last change: 2025 Dec 20
 
 "syslog" — Unix syslog library routines
 ***************************************

@@ -1,5 +1,5 @@
-Python 3.11.9
-*howto-pyporting.pyx*                         Last change: 2024 May 24
+Python 3.11.14
+*howto-pyporting.pyx*                         Last change: 2025 Dec 20
 
 How to port Python 2 Code to Python 3
 *************************************

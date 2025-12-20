@@ -1,5 +1,5 @@
-Python 3.9.19
-*pwd.pyx*                                     Last change: 2024 May 24
+Python 3.9.25
+*pwd.pyx*                                     Last change: 2025 Dec 20
 
 "pwd" — The password database
 *****************************

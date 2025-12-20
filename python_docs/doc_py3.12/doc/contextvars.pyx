@@ -1,5 +1,5 @@
-Python 3.12.3
-*contextvars.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*contextvars.pyx*                             Last change: 2025 Dec 20
 
 "contextvars" — Context Variables
 *********************************
@@ -18,7 +18,7 @@ code unexpectedly, when used in concurrent code.
 
 See also **PEP 567** for additional details.
 
-New in version 3.7.
+Added in version 3.7.
 
 
 Context Variables
@@ -46,7 +46,7 @@ class contextvars.ContextVar(name[, *, default])
 
       The name of the variable.  This is a read-only property.
 
-      New in version 3.7.1.
+      Added in version 3.7.1.
 
    get([default])
 
@@ -246,7 +246,7 @@ of a remote client available in the Task that handles that client:
        # without passing it explicitly to this function.
 
        client_addr = client_addr_var.get()
-       return f'Good bye, client @ {client_addr}\n'.encode()
+       return f'Good bye, client @ {client_addr}\r\n'.encode()
 
    async def handle_request(reader, writer):
        addr = writer.transport.get_extra_info('socket').getpeername()
@@ -260,9 +260,10 @@ of a remote client available in the Task that handles that client:
            print(line)
            if not line.strip():
                break
-           writer.write(line)
 
-       writer.write(render_goodbye())
+       writer.write(b'HTTP/1.1 200 OK\r\n')  # status line
+       writer.write(b'\r\n')  # headers
+       writer.write(render_goodbye())  # body
        writer.close()
 
    async def main():
@@ -274,7 +275,8 @@ of a remote client available in the Task that handles that client:
 
    asyncio.run(main())
 
-   # To test it you can use telnet:
+   # To test it you can use telnet or curl:
    #     telnet 127.0.0.1 8081
+   #     curl 127.0.0.1:8081
 <
 vim:tw=78:ts=8:ft=help:norl:

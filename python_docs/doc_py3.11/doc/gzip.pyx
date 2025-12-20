@@ -1,5 +1,5 @@
-Python 3.11.9
-*gzip.pyx*                                    Last change: 2024 May 24
+Python 3.11.14
+*gzip.pyx*                                    Last change: 2025 Dec 20
 
 "gzip" — Support for **gzip** files
 ***********************************
@@ -191,7 +191,10 @@ gzip.compress(data, compresslevel=9, *, mtime=None)
 
    Changed in version 3.11: Speed is improved by compressing all data
    at once instead of in a streamed fashion. Calls with _mtime_ set to
-   "0" are delegated to "zlib.compress()" for better speed.
+   "0" are delegated to "zlib.compress()" for better speed. In this
+   situation the output may contain a gzip header “OS” byte value
+   other than 255 “unknown” as supplied by the underlying zlib
+   implementation.
 
 gzip.decompress(data)
 

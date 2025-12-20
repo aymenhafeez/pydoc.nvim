@@ -1,5 +1,5 @@
-Python 3.12.3
-*html.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*html.pyx*                                    Last change: 2025 Dec 20
 
 "html" — HyperText Markup Language support
 ******************************************
@@ -19,7 +19,7 @@ html.escape(s, quote=True)
    inclusion in an HTML attribute value delimited by quotes, as in "<a
    href="...">".
 
-   New in version 3.2.
+   Added in version 3.2.
 
 html.unescape(s)
 
@@ -29,7 +29,7 @@ html.unescape(s)
    standard for both valid and invalid character references, and the
    "list of HTML 5 named character references".
 
-   New in version 3.4.
+   Added in version 3.4.
 
 ======================================================================
 

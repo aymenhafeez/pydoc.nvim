@@ -1,5 +1,5 @@
-Python 3.10.14
-*http.cookies.pyx*                            Last change: 2024 May 24
+Python 3.10.19
+*http.cookies.pyx*                            Last change: 2025 Dec 20
 
 "http.cookies" — HTTP state management
 **************************************

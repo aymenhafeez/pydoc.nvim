@@ -1,5 +1,5 @@
-Python 3.9.19
-*decimal.pyx*                                 Last change: 2024 May 24
+Python 3.9.25
+*decimal.pyx*                                 Last change: 2025 Dec 20
 
 "decimal" — Decimal fixed point and floating point arithmetic
 *************************************************************

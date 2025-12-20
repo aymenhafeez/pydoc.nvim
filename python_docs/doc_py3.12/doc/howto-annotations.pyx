@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-annotations.pyx*                       Last change: 2024 May 24
+Python 3.12.12
+*howto-annotations.pyx*                       Last change: 2025 Dec 20
 
 Annotations Best Practices
 **************************
@@ -95,8 +95,8 @@ examining is a class ("isinstance(o, type)"). In that case, best
 practice relies on an implementation detail of Python 3.9 and before:
 if a class has annotations defined, they are stored in the class’s
 "__dict__" dictionary.  Since the class may or may not have
-annotations defined, best practice is to call the "get" method on the
-class dict.
+annotations defined, best practice is to call the "get()" method on
+the class dict.
 
 To put it all together, here is some sample code that safely accesses
 the "__annotations__" attribute on an arbitrary object in Python 3.9

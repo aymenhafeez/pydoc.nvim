@@ -1,5 +1,5 @@
-Python 3.12.3
-*reprlib.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*reprlib.pyx*                                 Last change: 2025 Dec 20
 
 "reprlib" — Alternate "repr()" implementation
 *********************************************
@@ -75,7 +75,7 @@ substituting a placeholder string instead.
       >>> print(m)
       <'a'|'b'|'c'|...|'x'>
 <
-   New in version 3.2.
+   Added in version 3.2.
 
 
 Repr Objects
@@ -90,7 +90,7 @@ Repr.fillvalue
    This string is displayed for recursive references. It defaults to
    "...".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 Repr.maxlevel
 
@@ -179,7 +179,7 @@ Repr.indent
           'ham',
       ]
 <
-   New in version 3.12.
+   Added in version 3.12.
 
 Repr.repr(obj)
 

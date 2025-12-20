@@ -1,5 +1,5 @@
-Python 3.12.3
-*shlex.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*shlex.pyx*                                   Last change: 2025 Dec 20
 
 "shlex" — Simple lexical analysis
 *********************************
@@ -39,7 +39,7 @@ shlex.join(split_command)
    The returned value is shell-escaped to protect against injection
    vulnerabilities (see "quote()").
 
-   New in version 3.8.
+   Added in version 3.8.
 
 shlex.quote(s)
 
@@ -85,7 +85,7 @@ shlex.quote(s)
    >>> command
    ['ls', '-l', 'somefile; rm -rf ~']
 
-   New in version 3.3.
+   Added in version 3.3.
 
 The "shlex" module defines the following class:
 
@@ -310,7 +310,7 @@ shlex.punctuation_chars
    be performed: for example, ‘>>>’ could be returned as a token, even
    though it may not be recognised as such by shells.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 
 Parsing Rules
@@ -368,7 +368,7 @@ following parsing rules.
 Improved Compatibility with Shells
 ==================================
 
-New in version 3.6.
+Added in version 3.6.
 
 The "shlex" class provides compatibility with the parsing performed by
 common Unix shells like "bash", "dash", and "sh".  To take advantage
@@ -382,17 +382,17 @@ the multiplicity of shells out there), it does allow you to perform
 processing of command lines more easily than you could otherwise.  To
 illustrate, you can see the difference in the following snippet:
 >
-    >>> import shlex
-    >>> text = "a && b; c && d || e; f >'abc'; (def \"ghi\")"
-    >>> s = shlex.shlex(text, posix=True)
-    >>> s.whitespace_split = True
-    >>> list(s)
-    ['a', '&&', 'b;', 'c', '&&', 'd', '||', 'e;', 'f', '>abc;', '(def', 'ghi)']
-    >>> s = shlex.shlex(text, posix=True, punctuation_chars=True)
-    >>> s.whitespace_split = True
-    >>> list(s)
-    ['a', '&&', 'b', ';', 'c', '&&', 'd', '||', 'e', ';', 'f', '>', 'abc', ';',
-    '(', 'def', 'ghi', ')']
+   >>> import shlex
+   >>> text = "a && b; c && d || e; f >'abc'; (def \"ghi\")"
+   >>> s = shlex.shlex(text, posix=True)
+   >>> s.whitespace_split = True
+   >>> list(s)
+   ['a', '&&', 'b;', 'c', '&&', 'd', '||', 'e;', 'f', '>abc;', '(def', 'ghi)']
+   >>> s = shlex.shlex(text, posix=True, punctuation_chars=True)
+   >>> s.whitespace_split = True
+   >>> list(s)
+   ['a', '&&', 'b', ';', 'c', '&&', 'd', '||', 'e', ';', 'f', '>', 'abc', ';',
+   '(', 'def', 'ghi', ')']
 <
 Of course, tokens will be returned which are not valid for shells, and
 you’ll need to implement your own error checks on the returned tokens.

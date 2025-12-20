@@ -1,5 +1,5 @@
-Python 3.12.3
-*__main__.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*__main__.pyx*                                Last change: 2025 Dec 20
 
 "__main__" — Top-level code environment
 ***************************************
@@ -244,8 +244,8 @@ expected for a "__main__.py" file within a package, because its
    'asyncio.__main__'
 <
 This won’t work for "__main__.py" files in the root directory of a
-.zip file though.  Hence, for consistency, minimal "__main__.py" like
-the "venv" one mentioned below are preferred.
+".zip" file though.  Hence, for consistency, a minimal "__main__.py"
+without a "__name__" check is preferred.
 
 See also:
 

@@ -1,5 +1,5 @@
-Python 3.10.14
-*xml.sax.pyx*                                 Last change: 2024 May 24
+Python 3.10.19
+*xml.sax.pyx*                                 Last change: 2025 Dec 20
 
 "xml.sax" — Support for SAX2 parsers
 ************************************

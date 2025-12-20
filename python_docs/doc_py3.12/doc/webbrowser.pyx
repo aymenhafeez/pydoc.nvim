@@ -1,5 +1,5 @@
-Python 3.12.3
-*webbrowser.pyx*                              Last change: 2024 May 24
+Python 3.12.12
+*webbrowser.pyx*                              Last change: 2025 Dec 20
 
 "webbrowser" — Convenient web-browser controller
 ************************************************
@@ -34,9 +34,17 @@ controlling process will launch a new browser and wait.
 
 The script **webbrowser** can be used as a command-line interface for
 the module. It accepts a URL as the argument. It accepts the following
-optional parameters: "-n" opens the URL in a new browser window, if
-possible; "-t" opens the URL in a new browser page (“tab”). The
-options are, naturally, mutually exclusive.  Usage example:
+optional parameters:
+
+-n, --new-window
+
+   Opens the URL in a new browser window, if possible.
+
+-t, --new-tab
+
+   Opens the URL in a new browser tab.
+
+The options are, naturally, mutually exclusive.  Usage example:
 >
    python -m webbrowser -t "https://www.python.org"
 <
@@ -64,6 +72,9 @@ webbrowser.open(url, new=0, autoraise=True)
    window managers this will occur regardless of the setting of this
    variable).
 
+   Returns "True" if a browser was successfully launched, "False"
+   otherwise.
+
    Note that on some platforms, trying to open a filename using this
    function, may work and start the operating system’s associated
    program.  However, this is neither supported nor portable.
@@ -75,10 +86,16 @@ webbrowser.open_new(url)
    Open _url_ in a new window of the default browser, if possible,
    otherwise, open _url_ in the only browser window.
 
+   Returns "True" if a browser was successfully launched, "False"
+   otherwise.
+
 webbrowser.open_new_tab(url)
 
    Open _url_ in a new page (“tab”) of the default browser, if
    possible, otherwise equivalent to "open_new()".
+
+   Returns "True" if a browser was successfully launched, "False"
+   otherwise.
 
 webbrowser.get(using=None)
 
@@ -161,7 +178,7 @@ Notes:
 
 3. Only on macOS platform.
 
-New in version 3.3: Support for Chrome/Chromium has been added.
+Added in version 3.3: Support for Chrome/Chromium has been added.
 
 Changed in version 3.12: Support for several obsolete browsers has
 been removed. Removed browsers include Grail, Mosaic, Netscape,

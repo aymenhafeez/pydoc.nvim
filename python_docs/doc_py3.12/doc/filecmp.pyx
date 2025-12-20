@@ -1,5 +1,5 @@
-Python 3.12.3
-*filecmp.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*filecmp.pyx*                                 Last change: 2025 Dec 20
 
 "filecmp" — File and Directory Comparisons
 ******************************************
@@ -60,7 +60,7 @@ filecmp.clear_cache()
    so quickly after it is modified that it is within the mtime
    resolution of the underlying filesystem.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 
 The "dircmp" class
@@ -170,7 +170,7 @@ class filecmp.dircmp(a, b, ignore=None, hide=None)
 
 filecmp.DEFAULT_IGNORES
 
-   New in version 3.4.
+   Added in version 3.4.
 
    List of directories ignored by "dircmp" by default.
 
@@ -186,7 +186,7 @@ files:
    ...     for sub_dcmp in dcmp.subdirs.values():
    ...         print_diff_files(sub_dcmp)
    ...
-   >>> dcmp = dircmp('dir1', 'dir2') 
-   >>> print_diff_files(dcmp) 
+   >>> dcmp = dircmp('dir1', 'dir2')
+   >>> print_diff_files(dcmp)
 <
 vim:tw=78:ts=8:ft=help:norl:

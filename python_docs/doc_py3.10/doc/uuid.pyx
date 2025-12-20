@@ -1,5 +1,5 @@
-Python 3.10.14
-*uuid.pyx*                                    Last change: 2024 May 24
+Python 3.10.19
+*uuid.pyx*                                    Last change: 2025 Dec 20
 
 "uuid" — UUID objects according to **RFC 4122**
 ***********************************************

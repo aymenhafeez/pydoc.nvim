@@ -1,5 +1,5 @@
-Python 3.12.3
-*datastructures.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*datastructures.pyx*                          Last change: 2025 Dec 20
 
 5. Data Structures
 ******************
@@ -16,13 +16,12 @@ of list objects:
 
 list.append(x)
 
-   Add an item to the end of the list.  Equivalent to "a[len(a):] =
-   [x]".
+   Add an item to the end of the list.  Similar to "a[len(a):] = [x]".
 
 list.extend(iterable)
 
    Extend the list by appending all the items from the iterable.
-   Equivalent to "a[len(a):] = iterable".
+   Similar to "a[len(a):] = iterable".
 
 list.insert(i, x)
 
@@ -45,7 +44,7 @@ list.pop([i])
 
 list.clear()
 
-   Remove all items from the list.  Equivalent to "del a[:]".
+   Remove all items from the list.  Similar to "del a[:]".
 
 list.index(x[, start[, end]])
 
@@ -73,7 +72,7 @@ list.reverse()
 
 list.copy()
 
-   Return a shallow copy of the list.  Equivalent to "a[:]".
+   Return a shallow copy of the list.  Similar to "a[:]".
 
 An example that uses most of the list methods:
 >
@@ -105,7 +104,7 @@ data structures in Python.
 
 Another thing you might notice is that not all data can be sorted or
 compared.  For instance, "[None, 'hello', 10]" doesn’t sort because
-integers can’t be compared to strings and _None_ can’t be compared to
+integers can’t be compared to strings and "None" can’t be compared to
 other types.  Also, there are some types that don’t have a defined
 ordering relation.  For example, "3+4j < 5+7j" isn’t a valid
 comparison.
@@ -355,16 +354,16 @@ instance:
    >>> t
    (12345, 54321, 'hello!')
    >>> # Tuples may be nested:
-   ... u = t, (1, 2, 3, 4, 5)
+   >>> u = t, (1, 2, 3, 4, 5)
    >>> u
    ((12345, 54321, 'hello!'), (1, 2, 3, 4, 5))
    >>> # Tuples are immutable:
-   ... t[0] = 88888
+   >>> t[0] = 88888
    Traceback (most recent call last):
      File "<stdin>", line 1, in <module>
    TypeError: 'tuple' object does not support item assignment
    >>> # but they can contain mutable objects:
-   ... v = ([1, 2, 3], [3, 2, 1])
+   >>> v = ([1, 2, 3], [3, 2, 1])
    >>> v
    ([1, 2, 3], [3, 2, 1])
 <
@@ -438,7 +437,7 @@ Here is a brief demonstration:
    False
 
    >>> # Demonstrate set operations on unique letters from two words
-   ...
+   >>>
    >>> a = set('abracadabra')
    >>> b = set('alacazam')
    >>> a                                  # unique letters in a

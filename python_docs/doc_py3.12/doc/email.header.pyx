@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.header.pyx*                            Last change: 2024 May 24
+Python 3.12.12
+*email.header.pyx*                            Last change: 2025 Dec 20
 
 "email.header": Internationalized headers
 *****************************************
@@ -80,7 +80,7 @@ class email.header.Header(s=None, charset=None, maxlinelen=None, header_name=Non
    _maxlinelen_.  For splitting the first line to a shorter value (to
    account for the field header which isn’t included in _s_, e.g.
    _Subject_) pass in the name of the field in _header_name_.  The
-   default _maxlinelen_ is 76, and the default value for _header_name_
+   default _maxlinelen_ is 78, and the default value for _header_name_
    is "None", meaning it is not taken into account for the first line
    of a long, split header.
 

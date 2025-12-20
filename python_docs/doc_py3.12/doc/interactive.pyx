@@ -1,5 +1,5 @@
-Python 3.12.3
-*interactive.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*interactive.pyx*                             Last change: 2025 Dec 20
 
 14. Interactive Input Editing and History Substitution
 ******************************************************
@@ -33,7 +33,7 @@ available again during the next interactive interpreter session.
 This facility is an enormous step forward compared to earlier versions
 of the interpreter; however, some wishes are left: It would be nice if
 the proper indentation were suggested on continuation lines (the
-parser knows if an indent token is required next).  The completion
+parser knows if an "INDENT" token is required next).  The completion
 mechanism might use the interpreter’s symbol table.  A command to
 check (or even suggest) matching parentheses, quotes, etc., would also
 be useful.

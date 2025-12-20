@@ -1,10 +1,10 @@
-Python 3.12.3
-*concurrent.futures.pyx*                      Last change: 2024 May 24
+Python 3.12.12
+*concurrent.futures.pyx*                      Last change: 2025 Dec 20
 
 "concurrent.futures" — Launching parallel tasks
 ***********************************************
 
-New in version 3.2.
+Added in version 3.2.
 
 **Source code:** Lib/concurrent/futures/thread.py and
 Lib/concurrent/futures/process.py
@@ -535,14 +535,14 @@ exception concurrent.futures.BrokenExecutor
    executor is broken for some reason, and cannot be used to submit or
    execute new tasks.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 exception concurrent.futures.InvalidStateError
 
    Raised when an operation is performed on a future that is not
    allowed in the current state.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 exception concurrent.futures.thread.BrokenThreadPool
 
@@ -550,7 +550,7 @@ exception concurrent.futures.thread.BrokenThreadPool
    one of the workers of a "ThreadPoolExecutor" has failed
    initializing.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 exception concurrent.futures.process.BrokenProcessPool
 
@@ -559,6 +559,6 @@ exception concurrent.futures.process.BrokenProcessPool
    "ProcessPoolExecutor" has terminated in a non-clean fashion (for
    example, if it was killed from the outside).
 
-   New in version 3.3.
+   Added in version 3.3.
 
 vim:tw=78:ts=8:ft=help:norl:

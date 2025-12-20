@@ -1,5 +1,5 @@
-Python 3.12.3
-*ctypes.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*ctypes.pyx*                                  Last change: 2025 Dec 20
 
 "ctypes" — A foreign function library for Python
 ************************************************
@@ -46,14 +46,14 @@ which is now an alias of "OSError".
 
 Here are some examples for Windows. Note that "msvcrt" is the MS
 standard C library containing most standard C functions, and uses the
-cdecl calling convention:
+"cdecl" calling convention:
 >
    >>> from ctypes import *
-   >>> print(windll.kernel32)  
+   >>> print(windll.kernel32)
    <WinDLL 'kernel32', handle ... at ...>
-   >>> print(cdll.msvcrt)      
+   >>> print(cdll.msvcrt)
    <CDLL 'msvcrt', handle ... at ...>
-   >>> libc = cdll.msvcrt      
+   >>> libc = cdll.msvcrt
    >>>
 <
 Windows appends the usual ".dll" file suffix automatically.
@@ -71,10 +71,10 @@ load libraries. Either the "LoadLibrary()" method of the dll loaders
 should be used, or you should load the library by creating an instance
 of CDLL by calling the constructor:
 >
-   >>> cdll.LoadLibrary("libc.so.6")  
+   >>> cdll.LoadLibrary("libc.so.6")
    <CDLL 'libc.so.6', handle ... at ...>
-   >>> libc = CDLL("libc.so.6")       
-   >>> libc                           
+   >>> libc = CDLL("libc.so.6")
+   >>> libc
    <CDLL 'libc.so.6', handle ... at ...>
    >>>
 <
@@ -86,9 +86,9 @@ Functions are accessed as attributes of dll objects:
 >
    >>> libc.printf
    <_FuncPtr object at 0x...>
-   >>> print(windll.kernel32.GetModuleHandleA)  
+   >>> print(windll.kernel32.GetModuleHandleA)
    <_FuncPtr object at 0x...>
-   >>> print(windll.kernel32.MyOwnFunction)     
+   >>> print(windll.kernel32.MyOwnFunction)
    Traceback (most recent call last):
      File "<stdin>", line 1, in <module>
      File "ctypes.py", line 239, in __getattr__
@@ -98,7 +98,7 @@ Functions are accessed as attributes of dll objects:
 <
 Note that win32 system dlls like "kernel32" and "user32" often export
 ANSI as well as UNICODE versions of a function. The UNICODE version is
-exported with an "W" appended to the name, while the ANSI version is
+exported with a "W" appended to the name, while the ANSI version is
 exported with an "A" appended to the name. The win32 "GetModuleHandle"
 function, which returns a _module handle_ for a given module name, has
 the following C prototype, and a macro is used to expose one of them
@@ -118,7 +118,7 @@ Sometimes, dlls export functions with names which aren’t valid Python
 identifiers, like ""??2@YAPAXI@Z"". In this case you have to use
 "getattr()" to retrieve the function:
 >
-   >>> getattr(cdll.msvcrt, "??2@YAPAXI@Z")  
+   >>> getattr(cdll.msvcrt, "??2@YAPAXI@Z")
    <_FuncPtr object at 0x...>
    >>>
 <
@@ -126,9 +126,9 @@ On Windows, some dlls export functions not by name but by ordinal.
 These functions can be accessed by indexing the dll object with the
 ordinal number:
 >
-   >>> cdll.kernel32[1]  
+   >>> cdll.kernel32[1]
    <_FuncPtr object at 0x...>
-   >>> cdll.kernel32[0]  
+   >>> cdll.kernel32[0]
    Traceback (most recent call last):
      File "<stdin>", line 1, in <module>
      File "ctypes.py", line 310, in __getitem__
@@ -144,27 +144,27 @@ You can call these functions like any other Python callable. This
 example uses the "rand()" function, which takes no arguments and
 returns a pseudo-random integer:
 >
-   >>> print(libc.rand())  
+   >>> print(libc.rand())
    1804289383
 <
 On Windows, you can call the "GetModuleHandleA()" function, which
 returns a win32 module handle (passing "None" as single argument to
 call it with a "NULL" pointer):
 >
-   >>> print(hex(windll.kernel32.GetModuleHandleA(None)))  
+   >>> print(hex(windll.kernel32.GetModuleHandleA(None)))
    0x1d000000
    >>>
 <
 "ValueError" is raised when you call an "stdcall" function with the
 "cdecl" calling convention, or vice versa:
 >
-   >>> cdll.kernel32.GetModuleHandleA(None)  
+   >>> cdll.kernel32.GetModuleHandleA(None)
    Traceback (most recent call last):
      File "<stdin>", line 1, in <module>
    ValueError: Procedure probably called with not enough arguments (4 bytes missing)
    >>>
 
-   >>> windll.msvcrt.printf(b"spam")  
+   >>> windll.msvcrt.printf(b"spam")
    Traceback (most recent call last):
      File "<stdin>", line 1, in <module>
    ValueError: Procedure probably called with too many arguments (4 bytes in excess)
@@ -177,7 +177,7 @@ On Windows, "ctypes" uses win32 structured exception handling to
 prevent crashes from general protection faults when functions are
 called with invalid argument values:
 >
-   >>> windll.kernel32.GetModuleHandleA(32)  
+   >>> windll.kernel32.GetModuleHandleA(32)
    Traceback (most recent call last):
      File "<stdin>", line 1, in <module>
    OSError: exception: access violation reading 0x00000020
@@ -467,7 +467,7 @@ The argument types can be specified using "argtypes":
 To call the function with a "NULL" pointer as first argument, use
 "None":
 >
-   >>> print(libc.time(None))  
+   >>> print(libc.time(None))
    1150640792
 <
 Here is a more advanced example, it uses the "strchr()" function,
@@ -475,7 +475,7 @@ which expects a string pointer and a char, and returns a pointer to a
 string:
 >
    >>> strchr = libc.strchr
-   >>> strchr(b"abcdef", ord("d"))  
+   >>> strchr(b"abcdef", ord("d"))
    8059983
    >>> strchr.restype = c_char_p    # c_char_p is a pointer to a string
    >>> strchr(b"abcdef", ord("d"))
@@ -508,17 +508,17 @@ function returns, and the result of this call will be used as the
 result of your function call. This is useful to check for error return
 values and automatically raise an exception:
 >
-   >>> GetModuleHandle = windll.kernel32.GetModuleHandleA  
+   >>> GetModuleHandle = windll.kernel32.GetModuleHandleA
    >>> def ValidHandle(value):
    ...     if value == 0:
    ...         raise WinError()
    ...     return value
    ...
    >>>
-   >>> GetModuleHandle.restype = ValidHandle  
-   >>> GetModuleHandle(None)  
+   >>> GetModuleHandle.restype = ValidHandle
+   >>> GetModuleHandle(None)
    486539264
-   >>> GetModuleHandle("something silly")  
+   >>> GetModuleHandle("something silly")
    Traceback (most recent call last):
      File "<stdin>", line 1, in <module>
      File "<stdin>", line 3, in ValidHandle
@@ -1003,7 +1003,7 @@ gets passed:
 <
 The result:
 >
-   >>> qsort(ia, len(ia), sizeof(c_int), cmp_func)  
+   >>> qsort(ia, len(ia), sizeof(c_int), cmp_func)
    py_cmp_func 5 1
    py_cmp_func 33 99
    py_cmp_func 7 33
@@ -1018,7 +1018,7 @@ Now we can actually compare the two items and return a useful result:
    ...     return a[0] - b[0]
    ...
    >>>
-   >>> qsort(ia, len(ia), sizeof(c_int), CMPFUNC(py_cmp_func)) 
+   >>> qsort(ia, len(ia), sizeof(c_int), CMPFUNC(py_cmp_func))
    py_cmp_func 5 1
    py_cmp_func 33 99
    py_cmp_func 7 33
@@ -1345,13 +1345,15 @@ See also: Microsoft DUMPBIN tool – A tool to find DLL dependents.
 
 class ctypes.OleDLL(name, mode=DEFAULT_MODE, handle=None, use_errno=False, use_last_error=False, winmode=None)
 
-   Windows only: Instances of this class represent loaded shared
-   libraries, functions in these libraries use the "stdcall" calling
-   convention, and are assumed to return the windows specific
-   "HRESULT" code.  "HRESULT" values contain information specifying
-   whether the function call failed or succeeded, together with
-   additional error code.  If the return value signals a failure, an
-   "OSError" is automatically raised.
+   Instances of this class represent loaded shared libraries,
+   functions in these libraries use the "stdcall" calling convention,
+   and are assumed to return the windows specific "HRESULT" code.
+   "HRESULT" values contain information specifying whether the
+   function call failed or succeeded, together with additional error
+   code.  If the return value signals a failure, an "OSError" is
+   automatically raised.
+
+   Availability: Windows
 
    Changed in version 3.3: "WindowsError" used to be raised, which is
    now an alias of "OSError".
@@ -1361,9 +1363,11 @@ class ctypes.OleDLL(name, mode=DEFAULT_MODE, handle=None, use_errno=False, use_l
 
 class ctypes.WinDLL(name, mode=DEFAULT_MODE, handle=None, use_errno=False, use_last_error=False, winmode=None)
 
-   Windows only: Instances of this class represent loaded shared
-   libraries, functions in these libraries use the "stdcall" calling
-   convention, and are assumed to return int by default.
+   Instances of this class represent loaded shared libraries,
+   functions in these libraries use the "stdcall" calling convention,
+   and are assumed to return int by default.
+
+   Availability: Windows
 
    Changed in version 3.12: The _name_ parameter can now be a _path-
    like object_.
@@ -1492,11 +1496,15 @@ ctypes.cdll
 
 ctypes.windll
 
-   Windows only: Creates "WinDLL" instances.
+   Creates "WinDLL" instances.
+
+   Availability: Windows
 
 ctypes.oledll
 
-   Windows only: Creates "OleDLL" instances.
+   Creates "OleDLL" instances.
+
+   Availability: Windows
 
 ctypes.pydll
 
@@ -1533,10 +1541,19 @@ As explained in the previous section, foreign functions can be
 accessed as attributes of loaded shared libraries.  The function
 objects created in this way by default accept any number of arguments,
 accept any ctypes data instances as arguments, and return the default
-result type specified by the library loader. They are instances of a
-private class:
+result type specified by the library loader.
 
-class ctypes._FuncPtr
+They are instances of a private local class "_FuncPtr" (not exposed in
+"ctypes") which inherits from the private "_CFuncPtr" class:
+>
+   >>> import ctypes
+   >>> lib = ctypes.CDLL(None)
+   >>> issubclass(lib._FuncPtr, ctypes._CFuncPtr)
+   True
+   >>> lib._FuncPtr is ctypes._CFuncPtr
+   False
+<
+class ctypes._CFuncPtr
 
    Base class for C callable foreign functions.
 
@@ -1644,10 +1661,12 @@ ctypes.CFUNCTYPE(restype, *argtypes, use_errno=False, use_last_error=False)
 
 ctypes.WINFUNCTYPE(restype, *argtypes, use_errno=False, use_last_error=False)
 
-   Windows only: The returned function prototype creates functions
-   that use the "stdcall" calling convention.  The function will
-   release the GIL during the call.  _use_errno_ and _use_last_error_
-   have the same meaning as above.
+   The returned function prototype creates functions that use the
+   "stdcall" calling convention.  The function will release the GIL
+   during the call.  _use_errno_ and _use_last_error_ have the same
+   meaning as above.
+
+   Availability: Windows
 
 ctypes.PYFUNCTYPE(restype, *argtypes)
 
@@ -1869,16 +1888,19 @@ ctypes.create_unicode_buffer(init_or_size, size=None)
 
 ctypes.DllCanUnloadNow()
 
-   Windows only: This function is a hook which allows implementing in-
-   process COM servers with ctypes.  It is called from the
-   DllCanUnloadNow function that the _ctypes extension dll exports.
+   This function is a hook which allows implementing in-process COM
+   servers with ctypes.  It is called from the DllCanUnloadNow
+   function that the _ctypes extension dll exports.
+
+   Availability: Windows
 
 ctypes.DllGetClassObject()
 
-   Windows only: This function is a hook which allows implementing in-
-   process COM servers with ctypes.  It is called from the
-   DllGetClassObject function that the "_ctypes" extension dll
-   exports.
+   This function is a hook which allows implementing in-process COM
+   servers with ctypes.  It is called from the DllGetClassObject
+   function that the "_ctypes" extension dll exports.
+
+   Availability: Windows
 
 ctypes.util.find_library(name)
 
@@ -1891,26 +1913,31 @@ ctypes.util.find_library(name)
 
 ctypes.util.find_msvcrt()
 
-   Windows only: return the filename of the VC runtime library used by
-   Python, and by the extension modules.  If the name of the library
-   cannot be determined, "None" is returned.
+   Returns the filename of the VC runtime library used by Python, and
+   by the extension modules.  If the name of the library cannot be
+   determined, "None" is returned.
 
    If you need to free memory, for example, allocated by an extension
    module with a call to the "free(void *)", it is important that you
    use the function in the same library that allocated the memory.
 
+   Availability: Windows
+
 ctypes.FormatError([code])
 
-   Windows only: Returns a textual description of the error code
-   _code_.  If no error code is specified, the last error code is used
-   by calling the Windows api function GetLastError.
+   Returns a textual description of the error code _code_.  If no
+   error code is specified, the last error code is used by calling the
+   Windows api function GetLastError.
+
+   Availability: Windows
 
 ctypes.GetLastError()
 
-   Windows only: Returns the last error code set by Windows in the
-   calling thread. This function calls the Windows "GetLastError()"
-   function directly, it does not return the ctypes-private copy of
-   the error code.
+   Returns the last error code set by Windows in the calling thread.
+   This function calls the Windows "GetLastError()" function directly,
+   it does not return the ctypes-private copy of the error code.
+
+   Availability: Windows
 
 ctypes.get_errno()
 
@@ -1921,8 +1948,10 @@ ctypes.get_errno()
 
 ctypes.get_last_error()
 
-   Windows only: returns the current value of the ctypes-private copy
-   of the system "LastError" variable in the calling thread.
+   Returns the current value of the ctypes-private copy of the system
+   "LastError" variable in the calling thread.
+
+   Availability: Windows
 
    Raises an auditing event "ctypes.get_last_error" with no arguments.
 
@@ -1970,9 +1999,11 @@ ctypes.set_errno(value)
 
 ctypes.set_last_error(value)
 
-   Windows only: set the current value of the ctypes-private copy of
-   the system "LastError" variable in the calling thread to _value_
-   and return the previous value.
+   Sets the current value of the ctypes-private copy of the system
+   "LastError" variable in the calling thread to _value_ and return
+   the previous value.
+
+   Availability: Windows
 
    Raises an auditing event "ctypes.set_last_error" with argument
    "error".
@@ -1982,35 +2013,36 @@ ctypes.sizeof(obj_or_type)
    Returns the size in bytes of a ctypes type or instance memory
    buffer. Does the same as the C "sizeof" operator.
 
-ctypes.string_at(address, size=-1)
+ctypes.string_at(ptr, size=-1)
 
-   This function returns the C string starting at memory address
-   _address_ as a bytes object. If size is specified, it is used as
-   size, otherwise the string is assumed to be zero-terminated.
+   Return the byte string at _void *ptr_. If _size_ is specified, it
+   is used as size, otherwise the string is assumed to be zero-
+   terminated.
 
-   Raises an auditing event "ctypes.string_at" with arguments
-   "address", "size".
+   Raises an auditing event "ctypes.string_at" with arguments "ptr",
+   "size".
 
 ctypes.WinError(code=None, descr=None)
 
-   Windows only: this function is probably the worst-named thing in
-   ctypes. It creates an instance of "OSError".  If _code_ is not
-   specified, "GetLastError" is called to determine the error code. If
-   _descr_ is not specified, "FormatError()" is called to get a
-   textual description of the error.
+   This function is probably the worst-named thing in ctypes. It
+   creates an instance of "OSError".  If _code_ is not specified,
+   "GetLastError" is called to determine the error code. If _descr_ is
+   not specified, "FormatError()" is called to get a textual
+   description of the error.
+
+   Availability: Windows
 
    Changed in version 3.3: An instance of "WindowsError" used to be
    created, which is now an alias of "OSError".
 
-ctypes.wstring_at(address, size=-1)
+ctypes.wstring_at(ptr, size=-1)
 
-   This function returns the wide character string starting at memory
-   address _address_ as a string.  If _size_ is specified, it is used
-   as the number of characters of the string, otherwise the string is
-   assumed to be zero-terminated.
+   Return the wide-character string at _void *ptr_. If _size_ is
+   specified, it is used as the number of characters of the string,
+   otherwise the string is assumed to be zero-terminated.
 
-   Raises an auditing event "ctypes.wstring_at" with arguments
-   "address", "size".
+   Raises an auditing event "ctypes.wstring_at" with arguments "ptr",
+   "size".
 
 
 Data types
@@ -2228,13 +2260,13 @@ class ctypes.c_ssize_t
 
    Represents the C "ssize_t" datatype.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 class ctypes.c_time_t
 
    Represents the C "time_t" datatype.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 class ctypes.c_ubyte
 
@@ -2311,8 +2343,10 @@ class ctypes.c_bool
 
 class ctypes.HRESULT
 
-   Windows only: Represents a "HRESULT" value, which contains success
-   or error information for a function or method call.
+   Represents a "HRESULT" value, which contains success or error
+   information for a function or method call.
+
+   Availability: Windows
 
 class ctypes.py_object
 
@@ -2335,13 +2369,13 @@ class ctypes.BigEndianUnion(*args, **kw)
 
    Abstract base class for unions in _big endian_ byte order.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 class ctypes.LittleEndianUnion(*args, **kw)
 
    Abstract base class for unions in _little endian_ byte order.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 class ctypes.BigEndianStructure(*args, **kw)
 

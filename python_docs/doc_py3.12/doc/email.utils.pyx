@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.utils.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*email.utils.pyx*                             Last change: 2025 Dec 20
 
 "email.utils": Miscellaneous utilities
 **************************************
@@ -20,7 +20,7 @@ email.utils.localtime(dt=None)
    is, "dt.tzinfo" is "None"), it is assumed to be in local time.  The
    _isdst_ parameter is ignored.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Deprecated since version 3.12, will be removed in version 3.14: The
    _isdst_ parameter.
@@ -55,13 +55,19 @@ email.utils.unquote(str)
    Likewise if _str_ ends and begins with angle brackets, they are
    stripped off.
 
-email.utils.parseaddr(address)
+email.utils.parseaddr(address, *, strict=True)
 
    Parse address – which should be the value of some address-
    containing field such as _To_ or _Cc_ – into its constituent
    _realname_ and _email address_ parts.  Returns a tuple of that
    information, unless the parse fails, in which case a 2-tuple of
    "('', '')" is returned.
+
+   If _strict_ is true, use a strict parser which rejects malformed
+   inputs.
+
+   Changed in version 3.12.6: Add _strict_ optional parameter and
+   reject malformed inputs by default.
 
 email.utils.formataddr(pair, charset='utf-8')
 
@@ -77,12 +83,16 @@ email.utils.formataddr(pair, charset='utf-8')
 
    Changed in version 3.3: Added the _charset_ option.
 
-email.utils.getaddresses(fieldvalues)
+email.utils.getaddresses(fieldvalues, *, strict=True)
 
    This method returns a list of 2-tuples of the form returned by
    "parseaddr()". _fieldvalues_ is a sequence of header field values
-   as might be returned by "Message.get_all".  Here’s a simple example
-   that gets all the recipients of a message:
+   as might be returned by "Message.get_all".
+
+   If _strict_ is true, use a strict parser which rejects malformed
+   inputs.
+
+   Here’s a simple example that gets all the recipients of a message:
 >
       from email.utils import getaddresses
 
@@ -92,6 +102,9 @@ email.utils.getaddresses(fieldvalues)
       resent_ccs = msg.get_all('resent-cc', [])
       all_recipients = getaddresses(tos + ccs + resent_tos + resent_ccs)
 <
+   Changed in version 3.12.6: Add _strict_ optional parameter and
+   reject malformed inputs by default.
+
 email.utils.parsedate(date)
 
    Attempts to parse a date according to the rules in **RFC 2822**.
@@ -127,7 +140,7 @@ email.utils.parsedate_to_datetime(date)
    be an aware "datetime" with the corresponding a "timezone"
    "tzinfo".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 email.utils.mktime_tz(tuple)
 
@@ -141,7 +154,7 @@ email.utils.formatdate(timeval=None, localtime=False, usegmt=False)
 >
       Fri, 09 Nov 2001 01:08:47 -0000
 <
-   Optional _timeval_ if given is a floating point time value as
+   Optional _timeval_ if given is a floating-point time value as
    accepted by "time.gmtime()" and "time.localtime()", otherwise the
    current time is used.
 
@@ -167,7 +180,7 @@ email.utils.format_datetime(dt, usegmt=False)
    "GMT" is used instead of the numeric timezone offset.  This
    provides a way to generate standards conformant HTTP date headers.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 email.utils.decode_rfc2231(s)
 

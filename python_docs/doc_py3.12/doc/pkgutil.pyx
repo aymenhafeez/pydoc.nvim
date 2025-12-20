@@ -1,5 +1,5 @@
-Python 3.12.3
-*pkgutil.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*pkgutil.pyx*                                 Last change: 2025 Dec 20
 
 "pkgutil" — Package extension utility
 *************************************
@@ -15,7 +15,7 @@ class pkgutil.ModuleInfo(module_finder, name, ispkg)
 
    A namedtuple that holds a brief summary of a module’s info.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 pkgutil.extend_path(path, name)
 
@@ -28,16 +28,17 @@ pkgutil.extend_path(path, name)
 <
    For each directory on "sys.path" that has a subdirectory that
    matches the package name, add the subdirectory to the package’s
-   "__path__".  This is useful if one wants to distribute different
+   "__path__". This is useful if one wants to distribute different
    parts of a single logical package as multiple directories.
 
    It also looks for "*.pkg" files beginning where "*" matches the
    _name_ argument.  This feature is similar to "*.pth" files (see the
    "site" module for more information), except that it doesn’t
    special-case lines starting with "import".  A "*.pkg" file is
-   trusted at face value: apart from checking for duplicates, all
-   entries found in a "*.pkg" file are added to the path, regardless
-   of whether they exist on the filesystem.  (This is a feature.)
+   trusted at face value: apart from skipping blank lines and ignoring
+   comments, all entries found in a "*.pkg" file are added to the
+   path, regardless of whether they exist on the filesystem (this is a
+   feature).
 
    If the input path is not a list (as is the case for frozen
    packages) it is returned unchanged.  The input path is not
@@ -248,6 +249,6 @@ pkgutil.resolve_name(name)
    "AttributeError" – If a failure occurred when traversing the object
    hierarchy within the imported package to get to the desired object.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 vim:tw=78:ts=8:ft=help:norl:

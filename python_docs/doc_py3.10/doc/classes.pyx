@@ -1,5 +1,5 @@
-Python 3.10.14
-*classes.pyx*                                 Last change: 2024 May 24
+Python 3.10.19
+*classes.pyx*                                 Last change: 2025 Dec 20
 
 9. Classes
 **********
@@ -335,7 +335,7 @@ Now what can we do with instance objects?  The only operations
 understood by instance objects are attribute references.  There are
 two kinds of valid attribute names: data attributes and methods.
 
-_data attributes_ correspond to “instance variables” in Smalltalk, and
+_Data attributes_ correspond to “instance variables” in Smalltalk, and
 to “data members” in C++.  Data attributes need not be declared; like
 local variables, they spring into existence when they are first
 assigned to.  For example, if "x" is the instance of "MyClass" created

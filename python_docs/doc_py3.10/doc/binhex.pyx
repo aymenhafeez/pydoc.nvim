@@ -1,5 +1,5 @@
-Python 3.10.14
-*binhex.pyx*                                  Last change: 2024 May 24
+Python 3.10.19
+*binhex.pyx*                                  Last change: 2025 Dec 20
 
 "binhex" — Encode and decode binhex4 files
 ******************************************

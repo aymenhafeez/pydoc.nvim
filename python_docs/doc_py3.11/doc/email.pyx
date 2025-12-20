@@ -1,5 +1,5 @@
-Python 3.11.9
-*email.pyx*                                   Last change: 2024 May 24
+Python 3.11.14
+*email.pyx*                                   Last change: 2025 Dec 20
 
 "email" — An email and MIME handling package
 ********************************************

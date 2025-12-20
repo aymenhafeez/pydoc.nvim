@@ -1,5 +1,5 @@
-Python 3.12.3
-*xml.dom.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*xml.dom.pyx*                                 Last change: 2025 Dec 20
 
 "xml.dom" — The Document Object Model API
 *****************************************

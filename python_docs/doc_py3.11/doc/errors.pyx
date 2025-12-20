@@ -1,5 +1,5 @@
-Python 3.11.9
-*errors.pyx*                                  Last change: 2024 May 24
+Python 3.11.14
+*errors.pyx*                                  Last change: 2025 Dec 20
 
 8. Errors and Exceptions
 ************************

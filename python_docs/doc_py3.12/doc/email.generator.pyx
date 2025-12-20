@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.generator.pyx*                         Last change: 2024 May 24
+Python 3.12.12
+*email.generator.pyx*                         Last change: 2025 Dec 20
 
 "email.generator": Generating MIME documents
 ********************************************
@@ -69,7 +69,7 @@ class email.generator.BytesGenerator(outfp, mangle_from_=None, maxheaderlen=None
    "flatten" to control the message generation.  See "email.policy"
    for details on what _policy_ controls.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.3: Added the _policy_ keyword.
 

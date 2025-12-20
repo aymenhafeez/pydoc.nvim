@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-functional.pyx*                        Last change: 2024 May 24
+Python 3.12.12
+*howto-functional.pyx*                        Last change: 2025 Dec 20
 
 Functional Programming HOWTO
 ****************************
@@ -219,7 +219,7 @@ You can experiment with the iteration interface manually:
 
 >>> L = [1, 2, 3]
 >>> it = iter(L)
->>> it  
+>>> it
 <...iterator object at ...>
 >>> it.__next__()  # same as next(it)
 1
@@ -441,7 +441,7 @@ length 3, the output list is 9 elements long:
 
 >>> seq1 = 'abc'
 >>> seq2 = (1, 2, 3)
->>> [(x, y) for x in seq1 for y in seq2]  
+>>> [(x, y) for x in seq1 for y in seq2]
 [('a', 1), ('a', 2), ('a', 3),
  ('b', 1), ('b', 2), ('b', 3),
  ('c', 1), ('c', 2), ('c', 3)]
@@ -497,7 +497,7 @@ method, the function will resume executing.
 Here’s a sample usage of the "generate_ints()" generator:
 
 >>> gen = generate_ints(3)
->>> gen  
+>>> gen
 <generator object generate_ints at ...>
 >>> next(gen)
 0
@@ -599,16 +599,16 @@ value of the internal counter.
 <
 And here’s an example of changing the counter:
 
->>> it = counter(10)  
->>> next(it)  
+>>> it = counter(10)
+>>> next(it)
 0
->>> next(it)  
+>>> next(it)
 1
->>> it.send(8)  
+>>> it.send(8)
 8
->>> next(it)  
+>>> next(it)
 9
->>> next(it)  
+>>> next(it)
 Traceback (most recent call last):
   File "t.py", line 15, in <module>
     it.next()
@@ -713,11 +713,11 @@ constructed list’s "sort()" method.
    >>> import random
    >>> # Generate 8 random numbers between [0, 10000)
    >>> rand_list = random.sample(range(10000), 8)
-   >>> rand_list  
+   >>> rand_list
    [769, 7953, 9828, 6431, 8442, 9878, 6213, 2207]
-   >>> sorted(rand_list)  
+   >>> sorted(rand_list)
    [769, 2207, 6213, 6431, 7953, 8442, 9828, 9878]
-   >>> sorted(rand_list, reverse=True)  
+   >>> sorted(rand_list, reverse=True)
    [9878, 9828, 8442, 7953, 6431, 6213, 2207, 769]
 <
 (For a more detailed discussion of sorting, see the Sorting

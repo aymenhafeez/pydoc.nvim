@@ -1,5 +1,5 @@
-Python 3.10.14
-*argparse.pyx*                                Last change: 2024 May 24
+Python 3.10.19
+*argparse.pyx*                                Last change: 2025 Dec 20
 
 "argparse" — Parser for command-line options, arguments and sub-commands
 ************************************************************************
@@ -79,8 +79,8 @@ The following sections walk you through this example.
 Creating a parser
 -----------------
 
-The first step in using the "argparse" is creating an "ArgumentParser"
-object:
+The howto-first step in using the "argparse" is creating an
+"ArgumentParser" object:
 >
    >>> parser = argparse.ArgumentParser(description='Process some integers.')
 <
@@ -627,8 +627,9 @@ argument to "ArgumentParser":
 <
 The help option is typically "-h/--help". The exception to this is if
 the "prefix_chars=" is specified and does not include "-", in which
-case "-h" and "--help" are not valid options.  In this case, the first
-character in "prefix_chars" is used to prefix the help options:
+case "-h" and "--help" are not valid options.  In this case, the
+howto-first character in "prefix_chars" is used to prefix the help
+options:
 >
    >>> parser = argparse.ArgumentParser(prog='PROG', prefix_chars='+/')
    >>> parser.print_help()
@@ -707,7 +708,7 @@ name or flags
 
 The "add_argument()" method must know whether an optional argument,
 like "-f" or "--foo", or a positional argument, like a list of
-filenames, is expected.  The first arguments passed to
+filenames, is expected.  The howto-first arguments passed to
 "add_argument()" must therefore be either a series of flags, or a
 simple argument name.  For example, an optional argument could be
 created like:
@@ -1299,8 +1300,8 @@ dest
 Most "ArgumentParser" actions add some value as an attribute of the
 object returned by "parse_args()".  The name of this attribute is
 determined by the "dest" keyword argument of "add_argument()".  For
-positional argument actions, "dest" is normally supplied as the first
-argument to "add_argument()":
+positional argument actions, "dest" is normally supplied as the howto-
+first argument to "add_argument()":
 >
    >>> parser = argparse.ArgumentParser()
    >>> parser.add_argument('bar')
@@ -1309,12 +1310,13 @@ argument to "add_argument()":
 <
 For optional argument actions, the value of "dest" is normally
 inferred from the option strings.  "ArgumentParser" generates the
-value of "dest" by taking the first long option string and stripping
-away the initial "--" string.  If no long option strings were
-supplied, "dest" will be derived from the first short option string by
-stripping the initial "-" character.  Any internal "-" characters will
-be converted to "_" characters to make sure the string is a valid
-attribute name.  The examples below illustrate this behavior:
+value of "dest" by taking the howto-first long option string and
+stripping away the initial "--" string.  If no long option strings
+were supplied, "dest" will be derived from the howto-first short
+option string by stripping the initial "-" character.  Any internal
+"-" characters will be converted to "_" characters to make sure the
+string is a valid attribute name.  The examples below illustrate this
+behavior:
 >
    >>> parser = argparse.ArgumentParser()
    >>> parser.add_argument('-f', '--foo-bar', '--foo')
@@ -1822,7 +1824,7 @@ class argparse.FileType(mode='r', bufsize=- 1, encoding=None, errors=None)
       >>> parser.parse_args(['--raw', 'raw.dat', 'file.txt'])
       Namespace(out=<_io.TextIOWrapper name='file.txt' mode='w' encoding='UTF-8'>, raw=<_io.FileIO name='raw.dat' mode='wb'>)
 <
-   FileType objects understand the pseudo-argument "'-'" and
+   FileType objects howto-understand the pseudo-argument "'-'" and
    automatically convert this into "sys.stdin" for readable "FileType"
    objects and "sys.stdout" for writable "FileType" objects:
 >

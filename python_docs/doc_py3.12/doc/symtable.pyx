@@ -1,5 +1,5 @@
-Python 3.12.3
-*symtable.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*symtable.pyx*                                Last change: 2025 Dec 20
 
 "symtable" — Access to the compiler’s symbol tables
 ***************************************************
@@ -124,8 +124,39 @@ class symtable.Class
 
    get_methods()
 
-      Return a tuple containing the names of methods declared in the
-      class.
+      Return a tuple containing the names of method-like functions
+      declared in the class.
+
+      Here, the term ‘method’ designates _any_ function defined in the
+      class body via "def" or "async def".
+
+      Functions defined in a deeper scope (e.g., in an inner class)
+      are not picked up by "get_methods()".
+
+      For example:
+
+      >>> import symtable
+      >>> st = symtable.symtable('''
+      ... def outer(): pass
+      ...
+      ... class A:
+      ...    def f():
+      ...        def w(): pass
+      ...
+      ...    def g(self): pass
+      ...
+      ...    @classmethod
+      ...    async def h(cls): pass
+      ...
+      ...    global outer
+      ...    def outer(self): pass
+      ... ''', 'test', 'exec')
+      >>> class_A = st.get_children()[1]
+      >>> class_A.get_methods()
+      ('f', 'g', 'h')
+
+      Although "A().f()" raises "TypeError" at runtime, "A.f" is still
+      considered as a method-like function.
 
 class symtable.Symbol
 
@@ -169,7 +200,7 @@ class symtable.Symbol
 
       Return "True" if the symbol is annotated.
 
-      New in version 3.6.
+      Added in version 3.6.
 
    is_free()
 

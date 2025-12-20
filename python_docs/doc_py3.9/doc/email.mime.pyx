@@ -1,5 +1,5 @@
-Python 3.9.19
-*email.mime.pyx*                              Last change: 2024 May 24
+Python 3.9.25
+*email.mime.pyx*                              Last change: 2025 Dec 20
 
 "email.mime": Creating email and MIME objects from scratch
 **********************************************************

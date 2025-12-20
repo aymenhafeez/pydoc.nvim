@@ -1,5 +1,5 @@
-Python 3.12.3
-*builtins.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*builtins.pyx*                                Last change: 2025 Dec 20
 
 "builtins" — Built-in objects
 *****************************
@@ -8,8 +8,7 @@ Python 3.12.3
 
 This module provides direct access to all ‘built-in’ identifiers of
 Python; for example, "builtins.open" is the full name for the built-in
-function "open()".  See Built-in Functions and Built-in Constants for
-documentation.
+function "open()".
 
 This module is not normally accessed explicitly by most applications,
 but can be useful in modules that provide objects with the same name
@@ -40,5 +39,15 @@ made available as part of their globals.  The value of "__builtins__"
 is normally either this module or the value of this module’s
 "__dict__" attribute. Since this is an implementation detail, it may
 not be used by alternate implementations of Python.
+
+See also:
+
+  * Built-in Constants
+
+  * Built-in Exceptions
+
+  * Built-in Functions
+
+  * Built-in Types
 
 vim:tw=78:ts=8:ft=help:norl:

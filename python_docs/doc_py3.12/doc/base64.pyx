@@ -1,5 +1,5 @@
-Python 3.12.3
-*base64.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*base64.pyx*                                  Last change: 2025 Dec 20
 
 "base64" — Base16, Base32, Base64, Base85 Data Encodings
 ********************************************************
@@ -135,7 +135,7 @@ base64.b32hexencode(s)
    Similar to "b32encode()" but uses the Extended Hex Alphabet, as
    defined in **RFC 4648**.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 base64.b32hexdecode(s, casefold=False)
 
@@ -147,7 +147,7 @@ base64.b32hexdecode(s, casefold=False)
    mappings, all these characters are included in the Extended Hex
    Alphabet and are not interchangeable.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 base64.b16encode(s)
 
@@ -178,7 +178,8 @@ base64.a85encode(b, *, foldspaces=False, wrapcol=0, pad=False, adobe=False)
 
    _wrapcol_ controls whether the output should have newline ("b'\n'")
    characters added to it. If this is non-zero, each output line will
-   be at most this many characters long.
+   be at most this many characters long, excluding the trailing
+   newline.
 
    _pad_ controls whether the input is padded to a multiple of 4
    before encoding. Note that the "btoa" implementation always pads.
@@ -186,7 +187,7 @@ base64.a85encode(b, *, foldspaces=False, wrapcol=0, pad=False, adobe=False)
    _adobe_ controls whether the encoded byte sequence is framed with
    "<~" and "~>", which is used by the Adobe implementation.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 base64.a85decode(b, *, foldspaces=False, adobe=False, ignorechars=b' \t\n\r\x0b')
 
@@ -206,7 +207,7 @@ base64.a85decode(b, *, foldspaces=False, adobe=False, ignorechars=b' \t\n\r\x0b'
    contain whitespace characters, and by default contains all
    whitespace characters in ASCII.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 base64.b85encode(b, pad=False)
 
@@ -216,7 +217,7 @@ base64.b85encode(b, pad=False)
    If _pad_ is true, the input is padded with "b'\0'" so its length is
    a multiple of 4 bytes before encoding.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 base64.b85decode(b)
 
@@ -224,7 +225,7 @@ base64.b85decode(b)
    and return the decoded "bytes".  Padding is implicitly removed, if
    necessary.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 The legacy interface:
 
@@ -240,7 +241,7 @@ base64.decodebytes(s)
    Decode the _bytes-like object_ _s_, which must contain one or more
    lines of base64 encoded data, and return the decoded "bytes".
 
-   New in version 3.1.
+   Added in version 3.1.
 
 base64.encode(input, output)
 
@@ -260,7 +261,7 @@ base64.encodebytes(s)
    and ensuring that there is a trailing newline, as per **RFC 2045**
    (MIME).
 
-   New in version 3.1.
+   Added in version 3.1.
 
 An example usage of the module:
 

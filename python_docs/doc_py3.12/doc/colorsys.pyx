@@ -1,5 +1,5 @@
-Python 3.12.3
-*colorsys.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*colorsys.pyx*                                Last change: 2025 Dec 20
 
 "colorsys" — Conversions between color systems
 **********************************************
@@ -12,7 +12,7 @@ The "colorsys" module defines bidirectional conversions of color
 values between colors expressed in the RGB (Red Green Blue) color
 space used in computer monitors and three other coordinate systems:
 YIQ, HLS (Hue Lightness Saturation) and HSV (Hue Saturation Value).
-Coordinates in all of these color spaces are floating point values.
+Coordinates in all of these color spaces are floating-point values.
 In the YIQ space, the Y coordinate is between 0 and 1, but the I and Q
 coordinates can be positive or negative.  In all other spaces, the
 coordinates are all between 0 and 1.

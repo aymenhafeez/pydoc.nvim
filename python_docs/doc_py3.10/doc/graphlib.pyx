@@ -1,5 +1,5 @@
-Python 3.10.14
-*graphlib.pyx*                                Last change: 2024 May 24
+Python 3.10.19
+*graphlib.pyx*                                Last change: 2025 Dec 20
 
 "graphlib" — Functionality to operate with graph-like structures
 ****************************************************************

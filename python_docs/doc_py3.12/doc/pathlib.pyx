@@ -1,10 +1,10 @@
-Python 3.12.3
-*pathlib.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*pathlib.pyx*                                 Last change: 2025 Dec 20
 
 "pathlib" — Object-oriented filesystem paths
 ********************************************
 
-New in version 3.4.
+Added in version 3.4.
 
 **Source code:** Lib/pathlib.py
 
@@ -16,7 +16,12 @@ are divided between pure paths, which provide purely computational
 operations without I/O, and concrete paths, which inherit from pure
 paths but also provide I/O operations.
 
-[image]
+[image: Inheritance diagram showing the classes available in pathlib.
+The most basic class is PurePath, which has three direct subclasses:
+PurePosixPath, PureWindowsPath, and Path. Further to these four
+classes, there are two classes that use multiple inheritance:
+PosixPath subclasses PurePosixPath and Path, and WindowsPath
+subclasses PureWindowsPath and Path.][image]
 
 If you’ve never used this module before or just aren’t sure which
 class is right for your task, "Path" is most likely what you need. It
@@ -161,8 +166,8 @@ class pathlib.PurePosixPath(*pathsegments)
    A subclass of "PurePath", this path flavour represents non-Windows
    filesystem paths:
 >
-      >>> PurePosixPath('/etc')
-      PurePosixPath('/etc')
+      >>> PurePosixPath('/etc/hosts')
+      PurePosixPath('/etc/hosts')
 <
    _pathsegments_ is specified similarly to "PurePath".
 
@@ -171,8 +176,8 @@ class pathlib.PureWindowsPath(*pathsegments)
    A subclass of "PurePath", this path flavour represents Windows
    filesystem paths, including UNC paths:
 >
-      >>> PureWindowsPath('c:/Program Files/')
-      PureWindowsPath('c:/Program Files')
+      >>> PureWindowsPath('c:/', 'Users', 'Ximénez')
+      PureWindowsPath('c:/Users/Ximénez')
       >>> PureWindowsPath('//server/share/file')
       PureWindowsPath('//server/share/file')
 <
@@ -504,7 +509,7 @@ PurePath.is_relative_to(other)
    >>> u == p or u in p.parents
    False
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Deprecated since version 3.12, will be removed in version 3.14:
    Passing additional arguments is deprecated; if supplied, they are
@@ -568,6 +573,11 @@ PurePath.match(pattern, *, case_sensitive=None)
       >>> PurePath('a/b.py').match(pattern)
       True
 <
+   Note:
+
+     The recursive wildcard “"**"” isn’t supported by this method (it
+     acts like non-recursive “"*"”.)
+
    Changed in version 3.12: Accepts an object implementing the
    "os.PathLike" interface.
 
@@ -600,8 +610,8 @@ PurePath.relative_to(other, walk_up=False)
           raise ValueError(error_message.format(str(self), str(formatted)))
       ValueError: '/etc/passwd' is not in the subpath of '/usr' OR one path is relative and the other is absolute.
 <
-   When _walk_up_ is False (the default), the path must start with
-   _other_. When the argument is True, ".." entries may be added to
+   When _walk_up_ is false (the default), the path must start with
+   _other_. When the argument is true, ".." entries may be added to
    form the relative path. In all other cases, such as the paths
    referencing different drives, "ValueError" is raised.:
 >
@@ -666,7 +676,7 @@ PurePath.with_stem(stem)
           raise ValueError("%r has an empty name" % (self,))
       ValueError: PureWindowsPath('c:/') has an empty name
 <
-   New in version 3.9.
+   Added in version 3.9.
 
 PurePath.with_suffix(suffix)
 
@@ -706,7 +716,7 @@ PurePath.with_segments(*pathsegments)
       hosts = etc / 'hosts'
       print(hosts.session_id)  # 42
 <
-   New in version 3.12.
+   Added in version 3.12.
 
 
 Concrete paths
@@ -733,8 +743,8 @@ class pathlib.PosixPath(*pathsegments)
    A subclass of "Path" and "PurePosixPath", this class represents
    concrete non-Windows filesystem paths:
 >
-      >>> PosixPath('/etc')
-      PosixPath('/etc')
+      >>> PosixPath('/etc/hosts')
+      PosixPath('/etc/hosts')
 <
    _pathsegments_ is specified similarly to "PurePath".
 
@@ -743,8 +753,8 @@ class pathlib.WindowsPath(*pathsegments)
    A subclass of "Path" and "PureWindowsPath", this class represents
    concrete Windows filesystem paths:
 >
-      >>> WindowsPath('c:/Program Files/')
-      WindowsPath('c:/Program Files')
+      >>> WindowsPath('c:/', 'Users', 'Ximénez')
+      WindowsPath('c:/Users/Ximénez')
 <
    _pathsegments_ is specified similarly to "PurePath".
 
@@ -766,28 +776,13 @@ lead to bugs or failures in your application):
        % (cls.__name__,))
    NotImplementedError: cannot instantiate 'WindowsPath' on your system
 <
+Some concrete path methods can raise an "OSError" if a system call
+fails (for example because the path doesn’t exist).
 
-Methods
--------
 
-Concrete paths provide the following methods in addition to pure paths
-methods.  Many of these methods can raise an "OSError" if a system
-call fails (for example because the path doesn’t exist).
+Expanding and resolving paths
+-----------------------------
 
-Changed in version 3.8: "exists()", "is_dir()", "is_file()",
-"is_mount()", "is_symlink()", "is_block_device()", "is_char_device()",
-"is_fifo()", "is_socket()" now return "False" instead of raising an
-exception for paths that contain characters unrepresentable at the OS
-level.
-
-classmethod Path.cwd()
-
-   Return a new path object representing the current directory (as
-   returned by "os.getcwd()"):
->
-      >>> Path.cwd()
-      PosixPath('/home/antoine/pathlib')
-<
 classmethod Path.home()
 
    Return a new path object representing the user’s home directory (as
@@ -797,11 +792,91 @@ classmethod Path.home()
       >>> Path.home()
       PosixPath('/home/antoine')
 <
-   New in version 3.5.
+   Added in version 3.5.
+
+Path.expanduser()
+
+   Return a new path with expanded "~" and "~user" constructs, as
+   returned by "os.path.expanduser()". If a home directory can’t be
+   resolved, "RuntimeError" is raised.
+>
+      >>> p = PosixPath('~/films/Monty Python')
+      >>> p.expanduser()
+      PosixPath('/home/eric/films/Monty Python')
+<
+   Added in version 3.5.
+
+classmethod Path.cwd()
+
+   Return a new path object representing the current directory (as
+   returned by "os.getcwd()"):
+>
+      >>> Path.cwd()
+      PosixPath('/home/antoine/pathlib')
+<
+Path.absolute()
+
+   Make the path absolute, without normalization or resolving
+   symlinks. Returns a new path object:
+>
+      >>> p = Path('tests')
+      >>> p
+      PosixPath('tests')
+      >>> p.absolute()
+      PosixPath('/home/antoine/pathlib/tests')
+<
+Path.resolve(strict=False)
+
+   Make the path absolute, resolving any symlinks.  A new path object
+   is returned:
+>
+      >>> p = Path()
+      >>> p
+      PosixPath('.')
+      >>> p.resolve()
+      PosixPath('/home/antoine/pathlib')
+<
+   “".."” components are also eliminated (this is the only method to
+   do so):
+>
+      >>> p = Path('docs/../setup.py')
+      >>> p.resolve()
+      PosixPath('/home/antoine/pathlib/setup.py')
+<
+   If the path doesn’t exist and _strict_ is "True",
+   "FileNotFoundError" is raised.  If _strict_ is "False", the path is
+   resolved as far as possible and any remainder is appended without
+   checking whether it exists.  If an infinite loop is encountered
+   along the resolution path, "RuntimeError" is raised.
+
+   Changed in version 3.6: The _strict_ parameter was added (pre-3.6
+   behavior is strict).
+
+Path.readlink()
+
+   Return the path to which the symbolic link points (as returned by
+   "os.readlink()"):
+>
+      >>> p = Path('mylink')
+      >>> p.symlink_to('setup.py')
+      >>> p.readlink()
+      PosixPath('setup.py')
+<
+   Added in version 3.9.
+
+
+Querying file type and status
+-----------------------------
+
+Changed in version 3.8: "exists()", "is_dir()", "is_file()",
+"is_mount()", "is_symlink()", "is_block_device()", "is_char_device()",
+"is_fifo()", "is_socket()" now return "False" instead of raising an
+exception for paths that contain characters unrepresentable at the OS
+level.
 
 Path.stat(*, follow_symlinks=True)
 
-   Return a "os.stat_result" object containing information about this
+   Return an "os.stat_result" object containing information about this
    path, like "os.stat()". The result is looked up at each call to
    this method.
 
@@ -816,22 +891,10 @@ Path.stat(*, follow_symlinks=True)
 <
    Changed in version 3.10: The _follow_symlinks_ parameter was added.
 
-Path.chmod(mode, *, follow_symlinks=True)
+Path.lstat()
 
-   Change the file mode and permissions, like "os.chmod()".
-
-   This method normally follows symlinks. Some Unix flavours support
-   changing permissions on the symlink itself; on these platforms you
-   may add the argument "follow_symlinks=False", or use "lchmod()".
->
-      >>> p = Path('setup.py')
-      >>> p.stat().st_mode
-      33277
-      >>> p.chmod(0o444)
-      >>> p.stat().st_mode
-      33060
-<
-   Changed in version 3.10: The _follow_symlinks_ parameter was added.
+   Like "Path.stat()" but, if the path points to a symbolic link,
+   return the symbolic link’s information rather than its target’s.
 
 Path.exists(*, follow_symlinks=True)
 
@@ -851,17 +914,210 @@ Path.exists(*, follow_symlinks=True)
 <
    Changed in version 3.12: The _follow_symlinks_ parameter was added.
 
-Path.expanduser()
+Path.is_file()
 
-   Return a new path with expanded "~" and "~user" constructs, as
-   returned by "os.path.expanduser()". If a home directory can’t be
-   resolved, "RuntimeError" is raised.
+   Return "True" if the path points to a regular file (or a symbolic
+   link pointing to a regular file), "False" if it points to another
+   kind of file.
+
+   "False" is also returned if the path doesn’t exist or is a broken
+   symlink; other errors (such as permission errors) are propagated.
+
+Path.is_dir()
+
+   Return "True" if the path points to a directory (or a symbolic link
+   pointing to a directory), "False" if it points to another kind of
+   file.
+
+   "False" is also returned if the path doesn’t exist or is a broken
+   symlink; other errors (such as permission errors) are propagated.
+
+Path.is_symlink()
+
+   Return "True" if the path points to a symbolic link, "False"
+   otherwise.
+
+   "False" is also returned if the path doesn’t exist; other errors
+   (such as permission errors) are propagated.
+
+Path.is_junction()
+
+   Return "True" if the path points to a junction, and "False" for any
+   other type of file. Currently only Windows supports junctions.
+
+   Added in version 3.12.
+
+Path.is_mount()
+
+   Return "True" if the path is a _mount point_: a point in a file
+   system where a different file system has been mounted.  On POSIX,
+   the function checks whether _path_’s parent, "path/..", is on a
+   different device than _path_, or whether "path/.." and _path_ point
+   to the same i-node on the same device — this should detect mount
+   points for all Unix and POSIX variants.  On Windows, a mount point
+   is considered to be a drive letter root (e.g. "c:\"), a UNC share
+   (e.g. "\\server\share"), or a mounted filesystem directory.
+
+   Added in version 3.7.
+
+   Changed in version 3.12: Windows support was added.
+
+Path.is_socket()
+
+   Return "True" if the path points to a Unix socket (or a symbolic
+   link pointing to a Unix socket), "False" if it points to another
+   kind of file.
+
+   "False" is also returned if the path doesn’t exist or is a broken
+   symlink; other errors (such as permission errors) are propagated.
+
+Path.is_fifo()
+
+   Return "True" if the path points to a FIFO (or a symbolic link
+   pointing to a FIFO), "False" if it points to another kind of file.
+
+   "False" is also returned if the path doesn’t exist or is a broken
+   symlink; other errors (such as permission errors) are propagated.
+
+Path.is_block_device()
+
+   Return "True" if the path points to a block device (or a symbolic
+   link pointing to a block device), "False" if it points to another
+   kind of file.
+
+   "False" is also returned if the path doesn’t exist or is a broken
+   symlink; other errors (such as permission errors) are propagated.
+
+Path.is_char_device()
+
+   Return "True" if the path points to a character device (or a
+   symbolic link pointing to a character device), "False" if it points
+   to another kind of file.
+
+   "False" is also returned if the path doesn’t exist or is a broken
+   symlink; other errors (such as permission errors) are propagated.
+
+Path.samefile(other_path)
+
+   Return whether this path points to the same file as _other_path_,
+   which can be either a Path object, or a string.  The semantics are
+   similar to "os.path.samefile()" and "os.path.samestat()".
+
+   An "OSError" can be raised if either file cannot be accessed for
+   some reason.
 >
-      >>> p = PosixPath('~/films/Monty Python')
-      >>> p.expanduser()
-      PosixPath('/home/eric/films/Monty Python')
+      >>> p = Path('spam')
+      >>> q = Path('eggs')
+      >>> p.samefile(q)
+      False
+      >>> p.samefile('spam')
+      True
 <
-   New in version 3.5.
+   Added in version 3.5.
+
+
+Reading and writing files
+-------------------------
+
+Path.open(mode='r', buffering=-1, encoding=None, errors=None, newline=None)
+
+   Open the file pointed to by the path, like the built-in "open()"
+   function does:
+>
+      >>> p = Path('setup.py')
+      >>> with p.open() as f:
+      ...     f.readline()
+      ...
+      '#!/usr/bin/env python3\n'
+<
+Path.read_text(encoding=None, errors=None)
+
+   Return the decoded contents of the pointed-to file as a string:
+>
+      >>> p = Path('my_text_file')
+      >>> p.write_text('Text file contents')
+      18
+      >>> p.read_text()
+      'Text file contents'
+<
+   The file is opened and then closed. The optional parameters have
+   the same meaning as in "open()".
+
+   Added in version 3.5.
+
+Path.read_bytes()
+
+   Return the binary contents of the pointed-to file as a bytes
+   object:
+>
+      >>> p = Path('my_binary_file')
+      >>> p.write_bytes(b'Binary file contents')
+      20
+      >>> p.read_bytes()
+      b'Binary file contents'
+<
+   Added in version 3.5.
+
+Path.write_text(data, encoding=None, errors=None, newline=None)
+
+   Open the file pointed to in text mode, write _data_ to it, and
+   close the file:
+>
+      >>> p = Path('my_text_file')
+      >>> p.write_text('Text file contents')
+      18
+      >>> p.read_text()
+      'Text file contents'
+<
+   An existing file of the same name is overwritten. The optional
+   parameters have the same meaning as in "open()".
+
+   Added in version 3.5.
+
+   Changed in version 3.10: The _newline_ parameter was added.
+
+Path.write_bytes(data)
+
+   Open the file pointed to in bytes mode, write _data_ to it, and
+   close the file:
+>
+      >>> p = Path('my_binary_file')
+      >>> p.write_bytes(b'Binary file contents')
+      20
+      >>> p.read_bytes()
+      b'Binary file contents'
+<
+   An existing file of the same name is overwritten.
+
+   Added in version 3.5.
+
+
+Reading directories
+-------------------
+
+Path.iterdir()
+
+   When the path points to a directory, yield path objects of the
+   directory contents:
+>
+      >>> p = Path('docs')
+      >>> for child in p.iterdir(): child
+      ...
+      PosixPath('docs/conf.py')
+      PosixPath('docs/_templates')
+      PosixPath('docs/make.bat')
+      PosixPath('docs/index.rst')
+      PosixPath('docs/_build')
+      PosixPath('docs/_static')
+      PosixPath('docs/Makefile')
+<
+   The children are yielded in arbitrary order, and the special
+   entries "'.'" and "'..'" are not included.  If a file is removed
+   from or added to the directory after creating the iterator, it is
+   unspecified whether a path object for that file is included.
+
+   If the path is not a directory or otherwise inaccessible, "OSError"
+   is raised.
 
 Path.glob(pattern, *, case_sensitive=None)
 
@@ -907,114 +1163,32 @@ Path.glob(pattern, *, case_sensitive=None)
 
    Changed in version 3.12: The _case_sensitive_ parameter was added.
 
-Path.group()
+Path.rglob(pattern, *, case_sensitive=None)
 
-   Return the name of the group owning the file.  "KeyError" is raised
-   if the file’s gid isn’t found in the system database.
-
-Path.is_dir()
-
-   Return "True" if the path points to a directory (or a symbolic link
-   pointing to a directory), "False" if it points to another kind of
-   file.
-
-   "False" is also returned if the path doesn’t exist or is a broken
-   symlink; other errors (such as permission errors) are propagated.
-
-Path.is_file()
-
-   Return "True" if the path points to a regular file (or a symbolic
-   link pointing to a regular file), "False" if it points to another
-   kind of file.
-
-   "False" is also returned if the path doesn’t exist or is a broken
-   symlink; other errors (such as permission errors) are propagated.
-
-Path.is_junction()
-
-   Return "True" if the path points to a junction, and "False" for any
-   other type of file. Currently only Windows supports junctions.
-
-   New in version 3.12.
-
-Path.is_mount()
-
-   Return "True" if the path is a _mount point_: a point in a file
-   system where a different file system has been mounted.  On POSIX,
-   the function checks whether _path_’s parent, "path/..", is on a
-   different device than _path_, or whether "path/.." and _path_ point
-   to the same i-node on the same device — this should detect mount
-   points for all Unix and POSIX variants.  On Windows, a mount point
-   is considered to be a drive letter root (e.g. "c:\"), a UNC share
-   (e.g. "\\server\share"), or a mounted filesystem directory.
-
-   New in version 3.7.
-
-   Changed in version 3.12: Windows support was added.
-
-Path.is_symlink()
-
-   Return "True" if the path points to a symbolic link, "False"
-   otherwise.
-
-   "False" is also returned if the path doesn’t exist; other errors
-   (such as permission errors) are propagated.
-
-Path.is_socket()
-
-   Return "True" if the path points to a Unix socket (or a symbolic
-   link pointing to a Unix socket), "False" if it points to another
-   kind of file.
-
-   "False" is also returned if the path doesn’t exist or is a broken
-   symlink; other errors (such as permission errors) are propagated.
-
-Path.is_fifo()
-
-   Return "True" if the path points to a FIFO (or a symbolic link
-   pointing to a FIFO), "False" if it points to another kind of file.
-
-   "False" is also returned if the path doesn’t exist or is a broken
-   symlink; other errors (such as permission errors) are propagated.
-
-Path.is_block_device()
-
-   Return "True" if the path points to a block device (or a symbolic
-   link pointing to a block device), "False" if it points to another
-   kind of file.
-
-   "False" is also returned if the path doesn’t exist or is a broken
-   symlink; other errors (such as permission errors) are propagated.
-
-Path.is_char_device()
-
-   Return "True" if the path points to a character device (or a
-   symbolic link pointing to a character device), "False" if it points
-   to another kind of file.
-
-   "False" is also returned if the path doesn’t exist or is a broken
-   symlink; other errors (such as permission errors) are propagated.
-
-Path.iterdir()
-
-   When the path points to a directory, yield path objects of the
-   directory contents:
+   Glob the given relative _pattern_ recursively.  This is like
+   calling "Path.glob()" with “"**/"” added in front of the _pattern_,
+   where _patterns_ are the same as for "fnmatch":
 >
-      >>> p = Path('docs')
-      >>> for child in p.iterdir(): child
-      ...
-      PosixPath('docs/conf.py')
-      PosixPath('docs/_templates')
-      PosixPath('docs/make.bat')
-      PosixPath('docs/index.rst')
-      PosixPath('docs/_build')
-      PosixPath('docs/_static')
-      PosixPath('docs/Makefile')
+      >>> sorted(Path().rglob("*.py"))
+      [PosixPath('build/lib/pathlib.py'),
+       PosixPath('docs/conf.py'),
+       PosixPath('pathlib.py'),
+       PosixPath('setup.py'),
+       PosixPath('test_pathlib.py')]
 <
-   The children are yielded in arbitrary order, and the special
-   entries "'.'" and "'..'" are not included.  If a file is removed
-   from or added to the directory after creating the iterator, whether
-   a path object for that file be included is unspecified.
+   By default, or when the _case_sensitive_ keyword-only argument is
+   set to "None", this method matches paths using platform-specific
+   casing rules: typically, case-sensitive on POSIX, and case-
+   insensitive on Windows. Set _case_sensitive_ to "True" or "False"
+   to override this behaviour.
+
+   Raises an auditing event "pathlib.Path.rglob" with arguments
+   "self", "pattern".
+
+   Changed in version 3.11: Return only directories if _pattern_ ends
+   with a pathname components separator ("sep" or "altsep").
+
+   Changed in version 3.12: The _case_sensitive_ parameter was added.
 
 Path.walk(top_down=True, on_error=None, follow_symlinks=False)
 
@@ -1115,22 +1289,30 @@ Path.walk(top_down=True, on_error=None, follow_symlinks=False)
           for name in dirs:
               (root / name).rmdir()
 <
-   New in version 3.12.
+   Added in version 3.12.
 
-Path.lchmod(mode)
 
-   Like "Path.chmod()" but, if the path points to a symbolic link, the
-   symbolic link’s mode is changed rather than its target’s.
+Creating files and directories
+------------------------------
 
-Path.lstat()
+Path.touch(mode=0o666, exist_ok=True)
 
-   Like "Path.stat()" but, if the path points to a symbolic link,
-   return the symbolic link’s information rather than its target’s.
+   Create a file at this given path.  If _mode_ is given, it is
+   combined with the process’s "umask" value to determine the file
+   mode and access flags.  If the file already exists, the function
+   succeeds when _exist_ok_ is true (and its modification time is
+   updated to the current time), otherwise "FileExistsError" is
+   raised.
+
+   See also:
+
+     The "open()", "write_text()" and "write_bytes()" methods are
+     often used to create files.
 
 Path.mkdir(mode=0o777, parents=False, exist_ok=False)
 
    Create a new directory at this given path.  If _mode_ is given, it
-   is combined with the process’ "umask" value to determine the file
+   is combined with the process’s "umask" value to determine the file
    mode and access flags.  If the path already exists,
    "FileExistsError" is raised.
 
@@ -1151,190 +1333,6 @@ Path.mkdir(mode=0o777, parents=False, exist_ok=False)
 
    Changed in version 3.5: The _exist_ok_ parameter was added.
 
-Path.open(mode='r', buffering=-1, encoding=None, errors=None, newline=None)
-
-   Open the file pointed to by the path, like the built-in "open()"
-   function does:
->
-      >>> p = Path('setup.py')
-      >>> with p.open() as f:
-      ...     f.readline()
-      ...
-      '#!/usr/bin/env python3\n'
-<
-Path.owner()
-
-   Return the name of the user owning the file.  "KeyError" is raised
-   if the file’s uid isn’t found in the system database.
-
-Path.read_bytes()
-
-   Return the binary contents of the pointed-to file as a bytes
-   object:
->
-      >>> p = Path('my_binary_file')
-      >>> p.write_bytes(b'Binary file contents')
-      20
-      >>> p.read_bytes()
-      b'Binary file contents'
-<
-   New in version 3.5.
-
-Path.read_text(encoding=None, errors=None)
-
-   Return the decoded contents of the pointed-to file as a string:
->
-      >>> p = Path('my_text_file')
-      >>> p.write_text('Text file contents')
-      18
-      >>> p.read_text()
-      'Text file contents'
-<
-   The file is opened and then closed. The optional parameters have
-   the same meaning as in "open()".
-
-   New in version 3.5.
-
-Path.readlink()
-
-   Return the path to which the symbolic link points (as returned by
-   "os.readlink()"):
->
-      >>> p = Path('mylink')
-      >>> p.symlink_to('setup.py')
-      >>> p.readlink()
-      PosixPath('setup.py')
-<
-   New in version 3.9.
-
-Path.rename(target)
-
-   Rename this file or directory to the given _target_, and return a
-   new Path instance pointing to _target_.  On Unix, if _target_
-   exists and is a file, it will be replaced silently if the user has
-   permission. On Windows, if _target_ exists, "FileExistsError" will
-   be raised. _target_ can be either a string or another path object:
->
-      >>> p = Path('foo')
-      >>> p.open('w').write('some text')
-      9
-      >>> target = Path('bar')
-      >>> p.rename(target)
-      PosixPath('bar')
-      >>> target.open().read()
-      'some text'
-<
-   The target path may be absolute or relative. Relative paths are
-   interpreted relative to the current working directory, _not_ the
-   directory of the Path object.
-
-   It is implemented in terms of "os.rename()" and gives the same
-   guarantees.
-
-   Changed in version 3.8: Added return value, return the new Path
-   instance.
-
-Path.replace(target)
-
-   Rename this file or directory to the given _target_, and return a
-   new Path instance pointing to _target_.  If _target_ points to an
-   existing file or empty directory, it will be unconditionally
-   replaced.
-
-   The target path may be absolute or relative. Relative paths are
-   interpreted relative to the current working directory, _not_ the
-   directory of the Path object.
-
-   Changed in version 3.8: Added return value, return the new Path
-   instance.
-
-Path.absolute()
-
-   Make the path absolute, without normalization or resolving
-   symlinks. Returns a new path object:
->
-      >>> p = Path('tests')
-      >>> p
-      PosixPath('tests')
-      >>> p.absolute()
-      PosixPath('/home/antoine/pathlib/tests')
-<
-Path.resolve(strict=False)
-
-   Make the path absolute, resolving any symlinks.  A new path object
-   is returned:
->
-      >>> p = Path()
-      >>> p
-      PosixPath('.')
-      >>> p.resolve()
-      PosixPath('/home/antoine/pathlib')
-<
-   “".."” components are also eliminated (this is the only method to
-   do so):
->
-      >>> p = Path('docs/../setup.py')
-      >>> p.resolve()
-      PosixPath('/home/antoine/pathlib/setup.py')
-<
-   If the path doesn’t exist and _strict_ is "True",
-   "FileNotFoundError" is raised.  If _strict_ is "False", the path is
-   resolved as far as possible and any remainder is appended without
-   checking whether it exists.  If an infinite loop is encountered
-   along the resolution path, "RuntimeError" is raised.
-
-   Changed in version 3.6: The _strict_ parameter was added (pre-3.6
-   behavior is strict).
-
-Path.rglob(pattern, *, case_sensitive=None)
-
-   Glob the given relative _pattern_ recursively.  This is like
-   calling "Path.glob()" with “"**/"” added in front of the _pattern_,
-   where _patterns_ are the same as for "fnmatch":
->
-      >>> sorted(Path().rglob("*.py"))
-      [PosixPath('build/lib/pathlib.py'),
-       PosixPath('docs/conf.py'),
-       PosixPath('pathlib.py'),
-       PosixPath('setup.py'),
-       PosixPath('test_pathlib.py')]
-<
-   By default, or when the _case_sensitive_ keyword-only argument is
-   set to "None", this method matches paths using platform-specific
-   casing rules: typically, case-sensitive on POSIX, and case-
-   insensitive on Windows. Set _case_sensitive_ to "True" or "False"
-   to override this behaviour.
-
-   Raises an auditing event "pathlib.Path.rglob" with arguments
-   "self", "pattern".
-
-   Changed in version 3.11: Return only directories if _pattern_ ends
-   with a pathname components separator ("sep" or "altsep").
-
-   Changed in version 3.12: The _case_sensitive_ parameter was added.
-
-Path.rmdir()
-
-   Remove this directory.  The directory must be empty.
-
-Path.samefile(other_path)
-
-   Return whether this path points to the same file as _other_path_,
-   which can be either a Path object, or a string.  The semantics are
-   similar to "os.path.samefile()" and "os.path.samestat()".
-
-   An "OSError" can be raised if either file cannot be accessed for
-   some reason.
->
-      >>> p = Path('spam')
-      >>> q = Path('eggs')
-      >>> p.samefile(q)
-      False
-      >>> p.samefile('spam')
-      True
-<
-   New in version 3.5.
-
 Path.symlink_to(target, target_is_directory=False)
 
    Make this path a symbolic link pointing to _target_.
@@ -1343,7 +1341,7 @@ Path.symlink_to(target, target_is_directory=False)
    does not morph to the target dynamically.  If the target is
    present, the type of the symlink will be created to match.
    Otherwise, the symlink will be created as a directory if
-   _target_is_directory_ is "True" or a file symlink (the default)
+   _target_is_directory_ is true or a file symlink (the default)
    otherwise.  On non-Windows platforms, _target_is_directory_ is
    ignored.
 >
@@ -1370,16 +1368,52 @@ Path.hardlink_to(target)
      The order of arguments (link, target) is the reverse of
      "os.link()"’s.
 
-   New in version 3.10.
+   Added in version 3.10.
 
-Path.touch(mode=0o666, exist_ok=True)
 
-   Create a file at this given path.  If _mode_ is given, it is
-   combined with the process’ "umask" value to determine the file mode
-   and access flags.  If the file already exists, the function
-   succeeds if _exist_ok_ is true (and its modification time is
-   updated to the current time), otherwise "FileExistsError" is
-   raised.
+Renaming and deleting
+---------------------
+
+Path.rename(target)
+
+   Rename this file or directory to the given _target_, and return a
+   new "Path" instance pointing to _target_.  On Unix, if _target_
+   exists and is a file, it will be replaced silently if the user has
+   permission. On Windows, if _target_ exists, "FileExistsError" will
+   be raised. _target_ can be either a string or another path object:
+>
+      >>> p = Path('foo')
+      >>> p.open('w').write('some text')
+      9
+      >>> target = Path('bar')
+      >>> p.rename(target)
+      PosixPath('bar')
+      >>> target.open().read()
+      'some text'
+<
+   The target path may be absolute or relative. Relative paths are
+   interpreted relative to the current working directory, _not_ the
+   directory of the "Path" object.
+
+   It is implemented in terms of "os.rename()" and gives the same
+   guarantees.
+
+   Changed in version 3.8: Added return value, return the new "Path"
+   instance.
+
+Path.replace(target)
+
+   Rename this file or directory to the given _target_, and return a
+   new "Path" instance pointing to _target_.  If _target_ points to an
+   existing file or empty directory, it will be unconditionally
+   replaced.
+
+   The target path may be absolute or relative. Relative paths are
+   interpreted relative to the current working directory, _not_ the
+   directory of the "Path" object.
+
+   Changed in version 3.8: Added return value, return the new "Path"
+   instance.
 
 Path.unlink(missing_ok=False)
 
@@ -1394,38 +1428,47 @@ Path.unlink(missing_ok=False)
 
    Changed in version 3.8: The _missing_ok_ parameter was added.
 
-Path.write_bytes(data)
+Path.rmdir()
 
-   Open the file pointed to in bytes mode, write _data_ to it, and
-   close the file:
+   Remove this directory.  The directory must be empty.
+
+
+Permissions and ownership
+-------------------------
+
+Path.owner()
+
+   Return the name of the user owning the file.  "KeyError" is raised
+   if the file’s user identifier (UID) isn’t found in the system
+   database.
+
+Path.group()
+
+   Return the name of the group owning the file.  "KeyError" is raised
+   if the file’s group identifier (GID) isn’t found in the system
+   database.
+
+Path.chmod(mode, *, follow_symlinks=True)
+
+   Change the file mode and permissions, like "os.chmod()".
+
+   This method normally follows symlinks. Some Unix flavours support
+   changing permissions on the symlink itself; on these platforms you
+   may add the argument "follow_symlinks=False", or use "lchmod()".
 >
-      >>> p = Path('my_binary_file')
-      >>> p.write_bytes(b'Binary file contents')
-      20
-      >>> p.read_bytes()
-      b'Binary file contents'
+      >>> p = Path('setup.py')
+      >>> p.stat().st_mode
+      33277
+      >>> p.chmod(0o444)
+      >>> p.stat().st_mode
+      33060
 <
-   An existing file of the same name is overwritten.
+   Changed in version 3.10: The _follow_symlinks_ parameter was added.
 
-   New in version 3.5.
+Path.lchmod(mode)
 
-Path.write_text(data, encoding=None, errors=None, newline=None)
-
-   Open the file pointed to in text mode, write _data_ to it, and
-   close the file:
->
-      >>> p = Path('my_text_file')
-      >>> p.write_text('Text file contents')
-      18
-      >>> p.read_text()
-      'Text file contents'
-<
-   An existing file of the same name is overwritten. The optional
-   parameters have the same meaning as in "open()".
-
-   New in version 3.5.
-
-   Changed in version 3.10: The _newline_ parameter was added.
+   Like "Path.chmod()" but, if the path points to a symbolic link, the
+   symbolic link’s mode is changed rather than its target’s.
 
 
 Correspondence to tools in the "os" module
@@ -1434,83 +1477,90 @@ Correspondence to tools in the "os" module
 Below is a table mapping various "os" functions to their corresponding
 "PurePath"/"Path" equivalent.
 
-Note:
-
-  Not all pairs of functions/methods below are equivalent. Some of
-  them, despite having some overlapping use-cases, have different
-  semantics. They include "os.path.abspath()" and "Path.absolute()",
-  "os.path.relpath()" and "PurePath.relative_to()".
-
-+--------------------------------------+-----------------------------------+
-| "os" and "os.path"                   | "pathlib"                         |
-|======================================|===================================|
-| "os.path.abspath()"                  | "Path.absolute()" [1]             |
-+--------------------------------------+-----------------------------------+
-| "os.path.realpath()"                 | "Path.resolve()"                  |
-+--------------------------------------+-----------------------------------+
-| "os.chmod()"                         | "Path.chmod()"                    |
-+--------------------------------------+-----------------------------------+
-| "os.mkdir()"                         | "Path.mkdir()"                    |
-+--------------------------------------+-----------------------------------+
-| "os.makedirs()"                      | "Path.mkdir()"                    |
-+--------------------------------------+-----------------------------------+
-| "os.rename()"                        | "Path.rename()"                   |
-+--------------------------------------+-----------------------------------+
-| "os.replace()"                       | "Path.replace()"                  |
-+--------------------------------------+-----------------------------------+
-| "os.rmdir()"                         | "Path.rmdir()"                    |
-+--------------------------------------+-----------------------------------+
-| "os.remove()", "os.unlink()"         | "Path.unlink()"                   |
-+--------------------------------------+-----------------------------------+
-| "os.getcwd()"                        | "Path.cwd()"                      |
-+--------------------------------------+-----------------------------------+
-| "os.path.exists()"                   | "Path.exists()"                   |
-+--------------------------------------+-----------------------------------+
-| "os.path.expanduser()"               | "Path.expanduser()" and           |
-|                                      | "Path.home()"                     |
-+--------------------------------------+-----------------------------------+
-| "os.listdir()"                       | "Path.iterdir()"                  |
-+--------------------------------------+-----------------------------------+
-| "os.walk()"                          | "Path.walk()"                     |
-+--------------------------------------+-----------------------------------+
-| "os.path.isdir()"                    | "Path.is_dir()"                   |
-+--------------------------------------+-----------------------------------+
-| "os.path.isfile()"                   | "Path.is_file()"                  |
-+--------------------------------------+-----------------------------------+
-| "os.path.islink()"                   | "Path.is_symlink()"               |
-+--------------------------------------+-----------------------------------+
-| "os.link()"                          | "Path.hardlink_to()"              |
-+--------------------------------------+-----------------------------------+
-| "os.symlink()"                       | "Path.symlink_to()"               |
-+--------------------------------------+-----------------------------------+
-| "os.readlink()"                      | "Path.readlink()"                 |
-+--------------------------------------+-----------------------------------+
-| "os.path.relpath()"                  | "PurePath.relative_to()" [2]      |
-+--------------------------------------+-----------------------------------+
-| "os.stat()"                          | "Path.stat()", "Path.owner()",    |
-|                                      | "Path.group()"                    |
-+--------------------------------------+-----------------------------------+
-| "os.path.isabs()"                    | "PurePath.is_absolute()"          |
-+--------------------------------------+-----------------------------------+
-| "os.path.join()"                     | "PurePath.joinpath()"             |
-+--------------------------------------+-----------------------------------+
-| "os.path.basename()"                 | "PurePath.name"                   |
-+--------------------------------------+-----------------------------------+
-| "os.path.dirname()"                  | "PurePath.parent"                 |
-+--------------------------------------+-----------------------------------+
-| "os.path.samefile()"                 | "Path.samefile()"                 |
-+--------------------------------------+-----------------------------------+
-| "os.path.splitext()"                 | "PurePath.stem" and               |
-|                                      | "PurePath.suffix"                 |
-+--------------------------------------+-----------------------------------+
++---------------------------------------+------------------------------------------------+
+| "os" and "os.path"                    | "pathlib"                                      |
+|=======================================|================================================|
+| "os.path.dirname()"                   | "PurePath.parent"                              |
++---------------------------------------+------------------------------------------------+
+| "os.path.basename()"                  | "PurePath.name"                                |
++---------------------------------------+------------------------------------------------+
+| "os.path.splitext()"                  | "PurePath.stem", "PurePath.suffix"             |
++---------------------------------------+------------------------------------------------+
+| "os.path.join()"                      | "PurePath.joinpath()"                          |
++---------------------------------------+------------------------------------------------+
+| "os.path.isabs()"                     | "PurePath.is_absolute()"                       |
++---------------------------------------+------------------------------------------------+
+| "os.path.relpath()"                   | "PurePath.relative_to()" [1]                   |
++---------------------------------------+------------------------------------------------+
+| "os.path.expanduser()"                | "Path.expanduser()" [2]                        |
++---------------------------------------+------------------------------------------------+
+| "os.path.realpath()"                  | "Path.resolve()"                               |
++---------------------------------------+------------------------------------------------+
+| "os.path.abspath()"                   | "Path.absolute()" [3]                          |
++---------------------------------------+------------------------------------------------+
+| "os.path.exists()"                    | "Path.exists()"                                |
++---------------------------------------+------------------------------------------------+
+| "os.path.isfile()"                    | "Path.is_file()"                               |
++---------------------------------------+------------------------------------------------+
+| "os.path.isdir()"                     | "Path.is_dir()"                                |
++---------------------------------------+------------------------------------------------+
+| "os.path.islink()"                    | "Path.is_symlink()"                            |
++---------------------------------------+------------------------------------------------+
+| "os.path.isjunction()"                | "Path.is_junction()"                           |
++---------------------------------------+------------------------------------------------+
+| "os.path.ismount()"                   | "Path.is_mount()"                              |
++---------------------------------------+------------------------------------------------+
+| "os.path.samefile()"                  | "Path.samefile()"                              |
++---------------------------------------+------------------------------------------------+
+| "os.getcwd()"                         | "Path.cwd()"                                   |
++---------------------------------------+------------------------------------------------+
+| "os.stat()"                           | "Path.stat()"                                  |
++---------------------------------------+------------------------------------------------+
+| "os.lstat()"                          | "Path.lstat()"                                 |
++---------------------------------------+------------------------------------------------+
+| "os.listdir()"                        | "Path.iterdir()"                               |
++---------------------------------------+------------------------------------------------+
+| "os.walk()"                           | "Path.walk()" [4]                              |
++---------------------------------------+------------------------------------------------+
+| "os.mkdir()", "os.makedirs()"         | "Path.mkdir()"                                 |
++---------------------------------------+------------------------------------------------+
+| "os.link()"                           | "Path.hardlink_to()"                           |
++---------------------------------------+------------------------------------------------+
+| "os.symlink()"                        | "Path.symlink_to()"                            |
++---------------------------------------+------------------------------------------------+
+| "os.readlink()"                       | "Path.readlink()"                              |
++---------------------------------------+------------------------------------------------+
+| "os.rename()"                         | "Path.rename()"                                |
++---------------------------------------+------------------------------------------------+
+| "os.replace()"                        | "Path.replace()"                               |
++---------------------------------------+------------------------------------------------+
+| "os.remove()", "os.unlink()"          | "Path.unlink()"                                |
++---------------------------------------+------------------------------------------------+
+| "os.rmdir()"                          | "Path.rmdir()"                                 |
++---------------------------------------+------------------------------------------------+
+| "os.chmod()"                          | "Path.chmod()"                                 |
++---------------------------------------+------------------------------------------------+
+| "os.lchmod()"                         | "Path.lchmod()"                                |
++---------------------------------------+------------------------------------------------+
 
 -[ Footnotes ]-
 
-[1] "os.path.abspath()" normalizes the resulting path, which may
-    change its meaning in the presence of symlinks, while
-    "Path.absolute()" does not.
+[1] "os.path.relpath()" calls "abspath()" to make paths absolute and
+    remove “".."” parts, whereas "PurePath.relative_to()" is a lexical
+    operation that raises "ValueError" when its inputs’ anchors differ
+    (e.g. if one path is absolute and the other relative.)
 
-[2] "PurePath.relative_to()" requires "self" to be the subpath of the
-    argument, but "os.path.relpath()" does not.
+[2] "os.path.expanduser()" returns the path unchanged if the home
+    directory can’t be resolved, whereas "Path.expanduser()" raises
+    "RuntimeError".
+
+[3] "os.path.abspath()" removes “".."” components without resolving
+    symlinks, which may change the meaning of the path, whereas
+    "Path.absolute()" leaves any “".."” components in the path.
+
+[4] "os.walk()" always follows symlinks when categorizing paths into
+    _dirnames_ and _filenames_, whereas "Path.walk()" categorizes all
+    symlinks into _filenames_ when _follow_symlinks_ is false (the
+    default.)
 
 vim:tw=78:ts=8:ft=help:norl:

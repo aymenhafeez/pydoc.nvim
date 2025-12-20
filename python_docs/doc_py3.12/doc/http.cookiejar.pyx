@@ -1,5 +1,5 @@
-Python 3.12.3
-*http.cookiejar.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*http.cookiejar.pyx*                          Last change: 2025 Dec 20
 
 "http.cookiejar" — Cookie handling for HTTP clients
 ***************************************************
@@ -132,7 +132,7 @@ See also:
      The Netscape protocol with the bugs fixed.  Uses _Set-Cookie2_ in
      place of _Set-Cookie_.  Not widely used.
 
-  http://kristol.org/cookie/errata.html
+  https://kristol.org/cookie/errata.html
      Unfinished errata to **RFC 2965**.
 
   **RFC 2964** - Use of HTTP State Management

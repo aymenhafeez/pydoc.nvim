@@ -1,5 +1,5 @@
-Python 3.12.3
-*controlflow.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*controlflow.pyx*                             Last change: 2025 Dec 20
 
 4. More Control Flow Tools
 **************************
@@ -51,7 +51,7 @@ C), Python’s "for" statement iterates over the items of any sequence
 For example (no pun intended):
 >
    >>> # Measure some strings:
-   ... words = ['cat', 'window', 'defenestrate']
+   >>> words = ['cat', 'window', 'defenestrate']
    >>> for w in words:
    ...     print(w, len(w))
    ...
@@ -150,22 +150,59 @@ iterables as arguments.  In chapter Data Structures, we will discuss
 in more detail about "list()".
 
 
-4.4. "break" and "continue" Statements, and "else" Clauses on Loops
-===================================================================
+4.4. "break" and "continue" Statements
+======================================
 
 The "break" statement breaks out of the innermost enclosing "for" or
-"while" loop.
+"while" loop:
+>
+   >>> for n in range(2, 10):
+   ...     for x in range(2, n):
+   ...         if n % x == 0:
+   ...             print(f"{n} equals {x} * {n//x}")
+   ...             break
+   ...
+   4 equals 2 * 2
+   6 equals 2 * 3
+   8 equals 2 * 4
+   9 equals 3 * 3
+<
+The "continue" statement continues with the next iteration of the
+loop:
+>
+   >>> for num in range(2, 10):
+   ...     if num % 2 == 0:
+   ...         print(f"Found an even number {num}")
+   ...         continue
+   ...     print(f"Found an odd number {num}")
+   ...
+   Found an even number 2
+   Found an odd number 3
+   Found an even number 4
+   Found an odd number 5
+   Found an even number 6
+   Found an odd number 7
+   Found an even number 8
+   Found an odd number 9
+<
 
-A "for" or "while" loop can include an "else" clause.
+4.5. "else" Clauses on Loops
+============================
 
-In a "for" loop, the "else" clause is executed after the loop reaches
-its final iteration.
+In a "for" or "while" loop the "break" statement may be paired with an
+"else" clause.  If the loop finishes without executing the "break",
+the "else" clause executes.
+
+In a "for" loop, the "else" clause is executed after the loop finishes
+its final iteration, that is, if no break occurred.
 
 In a "while" loop, it’s executed after the loop’s condition becomes
 false.
 
 In either kind of loop, the "else" clause is **not** executed if the
-loop was terminated by a "break".
+loop was terminated by a "break".  Of course, other ways of ending the
+loop early, such as a "return" or a raised exception, will also skip
+execution of the "else" clause.
 
 This is exemplified in the following "for" loop, which searches for
 prime numbers:
@@ -191,32 +228,21 @@ prime numbers:
 (Yes, this is the correct code.  Look closely: the "else" clause
 belongs to the "for" loop, **not** the "if" statement.)
 
+One way to think of the else clause is to imagine it paired with the
+"if" inside the loop.  As the loop executes, it will run a sequence
+like if/if/if/else. The "if" is inside the loop, encountered a number
+of times. If the condition is ever true, a "break" will happen. If the
+condition is never true, the "else" clause outside the loop will
+execute.
+
 When used with a loop, the "else" clause has more in common with the
 "else" clause of a "try" statement than it does with that of "if"
 statements: a "try" statement’s "else" clause runs when no exception
 occurs, and a loop’s "else" clause runs when no "break" occurs. For
 more on the "try" statement and exceptions, see Handling Exceptions.
 
-The "continue" statement, also borrowed from C, continues with the
-next iteration of the loop:
->
-   >>> for num in range(2, 10):
-   ...     if num % 2 == 0:
-   ...         print("Found an even number", num)
-   ...         continue
-   ...     print("Found an odd number", num)
-   ...
-   Found an even number 2
-   Found an odd number 3
-   Found an even number 4
-   Found an odd number 5
-   Found an even number 6
-   Found an odd number 7
-   Found an even number 8
-   Found an odd number 9
-<
 
-4.5. "pass" Statements
+4.6. "pass" Statements
 ======================
 
 The "pass" statement does nothing. It can be used when a statement is
@@ -243,7 +269,7 @@ ignored:
    ...
 <
 
-4.6. "match" Statements
+4.7. "match" Statements
 =======================
 
 A "match" statement takes an expression and compares its value to
@@ -424,14 +450,14 @@ For a more detailed explanation and additional examples, you can look
 into **PEP 636** which is written in a tutorial format.
 
 
-4.7. Defining Functions
+4.8. Defining Functions
 =======================
 
 We can create a function that writes the Fibonacci series to an
 arbitrary boundary:
 >
-   >>> def fib(n):    # write Fibonacci series up to n
-   ...     """Print a Fibonacci series up to n."""
+   >>> def fib(n):    # write Fibonacci series less than n
+   ...     """Print a Fibonacci series less than n."""
    ...     a, b = 0, 1
    ...     while a < n:
    ...         print(a, end=' ')
@@ -439,7 +465,7 @@ arbitrary boundary:
    ...     print()
    ...
    >>> # Now call the function we just defined:
-   ... fib(2000)
+   >>> fib(2000)
    0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597
 <
 The keyword "def" introduces a function _definition_.  It must be
@@ -533,14 +559,14 @@ This example, as usual, demonstrates some new Python features:
   "result = result + [a]", but more efficient.
 
 
-4.8. More on Defining Functions
+4.9. More on Defining Functions
 ===============================
 
 It is also possible to define functions with a variable number of
 arguments. There are three forms, which can be combined.
 
 
-4.8.1. Default Argument Values
+4.9.1. Default Argument Values
 ------------------------------
 
 The most useful form is to specify a default value for one or more
@@ -616,7 +642,7 @@ you can write the function like this instead:
        return L
 <
 
-4.8.2. Keyword Arguments
+4.9.2. Keyword Arguments
 ------------------------
 
 Functions can also be called using _keyword arguments_ of the form
@@ -704,7 +730,7 @@ guaranteed to match the order in which they were provided in the
 function call.
 
 
-4.8.3. Special parameters
+4.9.3. Special parameters
 -------------------------
 
 By default, arguments may be passed to a Python function either by
@@ -728,14 +754,14 @@ positional-only, positional-or-keyword, and keyword-only. Keyword
 parameters are also referred to as named parameters.
 
 
-4.8.3.1. Positional-or-Keyword Arguments
+4.9.3.1. Positional-or-Keyword Arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If "/" and "*" are not present in the function definition, arguments
 may be passed to a function by position or by keyword.
 
 
-4.8.3.2. Positional-Only Parameters
+4.9.3.2. Positional-Only Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Looking at this in a bit more detail, it is possible to mark certain
@@ -750,7 +776,7 @@ Parameters following the "/" may be _positional-or-keyword_ or
 _keyword-only_.
 
 
-4.8.3.3. Keyword-Only Arguments
+4.9.3.3. Keyword-Only Arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To mark parameters as _keyword-only_, indicating the parameters must
@@ -758,7 +784,7 @@ be passed by keyword argument, place an "*" in the arguments list just
 before the first _keyword-only_ parameter.
 
 
-4.8.3.4. Function Examples
+4.9.3.4. Function Examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Consider the following example function definitions paying close
@@ -797,7 +823,7 @@ positional parameters as there is a "/" in the function definition:
      File "<stdin>", line 1, in <module>
    TypeError: pos_only_arg() got some positional-only arguments passed as keyword arguments: 'arg'
 <
-The third function "kwd_only_args" only allows keyword arguments as
+The third function "kwd_only_arg" only allows keyword arguments as
 indicated by a "*" in the function definition:
 >
    >>> kwd_only_arg(3)
@@ -857,7 +883,7 @@ In other words, the names of positional-only parameters can be used in
 "**kwds" without ambiguity.
 
 
-4.8.3.5. Recap
+4.9.3.5. Recap
 ~~~~~~~~~~~~~~
 
 The use case will determine which parameters to use in the function
@@ -881,7 +907,7 @@ As guidance:
   the parameter’s name is modified in the future.
 
 
-4.8.4. Arbitrary Argument Lists
+4.9.4. Arbitrary Argument Lists
 -------------------------------
 
 Finally, the least frequently used option is to specify that a
@@ -908,7 +934,7 @@ they can only be used as keywords rather than positional arguments.
    'earth.mars.venus'
 <
 
-4.8.5. Unpacking Argument Lists
+4.9.5. Unpacking Argument Lists
 -------------------------------
 
 The reverse situation occurs when the arguments are already in a list
@@ -937,7 +963,7 @@ the "**"-operator:
    -- This parrot wouldn't VOOM if you put four million volts through it. E's bleedin' demised !
 <
 
-4.8.6. Lambda Expressions
+4.9.6. Lambda Expressions
 -------------------------
 
 Small anonymous functions can be created with the "lambda" keyword.
@@ -966,7 +992,7 @@ Another use is to pass a small function as an argument:
    [(4, 'four'), (1, 'one'), (3, 'three'), (2, 'two')]
 <
 
-4.8.7. Documentation Strings
+4.9.7. Documentation Strings
 ----------------------------
 
 Here are some conventions about the content and formatting of
@@ -1012,7 +1038,7 @@ Here is an example of a multi-line docstring:
        No, really, it doesn't do anything.
 <
 
-4.8.8. Function Annotations
+4.9.8. Function Annotations
 ---------------------------
 
 Function annotations are completely optional metadata information
@@ -1040,8 +1066,8 @@ annotated:
    'spam and eggs'
 <
 
-4.9. Intermezzo: Coding Style
-=============================
+4.10. Intermezzo: Coding Style
+==============================
 
 Now that you are about to write longer, more complex pieces of Python,
 it is a good time to talk about _coding style_.  Most languages can be

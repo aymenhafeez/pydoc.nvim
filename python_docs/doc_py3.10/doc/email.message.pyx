@@ -1,5 +1,5 @@
-Python 3.10.14
-*email.message.pyx*                           Last change: 2024 May 24
+Python 3.10.19
+*email.message.pyx*                           Last change: 2025 Dec 20
 
 "email.message": Representing an email message
 **********************************************

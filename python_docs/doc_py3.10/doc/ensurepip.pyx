@@ -1,5 +1,5 @@
-Python 3.10.14
-*ensurepip.pyx*                               Last change: 2024 May 24
+Python 3.10.19
+*ensurepip.pyx*                               Last change: 2025 Dec 20
 
 "ensurepip" — Bootstrapping the "pip" installer
 ***********************************************

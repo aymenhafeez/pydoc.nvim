@@ -1,5 +1,5 @@
-Python 3.12.3
-*cmd.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*cmd.pyx*                                     Last change: 2025 Dec 20
 
 "cmd" — Support for line-oriented command interpreters
 ******************************************************
@@ -52,10 +52,11 @@ Cmd.cmdloop(intro=None)
    attribute).
 
    If the "readline" module is loaded, input will automatically
-   inherit **bash**-like history-list editing (e.g. "Control-P"
-   scrolls back to the last command, "Control-N" forward to the next
-   one, "Control-F" moves the cursor to the right non-destructively,
-   "Control-B" moves the cursor to the left non-destructively, etc.).
+   inherit **bash**-like history-list editing (e.g. "Control"-"P"
+   scrolls back to the last command, "Control"-"N" forward to the next
+   one, "Control"-"F" moves the cursor to the right non-destructively,
+   "Control"-"B" moves the cursor to the left non-destructively,
+   etc.).
 
    An end-of-file on input is passed back as the string "'EOF'".
 

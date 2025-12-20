@@ -1,10 +1,10 @@
-Python 3.12.3
-*statistics.pyx*                              Last change: 2024 May 24
+Python 3.12.12
+*statistics.pyx*                              Last change: 2025 Dec 20
 
 "statistics" — Mathematical statistics functions
 ************************************************
 
-New in version 3.4.
+Added in version 3.4.
 
 **Source code:** Lib/statistics.py
 
@@ -63,7 +63,7 @@ population or sample.
 +-------------------------+-----------------------------------------------------------------+
 | "mean()"                | Arithmetic mean (“average”) of data.                            |
 +-------------------------+-----------------------------------------------------------------+
-| "fmean()"               | Fast, floating point arithmetic mean, with optional weighting.  |
+| "fmean()"               | Fast, floating-point arithmetic mean, with optional weighting.  |
 +-------------------------+-----------------------------------------------------------------+
 | "geometric_mean()"      | Geometric mean of data.                                         |
 +-------------------------+-----------------------------------------------------------------+
@@ -186,7 +186,7 @@ statistics.fmean(data, weights=None)
    If _weights_ is supplied, it must be the same length as the _data_
    or a "ValueError" will be raised.
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Changed in version 3.11: Added support for _weights_.
 
@@ -208,12 +208,12 @@ statistics.geometric_mean(data)
       >>> round(geometric_mean([54, 24, 36]), 1)
       36.0
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 statistics.harmonic_mean(data, weights=None)
 
    Return the harmonic mean of _data_, a sequence or iterable of real-
-   valued numbers.  If _weights_ is omitted or _None_, then equal
+   valued numbers.  If _weights_ is omitted or "None", then equal
    weighting is assumed.
 
    The harmonic mean is the reciprocal of the arithmetic "mean()" of
@@ -245,7 +245,7 @@ statistics.harmonic_mean(data, weights=None)
    the input.  This means that the subsequent inputs are not tested
    for validity.  (This behavior may change in the future.)
 
-   New in version 3.6.
+   Added in version 3.6.
 
    Changed in version 3.10: Added support for _weights_.
 
@@ -381,6 +381,12 @@ statistics.mode(data)
       >>> mode(["red", "blue", "blue", "red", "green", "red", "red"])
       'red'
 <
+   Only hashable inputs are supported.  To handle type "set", consider
+   casting to "frozenset".  To handle type "list", consider casting to
+   "tuple".  For mixed or nested inputs, consider using this slower
+   quadratic algorithm that only depends on equality tests: "max(data,
+   key=data.count)".
+
    Changed in version 3.8: Now handles multimodal datasets by
    returning the first mode encountered. Formerly, it raised
    "StatisticsError" when more than one mode was found.
@@ -397,7 +403,7 @@ statistics.multimode(data)
       >>> multimode('')
       []
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 statistics.pstdev(data, mu=None)
 
@@ -416,11 +422,11 @@ statistics.pvariance(data, mu=None)
    data.  A large variance indicates that the data is spread out; a
    small variance indicates it is clustered closely around the mean.
 
-   If the optional second argument _mu_ is given, it is typically the
-   mean of the _data_.  It can also be used to compute the second
-   moment around a point that is not the mean.  If it is missing or
-   "None" (the default), the arithmetic mean is automatically
-   calculated.
+   If the optional second argument _mu_ is given, it should be the
+   _population_ mean of the _data_.  It can also be used to compute
+   the second moment around a point that is not the mean.  If it is
+   missing or "None" (the default), the arithmetic mean is
+   automatically calculated.
 
    Use this function to calculate the variance from the entire
    population.  To estimate the variance from a sample, the
@@ -479,8 +485,8 @@ statistics.variance(data, xbar=None)
    variance indicates it is clustered closely around the mean.
 
    If the optional second argument _xbar_ is given, it should be the
-   mean of _data_.  If it is missing or "None" (the default), the mean
-   is automatically calculated.
+   _sample_ mean of _data_.  If it is missing or "None" (the default),
+   the mean is automatically calculated.
 
    Use this function when your data is a sample from a population. To
    calculate the variance from the entire population, see
@@ -494,8 +500,9 @@ statistics.variance(data, xbar=None)
       >>> variance(data)
       1.3720238095238095
 <
-   If you have already calculated the mean of your data, you can pass
-   it as the optional second argument _xbar_ to avoid recalculation:
+   If you have already calculated the sample mean of your data, you
+   can pass it as the optional second argument _xbar_ to avoid
+   recalculation:
 >
       >>> m = mean(data)
       >>> variance(data, m)
@@ -575,7 +582,7 @@ statistics.quantiles(data, *, n=4, method='exclusive')
       >>> [round(q, 1) for q in quantiles(data, n=10)]
       [81.0, 86.2, 89.0, 99.4, 102.5, 103.6, 106.0, 109.8, 111.0]
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 statistics.covariance(x, y, /)
 
@@ -597,7 +604,7 @@ statistics.covariance(x, y, /)
       >>> covariance(z, x)
       -7.5
 <
-   New in version 3.10.
+   Added in version 3.10.
 
 statistics.correlation(x, y, /, *, method='linear')
 
@@ -641,7 +648,7 @@ statistics.correlation(x, y, /, *, method='linear')
       >>> round(correlation(period_squared, dist_cubed), 4)
       1.0
 <
-   New in version 3.10.
+   Added in version 3.10.
 
    Changed in version 3.12: Added support for Spearman’s rank
    correlation coefficient.
@@ -700,7 +707,7 @@ statistics.linear_regression(x, y, /, *, proportional=False)
       >>> [5_906, 10_152, 6_796, 6_450, 414]  # actual distance in million km
       [5906, 10152, 6796, 6450, 414]
 <
-   New in version 3.10.
+   Added in version 3.10.
 
    Changed in version 3.11: Added support for _proportional_.
 
@@ -827,7 +834,7 @@ class statistics.NormalDist(mu=0.0, sigma=1.0)
       of standard deviations above or below the mean of the normal
       distribution: "(x - mean) / stdev".
 
-      New in version 3.9.
+      Added in version 3.9.
 
    Instances of "NormalDist" support addition, subtraction,
    multiplication and division by a constant.  These operations are
@@ -853,7 +860,7 @@ class statistics.NormalDist(mu=0.0, sigma=1.0)
       >>> round(combined.stdev, 1)
       0.5
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 
 Examples and Recipes
@@ -897,7 +904,7 @@ Carlo simulation:
    >>> X = NormalDist(10, 2.5).samples(n, seed=3652260728)
    >>> Y = NormalDist(15, 1.75).samples(n, seed=4582495471)
    >>> Z = NormalDist(50, 1.25).samples(n, seed=6582483453)
-   >>> quantiles(map(model, X, Y, Z))       
+   >>> quantiles(map(model, X, Y, Z))
    [1.4591308524824727, 1.8035946855390597, 2.175091447274739]
 <
 
@@ -986,35 +993,63 @@ the maximum a posteriori or MAP:
 Kernel density estimation
 -------------------------
 
-It is possible to estimate a continuous probability density function
-from a fixed number of discrete samples.
+It is possible to estimate a continuous probability distribution from
+a fixed number of discrete samples.
 
 The basic idea is to smooth the data using a kernel function such as a
 normal distribution, triangular distribution, or uniform distribution.
 The degree of smoothing is controlled by a scaling parameter, "h",
 which is called the _bandwidth_.
 >
-   def kde_normal(sample, h):
-       "Create a continuous probability density function from a sample."
-       # Smooth the sample with a normal distribution kernel scaled by h.
-       kernel_h = NormalDist(0.0, h).pdf
-       n = len(sample)
+   from random import choice, random
+
+   def kde_normal(data, h):
+       "Create a continuous probability distribution from discrete samples."
+
+       # Smooth the data with a normal distribution kernel scaled by h.
+       K_h = NormalDist(0.0, h)
+
        def pdf(x):
-           return sum(kernel_h(x - x_i) for x_i in sample) / n
-       return pdf
+           'Probability density function.  P(x <= X < x+dx) / dx'
+           return sum(K_h.pdf(x - x_i) for x_i in data) / len(data)
+
+       def cdf(x):
+           'Cumulative distribution function.  P(X <= x)'
+           return sum(K_h.cdf(x - x_i) for x_i in data) / len(data)
+
+       def rand():
+           'Random selection from the probability distribution.'
+           return choice(data) + K_h.inv_cdf(random())
+
+       return pdf, cdf, rand
 <
 Wikipedia has an example where we can use the "kde_normal()" recipe to
 generate and plot a probability density function estimated from a
 small sample:
 >
    >>> sample = [-2.1, -1.3, -0.4, 1.9, 5.1, 6.2]
-   >>> f_hat = kde_normal(sample, h=1.5)
+   >>> pdf, cdf, rand = kde_normal(sample, h=1.5)
    >>> xarr = [i/100 for i in range(-750, 1100)]
-   >>> yarr = [f_hat(x) for x in xarr]
+   >>> yarr = [pdf(x) for x in xarr]
 <
 The points in "xarr" and "yarr" can be used to make a PDF plot:
 
 [image: Scatter plot of the estimated probability density
 function.][image]
 
+Resample the data to produce 100 new selections:
+>
+   >>> new_selections = [rand() for i in range(100)]
+<
+Determine the probability of a new selection being below "2.0":
+>
+   >>> round(cdf(2.0), 4)
+   0.5794
+<
+Add a new sample data point and find the new CDF at "2.0":
+>
+   >>> sample.append(4.9)
+   >>> round(cdf(2.0), 4)
+   0.5005
+<
 vim:tw=78:ts=8:ft=help:norl:

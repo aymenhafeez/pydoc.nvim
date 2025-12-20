@@ -1,5 +1,5 @@
-Python 3.12.3
-*locale.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*locale.pyx*                                  Last change: 2025 Dec 20
 
 "locale" — Internationalization services
 ****************************************
@@ -275,7 +275,8 @@ locale.nl_langinfo(option)
 
    locale.ERA
 
-      Get a string that represents the era used in the current locale.
+      Get a string which describes how years are counted and displayed
+      for each era in a locale.
 
       Most locales do not define this value.  An example of a locale
       which does define this value is the Japanese one.  In Japan, the
@@ -284,9 +285,10 @@ locale.nl_langinfo(option)
 
       Normally it should not be necessary to use this value directly.
       Specifying the "E" modifier in their format strings causes the
-      "time.strftime()" function to use this information.  The format
-      of the returned string is not specified, and therefore you
-      should not assume knowledge of it on different systems.
+      "time.strftime()" function to use this information. The format
+      of the returned string is specified in _The Open Group Base
+      Specifications Issue 8_, paragraph 7.3.5.2 LC_TIME C-Language
+      Access.
 
    locale.ERA_D_T_FMT
 
@@ -305,8 +307,9 @@ locale.nl_langinfo(option)
 
    locale.ALT_DIGITS
 
-      Get a representation of up to 100 values used to represent the
-      values 0 to 99.
+      Get a string consisting of up to 100 semicolon-separated symbols
+      used to represent the values 0 to 99 in a locale-specific way.
+      In most locales this is an empty string.
 
 locale.getdefaultlocale([envvars])
 
@@ -386,7 +389,7 @@ locale.getencoding()
    This function is similar to "getpreferredencoding(False)" except
    this function ignores the Python UTF-8 Mode.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 locale.normalize(localename)
 
@@ -425,7 +428,7 @@ locale.format_string(format, val, grouping=False, monetary=False)
 
    Formats a number _val_ according to the current "LC_NUMERIC"
    setting. The format follows the conventions of the "%" operator.
-   For floating point values, the decimal point is modified if
+   For floating-point values, the decimal point is modified if
    appropriate.  If _grouping_ is "True", also takes the grouping into
    account.
 
@@ -455,7 +458,7 @@ locale.currency(val, symbol=True, grouping=False, international=False)
 
 locale.str(float)
 
-   Formats a floating point number using the same format as the built-
+   Formats a floating-point number using the same format as the built-
    in function "str(float)", but takes the decimal point into account.
 
 locale.delocalize(string)
@@ -463,14 +466,14 @@ locale.delocalize(string)
    Converts a string into a normalized number string, following the
    "LC_NUMERIC" settings.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 locale.localize(string, grouping=False, monetary=False)
 
    Converts a normalized number string into a formatted string
    following the "LC_NUMERIC" settings.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 locale.atof(string, func=float)
 

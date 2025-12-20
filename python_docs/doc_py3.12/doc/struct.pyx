@@ -1,5 +1,5 @@
-Python 3.12.3
-*struct.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*struct.pyx*                                  Last change: 2025 Dec 20
 
 "struct" — Interpret bytes as packed binary data
 ************************************************
@@ -85,7 +85,7 @@ struct.iter_unpack(format, buffer)
 
    Each iteration yields a tuple as specified by the format string.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 struct.calcsize(format)
 
@@ -251,8 +251,8 @@ Changed in version 3.6: Added support for the "'e'" format.
 Notes:
 
 1. The "'?'" conversion code corresponds to the _Bool type defined by
-   C99. If this type is not available, it is simulated using a char.
-   In standard mode, it is always represented by one byte.
+   C standards since C99.  In standard mode, it is represented by one
+   byte.
 
 2. When attempting to pack a non-integer using any of the integer
    conversion codes, if the non-integer has a "__index__()" method
@@ -552,7 +552,7 @@ class struct.Struct(format)
       Identical to the "iter_unpack()" function, using the compiled
       format. The buffer’s size in bytes must be a multiple of "size".
 
-      New in version 3.4.
+      Added in version 3.4.
 
    format
 

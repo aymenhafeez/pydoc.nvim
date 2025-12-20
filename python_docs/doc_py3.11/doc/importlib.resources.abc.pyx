@@ -1,5 +1,5 @@
-Python 3.11.9
-*importlib.resources.abc.pyx*                 Last change: 2024 May 24
+Python 3.11.14
+*importlib.resources.abc.pyx*                 Last change: 2025 Dec 20
 
 "importlib.resources.abc" – Abstract base classes for resources
 ***************************************************************

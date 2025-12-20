@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-runner.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*asyncio-runner.pyx*                          Last change: 2025 Dec 20
 
 Runners
 *******
@@ -56,7 +56,7 @@ asyncio.run(coro, *, debug=None, loop_factory=None)
 
       asyncio.run(main())
 <
-   New in version 3.7.
+   Added in version 3.7.
 
    Changed in version 3.9: Updated to use
    "loop.shutdown_default_executor()".
@@ -98,7 +98,7 @@ class asyncio.Runner(*, debug=None, loop_factory=None)
       with asyncio.Runner() as runner:
           runner.run(main())
 <
-   New in version 3.11.
+   Added in version 3.11.
 
    run(coro, *, context=None)
 
@@ -135,9 +135,9 @@ class asyncio.Runner(*, debug=None, loop_factory=None)
 Handling Keyboard Interruption
 ==============================
 
-New in version 3.11.
+Added in version 3.11.
 
-When "signal.SIGINT" is raised by "Ctrl-C", "KeyboardInterrupt"
+When "signal.SIGINT" is raised by "Ctrl"-"C", "KeyboardInterrupt"
 exception is raised in the main thread by default. However this
 doesn’t work with "asyncio" because it can interrupt asyncio internals
 and can hang the program from exiting.
@@ -151,7 +151,7 @@ To mitigate this issue, "asyncio" handles "signal.SIGINT" as follows:
 2. The "Runner" creates the main task for the passed coroutine for its
    execution.
 
-3. When "signal.SIGINT" is raised by "Ctrl-C", the custom signal
+3. When "signal.SIGINT" is raised by "Ctrl"-"C", the custom signal
    handler cancels the main task by calling "asyncio.Task.cancel()"
    which raises "asyncio.CancelledError" inside the main task.  This
    causes the Python stack to unwind, "try/except" and "try/finally"
@@ -160,7 +160,7 @@ To mitigate this issue, "asyncio" handles "signal.SIGINT" as follows:
 
 4. A user could write a tight loop which cannot be interrupted by
    "asyncio.Task.cancel()", in which case the second following
-   "Ctrl-C" immediately raises the "KeyboardInterrupt" without
+   "Ctrl"-"C" immediately raises the "KeyboardInterrupt" without
    cancelling the main task.
 
 vim:tw=78:ts=8:ft=help:norl:

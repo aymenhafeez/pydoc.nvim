@@ -1,5 +1,5 @@
-Python 3.12.3
-*array.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*array.pyx*                                   Last change: 2025 Dec 20
 
 "array" — Efficient arrays of numeric values
 ********************************************
@@ -7,7 +7,7 @@ Python 3.12.3
 ======================================================================
 
 This module defines an object type which can compactly represent an
-array of basic values: characters, integers, floating point numbers.
+array of basic values: characters, integers, floating-point numbers.
 Arrays are sequence types and behave very much like lists, except that
 the type of objects stored in them is constrained.  The type is
 specified at object creation time by using a _type code_, which is a
@@ -149,7 +149,7 @@ class array.array(typecode[, initializer])
       content as an array of machine values (as if it had been read
       from a file using the "fromfile()" method).
 
-      New in version 3.2: "fromstring()" is renamed to "frombytes()"
+      Added in version 3.2: "fromstring()" is renamed to "frombytes()"
       for clarity.
 
    fromfile(f, n)
@@ -209,7 +209,7 @@ class array.array(typecode[, initializer])
       bytes representation (the same sequence of bytes that would be
       written to a file by the "tofile()" method.)
 
-      New in version 3.2: "tostring()" is renamed to "tobytes()" for
+      Added in version 3.2: "tostring()" is renamed to "tobytes()" for
       clarity.
 
    tofile(f)
@@ -234,7 +234,7 @@ array is empty, otherwise it is a Unicode string if the _typecode_ is
 guaranteed to be able to be converted back to an array with the same
 type and value using "eval()", so long as the "array" class has been
 imported using "from array import array". Variables "inf" and "nan"
-must also be defined if it contains corresponding floating point
+must also be defined if it contains corresponding floating-point
 values. Examples:
 >
    array('l')

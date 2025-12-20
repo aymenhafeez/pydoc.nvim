@@ -1,5 +1,5 @@
-Python 3.12.3
-*gettext.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*gettext.pyx*                                 Last change: 2025 Dec 20
 
 "gettext" — Multilingual internationalization services
 ******************************************************
@@ -93,7 +93,7 @@ gettext.dnpgettext(domain, context, singular, plural, n)
    "dngettext()"), but the translation is restricted to the given
    message _context_.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 Note that GNU **gettext** also defines a "dcgettext()" method, but
 this was deemed not useful and so it is currently unimplemented.
@@ -240,7 +240,7 @@ class gettext.NullTranslations(fp=None)
       fallback. Otherwise, return the translated message.  Overridden
       in derived classes.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    npgettext(context, singular, plural, n)
 
@@ -248,7 +248,7 @@ class gettext.NullTranslations(fp=None)
       fallback. Otherwise, return the translated message.  Overridden
       in derived classes.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    info()
 
@@ -358,7 +358,7 @@ class gettext.GNUTranslations
       fallback’s "pgettext()" method.  Otherwise, the _message_ id is
       returned.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    npgettext(context, singular, plural, n)
 
@@ -372,7 +372,7 @@ class gettext.GNUTranslations
       _singular_ is returned, and _plural_ is returned in all other
       cases.
 
-      New in version 3.8.
+      Added in version 3.8.
 
 
 Solaris message catalog support

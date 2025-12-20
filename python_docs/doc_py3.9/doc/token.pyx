@@ -1,5 +1,5 @@
-Python 3.9.19
-*token.pyx*                                   Last change: 2024 May 24
+Python 3.9.25
+*token.pyx*                                   Last change: 2025 Dec 20
 
 "token" — Constants used with Python parse trees
 ************************************************

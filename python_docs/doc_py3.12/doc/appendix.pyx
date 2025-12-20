@@ -1,5 +1,5 @@
-Python 3.12.3
-*appendix.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*appendix.pyx*                                Last change: 2025 Dec 20
 
 16. Appendix
 ************
@@ -23,7 +23,7 @@ of running out of memory.  All error messages are written to the
 standard error stream; normal output from executed commands is written
 to standard output.
 
-Typing the interrupt character (usually "Control-C" or "Delete") to
+Typing the interrupt character (usually "Control"-"C" or "Delete") to
 the primary or secondary prompt cancels the input and returns to the
 primary prompt. [1] Typing an interrupt while a command is executing
 raises the "KeyboardInterrupt" exception, which may be handled by a
@@ -36,7 +36,7 @@ raises the "KeyboardInterrupt" exception, which may be handled by a
 On BSD’ish Unix systems, Python scripts can be made directly
 executable, like shell scripts, by putting the line
 >
-   #!/usr/bin/env python3.5
+   #!/usr/bin/env python3
 <
 (assuming that the interpreter is on the user’s "PATH") at the
 beginning of the script and giving the file an executable mode.  The
@@ -98,7 +98,7 @@ this code:
 >
    >>> import site
    >>> site.getusersitepackages()
-   '/home/user/.local/lib/python3.5/site-packages'
+   '/home/user/.local/lib/python3.x/site-packages'
 <
 Now you can create a file named "usercustomize.py" in that directory
 and put anything you want in it.  It will affect every invocation of

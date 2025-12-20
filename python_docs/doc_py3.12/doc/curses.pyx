@@ -1,5 +1,5 @@
-Python 3.12.3
-*curses.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*curses.pyx*                                  Last change: 2025 Dec 20
 
 "curses" — Terminal handling for character-cell displays
 ********************************************************
@@ -226,7 +226,7 @@ curses.has_extended_color_support()
 
    Extended color support requires ncurses version 6.1 or later.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 curses.has_ic()
 
@@ -484,7 +484,7 @@ curses.get_escdelay()
 
    Retrieves the value set by "set_escdelay()".
 
-   New in version 3.9.
+   Added in version 3.9.
 
 curses.set_escdelay(ms)
 
@@ -493,13 +493,13 @@ curses.set_escdelay(ms)
    entered on the keyboard from escape sequences sent by cursor and
    function keys.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 curses.get_tabsize()
 
    Retrieves the value set by "set_tabsize()".
 
-   New in version 3.9.
+   Added in version 3.9.
 
 curses.set_tabsize(size)
 
@@ -507,7 +507,7 @@ curses.set_tabsize(size)
    converting a tab character to spaces as it adds the tab to a
    window.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 curses.setsyx(y, x)
 
@@ -607,7 +607,7 @@ curses.update_lines_cols()
    Update the "LINES" and "COLS" module variables. Useful for
    detecting manual screen resize.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 curses.unget_wch(ch)
 
@@ -617,7 +617,7 @@ curses.unget_wch(ch)
 
      Only one _ch_ can be pushed before "get_wch()" is called.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 curses.ungetmouse(id, x, y, z, bstate)
 
@@ -860,7 +860,7 @@ window.encoding
    "window.subwin()". By default, current locale encoding is used (see
    "locale.getencoding()").
 
-   New in version 3.3.
+   Added in version 3.3.
 
 window.erase()
 
@@ -868,7 +868,7 @@ window.erase()
 
 window.getbegyx()
 
-   Return a tuple "(y, x)" of co-ordinates of upper-left corner.
+   Return a tuple "(y, x)" of coordinates of upper-left corner.
 
 window.getbkgd()
 
@@ -888,7 +888,7 @@ window.get_wch([y, x])
    integer for function keys, keypad keys, and other special keys. In
    no-delay mode, raise an exception if there is no input.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 window.getkey([y, x])
 
@@ -1254,7 +1254,7 @@ curses.ncurses_version
 
    Availability: if the ncurses library is used.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 curses.COLORS
 
@@ -1320,7 +1320,7 @@ exact constants available are system dependent.
 | curses.A_VERTICAL        | Vertical highlight              |
 +--------------------------+---------------------------------+
 
-New in version 3.7: "A_ITALIC" was added.
+Added in version 3.7: "A_ITALIC" was added.
 
 Several constants are available to extract corresponding attributes
 returned by some methods.
@@ -1762,36 +1762,36 @@ class curses.textpad.Textbox(win)
       +--------------------+---------------------------------------------+
       | Keystroke          | Action                                      |
       |====================|=============================================|
-      | "Control-A"        | Go to left edge of window.                  |
+      | "Control"-"A"      | Go to left edge of window.                  |
       +--------------------+---------------------------------------------+
-      | "Control-B"        | Cursor left, wrapping to previous line if   |
+      | "Control"-"B"      | Cursor left, wrapping to previous line if   |
       |                    | appropriate.                                |
       +--------------------+---------------------------------------------+
-      | "Control-D"        | Delete character under cursor.              |
+      | "Control"-"D"      | Delete character under cursor.              |
       +--------------------+---------------------------------------------+
-      | "Control-E"        | Go to right edge (stripspaces off) or end   |
+      | "Control"-"E"      | Go to right edge (stripspaces off) or end   |
       |                    | of line (stripspaces on).                   |
       +--------------------+---------------------------------------------+
-      | "Control-F"        | Cursor right, wrapping to next line when    |
+      | "Control"-"F"      | Cursor right, wrapping to next line when    |
       |                    | appropriate.                                |
       +--------------------+---------------------------------------------+
-      | "Control-G"        | Terminate, returning the window contents.   |
+      | "Control"-"G"      | Terminate, returning the window contents.   |
       +--------------------+---------------------------------------------+
-      | "Control-H"        | Delete character backward.                  |
+      | "Control"-"H"      | Delete character backward.                  |
       +--------------------+---------------------------------------------+
-      | "Control-J"        | Terminate if the window is 1 line,          |
+      | "Control"-"J"      | Terminate if the window is 1 line,          |
       |                    | otherwise insert newline.                   |
       +--------------------+---------------------------------------------+
-      | "Control-K"        | If line is blank, delete it, otherwise      |
+      | "Control"-"K"      | If line is blank, delete it, otherwise      |
       |                    | clear to end of line.                       |
       +--------------------+---------------------------------------------+
-      | "Control-L"        | Refresh screen.                             |
+      | "Control"-"L"      | Refresh screen.                             |
       +--------------------+---------------------------------------------+
-      | "Control-N"        | Cursor down; move down one line.            |
+      | "Control"-"N"      | Cursor down; move down one line.            |
       +--------------------+---------------------------------------------+
-      | "Control-O"        | Insert a blank line at cursor location.     |
+      | "Control"-"O"      | Insert a blank line at cursor location.     |
       +--------------------+---------------------------------------------+
-      | "Control-P"        | Cursor up; move up one line.                |
+      | "Control"-"P"      | Cursor up; move up one line.                |
       +--------------------+---------------------------------------------+
 
       Move operations do nothing if the cursor is at an edge where the
@@ -1801,15 +1801,15 @@ class curses.textpad.Textbox(win)
       +----------------------------------+--------------------+
       | Constant                         | Keystroke          |
       |==================================|====================|
-      | "KEY_LEFT"                       | "Control-B"        |
+      | "KEY_LEFT"                       | "Control"-"B"      |
       +----------------------------------+--------------------+
-      | "KEY_RIGHT"                      | "Control-F"        |
+      | "KEY_RIGHT"                      | "Control"-"F"      |
       +----------------------------------+--------------------+
-      | "KEY_UP"                         | "Control-P"        |
+      | "KEY_UP"                         | "Control"-"P"      |
       +----------------------------------+--------------------+
-      | "KEY_DOWN"                       | "Control-N"        |
+      | "KEY_DOWN"                       | "Control"-"N"      |
       +----------------------------------+--------------------+
-      | "KEY_BACKSPACE"                  | "Control-h"        |
+      | "KEY_BACKSPACE"                  | "Control"-"h"      |
       +----------------------------------+--------------------+
 
       All other keystrokes are treated as a command to insert the

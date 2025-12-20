@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-enum.pyx*                              Last change: 2024 May 24
+Python 3.12.12
+*howto-enum.pyx*                              Last change: 2025 Dec 20
 
 Enum HOWTO
 **********
@@ -101,7 +101,7 @@ The complete "Weekday" enum now looks like this:
 Now we can find out what today is!  Observe:
 >
    >>> from datetime import date
-   >>> Weekday.from_date(date.today())     
+   >>> Weekday.from_date(date.today())
    <Weekday.TUESDAY: 2>
 <
 Of course, if you’re reading this on some other day, you’ll see that
@@ -702,7 +702,7 @@ The second variation of "Enum" that is provided is also a subclass of
 extension, string enumerations of different types can also be compared
 to each other.
 
-New in version 3.11.
+Added in version 3.11.
 
 
 IntFlag
@@ -721,7 +721,7 @@ Note:
   in invalid "IntFlag" values will lose the "IntFlag" membership.  See
   "FlagBoundary" for details.
 
-New in version 3.6.
+Added in version 3.6.
 
 Changed in version 3.11.
 
@@ -794,7 +794,7 @@ Note:
    >>> list(RW)
    [<Perm.R: 4>, <Perm.W: 2>]
 <
-New in version 3.11.
+Added in version 3.11.
 
 
 Flag
@@ -807,7 +807,7 @@ enumeration, nor "int".  While it is possible to specify the values
 directly it is recommended to use "auto" as the value and let "Flag"
 select an appropriate value.
 
-New in version 3.6.
+Added in version 3.6.
 
 Like "IntFlag", if a combination of "Flag" members results in no flags
 being set, the boolean evaluation is "False":
@@ -855,7 +855,7 @@ boolean value:
    >>> list(purple)
    [<Color.RED: 1>, <Color.BLUE: 2>]
 <
-New in version 3.11.
+Added in version 3.11.
 
 Note:
 
@@ -975,8 +975,8 @@ Supported "_sunder_" names
 
 * "_value_" – value of the member; can be set / modified in "__new__"
 
-* "_missing_" – a lookup function used when a value is not found; may
-  be overridden
+* "_missing_()" – a lookup function used when a value is not found;
+  may be overridden
 
 * "_ignore_" – a list of names, either as a "list" or a "str", that
   will not be transformed into members, and will be removed from the
@@ -985,7 +985,7 @@ Supported "_sunder_" names
 * "_order_" – used in Python 2/3 code to ensure member order is
   consistent (class attribute, removed during class creation)
 
-* "_generate_next_value_" – used by the Functional API and by "auto"
+* "_generate_next_value_()" – used by the Functional API and by "auto"
   to get an appropriate value for an enum member; may be overridden
 
 Note:
@@ -995,9 +995,9 @@ Note:
   will be the next highest power-of-two, regardless of the last value
   seen.
 
-New in version 3.6: "_missing_", "_order_", "_generate_next_value_"
+Added in version 3.6: "_missing_", "_order_", "_generate_next_value_"
 
-New in version 3.7: "_ignore_"
+Added in version 3.7: "_ignore_"
 
 To help keep Python 2 / Python 3 code in sync an "_order_" attribute
 can be provided.  It will be checked against the actual order of the
@@ -1079,9 +1079,9 @@ If you give your enum subclass extra methods, like the Planet class
 below, those methods will show up in a "dir()" of the member, but not
 of the class:
 >
-   >>> dir(Planet)                         
+   >>> dir(Planet)
    ['EARTH', 'JUPITER', 'MARS', 'MERCURY', 'NEPTUNE', 'SATURN', 'URANUS', 'VENUS', '__class__', '__doc__', '__members__', '__module__']
-   >>> dir(Planet.EARTH)                   
+   >>> dir(Planet.EARTH)
    ['__class__', '__doc__', '__module__', 'mass', 'name', 'radius', 'surface_gravity', 'value']
 <
 
@@ -1143,6 +1143,14 @@ the following are true:
 >
      >>> (Color.RED | Color.GREEN).name
      'RED|GREEN'
+
+     >>> class Perm(IntFlag):
+     ...     R = 4
+     ...     W = 2
+     ...     X = 1
+     ...
+     >>> (Perm.R & Perm.W).name is None  # effectively Perm(0)
+     True
 <
 * multi-bit flags, aka aliases, can be returned from operations:
 >
@@ -1310,7 +1318,7 @@ Using "object" would look like:
    ...     GREEN = object()
    ...     BLUE = object()
    ...
-   >>> Color.GREEN                         
+   >>> Color.GREEN
    <Color.GREEN: <object object at 0x...>>
 <
 This is also a good example of why you might want to write your own

@@ -1,5 +1,5 @@
-Python 3.11.9
-*hashlib.pyx*                                 Last change: 2024 May 24
+Python 3.11.14
+*hashlib.pyx*                                 Last change: 2025 Dec 20
 
 "hashlib" — Secure hashes and message digests
 *********************************************

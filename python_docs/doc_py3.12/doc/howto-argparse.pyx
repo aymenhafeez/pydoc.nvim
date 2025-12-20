@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-argparse.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*howto-argparse.pyx*                          Last change: 2025 Dec 20
 
 Argparse Tutorial
 *****************
@@ -795,6 +795,56 @@ translations are installed using "gettext", "argparse" will be able to
 display the translated messages.
 
 To translate your own strings in the "argparse" output, use "gettext".
+
+
+Custom type converters
+======================
+
+The "argparse" module allows you to specify custom type converters for
+your command-line arguments. This allows you to modify user input
+before it’s stored in the "argparse.Namespace". This can be useful
+when you need to pre-process the input before it is used in your
+program.
+
+When using a custom type converter, you can use any callable that
+takes a single string argument (the argument value) and returns the
+converted value. However, if you need to handle more complex
+scenarios, you can use a custom action class with the **action**
+parameter instead.
+
+For example, let’s say you want to handle arguments with different
+prefixes and process them accordingly:
+>
+   import argparse
+
+   parser = argparse.ArgumentParser(prefix_chars='-+')
+
+   parser.add_argument('-a', metavar='<value>', action='append',
+                       type=lambda x: ('-', x))
+   parser.add_argument('+a', metavar='<value>', action='append',
+                       type=lambda x: ('+', x))
+
+   args = parser.parse_args()
+   print(args)
+<
+Output:
+>
+   $ python prog.py -a value1 +a value2
+   Namespace(a=[('-', 'value1'), ('+', 'value2')])
+<
+In this example, we:
+
+* Created a parser with custom prefix characters using the
+  "prefix_chars" parameter.
+
+* Defined two arguments, "-a" and "+a", which used the "type"
+  parameter to create custom type converters to store the value in a
+  tuple with the prefix.
+
+Without the custom type converters, the arguments would have treated
+the "-a" and "+a" as the same argument, which would have been
+undesirable. By using custom type converters, we were able to
+differentiate between the two arguments.
 
 
 Conclusion

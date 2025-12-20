@@ -1,10 +1,10 @@
-Python 3.12.3
-*sys.monitoring.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*sys.monitoring.pyx*                          Last change: 2025 Dec 20
 
 "sys.monitoring" — Execution event monitoring
 *********************************************
 
-New in version 3.12.
+Added in version 3.12.
 
 ======================================================================
 
@@ -174,7 +174,7 @@ expression "PY_RETURN | PY_START".
 
 sys.monitoring.events.NO_EVENTS
 
-   An alias for "0" so users can do explict comparisions like:
+   An alias for "0" so users can do explicit comparisons like:
 >
       if get_events(DEBUGGER_ID) == NO_EVENTS:
           ...

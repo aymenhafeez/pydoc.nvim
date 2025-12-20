@@ -1,5 +1,5 @@
-Python 3.12.3
-*tempfile.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*tempfile.pyx*                                Last change: 2025 Dec 20
 
 "tempfile" — Generate temporary files and directories
 *****************************************************
@@ -208,7 +208,7 @@ class tempfile.TemporaryDirectory(suffix=None, prefix=None, dir=None, ignore_cle
    Raises an auditing event "tempfile.mkdtemp" with argument
    "fullpath".
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.10: Added _ignore_cleanup_errors_ parameter.
 
@@ -334,7 +334,7 @@ tempfile.gettempdirb()
 
    Same as "gettempdir()" but the return value is in bytes.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 tempfile.gettempprefix()
 
@@ -345,7 +345,7 @@ tempfile.gettempprefixb()
 
    Same as "gettempprefix()" but the return value is in bytes.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 The module uses a global variable to store the name of the directory
 used for temporary files returned by "gettempdir()".  It can be set

@@ -1,5 +1,5 @@
-Python 3.10.14
-*email.compat32-message.pyx*                  Last change: 2024 May 24
+Python 3.10.19
+*email.compat32-message.pyx*                  Last change: 2025 Dec 20
 
 "email.message.Message": Representing an email message using the "compat32" API
 *******************************************************************************

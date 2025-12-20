@@ -1,5 +1,5 @@
-Python 3.9.19
-*weakref.pyx*                                 Last change: 2024 May 24
+Python 3.9.25
+*weakref.pyx*                                 Last change: 2025 Dec 20
 
 "weakref" — Weak references
 ***************************

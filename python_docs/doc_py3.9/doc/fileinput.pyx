@@ -1,5 +1,5 @@
-Python 3.9.19
-*fileinput.pyx*                               Last change: 2024 May 24
+Python 3.9.25
+*fileinput.pyx*                               Last change: 2025 Dec 20
 
 "fileinput" — Iterate over lines from multiple input streams
 ************************************************************

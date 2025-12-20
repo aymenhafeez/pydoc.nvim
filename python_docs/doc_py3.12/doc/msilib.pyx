@@ -1,5 +1,5 @@
-Python 3.12.3
-*msilib.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*msilib.pyx*                                  Last change: 2025 Dec 20
 
 "msilib" — Read and write Microsoft Installer files
 ***************************************************
@@ -139,7 +139,7 @@ Database.Close()
 
    Close the database object, through "MsiCloseHandle()".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 See also:
 

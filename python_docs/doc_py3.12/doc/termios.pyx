@@ -1,5 +1,5 @@
-Python 3.12.3
-*termios.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*termios.pyx*                                 Last change: 2025 Dec 20
 
 "termios" — POSIX style tty control
 ***********************************
@@ -87,7 +87,7 @@ termios.tcgetwinsize(fd)
    for file descriptor _fd_. Requires "termios.TIOCGWINSZ" or
    "termios.TIOCGSIZE".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 termios.tcsetwinsize(fd, winsize)
 
@@ -97,7 +97,7 @@ termios.tcsetwinsize(fd, winsize)
    ("termios.TIOCGWINSZ", "termios.TIOCSWINSZ"); ("termios.TIOCGSIZE",
    "termios.TIOCSSIZE") to be defined.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 See also:
 

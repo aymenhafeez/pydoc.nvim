@@ -1,5 +1,5 @@
-Python 3.12.3
-*uuid.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*uuid.pyx*                                    Last change: 2025 Dec 20
 
 "uuid" — UUID objects according to **RFC 4122**
 ***********************************************
@@ -26,7 +26,7 @@ enumeration:
 
 class uuid.SafeUUID
 
-   New in version 3.7.
+   Added in version 3.7.
 
    safe
 
@@ -143,7 +143,7 @@ UUID.is_safe
    An enumeration of "SafeUUID" which indicates whether the platform
    generated the UUID in a multiprocessing-safe way.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 The "uuid" module defines the following functions:
 
@@ -240,7 +240,7 @@ See also:
 Command-Line Usage
 ==================
 
-New in version 3.12.
+Added in version 3.12.
 
 The "uuid" module can be executed as a script from the command line.
 >

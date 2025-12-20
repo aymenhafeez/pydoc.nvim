@@ -1,5 +1,5 @@
-Python 3.11.9
-*pickletools.pyx*                             Last change: 2024 May 24
+Python 3.11.14
+*pickletools.pyx*                             Last change: 2025 Dec 20
 
 "pickletools" — Tools for pickle developers
 *******************************************

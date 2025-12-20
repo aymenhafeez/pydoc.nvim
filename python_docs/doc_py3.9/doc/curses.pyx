@@ -1,5 +1,5 @@
-Python 3.9.19
-*curses.pyx*                                  Last change: 2024 May 24
+Python 3.9.25
+*curses.pyx*                                  Last change: 2025 Dec 20
 
 "curses" — Terminal handling for character-cell displays
 ********************************************************

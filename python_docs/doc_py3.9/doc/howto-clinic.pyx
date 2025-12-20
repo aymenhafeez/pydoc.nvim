@@ -1,5 +1,5 @@
-Python 3.9.19
-*howto-clinic.pyx*                            Last change: 2024 May 24
+Python 3.9.25
+*howto-clinic.pyx*                            Last change: 2025 Dec 20
 
 Argument Clinic How-To
 **********************

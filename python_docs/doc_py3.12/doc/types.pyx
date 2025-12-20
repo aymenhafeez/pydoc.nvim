@@ -1,5 +1,5 @@
-Python 3.12.3
-*types.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*types.pyx*                                   Last change: 2025 Dec 20
 
 "types" — Dynamic type creation and names for built-in types
 ************************************************************
@@ -36,7 +36,7 @@ types.new_class(name, bases=(), kwds=None, exec_body=None)
    with the class contents. If no callback is provided, it has the
    same effect as passing in "lambda ns: None".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 types.prepare_class(name, bases=(), kwds=None)
 
@@ -54,7 +54,7 @@ types.prepare_class(name, bases=(), kwds=None)
    passed in _kwds_ argument with any "'metaclass'" entry removed. If
    no _kwds_ argument is passed in, this will be an empty dict.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.6: The default value for the "namespace"
    element of the returned tuple has changed.  Now an insertion-order-
@@ -81,7 +81,7 @@ types.resolve_bases(bases)
    or it doesn’t have an "__mro_entries__()" method, then it is
    included in the return tuple unchanged.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 types.get_original_bases(cls, /)
 
@@ -120,7 +120,7 @@ types.get_original_bases(cls, /)
       assert int.__bases__ == (object,)
       assert get_original_bases(int) == (object,)
 <
-   New in version 3.12.
+   Added in version 3.12.
 
 See also:
 
@@ -147,7 +147,7 @@ types.NoneType
 
    The type of "None".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 types.FunctionType
 types.LambdaType
@@ -169,14 +169,14 @@ types.CoroutineType
 
    The type of _coroutine_ objects, created by "async def" functions.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 types.AsyncGeneratorType
 
    The type of _asynchronous generator_-iterator objects, created by
    asynchronous generator functions.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 class types.CodeType(**kwargs)
 
@@ -196,7 +196,7 @@ types.CellType
    The type for cell objects: such objects are used as containers for
    a function’s free variables.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 types.MethodType
 
@@ -214,108 +214,58 @@ types.WrapperDescriptorType
    The type of methods of some built-in data types and base classes
    such as "object.__init__()" or "object.__lt__()".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 types.MethodWrapperType
 
    The type of _bound_ methods of some built-in data types and base
    classes. For example it is the type of "object().__str__".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 types.NotImplementedType
 
    The type of "NotImplemented".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 types.MethodDescriptorType
 
    The type of methods of some built-in data types such as
    "str.join()".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 types.ClassMethodDescriptorType
 
    The type of _unbound_ class methods of some built-in data types
    such as "dict.__dict__['fromkeys']".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 class types.ModuleType(name, doc=None)
 
    The type of _modules_. The constructor takes the name of the module
    to be created and optionally its _docstring_.
 
-   Note:
+   See also:
 
-     Use "importlib.util.module_from_spec()" to create a new module if
-     you wish to set the various import-controlled attributes.
+     Documentation on module objects
+        Provides details on the special attributes that can be found
+        on instances of "ModuleType".
 
-   __doc__
-
-      The _docstring_ of the module. Defaults to "None".
-
-   __loader__
-
-      The _loader_ which loaded the module. Defaults to "None".
-
-      This attribute is to match
-      "importlib.machinery.ModuleSpec.loader" as stored in the
-      "__spec__" object.
-
-      Note:
-
-        A future version of Python may stop setting this attribute by
-        default. To guard against this potential change, preferably
-        read from the "__spec__" attribute instead or use
-        "getattr(module, "__loader__", None)" if you explicitly need
-        to use this attribute.
-
-      Changed in version 3.4: Defaults to "None". Previously the
-      attribute was optional.
-
-   __name__
-
-      The name of the module. Expected to match
-      "importlib.machinery.ModuleSpec.name".
-
-   __package__
-
-      Which _package_ a module belongs to. If the module is top-level
-      (i.e. not a part of any specific package) then the attribute
-      should be set to "''", else it should be set to the name of the
-      package (which can be "__name__" if the module is a package
-      itself). Defaults to "None".
-
-      This attribute is to match
-      "importlib.machinery.ModuleSpec.parent" as stored in the
-      "__spec__" object.
-
-      Note:
-
-        A future version of Python may stop setting this attribute by
-        default. To guard against this potential change, preferably
-        read from the "__spec__" attribute instead or use
-        "getattr(module, "__package__", None)" if you explicitly need
-        to use this attribute.
-
-      Changed in version 3.4: Defaults to "None". Previously the
-      attribute was optional.
-
-   __spec__
-
-      A record of the module’s import-system-related state. Expected
-      to be an instance of "importlib.machinery.ModuleSpec".
-
-      New in version 3.4.
+     "importlib.util.module_from_spec()"
+        Modules created using the "ModuleType" constructor are created
+        with many of their special attributes unset or set to default
+        values. "module_from_spec()" provides a more robust way of
+        creating "ModuleType" instances which ensures the various
+        attributes are set appropriately.
 
 types.EllipsisType
 
    The type of "Ellipsis".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 class types.GenericAlias(t_origin, t_args)
 
@@ -332,7 +282,7 @@ class types.GenericAlias(t_origin, t_args)
       >>> dict[str, int] == GenericAlias(dict, (str, int))
       True
 <
-   New in version 3.9.
+   Added in version 3.9.
 
    Changed in version 3.9.2: This type can now be subclassed.
 
@@ -348,7 +298,7 @@ class types.UnionType
 
    The type of union type expressions.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 class types.TracebackType(tb_next, tb_frame, tb_lasti, tb_lineno)
 
@@ -393,7 +343,7 @@ class types.MappingProxyType(mapping)
    mapping’s entries, which means that when the mapping changes, the
    view reflects these changes.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.9: Updated to support the new union ("|")
    operator from **PEP 584**, which simply delegates to the underlying
@@ -446,13 +396,13 @@ class types.MappingProxyType(mapping)
       Return a reverse iterator over the keys of the underlying
       mapping.
 
-      New in version 3.9.
+      Added in version 3.9.
 
    hash(proxy)
 
       Return a hash of the underlying mapping.
 
-      New in version 3.12.
+      Added in version 3.12.
 
 
 Additional Utility Classes and Functions
@@ -487,7 +437,7 @@ class types.SimpleNamespace
    pass". However, for a structured record type use "namedtuple()"
    instead.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.9: Attribute order in the repr changed from
    alphabetical to insertion (like "dict").
@@ -506,7 +456,7 @@ types.DynamicClassAttribute(fget=None, fset=None, fdel=None, doc=None)
    virtual attributes on the class with the same name (see "enum.Enum"
    for an example).
 
-   New in version 3.4.
+   Added in version 3.4.
 
 
 Coroutine Utility Functions
@@ -528,6 +478,6 @@ types.coroutine(gen_func)
    will be wrapped in an _awaitable_ proxy object.  All other types of
    objects will be returned as is.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 vim:tw=78:ts=8:ft=help:norl:

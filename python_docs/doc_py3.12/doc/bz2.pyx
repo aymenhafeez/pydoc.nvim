@@ -1,5 +1,5 @@
-Python 3.12.3
-*bz2.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*bz2.pyx*                                     Last change: 2025 Dec 20
 
 "bz2" — Support for **bzip2** compression
 *****************************************
@@ -51,7 +51,7 @@ bz2.open(filename, mode='rb', compresslevel=9, encoding=None, errors=None, newli
    "io.TextIOWrapper" instance with the specified encoding, error
    handling behavior, and line ending(s).
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.4: The "'x'" (exclusive creation) mode was
    added.
@@ -102,31 +102,31 @@ class bz2.BZ2File(filename, mode='r', *, compresslevel=9)
         file object (e.g. if the "BZ2File" was constructed by passing
         a file object for _filename_).
 
-      New in version 3.3.
+      Added in version 3.3.
 
    fileno()
 
       Return the file descriptor for the underlying file.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    readable()
 
       Return whether the file was opened for reading.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    seekable()
 
       Return whether the file supports seeking.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    writable()
 
       Return whether the file was opened for writing.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    read1(size=-1)
 
@@ -136,7 +136,7 @@ class bz2.BZ2File(filename, mode='r', *, compresslevel=9)
 
       Returns "b''" if the file is at EOF.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    readinto(b)
 
@@ -144,7 +144,7 @@ class bz2.BZ2File(filename, mode='r', *, compresslevel=9)
 
       Returns the number of bytes read (0 for EOF).
 
-      New in version 3.3.
+      Added in version 3.3.
 
    Changed in version 3.1: Support for the "with" statement was added.
 
@@ -241,7 +241,7 @@ class bz2.BZ2Decompressor
 
       "True" if the end-of-stream marker has been reached.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    unused_data
 
@@ -255,7 +255,7 @@ class bz2.BZ2Decompressor
       "False" if the "decompress()" method can provide more
       decompressed data before requiring new uncompressed input.
 
-      New in version 3.5.
+      Added in version 3.5.
 
 
 One-shot (de)compression

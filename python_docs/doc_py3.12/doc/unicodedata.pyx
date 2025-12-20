@@ -1,5 +1,5 @@
-Python 3.12.3
-*unicodedata.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*unicodedata.pyx*                             Last change: 2025 Dec 20
 
 "unicodedata" — Unicode Database
 ********************************
@@ -122,7 +122,7 @@ unicodedata.is_normalized(form, unistr)
    _form_. Valid values for _form_ are ‘NFC’, ‘NFKC’, ‘NFD’, and
    ‘NFKD’.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 In addition, the module exposes the following constant:
 

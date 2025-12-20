@@ -1,5 +1,5 @@
-Python 3.12.3
-*importlib.resources.pyx*                     Last change: 2024 May 24
+Python 3.12.12
+*importlib.resources.pyx*                     Last change: 2025 Dec 20
 
 "importlib.resources" – Package resource reading, opening and access
 ********************************************************************
@@ -8,7 +8,7 @@ Python 3.12.3
 
 ======================================================================
 
-New in version 3.7.
+Added in version 3.7.
 
 This module leverages Python’s import system to provide access to
 _resources_ within _packages_.
@@ -60,7 +60,7 @@ importlib.resources.files(anchor: Anchor | None = None)
    package root). If the anchor is omitted, the caller’s module is
    used.
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Changed in version 3.12: _package_ parameter was renamed to
    _anchor_. _anchor_ can now be a non-package module and if omitted
@@ -84,30 +84,28 @@ importlib.resources.as_file(traversable)
    insufficient and an actual file or directory on the file system is
    required.
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Changed in version 3.12: Added support for _traversable_
    representing a directory.
 
 
-Deprecated functions
-====================
+Functional API
+==============
 
-An older, deprecated set of functions is still available, but is
-scheduled for removal in a future version of Python. The main drawback
-of these functions is that they do not support directories: they
-assume all resources are located directly within a _package_.
+An older, previously deprecated set of functions is still available.
+The main drawback of these functions is that they do not support
+directories: they assume all resources are located directly within a
+_package_.
 
 importlib.resources.Package
 
-      Whenever a function accepts a "Package" argument, you can pass
-      in either a "module object" or a module name as a string.  You
-      can only pass module objects whose
-      "__spec__.submodule_search_locations" is not "None".
+   Whenever a function accepts a "Package" argument, you can pass in
+   either a "module object" or a module name as a string.  You can
+   only pass module objects whose
+   "__spec__.submodule_search_locations" is not "None".
 
-      The "Package" type is defined as "Union[str, ModuleType]".
-
-   Deprecated since version 3.12.
+   The "Package" type is defined as "Union[str, ModuleType]".
 
 importlib.resources.Resource
 
@@ -127,9 +125,7 @@ importlib.resources.open_binary(package, resource)
    function returns a "typing.BinaryIO" instance, a binary I/O stream
    open for reading.
 
-   Deprecated since version 3.11: Calls to this function can be
-   replaced by:
-
+   This function is roughly equivalent to:
 >
       files(package).joinpath(resource).open('rb')
 <
@@ -148,9 +144,7 @@ importlib.resources.open_text(package, resource, encoding='utf-8', errors='stric
    This function returns a "typing.TextIO" instance, a text I/O stream
    open for reading.
 
-   Deprecated since version 3.11: Calls to this function can be
-   replaced by:
-
+   This function is roughly equivalent to:
 >
       files(package).joinpath(resource).open('r', encoding=encoding)
 <
@@ -165,9 +159,7 @@ importlib.resources.read_binary(package, resource)
    may not have sub-resources (i.e. it cannot be a directory).  This
    function returns the contents of the resource as "bytes".
 
-   Deprecated since version 3.11: Calls to this function can be
-   replaced by:
-
+   This function is roughly equivalent to:
 >
       files(package).joinpath(resource).read_bytes()
 <
@@ -184,9 +176,7 @@ importlib.resources.read_text(package, resource, encoding='utf-8', errors='stric
    "open()".  This function returns the contents of the resource as
    "str".
 
-   Deprecated since version 3.11: Calls to this function can be
-   replaced by:
-
+   This function is roughly equivalent to:
 >
       files(package).joinpath(resource).read_text(encoding=encoding)
 <
@@ -204,9 +194,7 @@ importlib.resources.path(package, resource)
    open within _package_; it may not contain path separators and it
    may not have sub-resources (i.e. it cannot be a directory).
 
-   Deprecated since version 3.11: Calls to this function can be
-   replaced using "as_file()":
-
+   This function is roughly equivalent to
 >
       as_file(files(package).joinpath(resource))
 <
@@ -217,9 +205,7 @@ importlib.resources.is_resource(package, name)
    be resources. _package_ is either a name or a module object which
    conforms to the "Package" requirements.
 
-   Deprecated since version 3.11: Calls to this function can be
-   replaced by:
-
+   This function is roughly equivalent to:
 >
       files(package).joinpath(resource).is_file()
 <
@@ -233,9 +219,7 @@ importlib.resources.contents(package)
    _package_ is either a name or a module object which conforms to the
    "Package" requirements.
 
-   Deprecated since version 3.11: Calls to this function can be
-   replaced by:
-
+   This function is roughly equivalent to:
 >
       (resource.name for resource in files(package).iterdir() if resource.is_file())
 <

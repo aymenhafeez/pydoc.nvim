@@ -1,5 +1,5 @@
-Python 3.12.3
-*weakref.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*weakref.pyx*                                 Last change: 2025 Dec 20
 
 "weakref" — Weak references
 ***************************
@@ -192,7 +192,7 @@ class weakref.WeakKeyDictionary([dict])
       >>> del k1      # d = {k2: 2}
 <
    Changed in version 3.9: Added support for "|" and "|=" operators,
-   specified in **PEP 584**.
+   as specified in **PEP 584**.
 
 "WeakKeyDictionary" objects have an additional method that exposes the
 internal references directly.  The references are not guaranteed to be
@@ -256,7 +256,7 @@ class weakref.WeakMethod(method[, callback])
    _callback_ is the same as the parameter of the same name to the
    "ref()" function.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 class weakref.finalize(obj, func, /, *args, **kwargs)
 
@@ -319,7 +319,7 @@ class weakref.finalize(obj, func, /, *args, **kwargs)
      otherwise _obj_ will never be garbage collected.  In particular,
      _func_ should not be a bound method of _obj_.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 weakref.ReferenceType
 
@@ -454,7 +454,7 @@ object.  For instance
 ...     pass
 ...
 >>> kenny = Object()
->>> weakref.finalize(kenny, print, "You killed Kenny!")  
+>>> weakref.finalize(kenny, print, "You killed Kenny!")
 <finalize object at ...; for 'Object' at ...>
 >>> del kenny
 You killed Kenny!
@@ -481,7 +481,7 @@ constructor when it was created.
 
 >>> obj = Object()
 >>> f = weakref.finalize(obj, callback, 1, 2, z=3)
->>> f.detach()                                           
+>>> f.detach()
 (<...Object object ...>, <function callback ...>, (1, 2), {'z': 3})
 >>> newobj, func, args, kwargs = _
 >>> assert not f.alive

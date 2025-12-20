@@ -1,5 +1,5 @@
-Python 3.12.3
-*interpreter.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*interpreter.pyx*                             Last change: 2025 Dec 20
 
 2. Using the Python Interpreter
 *******************************
@@ -25,15 +25,15 @@ Store, the "python3.12" command will be available. If you have the
 py.exe launcher installed, you can use the "py" command. See Excursus:
 Setting environment variables for other ways to launch Python.
 
-Typing an end-of-file character ("Control-D" on Unix, "Control-Z" on
-Windows) at the primary prompt causes the interpreter to exit with a
-zero exit status.  If that doesn’t work, you can exit the interpreter
-by typing the following command: "quit()".
+Typing an end-of-file character ("Control"-"D" on Unix, "Control"-"Z"
+on Windows) at the primary prompt causes the interpreter to exit with
+a zero exit status.  If that doesn’t work, you can exit the
+interpreter by typing the following command: "quit()".
 
 The interpreter’s line-editing features include interactive editing,
 history substitution and code completion on systems that support the
 GNU Readline library. Perhaps the quickest check to see whether
-command line editing is supported is typing "Control-P" to the first
+command line editing is supported is typing "Control"-"P" to the first
 Python prompt you get.  If it beeps, you have command line editing;
 see Appendix Interactive Input Editing and History Substitution for an
 introduction to the keys.  If nothing appears to happen, or if "^P" is

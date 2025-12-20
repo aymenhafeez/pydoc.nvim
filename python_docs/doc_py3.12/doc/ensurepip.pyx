@@ -1,10 +1,10 @@
-Python 3.12.3
-*ensurepip.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*ensurepip.pyx*                               Last change: 2025 Dec 20
 
 "ensurepip" — Bootstrapping the "pip" installer
 ***********************************************
 
-New in version 3.4.
+Added in version 3.4.
 
 **Source code:** Lib/ensurepip
 
@@ -66,25 +66,32 @@ By default, "pip" is installed into the current virtual environment
 active virtual environment). The installation location can be
 controlled through two additional command line options:
 
-* "--root _dir_": Installs "pip" relative to the given root directory
-  rather than the root of the currently active virtual environment (if
-  any) or the default root for the current Python installation.
+--root <dir>
 
-* "--user": Installs "pip" into the user site packages directory
-  rather than globally for the current Python installation (this
-  option is not permitted inside an active virtual environment).
+   Installs "pip" relative to the given root directory rather than the
+   root of the currently active virtual environment (if any) or the
+   default root for the current Python installation.
+
+--user
+
+   Installs "pip" into the user site packages directory rather than
+   globally for the current Python installation (this option is not
+   permitted inside an active virtual environment).
 
 By default, the scripts "pipX" and "pipX.Y" will be installed (where
 X.Y stands for the version of Python used to invoke "ensurepip"). The
 scripts installed can be controlled through two additional command
 line options:
 
-* "--altinstall": if an alternate installation is requested, the
-  "pipX" script will _not_ be installed.
+--altinstall
 
-* "--default-pip": if a “default pip” installation is requested, the
-  "pip" script will be installed in addition to the two regular
-  scripts.
+   If an alternate installation is requested, the "pipX" script will
+   _not_ be installed.
+
+--default-pip
+
+   If a “default pip” installation is requested, the "pip" script will
+   be installed in addition to the two regular scripts.
 
 Providing both of the script selection options will trigger an
 exception.

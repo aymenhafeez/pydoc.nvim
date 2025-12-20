@@ -1,5 +1,5 @@
-Python 3.12.3
-*classes.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*classes.pyx*                                 Last change: 2025 Dec 20
 
 9. Classes
 **********
@@ -349,12 +349,7 @@ leaving a trace:
    del x.counter
 <
 The other kind of instance attribute reference is a _method_. A method
-is a function that “belongs to” an object.  (In Python, the term
-method is not unique to class instances: other object types can have
-methods as well.  For example, list objects have methods called
-append, insert, remove, sort, and so on. However, in the following
-discussion, we’ll use the term method exclusively to mean methods of
-class instance objects, unless explicitly stated otherwise.)
+is a function that “belongs to” an object.
 
 Valid method names of an instance object depend on its class.  By
 definition, all attributes of a class that are function  objects
@@ -674,7 +669,7 @@ that calls each parent only once, and that is monotonic (meaning that
 a class can be subclassed without affecting the precedence order of
 its parents). Taken together, these properties make it possible to
 design reliable and extensible classes with multiple inheritance.  For
-more detail, see https://www.python.org/download/releases/2.3/mro/.
+more detail, see The Python 2.3 Method Resolution Order.
 
 
 9.6. Private Variables
@@ -697,6 +692,11 @@ most one trailing underscore) is textually replaced with
 leading underscore(s) stripped.  This mangling is done without regard
 to the syntactic position of the identifier, as long as it occurs
 within the definition of a class.
+
+See also:
+
+  The private name mangling specifications for details and special
+  cases.
 
 Name mangling is helpful for letting subclasses override methods
 without breaking intraclass method calls.  For example:

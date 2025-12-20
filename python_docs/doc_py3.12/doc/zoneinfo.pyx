@@ -1,10 +1,10 @@
-Python 3.12.3
-*zoneinfo.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*zoneinfo.pyx*                                Last change: 2025 Dec 20
 
 "zoneinfo" — IANA time zone support
 ***********************************
 
-New in version 3.9.
+Added in version 3.9.
 
 **Source code:** Lib/zoneinfo
 

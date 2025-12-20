@@ -1,5 +1,5 @@
-Python 3.12.3
-*keyword.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*keyword.pyx*                                 Last change: 2025 Dec 20
 
 "keyword" — Testing for Python keywords
 ***************************************
@@ -26,7 +26,7 @@ keyword.issoftkeyword(s)
 
    Return "True" if _s_ is a Python soft keyword.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 keyword.softkwlist
 
@@ -35,6 +35,6 @@ keyword.softkwlist
    when particular "__future__" statements are in effect, these will
    be included as well.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 vim:tw=78:ts=8:ft=help:norl:

@@ -1,5 +1,5 @@
-Python 3.9.19
-*html.parser.pyx*                             Last change: 2024 May 24
+Python 3.9.25
+*html.parser.pyx*                             Last change: 2025 Dec 20
 
 "html.parser" — Simple HTML and XHTML parser
 ********************************************
@@ -12,13 +12,18 @@ This module defines a class "HTMLParser" which serves as the basis for
 parsing text files formatted in HTML (HyperText Mark-up Language) and
 XHTML.
 
-class html.parser.HTMLParser(*, convert_charrefs=True)
+class html.parser.HTMLParser(*, convert_charrefs=True, scripting=False)
 
    Create a parser instance able to parse invalid markup.
 
-   If _convert_charrefs_ is "True" (the default), all character
-   references (except the ones in "script"/"style" elements) are
-   automatically converted to the corresponding Unicode characters.
+   If _convert_charrefs_ is true (the default), all character
+   references (except the ones in elements like "script" and "style")
+   are automatically converted to the corresponding Unicode
+   characters.
+
+   If _scripting_ is false (the default), the content of the
+   "noscript" element is parsed normally; if it’s true, it’s returned
+   as is without being parsed.
 
    An "HTMLParser" instance is fed HTML data and calls handler methods
    when start tags, end tags, text, comments, and other markup
@@ -33,6 +38,8 @@ class html.parser.HTMLParser(*, convert_charrefs=True)
 
    Changed in version 3.5: The default value for argument
    _convert_charrefs_ is now "True".
+
+   Changed in version 3.9.25: Added the _scripting_ parameter.
 
 
 Example HTML Parser Application
@@ -152,15 +159,14 @@ HTMLParser.handle_startendtag(tag, attrs)
 HTMLParser.handle_data(data)
 
    This method is called to process arbitrary data (e.g. text nodes
-   and the content of "<script>...</script>" and
-   "<style>...</style>").
+   and the content of elements like "script" and "style").
 
 HTMLParser.handle_entityref(name)
 
    This method is called to process a named character reference of the
    form "&name;" (e.g. "&gt;"), where _name_ is a general entity
-   reference (e.g. "'gt'").  This method is never called if
-   _convert_charrefs_ is "True".
+   reference (e.g. "'gt'"). This method is only called if
+   _convert_charrefs_ is false.
 
 HTMLParser.handle_charref(name)
 
@@ -168,8 +174,8 @@ HTMLParser.handle_charref(name)
    character references of the form "&#NNN;" and "&#xNNN;".  For
    example, the decimal equivalent for "&gt;" is "&#62;", whereas the
    hexadecimal is "&#x3E;"; in this case the method will receive
-   "'62'" or "'x3E'".  This method is never called if
-   _convert_charrefs_ is "True".
+   "'62'" or "'x3E'". This method is only called if _convert_charrefs_
+   is false.
 
 HTMLParser.handle_comment(data)
 
@@ -276,7 +282,7 @@ Parsing an element with a few attributes and a title:
    Data     : Python
    End tag  : h1
 <
-The content of "script" and "style" elements is returned as is,
+The content of elements like "script" and "style" is returned as is,
 without further parsing:
 >
    >>> parser.feed('<style type="text/css">#python { color: green }</style>')
@@ -286,10 +292,10 @@ without further parsing:
    End tag  : style
 
    >>> parser.feed('<script type="text/javascript">'
-   ...             'alert("<strong>hello!</strong>");</script>')
+   ...             'alert("<strong>hello! &#9786;</strong>");</script>')
    Start tag: script
         attr: ('type', 'text/javascript')
-   Data     : alert("<strong>hello!</strong>");
+   Data     : alert("<strong>hello! &#9786;</strong>");
    End tag  : script
 <
 Parsing comments:
@@ -309,7 +315,7 @@ the correct char (note: these 3 references are all equivalent to
    Num ent  : >
 <
 Feeding incomplete chunks to "feed()" works, but "handle_data()" might
-be called more than once (unless _convert_charrefs_ is set to "True"):
+be called more than once if _convert_charrefs_ is false:
 >
    >>> for chunk in ['<sp', 'an>buff', 'ered ', 'text</s', 'pan>']:
    ...     parser.feed(chunk)

@@ -1,5 +1,5 @@
-Python 3.10.14
-*asyncio-llapi-index.pyx*                     Last change: 2024 May 24
+Python 3.10.19
+*asyncio-llapi-index.pyx*                     Last change: 2025 Dec 20
 
 Low-level API Index
 *******************

@@ -1,5 +1,5 @@
-Python 3.12.3
-*gzip.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*gzip.pyx*                                    Last change: 2025 Dec 20
 
 "gzip" — Support for **gzip** files
 ***********************************
@@ -65,7 +65,7 @@ exception gzip.BadGzipFile
    "OSError". "EOFError" and "zlib.error" can also be raised for
    invalid gzip files.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 class gzip.GzipFile(filename=None, mode=None, compresslevel=9, fileobj=None, mtime=None)
 
@@ -134,7 +134,7 @@ class gzip.GzipFile(filename=None, mode=None, compresslevel=9, fileobj=None, mti
         file object (e.g. if the "GzipFile" was constructed with the
         _fileobj_ parameter).
 
-      New in version 3.2.
+      Added in version 3.2.
 
    mtime
 
@@ -187,14 +187,17 @@ gzip.compress(data, compresslevel=9, *, mtime=None)
    this function is equivalent to "zlib.compress()" with _wbits_ set
    to "31". The zlib function is faster.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.8: Added the _mtime_ parameter for
    reproducible output.
 
    Changed in version 3.11: Speed is improved by compressing all data
    at once instead of in a streamed fashion. Calls with _mtime_ set to
-   "0" are delegated to "zlib.compress()" for better speed.
+   "0" are delegated to "zlib.compress()" for better speed. In this
+   situation the output may contain a gzip header “OS” byte value
+   other than 255 “unknown” as supplied by the underlying zlib
+   implementation.
 
 gzip.decompress(data)
 
@@ -204,7 +207,7 @@ gzip.decompress(data)
    the data is certain to contain only one member the
    "zlib.decompress()" function with _wbits_ set to 31 is faster.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.11: Speed is improved by decompressing members
    at once in memory instead of in a streamed fashion.

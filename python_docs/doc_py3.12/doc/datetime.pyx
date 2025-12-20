@@ -1,5 +1,5 @@
-Python 3.12.3
-*datetime.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*datetime.pyx*                                Last change: 2025 Dec 20
 
 "datetime" — Basic date and time types
 **************************************
@@ -43,7 +43,7 @@ Aware and Naive Objects
 =======================
 
 Date and time objects may be categorized as “aware” or “naive”
-depending on whether or not they include timezone information.
+depending on whether or not they include time zone information.
 
 With sufficient knowledge of applicable algorithmic and political time
 adjustments, such as time zone and daylight saving time information,
@@ -54,7 +54,7 @@ to interpretation. [1]
 A **naive** object does not contain enough information to
 unambiguously locate itself relative to other date/time objects.
 Whether a naive object represents Coordinated Universal Time (UTC),
-local time, or time in some other timezone is purely up to the
+local time, or time in some other time zone is purely up to the
 program, just like it is up to the program whether a particular number
 represents metres, miles, or mass. Naive objects are easy to
 understand and to work with, at the cost of ignoring some aspects of
@@ -68,13 +68,13 @@ from UTC time, the time zone name, and whether daylight saving time is
 in effect.
 
 Only one concrete "tzinfo" class, the "timezone" class, is supplied by
-the "datetime" module. The "timezone" class can represent simple
-timezones with fixed offsets from UTC, such as UTC itself or North
-American EST and EDT timezones. Supporting timezones at deeper levels
-of detail is up to the application. The rules for time adjustment
-across the world are more political than rational, change frequently,
-and there is no standard suitable for every application aside from
-UTC.
+the "datetime" module. The "timezone" class can represent simple time
+zones with fixed offsets from UTC, such as UTC itself or North
+American EST and EDT time zones. Supporting time zones at deeper
+levels of detail is up to the application. The rules for time
+adjustment across the world are more political than rational, change
+frequently, and there is no standard suitable for every application
+aside from UTC.
 
 
 Constants
@@ -85,18 +85,18 @@ The "datetime" module exports the following constants:
 datetime.MINYEAR
 
    The smallest year number allowed in a "date" or "datetime" object.
-   "MINYEAR" is "1".
+   "MINYEAR" is 1.
 
 datetime.MAXYEAR
 
    The largest year number allowed in a "date" or "datetime" object.
-   "MAXYEAR" is "9999".
+   "MAXYEAR" is 9999.
 
 datetime.UTC
 
-   Alias for the UTC timezone singleton "datetime.timezone.utc".
+   Alias for the UTC time zone singleton "datetime.timezone.utc".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 
 Available Types
@@ -137,7 +137,7 @@ class datetime.timezone
    A class that implements the "tzinfo" abstract base class as a fixed
    offset from the UTC.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 Objects of these types are immutable.
 
@@ -174,21 +174,21 @@ Objects of the "date" type are always naive.
 
 An object of type "time" or "datetime" may be aware or naive.
 
-A "datetime" object _d_ is aware if both of the following hold:
+A "datetime" object "d" is aware if both of the following hold:
 
 1. "d.tzinfo" is not "None"
 
 2. "d.tzinfo.utcoffset(d)" does not return "None"
 
-Otherwise, _d_ is naive.
+Otherwise, "d" is naive.
 
-A "time" object _t_ is aware if both of the following hold:
+A "time" object "t" is aware if both of the following hold:
 
 1. "t.tzinfo" is not "None"
 
 2. "t.tzinfo.utcoffset(None)" does not return "None".
 
-Otherwise, _t_ is naive.
+Otherwise, "t" is naive.
 
 The distinction between aware and naive doesn’t apply to "timedelta"
 objects.
@@ -202,7 +202,7 @@ A "timedelta" object represents a duration, the difference between two
 
 class datetime.timedelta(days=0, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
 
-   All arguments are optional and default to "0". Arguments may be
+   All arguments are optional and default to 0. Arguments may be
    integers or floats, and may be positive or negative.
 
    Only _days_, _seconds_ and _microseconds_ are stored internally.
@@ -277,46 +277,61 @@ timedelta.resolution
    The smallest possible difference between non-equal "timedelta"
    objects, "timedelta(microseconds=1)".
 
-Note that, because of normalization, "timedelta.max" >
+Note that, because of normalization, "timedelta.max" is greater than
 "-timedelta.min". "-timedelta.max" is not representable as a
 "timedelta" object.
 
 Instance attributes (read-only):
 
-+--------------------+----------------------------------------------+
-| Attribute          | Value                                        |
-|====================|==============================================|
-| "days"             | Between -999999999 and 999999999 inclusive   |
-+--------------------+----------------------------------------------+
-| "seconds"          | Between 0 and 86399 inclusive                |
-+--------------------+----------------------------------------------+
-| "microseconds"     | Between 0 and 999999 inclusive               |
-+--------------------+----------------------------------------------+
+timedelta.days
+
+   Between -999,999,999 and 999,999,999 inclusive.
+
+timedelta.seconds
+
+   Between 0 and 86,399 inclusive.
+
+   Caution:
+
+     It is a somewhat common bug for code to unintentionally use this
+     attribute when it is actually intended to get a "total_seconds()"
+     value instead:
+
+>
+        >>> from datetime import timedelta
+        >>> duration = timedelta(seconds=11235813)
+        >>> duration.days, duration.seconds
+        (130, 3813)
+        >>> duration.total_seconds()
+        11235813.0
+<
+timedelta.microseconds
+
+   Between 0 and 999,999 inclusive.
 
 Supported operations:
 
 +----------------------------------+-------------------------------------------------+
 | Operation                        | Result                                          |
 |==================================|=================================================|
-| "t1 = t2 + t3"                   | Sum of _t2_ and _t3_. Afterwards _t1_-_t2_ ==   |
-|                                  | _t3_ and _t1_-_t3_ == _t2_ are true. (1)        |
+| "t1 = t2 + t3"                   | Sum of "t2" and "t3". Afterwards "t1 - t2 ==    |
+|                                  | t3" and "t1 - t3 == t2" are true. (1)           |
 +----------------------------------+-------------------------------------------------+
-| "t1 = t2 - t3"                   | Difference of _t2_ and _t3_. Afterwards _t1_ == |
-|                                  | _t2_ - _t3_ and _t2_ == _t1_ + _t3_ are true.   |
-|                                  | (1)(6)                                          |
+| "t1 = t2 - t3"                   | Difference of "t2"  and "t3". Afterwards "t1 == |
+|                                  | t2 - t3" and "t2 == t1 + t3" are true. (1)(6)   |
 +----------------------------------+-------------------------------------------------+
-| "t1 = t2 * i or t1 = i * t2"     | Delta multiplied by an integer. Afterwards _t1_ |
-|                                  | // i == _t2_ is true, provided "i != 0".        |
+| "t1 = t2 * i or t1 = i * t2"     | Delta multiplied by an integer. Afterwards "t1  |
+|                                  | // i == t2" is true, provided "i != 0".         |
 +----------------------------------+-------------------------------------------------+
-|                                  | In general, _t1_ * i == _t1_ * (i-1) + _t1_ is  |
+|                                  | In general, "t1  * i == t1 * (i-1) + t1" is     |
 |                                  | true. (1)                                       |
 +----------------------------------+-------------------------------------------------+
 | "t1 = t2 * f or t1 = f * t2"     | Delta multiplied by a float. The result is      |
 |                                  | rounded to the nearest multiple of              |
 |                                  | timedelta.resolution using round-half-to-even.  |
 +----------------------------------+-------------------------------------------------+
-| "f = t2 / t3"                    | Division (3) of overall duration _t2_ by        |
-|                                  | interval unit _t3_. Returns a "float" object.   |
+| "f = t2 / t3"                    | Division (3) of overall duration "t2" by        |
+|                                  | interval unit "t3". Returns a "float" object.   |
 +----------------------------------+-------------------------------------------------+
 | "t1 = t2 / f or t1 = t2 / i"     | Delta divided by a float or an int. The result  |
 |                                  | is rounded to the nearest multiple of           |
@@ -330,18 +345,17 @@ Supported operations:
 |                                  | object. (3)                                     |
 +----------------------------------+-------------------------------------------------+
 | "q, r = divmod(t1, t2)"          | Computes the quotient and the remainder: "q =   |
-|                                  | t1 // t2" (3) and "r = t1 % t2". q is an        |
-|                                  | integer and r is a "timedelta" object.          |
+|                                  | t1 // t2" (3) and "r = t1 % t2". "q" is an      |
+|                                  | integer and "r" is a "timedelta" object.        |
 +----------------------------------+-------------------------------------------------+
 | "+t1"                            | Returns a "timedelta" object with the same      |
 |                                  | value. (2)                                      |
 +----------------------------------+-------------------------------------------------+
-| "-t1"                            | equivalent to "timedelta"(-_t1.days_,           |
-|                                  | -_t1.seconds_, -_t1.microseconds_), and to      |
-|                                  | _t1_* -1. (1)(4)                                |
+| "-t1"                            | Equivalent to "timedelta(-t1.days, -t1.seconds, |
+|                                  | -t1.microseconds)", and to "t1 * -1". (1)(4)    |
 +----------------------------------+-------------------------------------------------+
-| "abs(t)"                         | equivalent to +_t_ when "t.days >= 0", and to   |
-|                                  | -_t_ when "t.days < 0". (2)                     |
+| "abs(t)"                         | Equivalent to "+t" when "t.days >= 0", and to   |
+|                                  | "-t" when "t.days < 0". (2)                     |
 +----------------------------------+-------------------------------------------------+
 | "str(t)"                         | Returns a string in the form "[D day[s],        |
 |                                  | ][H]H:MM:SS[.UUUUUU]", where D is negative for  |
@@ -358,9 +372,9 @@ Notes:
 
 2. This is exact and cannot overflow.
 
-3. Division by 0 raises "ZeroDivisionError".
+3. Division by zero raises "ZeroDivisionError".
 
-4. -_timedelta.max_ is not representable as a "timedelta" object.
+4. "-timedelta.max" is not representable as a "timedelta" object.
 
 5. String representations of "timedelta" objects are normalized
    similarly to their internal representation. This leads to somewhat
@@ -402,7 +416,7 @@ timedelta.total_seconds()
    Note that for very large time intervals (greater than 270 years on
    most platforms) this method will lose microsecond accuracy.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 
 Examples of usage: "timedelta"
@@ -492,7 +506,7 @@ classmethod date.fromordinal(ordinal)
    where January 1 of year 1 has ordinal 1.
 
    "ValueError" is raised unless "1 <= ordinal <=
-   date.max.toordinal()". For any date _d_,
+   date.max.toordinal()". For any date "d",
    "date.fromordinal(d.toordinal()) == d".
 
 classmethod date.fromisoformat(date_string)
@@ -518,7 +532,7 @@ classmethod date.fromisoformat(date_string)
       >>> date.fromisoformat('2021-W01-1')
       datetime.date(2021, 1, 4)
 <
-   New in version 3.7.
+   Added in version 3.7.
 
    Changed in version 3.11: Previously, this method only supported the
    format "YYYY-MM-DD".
@@ -529,7 +543,7 @@ classmethod date.fromisocalendar(year, week, day)
    year, week and day. This is the inverse of the function
    "date.isocalendar()".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 Class attributes:
 
@@ -566,10 +580,10 @@ Supported operations:
 +---------------------------------+------------------------------------------------+
 | Operation                       | Result                                         |
 |=================================|================================================|
-| "date2 = date1 + timedelta"     | _date2_ will be "timedelta.days" days after    |
-|                                 | _date1_. (1)                                   |
+| "date2 = date1 + timedelta"     | "date2" will be "timedelta.days" days after    |
+|                                 | "date1". (1)                                   |
 +---------------------------------+------------------------------------------------+
-| "date2 = date1 - timedelta"     | Computes _date2_ such that "date2 + timedelta  |
+| "date2 = date1 - timedelta"     | Computes "date2" such that "date2 + timedelta  |
 |                                 | == date1". (2)                                 |
 +---------------------------------+------------------------------------------------+
 | "timedelta = date1 - date2"     | (3)                                            |
@@ -592,8 +606,9 @@ Notes:
 
 2. "timedelta.seconds" and "timedelta.microseconds" are ignored.
 
-3. This is exact, and cannot overflow. timedelta.seconds and
-   timedelta.microseconds are 0, and date2 + timedelta == date1 after.
+3. This is exact, and cannot overflow. "timedelta.seconds" and
+   "timedelta.microseconds" are 0, and "date2 + timedelta == date1"
+   after.
 
 4. "date" objects are equal if they represent the same date.
 
@@ -607,8 +622,8 @@ Instance methods:
 
 date.replace(year=self.year, month=self.month, day=self.day)
 
-   Return a date with the same value, except for those parameters
-   given new values by whichever keyword arguments are specified.
+   Return a new "date" object with the same values, but with specified
+   parameters updated.
 
    Example:
 >
@@ -628,13 +643,13 @@ date.timetuple()
       time.struct_time((d.year, d.month, d.day, 0, 0, 0, d.weekday(), yday, -1))
 <
    where "yday = d.toordinal() - date(d.year, 1, 1).toordinal() + 1"
-   is the day number within the current year starting with "1" for
+   is the day number within the current year starting with 1 for
    January 1st.
 
 date.toordinal()
 
    Return the proleptic Gregorian ordinal of the date, where January 1
-   of year 1 has ordinal 1. For any "date" object _d_,
+   of year 1 has ordinal 1. For any "date" object "d",
    "date.fromordinal(d.toordinal()) == d".
 
 date.weekday()
@@ -687,7 +702,7 @@ date.isoformat()
 <
 date.__str__()
 
-   For a date _d_, "str(d)" is equivalent to "d.isoformat()".
+   For a date "d", "str(d)" is equivalent to "d.isoformat()".
 
 date.ctime()
 
@@ -763,7 +778,7 @@ More examples of working with "date":
 
    >>> # Methods for to extracting 'components' under different calendars
    >>> t = d.timetuple()
-   >>> for i in t:     
+   >>> for i in t:
    ...     print(i)
    2002                # year
    3                   # month
@@ -775,7 +790,7 @@ More examples of working with "date":
    70                  # 70th day in the year
    -1
    >>> ic = d.isocalendar()
-   >>> for i in ic:    
+   >>> for i in ic:
    ...     print(i)
    2002                # ISO year
    11                  # ISO week number
@@ -829,7 +844,7 @@ Other constructors, all class methods:
 
 classmethod datetime.today()
 
-   Return the current local datetime, with "tzinfo" "None".
+   Return the current local date and time, with "tzinfo" "None".
 
    Equivalent to:
 >
@@ -855,6 +870,11 @@ classmethod datetime.now(tz=None)
    time zone.
 
    This function is preferred over "today()" and "utcnow()".
+
+   Note:
+
+     Subsequent calls to "datetime.now()" may return the same instant
+     depending on the precision of the underlying clock.
 
 classmethod datetime.utcnow()
 
@@ -962,7 +982,7 @@ classmethod datetime.combine(date, time, tzinfo=time.tzinfo)
    If the _date_ argument is a "datetime" object, its time components
    and "tzinfo" attributes are ignored.
 
-   For any "datetime" object _d_, "d == datetime.combine(d.date(),
+   For any "datetime" object "d", "d == datetime.combine(d.date(),
    d.time(), d.tzinfo)".
 
    Changed in version 3.6: Added the _tzinfo_ argument.
@@ -1006,11 +1026,11 @@ classmethod datetime.fromisoformat(date_string)
       datetime.datetime(2011, 11, 4, 0, 5, 23, 283000)
       >>> datetime.fromisoformat('2011-11-04 00:05:23.283+00:00')
       datetime.datetime(2011, 11, 4, 0, 5, 23, 283000, tzinfo=datetime.timezone.utc)
-      >>> datetime.fromisoformat('2011-11-04T00:05:23+04:00')   
+      >>> datetime.fromisoformat('2011-11-04T00:05:23+04:00')
       datetime.datetime(2011, 11, 4, 0, 5, 23,
           tzinfo=datetime.timezone(datetime.timedelta(seconds=14400)))
 <
-   New in version 3.7.
+   Added in version 3.7.
 
    Changed in version 3.11: Previously, this method only supported
    formats that could be emitted by "date.isoformat()" or
@@ -1023,14 +1043,14 @@ classmethod datetime.fromisocalendar(year, week, day)
    datetime are populated with their normal default values. This is
    the inverse of the function "datetime.isocalendar()".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 classmethod datetime.strptime(date_string, format)
 
    Return a "datetime" corresponding to _date_string_, parsed
    according to _format_.
 
-   If _format_ does not contain microseconds or timezone information,
+   If _format_ does not contain microseconds or time zone information,
    this is equivalent to:
 >
       datetime(*(time.strptime(date_string, format)[0:6]))
@@ -1098,11 +1118,11 @@ datetime.fold
    In "[0, 1]". Used to disambiguate wall times during a repeated
    interval. (A repeated interval occurs when clocks are rolled back
    at the end of daylight saving time or when the UTC offset for the
-   current zone is decreased for political reasons.) The value 0 (1)
-   represents the earlier (later) of the two moments with the same
-   wall time representation.
+   current zone is decreased for political reasons.) The values 0 and
+   1 represent, respectively, the earlier and later of the two moments
+   with the same wall time representation.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 Supported operations:
 
@@ -1123,16 +1143,16 @@ Supported operations:
 | "datetime1 >= datetime2"                |                                  |
 +-----------------------------------------+----------------------------------+
 
-1. datetime2 is a duration of timedelta removed from datetime1, moving
-   forward in time if "timedelta.days" > 0, or backward if
-   "timedelta.days" < 0. The result has the same "tzinfo" attribute as
-   the input datetime, and datetime2 - datetime1 == timedelta after.
-   "OverflowError" is raised if datetime2.year would be smaller than
+1. "datetime2" is a duration of "timedelta" removed from "datetime1",
+   moving forward in time if "timedelta.days > 0", or backward if
+   "timedelta.days < 0". The result has the same "tzinfo" attribute as
+   the input datetime, and "datetime2 - datetime1 == timedelta" after.
+   "OverflowError" is raised if "datetime2.year" would be smaller than
    "MINYEAR" or larger than "MAXYEAR". Note that no time zone
    adjustments are done even if the input is an aware object.
 
-2. Computes the datetime2 such that datetime2 + timedelta ==
-   datetime1. As for addition, the result has the same "tzinfo"
+2. Computes the "datetime2" such that "datetime2 + timedelta ==
+   datetime1". As for addition, the result has the same "tzinfo"
    attribute as the input datetime, and no time zone adjustments are
    done even if the input is aware.
 
@@ -1142,11 +1162,11 @@ Supported operations:
 
    If both are naive, or both are aware and have the same "tzinfo"
    attribute, the "tzinfo" attributes are ignored, and the result is a
-   "timedelta" object _t_ such that "datetime2 + t == datetime1". No
+   "timedelta" object "t" such that "datetime2 + t == datetime1". No
    time zone adjustments are done in this case.
 
    If both are aware and have different "tzinfo" attributes, "a-b"
-   acts as if _a_ and _b_ were first converted to naive UTC datetimes.
+   acts as if "a" and "b" were first converted to naive UTC datetimes.
    The result is "(a.replace(tzinfo=None) - a.utcoffset()) -
    (b.replace(tzinfo=None) - b.utcoffset())" except that the
    implementation never overflows.
@@ -1208,11 +1228,10 @@ datetime.timetz()
 
 datetime.replace(year=self.year, month=self.month, day=self.day, hour=self.hour, minute=self.minute, second=self.second, microsecond=self.microsecond, tzinfo=self.tzinfo, *, fold=0)
 
-   Return a datetime with the same attributes, except for those
-   attributes given new values by whichever keyword arguments are
-   specified. Note that "tzinfo=None" can be specified to create a
-   naive datetime from an aware datetime with no conversion of date
-   and time data.
+   Return a new "datetime" object with the same attributes, but with
+   specified parameters updated. Note that "tzinfo=None" can be
+   specified to create a naive datetime from an aware datetime with no
+   conversion of date and time data.
 
    Changed in version 3.6: Added the _fold_ parameter.
 
@@ -1225,26 +1244,26 @@ datetime.astimezone(tz=None)
    If provided, _tz_ must be an instance of a "tzinfo" subclass, and
    its "utcoffset()" and "dst()" methods must not return "None". If
    _self_ is naive, it is presumed to represent time in the system
-   timezone.
+   time zone.
 
    If called without arguments (or with "tz=None") the system local
-   timezone is assumed for the target timezone. The ".tzinfo"
+   time zone is assumed for the target time zone. The ".tzinfo"
    attribute of the converted datetime instance will be set to an
    instance of "timezone" with the zone name and offset obtained from
    the OS.
 
    If "self.tzinfo" is _tz_, "self.astimezone(tz)" is equal to _self_:
    no adjustment of date or time data is performed. Else the result is
-   local time in the timezone _tz_, representing the same UTC time as
+   local time in the time zone _tz_, representing the same UTC time as
    _self_:  after "astz = dt.astimezone(tz)", "astz -
    astz.utcoffset()" will have the same date and time data as "dt -
    dt.utcoffset()".
 
-   If you merely want to attach a time zone object _tz_ to a datetime
+   If you merely want to attach a "timezone" object _tz_ to a datetime
    _dt_ without adjustment of date and time data, use
-   "dt.replace(tzinfo=tz)". If you merely want to remove the time zone
-   object from an aware datetime _dt_ without conversion of date and
-   time data, use "dt.replace(tzinfo=None)".
+   "dt.replace(tzinfo=tz)". If you merely want to remove the
+   "timezone" object from an aware datetime _dt_ without conversion of
+   date and time data, use "dt.replace(tzinfo=None)".
 
    Note that the default "tzinfo.fromutc()" method can be overridden
    in a "tzinfo" subclass to affect the result returned by
@@ -1253,7 +1272,7 @@ datetime.astimezone(tz=None)
       def astimezone(self, tz):
           if self.tzinfo is tz:
               return self
-          # Convert self to UTC, and attach the new time zone object.
+          # Convert self to UTC, and attach the new timezone object.
           utc = (self - self.utcoffset()).replace(tzinfo=tz)
           # Convert from UTC to tz's local time.
           return tz.fromutc(utc)
@@ -1301,22 +1320,22 @@ datetime.timetuple()
                         d.weekday(), yday, dst))
 <
    where "yday = d.toordinal() - date(d.year, 1, 1).toordinal() + 1"
-   is the day number within the current year starting with "1" for
+   is the day number within the current year starting with 1 for
    January 1st. The "tm_isdst" flag of the result is set according to
    the "dst()" method: "tzinfo" is "None" or "dst()" returns "None",
    "tm_isdst" is set to "-1"; else if "dst()" returns a non-zero
-   value, "tm_isdst" is set to "1"; else "tm_isdst" is set to "0".
+   value, "tm_isdst" is set to 1; else "tm_isdst" is set to 0.
 
 datetime.utctimetuple()
 
-   If "datetime" instance _d_ is naive, this is the same as
+   If "datetime" instance "d" is naive, this is the same as
    "d.timetuple()" except that "tm_isdst" is forced to 0 regardless of
    what "d.dst()" returns. DST is never in effect for a UTC time.
 
-   If _d_ is aware, _d_ is normalized to UTC time, by subtracting
+   If "d" is aware, "d" is normalized to UTC time, by subtracting
    "d.utcoffset()", and a "time.struct_time" for the normalized time
    is returned. "tm_isdst" is forced to 0. Note that an
-   "OverflowError" may be raised if _d_.year was "MINYEAR" or
+   "OverflowError" may be raised if "d.year" was "MINYEAR" or
    "MAXYEAR" and UTC adjustment spills over a year boundary.
 
    Warning:
@@ -1351,7 +1370,7 @@ datetime.timestamp()
 >
       (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
 <
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.6: The "timestamp()" method uses the "fold"
    attribute to disambiguate the times during a repeated interval.
@@ -1360,7 +1379,7 @@ datetime.timestamp()
 
      There is no method to obtain the POSIX timestamp directly from a
      naive "datetime" instance representing UTC time. If your
-     application uses this convention and your system timezone is not
+     application uses this convention and your system time zone is not
      set to UTC, you can obtain the POSIX timestamp by supplying
      "tzinfo=timezone.utc":
 
@@ -1454,7 +1473,7 @@ datetime.isoformat(sep='T', timespec='auto')
    "ValueError" will be raised on an invalid _timespec_ argument:
 >
       >>> from datetime import datetime
-      >>> datetime.now().isoformat(timespec='minutes')   
+      >>> datetime.now().isoformat(timespec='minutes')
       '2002-12-25T00:00'
       >>> dt = datetime(2015, 1, 1, 12, 30, 59, 0)
       >>> dt.isoformat(timespec='microseconds')
@@ -1464,7 +1483,7 @@ datetime.isoformat(sep='T', timespec='auto')
 
 datetime.__str__()
 
-   For a "datetime" instance _d_, "str(d)" is equivalent to
+   For a "datetime" instance "d", "str(d)" is equivalent to
    "d.isoformat(' ')".
 
 datetime.ctime()
@@ -1514,9 +1533,9 @@ Examples of working with "datetime" objects:
    datetime.datetime(2005, 7, 14, 12, 30)
 
    >>> # Using datetime.now()
-   >>> datetime.now()   
+   >>> datetime.now()
    datetime.datetime(2007, 12, 6, 16, 29, 43, 79043)   # GMT +1
-   >>> datetime.now(timezone.utc)   
+   >>> datetime.now(timezone.utc)
    datetime.datetime(2007, 12, 6, 15, 29, 43, 79060, tzinfo=datetime.timezone.utc)
 
    >>> # Using datetime.strptime()
@@ -1526,7 +1545,7 @@ Examples of working with "datetime" objects:
 
    >>> # Using datetime.timetuple() to get tuple of all attributes
    >>> tt = dt.timetuple()
-   >>> for it in tt:   
+   >>> for it in tt:
    ...     print(it)
    ...
    2006    # year
@@ -1541,7 +1560,7 @@ Examples of working with "datetime" objects:
 
    >>> # Date in ISO format
    >>> ic = dt.isocalendar()
-   >>> for it in ic:   
+   >>> for it in ic:
    ...     print(it)
    ...
    2006    # ISO year
@@ -1648,8 +1667,7 @@ class datetime.time(hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, f
    * "fold in [0, 1]".
 
    If an argument outside those ranges is given, "ValueError" is
-   raised. All default to "0" except _tzinfo_, which defaults to
-   "None".
+   raised. All default to 0 except _tzinfo_, which defaults to "None".
 
 Class attributes:
 
@@ -1695,14 +1713,14 @@ time.fold
    In "[0, 1]". Used to disambiguate wall times during a repeated
    interval. (A repeated interval occurs when clocks are rolled back
    at the end of daylight saving time or when the UTC offset for the
-   current zone is decreased for political reasons.) The value 0 (1)
-   represents the earlier (later) of the two moments with the same
-   wall time representation.
+   current zone is decreased for political reasons.) The values 0 and
+   1 represent, respectively, the earlier and later of the two moments
+   with the same wall time representation.
 
-   New in version 3.6.
+   Added in version 3.6.
 
-"time" objects support equality and order comparisons, where _a_ is
-considered less than _b_ when _a_ precedes _b_ in time.
+"time" objects support equality and order comparisons, where "a" is
+considered less than "b" when "a" precedes "b" in time.
 
 Naive and aware "time" objects are never equal. Order comparison
 between naive and aware "time" objects raises "TypeError".
@@ -1760,7 +1778,7 @@ classmethod time.fromisoformat(time_string)
       >>> time.fromisoformat('04:23:01+00:00')
       datetime.time(4, 23, 1, tzinfo=datetime.timezone.utc)
 <
-   New in version 3.7.
+   Added in version 3.7.
 
    Changed in version 3.11: Previously, this method only supported
    formats that could be emitted by "time.isoformat()".
@@ -1769,10 +1787,10 @@ Instance methods:
 
 time.replace(hour=self.hour, minute=self.minute, second=self.second, microsecond=self.microsecond, tzinfo=self.tzinfo, *, fold=0)
 
-   Return a "time" with the same value, except for those attributes
-   given new values by whichever keyword arguments are specified. Note
-   that "tzinfo=None" can be specified to create a naive "time" from
-   an aware "time", without conversion of the time data.
+   Return a new "time" with the same values, but with specified
+   parameters updated. Note that "tzinfo=None" can be specified to
+   create a naive "time" from an aware "time", without conversion of
+   the time data.
 
    Changed in version 3.6: Added the _fold_ parameter.
 
@@ -1830,7 +1848,7 @@ time.isoformat(timespec='auto')
 
 time.__str__()
 
-   For a time _t_, "str(t)" is equivalent to "t.isoformat()".
+   For a time "t", "str(t)" is equivalent to "t.isoformat()".
 
 time.strftime(format)
 
@@ -1923,7 +1941,7 @@ class datetime.tzinfo
    implementations of the standard "tzinfo" methods needed by the
    "datetime" methods you use. The "datetime" module provides
    "timezone", a simple concrete subclass of "tzinfo" which can
-   represent timezones with fixed offset from UTC such as UTC itself
+   represent time zones with fixed offset from UTC such as UTC itself
    or North American EST and EDT.
 
    Special requirement for pickling:  A "tzinfo" subclass must have an
@@ -1984,7 +2002,7 @@ tzinfo.dst(dt)
    "tz.utcoffset(dt) - tz.dst(dt)"
 
    must return the same result for every "datetime" _dt_ with
-   "dt.tzinfo == tz"  For sane "tzinfo" subclasses, this expression
+   "dt.tzinfo == tz". For sane "tzinfo" subclasses, this expression
    yields the time zone’s “standard offset”, which should not depend
    on the date or the time, but only on geographic location. The
    implementation of "datetime.astimezone()" relies on this, but
@@ -2022,13 +2040,13 @@ tzinfo.tzname(dt)
    Return the time zone name corresponding to the "datetime" object
    _dt_, as a string. Nothing about string names is defined by the
    "datetime" module, and there’s no requirement that it mean anything
-   in particular. For example, “GMT”, “UTC”, “-500”, “-5:00”, “EDT”,
-   “US/Eastern”, “America/New York” are all valid replies. Return
-   "None" if a string name isn’t known. Note that this is a method
-   rather than a fixed string primarily because some "tzinfo"
-   subclasses will wish to return different names depending on the
-   specific value of _dt_ passed, especially if the "tzinfo" class is
-   accounting for daylight time.
+   in particular. For example, ""GMT"", ""UTC"", ""-500"", ""-5:00"",
+   ""EDT"", ""US/Eastern"", ""America/New York"" are all valid
+   replies. Return "None" if a string name isn’t known. Note that this
+   is a method rather than a fixed string primarily because some
+   "tzinfo" subclasses will wish to return different names depending
+   on the specific value of _dt_ passed, especially if the "tzinfo"
+   class is accounting for daylight time.
 
    The default implementation of "tzname()" raises
    "NotImplementedError".
@@ -2050,7 +2068,7 @@ When a "datetime" object is passed in response to a "datetime" method,
 "dt.tzinfo" is the same object as _self_. "tzinfo" methods can rely on
 this, unless user code calls "tzinfo" methods directly. The intent is
 that the "tzinfo" methods interpret _dt_ as being in local time, and
-not need worry about objects in other timezones.
+not need worry about objects in other time zones.
 
 There is one more "tzinfo" method that a subclass may wish to
 override:
@@ -2345,12 +2363,12 @@ See also:
      "zoneinfo"
         The "datetime" module has a basic "timezone" class (for
         handling arbitrary fixed offsets from UTC) and its
-        "timezone.utc" attribute (a UTC timezone instance).
+        "timezone.utc" attribute (a UTC "timezone" instance).
 
-        "zoneinfo" brings the _IANA timezone database_ (also known as
+        "zoneinfo" brings the _IANA time zone database_ (also known as
         the Olson database) to Python, and its usage is recommended.
 
-  IANA timezone database
+  IANA time zone database
      The Time Zone Database (often called tz, tzdata or zoneinfo)
      contains code and data that represent the history of local time
      for many representative locations around the globe. It is updated
@@ -2362,11 +2380,12 @@ See also:
 ==================
 
 The "timezone" class is a subclass of "tzinfo", each instance of which
-represents a timezone defined by a fixed offset from UTC.
+represents a time zone defined by a fixed offset from UTC.
 
-Objects of this class cannot be used to represent timezone information
-in the locations where different offsets are used in different days of
-the year or where historical changes have been made to civil time.
+Objects of this class cannot be used to represent time zone
+information in the locations where different offsets are used in
+different days of the year or where historical changes have been made
+to civil time.
 
 class datetime.timezone(offset, name=None)
 
@@ -2379,7 +2398,7 @@ class datetime.timezone(offset, name=None)
    that will be used as the value returned by the "datetime.tzname()"
    method.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.7: The UTC offset is not restricted to a whole
    number of minutes.
@@ -2423,7 +2442,7 @@ Class attributes:
 
 timezone.utc
 
-   The UTC timezone, "timezone(timedelta(0))".
+   The UTC time zone, "timezone(timedelta(0))".
 
 
 "strftime()" and "strptime()" Behavior
@@ -2600,9 +2619,9 @@ codes supported on your platform, consult the _strftime(3)_
 documentation. There are also differences between platforms in
 handling of unsupported format specifiers.
 
-New in version 3.6: "%G", "%u" and "%V" were added.
+Added in version 3.6: "%G", "%u" and "%V" were added.
 
-New in version 3.12: "%:z" was added.
+Added in version 3.12: "%:z" was added.
 
 
 Technical Detail
@@ -2614,24 +2633,39 @@ Broadly speaking, "d.strftime(fmt)" acts like the "time" module’s
 
 For the "datetime.strptime()" class method, the default value is
 "1900-01-01T00:00:00.000": any components not specified in the format
-string will be pulled from the default value. [4]
+string will be pulled from the default value.
 
+Note:
+
+  When used to parse partial dates lacking a year, "strptime()" will
+  raise when encountering February 29 because its default year of 1900
+  is _not_ a leap year.  Always add a default leap year to partial
+  date strings before parsing.
+>
+   >>> from datetime import datetime
+   >>> value = "2/29"
+   >>> datetime.strptime(value, "%m/%d")
+   Traceback (most recent call last):
+   ...
+   ValueError: day is out of range for month
+   >>> datetime.strptime(f"1904 {value}", "%Y %m/%d")
+   datetime.datetime(1904, 2, 29, 0, 0)
+<
 Using "datetime.strptime(date_string, format)" is equivalent to:
 >
    datetime(*(time.strptime(date_string, format)[0:6]))
 <
-except when the format includes sub-second components or timezone
+except when the format includes sub-second components or time zone
 offset information, which are supported in "datetime.strptime" but are
 discarded by "time.strptime".
 
 For "time" objects, the format codes for year, month, and day should
 not be used, as "time" objects have no such values. If they’re used
-anyway, "1900" is substituted for the year, and "1" for the month and
-day.
+anyway, 1900 is substituted for the year, and 1 for the month and day.
 
 For "date" objects, the format codes for hours, minutes, seconds, and
 microseconds should not be used, as "date" objects have no such
-values. If they’re used anyway, "0" is substituted for them.
+values. If they’re used anyway, 0 is substituted for them.
 
 For the same reason, handling of format strings containing Unicode
 code points that can’t be represented in the charset of the current
@@ -2731,6 +2765,10 @@ Notes:
    optional for  formats "%d", "%m", "%H", "%I", "%M", "%S", "%j",
    "%U", "%W", and "%V". Format "%y" does require a leading zero.
 
+10. Parsing dates without a year using "strptime()" will fail on
+    representations of February 29 as that date does not exist in the
+    default year of 1900.
+
 -[ Footnotes ]-
 
 [1] If, that is, we ignore the effects of Relativity
@@ -2743,8 +2781,5 @@ Notes:
 
 [3] See R. H. van Gent’s guide to the mathematics of the ISO 8601
     calendar for a good explanation.
-
-[4] Passing "datetime.strptime('Feb 29', '%b %d')" will fail since
-    "1900" is not a leap year.
 
 vim:tw=78:ts=8:ft=help:norl:

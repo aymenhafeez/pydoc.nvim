@@ -1,5 +1,5 @@
-Python 3.12.3
-*audioop.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*audioop.pyx*                                 Last change: 2025 Dec 20
 
 "audioop" — Manipulate raw audio data
 *************************************
@@ -73,7 +73,7 @@ audioop.byteswap(fragment, width)
    fragment. Converts big-endian samples to little-endian and vice
    versa.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 audioop.cross(fragment, width)
 

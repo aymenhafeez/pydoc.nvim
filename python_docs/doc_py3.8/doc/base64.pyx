@@ -1,5 +1,5 @@
-Python 3.8.19
-*base64.pyx*                                  Last change: 2024 May 24
+Python 3.8.20
+*base64.pyx*                                  Last change: 2025 Dec 20
 
 "base64" — Base16, Base32, Base64, Base85 Data Encodings
 ********************************************************

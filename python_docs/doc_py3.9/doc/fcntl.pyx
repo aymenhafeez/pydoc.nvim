@@ -1,5 +1,5 @@
-Python 3.9.19
-*fcntl.pyx*                                   Last change: 2024 May 24
+Python 3.9.25
+*fcntl.pyx*                                   Last change: 2025 Dec 20
 
 "fcntl" — The "fcntl" and "ioctl" system calls
 **********************************************

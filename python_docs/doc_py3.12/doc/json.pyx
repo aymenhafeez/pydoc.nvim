@@ -1,5 +1,5 @@
-Python 3.12.3
-*json.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*json.pyx*                                    Last change: 2025 Dec 20
 
 "json" — JSON encoder and decoder
 *********************************
@@ -132,70 +132,77 @@ Basic Usage
 json.dump(obj, fp, *, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None, default=None, sort_keys=False, **kw)
 
    Serialize _obj_ as a JSON formatted stream to _fp_ (a
-   ".write()"-supporting _file-like object_) using this conversion
-   table.
-
-   If _skipkeys_ is true (default: "False"), then dict keys that are
-   not of a basic type ("str", "int", "float", "bool", "None") will be
-   skipped instead of raising a "TypeError".
-
-   The "json" module always produces "str" objects, not "bytes"
-   objects. Therefore, "fp.write()" must support "str" input.
-
-   If _ensure_ascii_ is true (the default), the output is guaranteed
-   to have all incoming non-ASCII characters escaped.  If
-   _ensure_ascii_ is false, these characters will be output as-is.
-
-   If _check_circular_ is false (default: "True"), then the circular
-   reference check for container types will be skipped and a circular
-   reference will result in a "RecursionError" (or worse).
-
-   If _allow_nan_ is false (default: "True"), then it will be a
-   "ValueError" to serialize out of range "float" values ("nan",
-   "inf", "-inf") in strict compliance of the JSON specification. If
-   _allow_nan_ is true, their JavaScript equivalents ("NaN",
-   "Infinity", "-Infinity") will be used.
-
-   If _indent_ is a non-negative integer or string, then JSON array
-   elements and object members will be pretty-printed with that indent
-   level.  An indent level of 0, negative, or """" will only insert
-   newlines.  "None" (the default) selects the most compact
-   representation. Using a positive integer indent indents that many
-   spaces per level.  If _indent_ is a string (such as ""\t""), that
-   string is used to indent each level.
-
-   Changed in version 3.2: Allow strings for _indent_ in addition to
-   integers.
-
-   If specified, _separators_ should be an "(item_separator,
-   key_separator)" tuple.  The default is "(', ', ': ')" if _indent_
-   is "None" and "(',', ': ')" otherwise.  To get the most compact
-   JSON representation, you should specify "(',', ':')" to eliminate
-   whitespace.
-
-   Changed in version 3.4: Use "(',', ': ')" as default if _indent_ is
-   not "None".
-
-   If specified, _default_ should be a function that gets called for
-   objects that can’t otherwise be serialized.  It should return a
-   JSON encodable version of the object or raise a "TypeError".  If
-   not specified, "TypeError" is raised.
-
-   If _sort_keys_ is true (default: "False"), then the output of
-   dictionaries will be sorted by key.
-
-   To use a custom "JSONEncoder" subclass (e.g. one that overrides the
-   "default()" method to serialize additional types), specify it with
-   the _cls_ kwarg; otherwise "JSONEncoder" is used.
-
-   Changed in version 3.6: All optional parameters are now keyword-
-   only.
+   ".write()"-supporting _file-like object_) using this Python-to-JSON
+   conversion table.
 
    Note:
 
      Unlike "pickle" and "marshal", JSON is not a framed protocol, so
      trying to serialize multiple objects with repeated calls to
      "dump()" using the same _fp_ will result in an invalid JSON file.
+
+   Parameters:
+      * **obj** (_object_) – The Python object to be serialized.
+
+      * **fp** (_file-like object_) – The file-like object _obj_ will
+        be serialized to. The "json" module always produces "str"
+        objects, not "bytes" objects, therefore "fp.write()" must
+        support "str" input.
+
+      * **skipkeys** (_bool_) – If "True", keys that are not of a
+        basic type ("str", "int", "float", "bool", "None") will be
+        skipped instead of raising a "TypeError". Default "False".
+
+      * **ensure_ascii** (_bool_) – If "True" (the default), the
+        output is guaranteed to have all incoming non-ASCII characters
+        escaped. If "False", these characters will be outputted as-is.
+
+      * **check_circular** (_bool_) – If "False", the circular
+        reference check for container types is skipped and a circular
+        reference will result in a "RecursionError" (or worse).
+        Default "True".
+
+      * **allow_nan** (_bool_) – If "False", serialization of out-of-
+        range "float" values ("nan", "inf", "-inf") will result in a
+        "ValueError", in strict compliance with the JSON
+        specification. If "True" (the default), their JavaScript
+        equivalents ("NaN", "Infinity", "-Infinity") are used.
+
+      * **cls** (a "JSONEncoder" subclass) – If set, a custom JSON
+        encoder with the "default()" method overridden, for
+        serializing into custom datatypes. If "None" (the default),
+        "JSONEncoder" is used.
+
+      * **indent** (_int__ | __str__ | __None_) – If a positive
+        integer or string, JSON array elements and object members will
+        be pretty-printed with that indent level. A positive integer
+        indents that many spaces per level; a string (such as ""\t"")
+        is used to indent each level. If zero, negative, or """" (the
+        empty string), only newlines are inserted. If "None" (the
+        default), the most compact representation is used.
+
+      * **separators** (_tuple__ | __None_) – A two-tuple:
+        "(item_separator, key_separator)". If "None" (the default),
+        _separators_ defaults to "(', ', ': ')" if _indent_ is "None",
+        and "(',', ': ')" otherwise. For the most compact JSON,
+        specify "(',', ':')" to eliminate whitespace.
+
+      * **default** (_callable_ | None) – A function that is called
+        for objects that can’t otherwise be serialized. It should
+        return a JSON encodable version of the object or raise a
+        "TypeError". If "None" (the default), "TypeError" is raised.
+
+      * **sort_keys** (_bool_) – If "True", dictionaries will be
+        outputted sorted by key. Default "False".
+
+   Changed in version 3.2: Allow strings for _indent_ in addition to
+   integers.
+
+   Changed in version 3.4: Use "(',', ': ')" as default if _indent_ is
+   not "None".
+
+   Changed in version 3.6: All optional parameters are now keyword-
+   only.
 
 json.dumps(obj, *, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None, default=None, sort_keys=False, **kw)
 
@@ -213,71 +220,83 @@ json.dumps(obj, *, skipkeys=False, ensure_ascii=True, check_circular=True, allow
 
 json.load(fp, *, cls=None, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, object_pairs_hook=None, **kw)
 
-   Deserialize _fp_ (a ".read()"-supporting _text file_ or _binary
-   file_ containing a JSON document) to a Python object using this
+   Deserialize _fp_ to a Python object using the JSON-to-Python
    conversion table.
 
-   _object_hook_ is an optional function that will be called with the
-   result of any object literal decoded (a "dict").  The return value
-   of _object_hook_ will be used instead of the "dict".  This feature
-   can be used to implement custom decoders (e.g. JSON-RPC class
-   hinting).
+   Parameters:
+      * **fp** (_file-like object_) – A ".read()"-supporting _text
+        file_ or _binary file_ containing the JSON document to be
+        deserialized.
 
-   _object_pairs_hook_ is an optional function that will be called
-   with the result of any object literal decoded with an ordered list
-   of pairs.  The return value of _object_pairs_hook_ will be used
-   instead of the "dict".  This feature can be used to implement
-   custom decoders. If _object_hook_ is also defined, the
-   _object_pairs_hook_ takes priority.
+      * **cls** (a "JSONDecoder" subclass) – If set, a custom JSON
+        decoder. Additional keyword arguments to "load()" will be
+        passed to the constructor of _cls_. If "None" (the default),
+        "JSONDecoder" is used.
 
-   Changed in version 3.1: Added support for _object_pairs_hook_.
+      * **object_hook** (_callable_ | None) – If set, a function that
+        is called with the result of any object literal decoded (a
+        "dict"). The return value of this function will be used
+        instead of the "dict". This feature can be used to implement
+        custom decoders, for example JSON-RPC class hinting. Default
+        "None".
 
-   _parse_float_, if specified, will be called with the string of
-   every JSON float to be decoded.  By default, this is equivalent to
-   "float(num_str)". This can be used to use another datatype or
-   parser for JSON floats (e.g. "decimal.Decimal").
+      * **object_pairs_hook** (_callable_ | None) – If set, a function
+        that is called with the result of any object literal decoded
+        with an ordered list of pairs. The return value of this
+        function will be used instead of the "dict". This feature can
+        be used to implement custom decoders. If _object_hook_ is also
+        set, _object_pairs_hook_ takes priority. Default "None".
 
-   _parse_int_, if specified, will be called with the string of every
-   JSON int to be decoded.  By default, this is equivalent to
-   "int(num_str)".  This can be used to use another datatype or parser
-   for JSON integers (e.g. "float").
+      * **parse_float** (_callable_ | None) – If set, a function that
+        is called with the string of every JSON float to be decoded.
+        If "None" (the default), it is equivalent to "float(num_str)".
+        This can be used to parse JSON floats into custom datatypes,
+        for example "decimal.Decimal".
+
+      * **parse_int** (_callable_ | None) – If set, a function that is
+        called with the string of every JSON int to be decoded. If
+        "None" (the default), it is equivalent to "int(num_str)". This
+        can be used to parse JSON integers into custom datatypes, for
+        example "float".
+
+      * **parse_constant** (_callable_ | None) – If set, a function
+        that is called with one of the following strings:
+        "'-Infinity'", "'Infinity'", or "'NaN'". This can be used to
+        raise an exception if invalid JSON numbers are encountered.
+        Default "None".
+
+   Raises:
+      * **JSONDecodeError** – When the data being deserialized is not
+        a valid JSON document.
+
+      * **UnicodeDecodeError** – When the data being deserialized does
+        not contain UTF-8, UTF-16 or UTF-32 encoded data.
+
+   Changed in version 3.1:
+
+   * Added the optional _object_pairs_hook_ parameter.
+
+   * _parse_constant_ doesn’t get called on ‘null’, ‘true’, ‘false’
+     anymore.
+
+   Changed in version 3.6:
+
+   * All optional parameters are now keyword-only.
+
+   * _fp_ can now be a _binary file_. The input encoding should be
+     UTF-8, UTF-16 or UTF-32.
 
    Changed in version 3.11: The default _parse_int_ of "int()" now
    limits the maximum length of the integer string via the
    interpreter’s integer string conversion length limitation to help
    avoid denial of service attacks.
 
-   _parse_constant_, if specified, will be called with one of the
-   following strings: "'-Infinity'", "'Infinity'", "'NaN'". This can
-   be used to raise an exception if invalid JSON numbers are
-   encountered.
-
-   Changed in version 3.1: _parse_constant_ doesn’t get called on
-   ‘null’, ‘true’, ‘false’ anymore.
-
-   To use a custom "JSONDecoder" subclass, specify it with the "cls"
-   kwarg; otherwise "JSONDecoder" is used.  Additional keyword
-   arguments will be passed to the constructor of the class.
-
-   If the data being deserialized is not a valid JSON document, a
-   "JSONDecodeError" will be raised.
-
-   Changed in version 3.6: All optional parameters are now keyword-
-   only.
-
-   Changed in version 3.6: _fp_ can now be a _binary file_. The input
-   encoding should be UTF-8, UTF-16 or UTF-32.
-
 json.loads(s, *, cls=None, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, object_pairs_hook=None, **kw)
 
-   Deserialize _s_ (a "str", "bytes" or "bytearray" instance
+   Identical to "load()", but instead of a file-like object,
+   deserialize _s_ (a "str", "bytes" or "bytearray" instance
    containing a JSON document) to a Python object using this
    conversion table.
-
-   The other arguments have the same meaning as in "load()".
-
-   If the data being deserialized is not a valid JSON document, a
-   "JSONDecodeError" will be raised.
 
    Changed in version 3.6: _s_ can now be of type "bytes" or
    "bytearray". The input encoding should be UTF-8, UTF-16 or UTF-32.
@@ -318,33 +337,33 @@ class json.JSONDecoder(*, object_hook=None, parse_float=None, parse_int=None, pa
    It also understands "NaN", "Infinity", and "-Infinity" as their
    corresponding "float" values, which is outside the JSON spec.
 
-   _object_hook_, if specified, will be called with the result of
-   every JSON object decoded and its return value will be used in
-   place of the given "dict".  This can be used to provide custom
-   deserializations (e.g. to support JSON-RPC class hinting).
+   _object_hook_ is an optional function that will be called with the
+   result of every JSON object decoded and its return value will be
+   used in place of the given "dict".  This can be used to provide
+   custom deserializations (e.g. to support JSON-RPC class hinting).
 
-   _object_pairs_hook_, if specified will be called with the result of
-   every JSON object decoded with an ordered list of pairs.  The
-   return value of _object_pairs_hook_ will be used instead of the
-   "dict".  This feature can be used to implement custom decoders.  If
-   _object_hook_ is also defined, the _object_pairs_hook_ takes
-   priority.
+   _object_pairs_hook_ is an optional function that will be called
+   with the result of every JSON object decoded with an ordered list
+   of pairs.  The return value of _object_pairs_hook_ will be used
+   instead of the "dict".  This feature can be used to implement
+   custom decoders.  If _object_hook_ is also defined, the
+   _object_pairs_hook_ takes priority.
 
    Changed in version 3.1: Added support for _object_pairs_hook_.
 
-   _parse_float_, if specified, will be called with the string of
-   every JSON float to be decoded.  By default, this is equivalent to
-   "float(num_str)". This can be used to use another datatype or
-   parser for JSON floats (e.g. "decimal.Decimal").
+   _parse_float_ is an optional function that will be called with the
+   string of every JSON float to be decoded.  By default, this is
+   equivalent to "float(num_str)".  This can be used to use another
+   datatype or parser for JSON floats (e.g. "decimal.Decimal").
 
-   _parse_int_, if specified, will be called with the string of every
-   JSON int to be decoded.  By default, this is equivalent to
-   "int(num_str)".  This can be used to use another datatype or parser
-   for JSON integers (e.g. "float").
+   _parse_int_ is an optional function that will be called with the
+   string of every JSON int to be decoded.  By default, this is
+   equivalent to "int(num_str)".  This can be used to use another
+   datatype or parser for JSON integers (e.g. "float").
 
-   _parse_constant_, if specified, will be called with one of the
-   following strings: "'-Infinity'", "'Infinity'", "'NaN'". This can
-   be used to raise an exception if invalid JSON numbers are
+   _parse_constant_ is an optional function that will be called with
+   one of the following strings: "'-Infinity'", "'Infinity'", "'NaN'".
+   This can be used to raise an exception if invalid JSON numbers are
    encountered.
 
    If _strict_ is false ("True" is the default), then control
@@ -407,8 +426,9 @@ class json.JSONEncoder(*, skipkeys=False, ensure_ascii=True, check_circular=True
    implementation (to raise "TypeError").
 
    If _skipkeys_ is false (the default), a "TypeError" will be raised
-   when trying to encode keys that are not "str", "int", "float" or
-   "None".  If _skipkeys_ is true, such items are simply skipped.
+   when trying to encode keys that are not "str", "int", "float",
+   "bool" or "None".  If _skipkeys_ is true, such items are simply
+   skipped.
 
    If _ensure_ascii_ is true (the default), the output is guaranteed
    to have all incoming non-ASCII characters escaped.  If
@@ -520,7 +540,7 @@ exception json.JSONDecodeError(msg, doc, pos)
 
       The column corresponding to _pos_.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 
 Standard Compliance and Interoperability
@@ -707,26 +727,26 @@ outfile
 
    Sort the output of dictionaries alphabetically by key.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 --no-ensure-ascii
 
    Disable escaping of non-ascii characters, see "json.dumps()" for
    more information.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 --json-lines
 
    Parse every input line as separate JSON object.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 --indent, --tab, --no-indent, --compact
 
    Mutually exclusive options for whitespace control.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 -h, --help
 

@@ -1,5 +1,5 @@
-Python 3.9.19
-*email.contentmanager.pyx*                    Last change: 2024 May 24
+Python 3.9.25
+*email.contentmanager.pyx*                    Last change: 2025 Dec 20
 
 "email.contentmanager": Managing MIME Content
 *********************************************

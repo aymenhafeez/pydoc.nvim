@@ -1,5 +1,5 @@
-Python 3.11.9
-*random.pyx*                                  Last change: 2024 May 24
+Python 3.11.14
+*random.pyx*                                  Last change: 2025 Dec 20
 
 "random" — Generate pseudo-random numbers
 *****************************************

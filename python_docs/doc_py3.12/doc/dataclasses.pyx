@@ -1,5 +1,5 @@
-Python 3.12.3
-*dataclasses.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*dataclasses.pyx*                             Last change: 2025 Dec 20
 
 "dataclasses" — Data Classes
 ****************************
@@ -9,7 +9,7 @@ Python 3.12.3
 ======================================================================
 
 This module provides a decorator and functions for automatically
-adding generated _special method_s such as "__init__()" and
+adding generated _special methods_ such as "__init__()" and
 "__repr__()" to user-defined classes.  It was originally described in
 **PEP 557**.
 
@@ -38,7 +38,7 @@ will add, among other things, a "__init__()" that looks like:
 Note that this method is automatically added to the class: it is not
 directly specified in the "InventoryItem" definition shown above.
 
-New in version 3.7.
+Added in version 3.7.
 
 
 Module contents
@@ -84,13 +84,13 @@ Module contents
 <
    The parameters to "@dataclass" are:
 
-   * "init": If true (the default), a "__init__()" method will be
+   * _init_: If true (the default), a "__init__()" method will be
      generated.
 
      If the class already defines "__init__()", this parameter is
      ignored.
 
-   * "repr": If true (the default), a "__repr__()" method will be
+   * _repr_: If true (the default), a "__repr__()" method will be
      generated.  The generated repr string will have the class name
      and the name and repr of each field, in the order they are
      defined in the class.  Fields that are marked as being excluded
@@ -101,7 +101,7 @@ Module contents
      If the class already defines "__repr__()", this parameter is
      ignored.
 
-   * "eq": If true (the default), an "__eq__()" method will be
+   * _eq_: If true (the default), an "__eq__()" method will be
      generated.  This method compares the class as if it were a tuple
      of its fields, in order.  Both instances in the comparison must
      be of the identical type.
@@ -109,25 +109,25 @@ Module contents
      If the class already defines "__eq__()", this parameter is
      ignored.
 
-   * "order": If true (the default is "False"), "__lt__()",
+   * _order_: If true (the default is "False"), "__lt__()",
      "__le__()", "__gt__()", and "__ge__()" methods will be generated.
      These compare the class as if it were a tuple of its fields, in
      order.  Both instances in the comparison must be of the identical
-     type.  If "order" is true and "eq" is false, a "ValueError" is
+     type.  If _order_ is true and _eq_ is false, a "ValueError" is
      raised.
 
      If the class already defines any of "__lt__()", "__le__()",
      "__gt__()", or "__ge__()", then "TypeError" is raised.
 
-   * "unsafe_hash": If "False" (the default), a "__hash__()" method is
-     generated according to how "eq" and "frozen" are set.
+   * _unsafe_hash_: If "False" (the default), a "__hash__()" method is
+     generated according to how _eq_ and _frozen_ are set.
 
      "__hash__()" is used by built-in "hash()", and when objects are
      added to hashed collections such as dictionaries and sets.
      Having a "__hash__()" implies that instances of the class are
      immutable. Mutability is a complicated property that depends on
      the programmer’s intent, the existence and behavior of
-     "__eq__()", and the values of the "eq" and "frozen" flags in the
+     "__eq__()", and the values of the _eq_ and _frozen_ flags in the
      "@dataclass" decorator.
 
      By default, "@dataclass" will not implicitly add a "__hash__()"
@@ -149,44 +149,60 @@ Module contents
      method in your dataclass and set "unsafe_hash=True"; this will
      result in a "TypeError".
 
-     If "eq" and "frozen" are both true, by default "@dataclass" will
-     generate a "__hash__()" method for you.  If "eq" is true and
-     "frozen" is false, "__hash__()" will be set to "None", marking it
-     unhashable (which it is, since it is mutable).  If "eq" is false,
+     If _eq_ and _frozen_ are both true, by default "@dataclass" will
+     generate a "__hash__()" method for you.  If _eq_ is true and
+     _frozen_ is false, "__hash__()" will be set to "None", marking it
+     unhashable (which it is, since it is mutable).  If _eq_ is false,
      "__hash__()" will be left untouched meaning the "__hash__()"
      method of the superclass will be used (if the superclass is
      "object", this means it will fall back to id-based hashing).
 
-   * "frozen": If true (the default is "False"), assigning to fields
+   * _frozen_: If true (the default is "False"), assigning to fields
      will generate an exception.  This emulates read-only frozen
      instances.  If "__setattr__()" or "__delattr__()" is defined in
      the class, then "TypeError" is raised.  See the discussion below.
 
-   * "match_args": If true (the default is "True"), the
-     "__match_args__" tuple will be created from the list of
-     parameters to the generated "__init__()" method (even if
-     "__init__()" is not generated, see above).  If false, or if
-     "__match_args__" is already defined in the class, then
+   * _match_args_: If true (the default is "True"), the
+     "__match_args__" tuple will be created from the list of non
+     keyword-only parameters to the generated "__init__()" method
+     (even if "__init__()" is not generated, see above).  If false, or
+     if "__match_args__" is already defined in the class, then
      "__match_args__" will not be generated.
 
-      New in version 3.10.
+      Added in version 3.10.
 
-   * "kw_only": If true (the default value is "False"), then all
+   * _kw_only_: If true (the default value is "False"), then all
      fields will be marked as keyword-only.  If a field is marked as
      keyword-only, then the only effect is that the "__init__()"
      parameter generated from a keyword-only field must be specified
-     with a keyword when "__init__()" is called.  There is no effect
-     on any other aspect of dataclasses.  See the _parameter_ glossary
-     entry for details.  Also see the "KW_ONLY" section.
+     with a keyword when "__init__()" is called. See the _parameter_
+     glossary entry for details.  Also see the "KW_ONLY" section.
 
-      New in version 3.10.
+     Keyword-only fields are not included in "__match_args__".
 
-   * "slots": If true (the default is "False"), "__slots__" attribute
+      Added in version 3.10.
+
+   * _slots_: If true (the default is "False"), "__slots__" attribute
      will be generated and new class will be returned instead of the
      original one. If "__slots__" is already defined in the class,
      then "TypeError" is raised.
 
-      New in version 3.10.
+      Warning:
+
+        Calling no-arg "super()" in dataclasses using "slots=True"
+        will result in the following exception being raised:
+        "TypeError: super(type, obj): obj must be an instance or
+        subtype of type". The two-arg "super()" is a valid workaround.
+        See gh-90562 for full details.
+
+      Warning:
+
+        Passing parameters to a base class "__init_subclass__()" when
+        using "slots=True" will result in a "TypeError". Either use
+        "__init_subclass__" with no parameters or use default values
+        as a workaround. See gh-91126 for full details.
+
+      Added in version 3.10.
 
       Changed in version 3.11: If a field name is already included in
       the "__slots__" of a base class, it will not be included in the
@@ -196,12 +212,12 @@ Module contents
       base class "__slots__" may be any iterable, but _not_ an
       iterator.
 
-   * "weakref_slot": If true (the default is "False"), add a slot
+   * _weakref_slot_: If true (the default is "False"), add a slot
      named “__weakref__”, which is required to make an instance
-     weakref-able.  It is an error to specify "weakref_slot=True"
+     "weakref-able". It is an error to specify "weakref_slot=True"
      without also specifying "slots=True".
 
-      New in version 3.11.
+      Added in version 3.11.
 
    "field"s may optionally specify a default value, using normal
    Python syntax:
@@ -242,28 +258,29 @@ dataclasses.field(*, default=MISSING, default_factory=MISSING, init=True, repr=T
 
    The parameters to "field()" are:
 
-   * "default": If provided, this will be the default value for this
+   * _default_: If provided, this will be the default value for this
      field.  This is needed because the "field()" call itself replaces
      the normal position of the default value.
 
-   * "default_factory": If provided, it must be a zero-argument
+   * _default_factory_: If provided, it must be a zero-argument
      callable that will be called when a default value is needed for
      this field.  Among other purposes, this can be used to specify
      fields with mutable default values, as discussed below.  It is an
-     error to specify both "default" and "default_factory".
+     error to specify both _default_ and _default_factory_.
 
-   * "init": If true (the default), this field is included as a
+   * _init_: If true (the default), this field is included as a
      parameter to the generated "__init__()" method.
 
-   * "repr": If true (the default), this field is included in the
+   * _repr_: If true (the default), this field is included in the
      string returned by the generated "__repr__()" method.
 
-   * "hash": This can be a bool or "None".  If true, this field is
-     included in the generated "__hash__()" method.  If "None" (the
-     default), use the value of "compare": this would normally be the
-     expected behavior.  A field should be considered in the hash if
-     it’s used for comparisons.  Setting this value to anything other
-     than "None" is discouraged.
+   * _hash_: This can be a bool or "None".  If true, this field is
+     included in the generated "__hash__()" method.  If false, this
+     field is excluded from the generated "__hash__()". If "None" (the
+     default), use the value of _compare_: this would normally be the
+     expected behavior, since a field should be included in the hash
+     if it’s used for comparisons.  Setting this value to anything
+     other than "None" is discouraged.
 
      One possible reason to set "hash=False" but "compare=True" would
      be if a field is expensive to compute a hash value for, that
@@ -271,26 +288,28 @@ dataclasses.field(*, default=MISSING, default_factory=MISSING, init=True, repr=T
      that contribute to the type’s hash value.  Even if a field is
      excluded from the hash, it will still be used for comparisons.
 
-   * "compare": If true (the default), this field is included in the
+   * _compare_: If true (the default), this field is included in the
      generated equality and comparison methods ("__eq__()",
      "__gt__()", et al.).
 
-   * "metadata": This can be a mapping or None. None is treated as an
-     empty dict.  This value is wrapped in "MappingProxyType()" to
+   * _metadata_: This can be a mapping or "None". "None" is treated as
+     an empty dict.  This value is wrapped in "MappingProxyType()" to
      make it read-only, and exposed on the "Field" object. It is not
      used at all by Data Classes, and is provided as a third-party
      extension mechanism. Multiple third-parties can each have their
      own key, to use as a namespace in the metadata.
 
-   * "kw_only": If true, this field will be marked as keyword-only.
+   * _kw_only_: If true, this field will be marked as keyword-only.
      This is used when the generated "__init__()" method’s parameters
      are computed.
 
-      New in version 3.10.
+     Keyword-only fields are also not included in "__match_args__".
+
+      Added in version 3.10.
 
    If the default value of a field is specified by a call to
    "field()", then the class attribute for this field will be replaced
-   by the specified "default" value.  If no "default" is provided,
+   by the specified _default_ value.  If _default_ is not provided,
    then the class attribute will be deleted.  The intent is that after
    the "@dataclass" decorator runs, the class attributes will all
    contain the default values for the fields, just as if the default
@@ -335,8 +354,8 @@ dataclasses.fields(class_or_instance)
 
 dataclasses.asdict(obj, *, dict_factory=dict)
 
-   Converts the dataclass "obj" to a dict (by using the factory
-   function "dict_factory").  Each dataclass is converted to a dict of
+   Converts the dataclass _obj_ to a dict (by using the factory
+   function _dict_factory_).  Each dataclass is converted to a dict of
    its fields, as "name: value" pairs.  dataclasses, dicts, lists, and
    tuples are recursed into.  Other objects are copied with
    "copy.deepcopy()".
@@ -360,14 +379,14 @@ dataclasses.asdict(obj, *, dict_factory=dict)
 <
    To create a shallow copy, the following workaround may be used:
 >
-      dict((field.name, getattr(obj, field.name)) for field in fields(obj))
+      {field.name: getattr(obj, field.name) for field in fields(obj)}
 <
-   "asdict()" raises "TypeError" if "obj" is not a dataclass instance.
+   "asdict()" raises "TypeError" if _obj_ is not a dataclass instance.
 
 dataclasses.astuple(obj, *, tuple_factory=tuple)
 
-   Converts the dataclass "obj" to a tuple (by using the factory
-   function "tuple_factory").  Each dataclass is converted to a tuple
+   Converts the dataclass _obj_ to a tuple (by using the factory
+   function _tuple_factory_).  Each dataclass is converted to a tuple
    of its field values.  dataclasses, dicts, lists, and tuples are
    recursed into. Other objects are copied with "copy.deepcopy()".
 
@@ -380,21 +399,21 @@ dataclasses.astuple(obj, *, tuple_factory=tuple)
 >
       tuple(getattr(obj, field.name) for field in dataclasses.fields(obj))
 <
-   "astuple()" raises "TypeError" if "obj" is not a dataclass
+   "astuple()" raises "TypeError" if _obj_ is not a dataclass
    instance.
 
 dataclasses.make_dataclass(cls_name, fields, *, bases=(), namespace=None, init=True, repr=True, eq=True, order=False, unsafe_hash=False, frozen=False, match_args=True, kw_only=False, slots=False, weakref_slot=False, module=None)
 
-   Creates a new dataclass with name "cls_name", fields as defined in
-   "fields", base classes as given in "bases", and initialized with a
-   namespace as given in "namespace".  "fields" is an iterable whose
+   Creates a new dataclass with name _cls_name_, fields as defined in
+   _fields_, base classes as given in _bases_, and initialized with a
+   namespace as given in _namespace_.  _fields_ is an iterable whose
    elements are each either "name", "(name, type)", or "(name, type,
    Field)".  If just "name" is supplied, "typing.Any" is used for
-   "type".  The values of "init", "repr", "eq", "order",
-   "unsafe_hash", "frozen", "match_args", "kw_only", "slots", and
-   "weakref_slot" have the same meaning as they do in "@dataclass".
+   "type".  The values of _init_, _repr_, _eq_, _order_,
+   _unsafe_hash_, _frozen_, _match_args_, _kw_only_, _slots_, and
+   _weakref_slot_ have the same meaning as they do in "@dataclass".
 
-   If "module" is defined, the "__module__" attribute of the dataclass
+   If _module_ is defined, the "__module__" attribute of the dataclass
    is set to that value. By default, it is set to the module name of
    the caller.
 
@@ -423,10 +442,10 @@ dataclasses.make_dataclass(cls_name, fields, *, bases=(), namespace=None, init=T
 <
 dataclasses.replace(obj, /, **changes)
 
-   Creates a new object of the same type as "obj", replacing fields
-   with values from "changes".  If "obj" is not a Data Class, raises
-   "TypeError".  If values in "changes" do not specify fields, raises
-   "TypeError".
+   Creates a new object of the same type as _obj_, replacing fields
+   with values from _changes_.  If _obj_ is not a Data Class, raises
+   "TypeError".  If keys in _changes_ are not field names of the given
+   dataclass, raises "TypeError".
 
    The newly returned object is created by calling the "__init__()"
    method of the dataclass.  This ensures that "__post_init__()", if
@@ -436,7 +455,7 @@ dataclasses.replace(obj, /, **changes)
    specified on the call to "replace()" so that they can be passed to
    "__init__()" and "__post_init__()".
 
-   It is an error for "changes" to contain any fields that are defined
+   It is an error for _changes_ to contain any fields that are defined
    as having "init=False".  A "ValueError" will be raised in this
    case.
 
@@ -450,8 +469,8 @@ dataclasses.replace(obj, /, **changes)
 
 dataclasses.is_dataclass(obj)
 
-   Return "True" if its parameter is a dataclass or an instance of
-   one, otherwise return "False".
+   Return "True" if its parameter is a dataclass (including subclasses
+   of a dataclass) or an instance of one, otherwise return "False".
 
    If you need to know if a class is an instance of a dataclass (and
    not a dataclass itself), then add a further check for "not
@@ -489,7 +508,7 @@ dataclasses.KW_ONLY
    In a single dataclass, it is an error to specify more than one
    field whose type is "KW_ONLY".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 exception dataclasses.FrozenInstanceError
 
@@ -603,7 +622,7 @@ immutability.  In that case, dataclasses will add "__setattr__()" and
 
 There is a tiny performance penalty when using "frozen=True":
 "__init__()" cannot use simple assignment to initialize fields, and
-must use "__setattr__()".
+must use "object.__setattr__()".
 
 
 Inheritance
@@ -675,14 +694,14 @@ re-ordered "__init__()" parameter list.
 Default factory functions
 =========================
 
-If a "field()" specifies a "default_factory", it is called with zero
+If a "field()" specifies a _default_factory_, it is called with zero
 arguments when a default value for the field is needed.  For example,
 to create a new instance of a list, use:
 >
    mylist: list = field(default_factory=list)
 <
 If a field is excluded from "__init__()" (using "init=False") and the
-field also specifies "default_factory", then the default factory
+field also specifies _default_factory_, then the default factory
 function will always be called from the generated "__init__()"
 function.  This happens because there is no other way to give the
 field an initial value.

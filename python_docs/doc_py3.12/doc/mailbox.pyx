@@ -1,5 +1,5 @@
-Python 3.12.3
-*mailbox.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*mailbox.pyx*                                 Last change: 2025 Dec 20
 
 "mailbox" — Manipulate mailboxes in various formats
 ***************************************************
@@ -186,7 +186,7 @@ class mailbox.Mailbox
       _key_, or raise a "KeyError" exception if no such message
       exists.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    get_string(key)
 
@@ -453,11 +453,30 @@ class mailbox.mbox(path, factory=None, create=True)
    Some "Mailbox" methods implemented by "mbox" deserve special
    remarks:
 
-   get_file(key)
+   get_bytes(key, from_=False)
+
+      Note: This method has an extra parameter (_from__) compared with
+      other classes. The first line of an mbox file entry is the Unix
+      “From “ line. If _from__ is False, the first line of the file is
+      dropped.
+
+   get_file(key, from_=False)
 
       Using the file after calling "flush()" or "close()" on the
       "mbox" instance may yield unpredictable results or raise an
       exception.
+
+      Note: This method has an extra parameter (_from__) compared with
+      other classes. The first line of an mbox file entry is the Unix
+      “From “ line. If _from__ is False, the first line of the file is
+      dropped.
+
+   get_string(key, from_=False)
+
+      Note: This method has an extra parameter (_from__) compared with
+      other classes. The first line of an mbox file entry is the Unix
+      “From “ line. If _from__ is False, the first line of the file is
+      dropped.
 
    lock()
    unlock()
@@ -694,11 +713,23 @@ class mailbox.MMDF(path, factory=None, create=True)
    Some "Mailbox" methods implemented by "MMDF" deserve special
    remarks:
 
-   get_file(key)
+   get_bytes(key, from_=False)
+
+      Note: This method has an extra parameter (_from__) compared with
+      other classes. The first line of an mbox file entry is the Unix
+      “From “ line. If _from__ is False, the first line of the file is
+      dropped.
+
+   get_file(key, from_=False)
 
       Using the file after calling "flush()" or "close()" on the
       "MMDF" instance may yield unpredictable results or raise an
       exception.
+
+      Note: This method has an extra parameter (_from__) compared with
+      other classes. The first line of an mbox file entry is the Unix
+      “From “ line. If _from__ is False, the first line of the file is
+      dropped.
 
    lock()
    unlock()
@@ -1194,7 +1225,7 @@ class mailbox.BabylMessage(message=None)
 
    get_visible()
 
-      Return an "Message" instance whose headers are the message’s
+      Return a "Message" instance whose headers are the message’s
       visible headers and whose body is empty.
 
    set_visible(visible)

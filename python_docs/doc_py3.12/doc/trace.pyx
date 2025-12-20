@@ -1,5 +1,5 @@
-Python 3.12.3
-*trace.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*trace.pyx*                                   Last change: 2025 Dec 20
 
 "trace" — Trace or track Python statement execution
 ***************************************************
@@ -40,7 +40,7 @@ directory.
 
    Display the version of the module and exit.
 
-New in version 3.8: Added "--module" option that allows to run an
+Added in version 3.8: Added "--module" option that allows to run an
 executable module.
 
 

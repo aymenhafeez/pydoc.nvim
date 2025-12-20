@@ -1,10 +1,10 @@
-Python 3.12.3
-*tracemalloc.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*tracemalloc.pyx*                             Last change: 2025 Dec 20
 
 "tracemalloc" — Trace memory allocations
 ****************************************
 
-New in version 3.4.
+Added in version 3.4.
 
 **Source code:** Lib/tracemalloc.py
 
@@ -351,7 +351,7 @@ tracemalloc.reset_peak()
 
    See also "get_traced_memory()".
 
-   New in version 3.9.
+   Added in version 3.9.
 
 tracemalloc.get_tracemalloc_memory()
 
@@ -428,7 +428,7 @@ class tracemalloc.DomainFilter(inclusive: bool, domain: int)
 
    Filter traces of memory blocks by their address space (domain).
 
-   New in version 3.6.
+   Added in version 3.6.
 
    inclusive
 

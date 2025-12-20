@@ -1,5 +1,5 @@
-Python 3.12.3
-*nntplib.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*nntplib.pyx*                                 Last change: 2025 Dec 20
 
 "nntplib" — NNTP protocol client
 ********************************
@@ -81,7 +81,7 @@ class nntplib.NNTP(host, port=119, user=None, password=None, readermode=None, us
    >>> from nntplib import NNTP
    >>> with NNTP('news.gmane.io') as n:
    ...     n.group('gmane.comp.python.committers')
-   ... 
+   ...
    ('211 1755 1 1755 gmane.comp.python.committers', 1755, 1, 1755, 'gmane.comp.python.committers')
    >>>
 
@@ -121,7 +121,7 @@ class nntplib.NNTP_SSL(host, port=563, user=None, password=None, ssl_context=Non
    arguments "self" and "line", where "line" is the bytes about to be
    sent to the remote host.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.4: The class now supports hostname check with
    "ssl.SSLContext.check_hostname" and _Server Name Indication_ (see
@@ -182,14 +182,14 @@ NNTP.nntp_version
    by the server.  In practice, this should be "2" for servers
    advertising **RFC 3977** compliance and "1" for others.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 NNTP.nntp_implementation
 
    A string describing the software name and version of the NNTP
    server, or "None" if not advertised by the server.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 
 Methods
@@ -235,7 +235,7 @@ NNTP.getcapabilities()
    >>> 'POST' in s.getcapabilities()
    True
 
-   New in version 3.2.
+   Added in version 3.2.
 
 NNTP.login(user=None, password=None, usenetrc=True)
 
@@ -249,7 +249,7 @@ NNTP.login(user=None, password=None, usenetrc=True)
    you must not set _user_ or _password_ when creating the object, and
    must set _usenetrc_ to False.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 NNTP.starttls(context=None)
 
@@ -263,7 +263,7 @@ NNTP.starttls(context=None)
    during a "NNTP" object initialization.  See "NNTP.login()" for
    information on suppressing this behavior.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.4: The method now supports hostname check with
    "ssl.SSLContext.check_hostname" and _Server Name Indication_ (see
@@ -279,9 +279,9 @@ NNTP.newgroups(date, *, file=None)
 
    >>> from datetime import date, timedelta
    >>> resp, groups = s.newgroups(date.today() - timedelta(days=3))
-   >>> len(groups) 
+   >>> len(groups)
    85
-   >>> groups[0] 
+   >>> groups[0]
    GroupInfo(group='gmane.network.tor.devel', last='4', first='1', flag='m')
 
 NNTP.newnews(group, date, *, file=None)
@@ -333,9 +333,9 @@ NNTP.descriptions(grouppattern)
    names to textual descriptions.
 
    >>> resp, descs = s.descriptions('gmane.comp.python.*')
-   >>> len(descs) 
+   >>> len(descs)
    295
-   >>> descs.popitem() 
+   >>> descs.popitem()
    ('gmane.comp.python.bio.general', 'BioPython discussion list (Moderated)')
 
 NNTP.description(group)
@@ -401,7 +401,7 @@ NNTP.over(message_spec, *, file=None)
       >>> nntplib.decode_header(over['from'])
       '"Martin v. Löwis" <martin@v.loewis.de>'
 <
-   New in version 3.2.
+   Added in version 3.2.
 
 NNTP.help(*, file=None)
 

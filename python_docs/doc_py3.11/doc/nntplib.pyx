@@ -1,5 +1,5 @@
-Python 3.11.9
-*nntplib.pyx*                                 Last change: 2024 May 24
+Python 3.11.14
+*nntplib.pyx*                                 Last change: 2025 Dec 20
 
 "nntplib" — NNTP protocol client
 ********************************

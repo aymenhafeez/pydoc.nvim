@@ -1,5 +1,5 @@
-Python 3.10.14
-*__main__.pyx*                                Last change: 2024 May 24
+Python 3.10.19
+*__main__.pyx*                                Last change: 2025 Dec 20
 
 "__main__" — Top-level code environment
 ***************************************

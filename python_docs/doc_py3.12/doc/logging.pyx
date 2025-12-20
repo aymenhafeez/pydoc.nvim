@@ -1,5 +1,5 @@
-Python 3.12.3
-*logging.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*logging.pyx*                                 Last change: 2025 Dec 20
 
 "logging" — Logging facility for Python
 ***************************************
@@ -109,12 +109,12 @@ The "name" is potentially a period-separated hierarchical value, like
 Loggers that are further down in the hierarchical list are children of
 loggers higher up in the list.  For example, given a logger with a
 name of "foo", loggers with names of "foo.bar", "foo.bar.baz", and
-"foo.bam" are all descendants of "foo".  The logger name hierarchy is
-analogous to the Python package hierarchy, and identical to it if you
-organise your loggers on a per-module basis using the recommended
-construction "logging.getLogger(__name__)".  That’s because in a
-module, "__name__" is the module’s name in the Python package
-namespace.
+"foo.bam" are all descendants of "foo".  In addition, all loggers are
+descendants of the root logger. The logger name hierarchy is analogous
+to the Python package hierarchy, and identical to it if you organise
+your loggers on a per-module basis using the recommended construction
+"logging.getLogger(__name__)".  That’s because in a module, "__name__"
+is the module’s name in the Python package namespace.
 
 class logging.Logger
 
@@ -268,7 +268,7 @@ class logging.Logger
       method, useful when the parent logger is named using e.g.
       "__name__" rather than a literal string.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    getChildren()
 
@@ -280,7 +280,7 @@ class logging.Logger
       a set including a logger named "foo.bar", but it wouldn’t
       include one named "foo.bar.baz".
 
-      New in version 3.12.
+      Added in version 3.12.
 
    debug(msg, *args, **kwargs)
 
@@ -332,7 +332,7 @@ class logging.Logger
       module.
 
       The fourth keyword argument is _extra_ which can be used to pass
-      a dictionary which is used to populate the __dict__ of the
+      a dictionary which is used to populate the "__dict__" of the
       "LogRecord" created for the logging event with user-defined
       attributes. These custom attributes can then be used as you
       like. For example, they could be incorporated into logged
@@ -484,7 +484,7 @@ class logging.Logger
       found - that will be the last logger which is checked for the
       existence of handlers.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    Changed in version 3.7: Loggers can now be pickled and unpickled.
 
@@ -576,7 +576,8 @@ class logging.Handler
 
    setFormatter(fmt)
 
-      Sets the "Formatter" for this handler to _fmt_.
+      Sets the formatter for this handler to _fmt_. The _fmt_ argument
+      must be a "Formatter" instance or "None".
 
    addFilter(filter)
 
@@ -602,9 +603,11 @@ class logging.Handler
    close()
 
       Tidy up any resources used by the handler. This version does no
-      output but removes the handler from an internal list of handlers
-      which is closed when "shutdown()" is called. Subclasses should
-      ensure that this gets called from overridden "close()" methods.
+      output but removes the handler from an internal map of handlers,
+      which is used for handler lookup by name.
+
+      Subclasses should ensure that this gets called from overridden
+      "close()" methods.
 
    handle(record)
 
@@ -1086,11 +1089,11 @@ class logging.LoggerAdapter(logger, extra)
 
    manager
 
-      Delegates to the underlying "manager`" on _logger_.
+      Delegates to the underlying "manager" on _logger_.
 
    _log
 
-      Delegates to the underlying "_log`()" method on _logger_.
+      Delegates to the underlying "_log()" method on _logger_.
 
    In addition to the above, "LoggerAdapter" supports the following
    methods of "Logger": "debug()", "info()", "warning()", "error()",
@@ -1134,10 +1137,12 @@ module-level functions.
 logging.getLogger(name=None)
 
    Return a logger with the specified name or, if name is "None",
-   return a logger which is the root logger of the hierarchy. If
-   specified, the name is typically a dot-separated hierarchical name
-   like _‘a’_, _‘a.b’_ or _‘a.b.c.d’_. Choice of these names is
-   entirely up to the developer who is using logging.
+   return the root logger of the hierarchy. If specified, the name is
+   typically a dot-separated hierarchical name like _‘a’_, _‘a.b’_ or
+   _‘a.b.c.d’_. Choice of these names is entirely up to the developer
+   who is using logging, though it is recommended that "__name__" be
+   used unless you have a specific reason for not doing that, as
+   mentioned in Logger Objects.
 
    All calls to this function with a given name return the same logger
    instance. This means that logger instances never need to be passed
@@ -1158,7 +1163,7 @@ logging.getLogRecordFactory()
 
    Return a callable which is used to create a "LogRecord".
 
-   New in version 3.2: This function has been provided, along with
+   Added in version 3.2: This function has been provided, along with
    "setLogRecordFactory()", to allow developers more control over how
    the "LogRecord" representing a logging event is constructed.
 
@@ -1266,7 +1271,7 @@ logging.getLevelNamesMapping()
    returned mapping is copied from an internal mapping on each call to
    this function.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 logging.getLevelName(level)
 
@@ -1306,13 +1311,13 @@ logging.getHandlerByName(name)
    Returns a handler with the specified _name_, or "None" if there is
    no handler with that name.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 logging.getHandlerNames()
 
    Returns an immutable set of all known handler names.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 logging.makeLogRecord(attrdict)
 
@@ -1447,7 +1452,7 @@ logging.setLogRecordFactory(factory)
       **factory** – The factory callable to be used to instantiate a
       log record.
 
-   New in version 3.2: This function has been provided, along with
+   Added in version 3.2: This function has been provided, along with
    "getLogRecordFactory()", to allow developers more control over how
    the "LogRecord" representing a logging event is constructed.
 
@@ -1504,7 +1509,7 @@ logging.lastResort
    need the earlier behaviour for some reason, "lastResort" can be set
    to "None".
 
-   New in version 3.2.
+   Added in version 3.2.
 
 logging.raiseExceptions
 

@@ -1,5 +1,5 @@
-Python 3.12.3
-*pprint.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*pprint.pyx*                                  Last change: 2025 Dec 20
 
 "pprint" — Data pretty printer
 ******************************
@@ -18,8 +18,8 @@ Python literals.
 
 The formatted representation keeps objects on a single line if it can,
 and breaks them onto multiple lines if they don’t fit within the
-allowed width. Construct "PrettyPrinter" objects explicitly if you
-need to adjust the width constraint.
+allowed width, adjustable by the _width_ parameter defaulting to 80
+characters.
 
 Dictionaries are sorted by key before the display is computed.
 
@@ -33,13 +33,46 @@ Changed in version 3.10: Added support for pretty-printing
 Functions
 =========
 
-pprint.pp(object, *args, sort_dicts=False, **kwargs)
+pprint.pp(object, stream=None, indent=1, width=80, depth=None, *, compact=False, sort_dicts=False, underscore_numbers=False)
 
-   Prints the formatted representation of _object_ followed by a
-   newline. If _sort_dicts_ is false (the default), dictionaries will
-   be displayed with their keys in insertion order, otherwise the dict
-   keys will be sorted. _args_ and _kwargs_ will be passed to
-   "pprint()" as formatting parameters.
+   Prints the formatted representation of _object_, followed by a
+   newline. This function may be used in the interactive interpreter
+   instead of the "print()" function for inspecting values. Tip: you
+   can reassign "print = pprint.pp" for use within a scope.
+
+   Parameters:
+      * **object** – The object to be printed.
+
+      * **stream** (_file-like object_ | None) – A file-like object to
+        which the output will be written by calling its "write()"
+        method. If "None" (the default), "sys.stdout" is used.
+
+      * **indent** (_int_) – The amount of indentation added for each
+        nesting level.
+
+      * **width** (_int_) – The desired maximum number of characters
+        per line in the output. If a structure cannot be formatted
+        within the width constraint, a best effort will be made.
+
+      * **depth** (_int__ | __None_) – The number of nesting levels
+        which may be printed. If the data structure being printed is
+        too deep, the next contained level is replaced by "...". If
+        "None" (the default), there is no constraint on the depth of
+        the objects being formatted.
+
+      * **compact** (_bool_) – Control the way long _sequences_ are
+        formatted. If "False" (the default), each item of a sequence
+        will be formatted on a separate line, otherwise as many items
+        as will fit within the _width_ will be formatted on each
+        output line.
+
+      * **sort_dicts** (_bool_) – If "True", dictionaries will be
+        formatted with their keys sorted, otherwise they will be
+        displayed in insertion order (the default).
+
+      * **underscore_numbers** (_bool_) – If "True", integers will be
+        formatted with the "_" character for a thousands separator,
+        otherwise underscores are not displayed (the default).
 
    >>> import pprint
    >>> stuff = ['spam', 'eggs', 'lumberjack', 'knights', 'ni']
@@ -52,22 +85,12 @@ pprint.pp(object, *args, sort_dicts=False, **kwargs)
     'knights',
     'ni']
 
-   New in version 3.8.
+   Added in version 3.8.
 
 pprint.pprint(object, stream=None, indent=1, width=80, depth=None, *, compact=False, sort_dicts=True, underscore_numbers=False)
 
-   Prints the formatted representation of _object_ on _stream_,
-   followed by a newline.  If _stream_ is "None", "sys.stdout" is
-   used. This may be used in the interactive interpreter instead of
-   the "print()" function for inspecting values (you can even reassign
-   "print = pprint.pprint" for use within a scope).
-
-   The configuration parameters _stream_, _indent_, _width_, _depth_,
-   _compact_, _sort_dicts_ and _underscore_numbers_ are passed to the
-   "PrettyPrinter" constructor and their meanings are as described in
-   its documentation below.
-
-   Note that _sort_dicts_ is "True" by default and you might want to
+   Alias for "pp()" with _sort_dicts_ set to "True" by default, which
+   would automatically sort the dictionaries’ keys, you might want to
    use "pp()" instead where it is "False" by default.
 
 pprint.pformat(object, indent=1, width=80, depth=None, *, compact=False, sort_dicts=True, underscore_numbers=False)
@@ -75,8 +98,8 @@ pprint.pformat(object, indent=1, width=80, depth=None, *, compact=False, sort_di
    Return the formatted representation of _object_ as a string.
    _indent_, _width_, _depth_, _compact_, _sort_dicts_ and
    _underscore_numbers_ are passed to the "PrettyPrinter" constructor
-   as formatting parameters and their meanings are as described in its
-   documentation below.
+   as formatting parameters and their meanings are as described in the
+   documentation above.
 
 pprint.isreadable(object)
 
@@ -111,55 +134,12 @@ pprint.saferepr(object)
 PrettyPrinter Objects
 =====================
 
-This module defines one class:
-
 class pprint.PrettyPrinter(indent=1, width=80, depth=None, stream=None, *, compact=False, sort_dicts=True, underscore_numbers=False)
 
-   Construct a "PrettyPrinter" instance.  This constructor understands
-   several keyword parameters.
+   Construct a "PrettyPrinter" instance.
 
-   _stream_ (default "sys.stdout") is a _file-like object_ to which
-   the output will be written by calling its "write()" method. If both
-   _stream_ and "sys.stdout" are "None", then "pprint()" silently
-   returns.
-
-   Other values configure the manner in which nesting of complex data
-   structures is displayed.
-
-   _indent_ (default 1) specifies the amount of indentation added for
-   each nesting level.
-
-   _depth_ controls the number of nesting levels which may be printed;
-   if the data structure being printed is too deep, the next contained
-   level is replaced by "...".  By default, there is no constraint on
-   the depth of the objects being formatted.
-
-   _width_ (default 80) specifies the desired maximum number of
-   characters per line in the output. If a structure cannot be
-   formatted within the width constraint, a best effort will be made.
-
-   _compact_ impacts the way that long sequences (lists, tuples, sets,
-   etc) are formatted. If _compact_ is false (the default) then each
-   item of a sequence will be formatted on a separate line.  If
-   _compact_ is true, as many items as will fit within the _width_
-   will be formatted on each output line.
-
-   If _sort_dicts_ is true (the default), dictionaries will be
-   formatted with their keys sorted, otherwise they will display in
-   insertion order.
-
-   If _underscore_numbers_ is true, integers will be formatted with
-   the "_" character for a thousands separator, otherwise underscores
-   are not displayed (the default).
-
-   Changed in version 3.4: Added the _compact_ parameter.
-
-   Changed in version 3.8: Added the _sort_dicts_ parameter.
-
-   Changed in version 3.10: Added the _underscore_numbers_ parameter.
-
-   Changed in version 3.11: No longer attempts to write to
-   "sys.stdout" if it is "None".
+   Arguments have the same meaning as for "pp()". Note that they are
+   in a different order, and that _sort_dicts_ defaults to "True".
 
    >>> import pprint
    >>> stuff = ['spam', 'eggs', 'lumberjack', 'knights', 'ni']
@@ -183,6 +163,15 @@ class pprint.PrettyPrinter(indent=1, width=80, depth=None, stream=None, *, compa
    >>> pp = pprint.PrettyPrinter(depth=6)
    >>> pp.pprint(tup)
    ('spam', ('eggs', ('lumberjack', ('knights', ('ni', ('dead', (...)))))))
+
+   Changed in version 3.4: Added the _compact_ parameter.
+
+   Changed in version 3.8: Added the _sort_dicts_ parameter.
+
+   Changed in version 3.10: Added the _underscore_numbers_ parameter.
+
+   Changed in version 3.11: No longer attempts to write to
+   "sys.stdout" if it is "None".
 
 "PrettyPrinter" instances have the following methods:
 
@@ -246,7 +235,7 @@ let’s fetch information about a project from PyPI:
    >>> import json
    >>> import pprint
    >>> from urllib.request import urlopen
-   >>> with urlopen('https://pypi.org/pypi/sampleproject/json') as resp:
+   >>> with urlopen('https://pypi.org/pypi/sampleproject/1.2.0/json') as resp:
    ...     project_info = json.load(resp)['info']
 <
 In its basic form, "pp()" shows the whole object:

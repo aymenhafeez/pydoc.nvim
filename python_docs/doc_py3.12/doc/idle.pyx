@@ -1,8 +1,8 @@
-Python 3.12.3
-*idle.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*idle.pyx*                                    Last change: 2025 Dec 20
 
-IDLE
-****
+IDLE — Python editor and shell
+******************************
 
 **Source code:** Lib/idlelib/
 
@@ -425,28 +425,28 @@ Several non-character keys move the cursor and possibly delete
 characters.  Deletion does not puts text on the clipboard, but IDLE
 has an undo list.  Wherever this doc discusses keys, ‘C’ refers to the
 "Control" key on Windows and Unix and the "Command" key on macOS.
-(And all such dicussions assume that the keys have not been re-bound
+(And all such discussions assume that the keys have not been re-bound
 to something else.)
 
 * Arrow keys move the cursor one character or line.
 
-* "C-LeftArrow" and "C-RightArrow" moves left or right one word.
+* "C"-"LeftArrow" and "C"-"RightArrow" moves left or right one word.
 
 * "Home" and "End" go to the beginning or end of the line.
 
 * "Page Up" and "Page Down" go up or down one screen.
 
-* "C-Home" and "C-End" go to beginning or end of the file.
+* "C"-"Home" and "C"-"End" go to beginning or end of the file.
 
-* "Backspace" and "Del" (or "C-d") delete the previous or next
+* "Backspace" and "Del" (or "C"-"d") delete the previous or next
   character.
 
-* "C-Backspace" and "C-Del" delete one word left or right.
+* "C"-"Backspace" and "C"-"Del" delete one word left or right.
 
-* "C-k" deletes (‘kills’) everything to the right.
+* "C"-"k" deletes (‘kills’) everything to the right.
 
-Standard keybindings (like "C-c" to copy and "C-v" to paste) may work.
-Keybindings are selected in the Configure IDLE dialog.
+Standard keybindings (like "C"-"c" to copy and "C"-"v" to paste) may
+work.  Keybindings are selected in the Configure IDLE dialog.
 
 
 Automatic indentation
@@ -496,7 +496,7 @@ subdirectories by typing a directory name and a separator.
 
 Instead of waiting, or after a box is closed, open a completion box
 immediately with Show Completions on the Edit menu.  The default hot
-key is "C-space".  If one types a prefix for the desired name before
+key is "C"-"space".  If one types a prefix for the desired name before
 opening the box, the first match or near miss is made visible. The
 result is the same as if one enters a prefix after the box is
 displayed.  Show Completions after a quote completes filenames in the
@@ -602,12 +602,12 @@ The editing features described in previous subsections work when
 entering code interactively.  IDLE’s Shell window also responds to the
 following:
 
-* "C-c" attempts to interrupt statement execution (but may fail).
+* "C"-"c" attempts to interrupt statement execution (but may fail).
 
-* "C-d" closes Shell if typed at a ">>>" prompt.
+* "C"-"d" closes Shell if typed at a ">>>" prompt.
 
-* "Alt-p" and "Alt-n" ("C-p" and "C-n" on macOS) retrieve to the
-  current prompt the previous or next previously entered statement
+* "Alt"-"p" and "Alt"-"n" ("C"-"p" and "C"-"n" on macOS) retrieve to
+  the current prompt the previous or next previously entered statement
   that matches anything already typed.
 
 * "Return" while the cursor is on any previous statement appends the
@@ -658,28 +658,63 @@ useful for importing functions to be used from IDLE’s Python shell.
 
 Command line usage
 ------------------
+
+IDLE can be invoked from the command line with various options. The
+general syntax is:
 >
-   idle.py [-c command] [-d] [-e] [-h] [-i] [-r file] [-s] [-t title] [-] [arg] ...
-
-   -c command  run command in the shell window
-   -d          enable debugger and open shell window
-   -e          open editor window
-   -h          print help message with legal combinations and exit
-   -i          open shell window
-   -r file     run file in shell window
-   -s          run $IDLESTARTUP or $PYTHONSTARTUP first, in shell window
-   -t title    set title of shell window
-   -           run stdin in shell (- must be last option before args)
+   python -m idlelib [options] [file ...]
 <
-If there are arguments:
+The following options are available:
 
-* If "-", "-c", or "r" is used, all arguments are placed in
-  "sys.argv[1:...]" and "sys.argv[0]" is set to "''", "'-c'", or
-  "'-r'".  No editor window is opened, even if that is the default set
-  in the Options dialog.
+-c <command>
 
-* Otherwise, arguments are files opened for editing and "sys.argv"
-  reflects the arguments passed to IDLE itself.
+   Run the specified Python command in the shell window. For example,
+   pass "-c "print('Hello, World!')"". On Windows, the outer quotes
+   must be double quotes as shown.
+
+-d
+
+   Enable the debugger and open the shell window.
+
+-e
+
+   Open an editor window.
+
+-h
+
+   Print a help message with legal combinations of options and exit.
+
+-i
+
+   Open a shell window.
+
+-r <file>
+
+   Run the specified file in the shell window.
+
+-s
+
+   Run the startup file (as defined by the environment variables
+   "IDLESTARTUP" or "PYTHONSTARTUP") before opening the shell window.
+
+-t <title>
+
+   Set the title of the shell window.
+
+-
+
+   Read and execute standard input in the shell window. This option
+   must be the last one before any arguments.
+
+If arguments are provided:
+
+* If "-", "-c", or "-r" is used, all arguments are placed in
+  "sys.argv[1:]", and "sys.argv[0]" is set to "''", "'-c'", or "'-r'"
+  respectively. No editor window is opened, even if that is the
+  default set in the _Options_ dialog.
+
+* Otherwise, arguments are treated as files to be opened for editing,
+  and "sys.argv" reflects the arguments passed to IDLE itself.
 
 
 Startup failure
@@ -979,8 +1014,8 @@ further information.  The only current default extension is zzdummy,
 an example also used for testing.
 
 
-idlelib
-=======
+idlelib — implementation of IDLE application
+============================================
 
 **Source code:** Lib/idlelib
 

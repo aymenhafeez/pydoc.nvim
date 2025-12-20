@@ -1,10 +1,10 @@
-Python 3.12.3
-*selectors.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*selectors.pyx*                               Last change: 2025 Dec 20
 
 "selectors" — High-level I/O multiplexing
 *****************************************
 
-New in version 3.4.
+Added in version 3.4.
 
 **Source code:** Lib/selectors.py
 
@@ -230,7 +230,7 @@ class selectors.DevpollSelector
       This returns the file descriptor used by the underlying
       "select.devpoll()" object.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 class selectors.KqueueSelector
 

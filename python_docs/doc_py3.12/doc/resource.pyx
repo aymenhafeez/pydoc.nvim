@@ -1,5 +1,5 @@
-Python 3.12.3
-*resource.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*resource.pyx*                                Last change: 2025 Dec 20
 
 "resource" — Resource usage information
 ***************************************
@@ -99,7 +99,7 @@ resource.prlimit(pid, resource[, limits])
 
    Availability: Linux >= 2.6.36 with glibc >= 2.13.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 These symbols define resources whose consumption can be controlled
 using the "setrlimit()" and "getrlimit()" functions described below.
@@ -180,7 +180,7 @@ resource.RLIMIT_MSGQUEUE
 
    Availability: Linux >= 2.6.8.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 resource.RLIMIT_NICE
 
@@ -189,7 +189,7 @@ resource.RLIMIT_NICE
 
    Availability: Linux >= 2.6.12.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 resource.RLIMIT_RTPRIO
 
@@ -197,7 +197,7 @@ resource.RLIMIT_RTPRIO
 
    Availability: Linux >= 2.6.12.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 resource.RLIMIT_RTTIME
 
@@ -206,7 +206,7 @@ resource.RLIMIT_RTTIME
 
    Availability: Linux >= 2.6.25.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 resource.RLIMIT_SIGPENDING
 
@@ -214,7 +214,7 @@ resource.RLIMIT_SIGPENDING
 
    Availability: Linux >= 2.6.8.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 resource.RLIMIT_SBSIZE
 
@@ -224,7 +224,7 @@ resource.RLIMIT_SBSIZE
 
    Availability: FreeBSD.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 resource.RLIMIT_SWAP
 
@@ -235,7 +235,7 @@ resource.RLIMIT_SWAP
 
    Availability: FreeBSD.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 resource.RLIMIT_NPTS
 
@@ -243,7 +243,7 @@ resource.RLIMIT_NPTS
 
    Availability: FreeBSD.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 resource.RLIMIT_KQUEUES
 
@@ -251,7 +251,7 @@ resource.RLIMIT_KQUEUES
 
    Availability: FreeBSD >= 11.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 
 Resource Usage
@@ -290,7 +290,7 @@ resource.getrusage(who)
    a tuple of 16 elements.
 
    The fields "ru_utime" and "ru_stime" of the return value are
-   floating point values representing the amount of time spent
+   floating-point values representing the amount of time spent
    executing in user mode and the amount of time spent executing in
    system mode, respectively. The remaining values are integers.
    Consult the _getrusage(2)_ man page for detailed information about
@@ -368,6 +368,6 @@ resource.RUSAGE_THREAD
    Pass to "getrusage()" to request resources consumed by the current
    thread.  May not be available on all systems.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 vim:tw=78:ts=8:ft=help:norl:

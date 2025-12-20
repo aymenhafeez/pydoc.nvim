@@ -1,5 +1,5 @@
-Python 3.12.3
-*signal.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*signal.pyx*                                  Last change: 2025 Dec 20
 
 "signal" — Set handlers for asynchronous events
 ***********************************************
@@ -88,13 +88,13 @@ class signal.Signals
    "enum.IntEnum" collection of SIG* constants and the CTRL_*
    constants.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 class signal.Handlers
 
    "enum.IntEnum" collection the constants "SIG_DFL" and "SIG_IGN".
 
-   New in version 3.5.
+   Added in version 3.5.
 
 class signal.Sigmasks
 
@@ -106,7 +106,7 @@ class signal.Sigmasks
    See the man page _sigprocmask(2)_ and _pthread_sigmask(3)_ for
    further information.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 The variables defined in the "signal" module are:
 
@@ -218,7 +218,7 @@ signal.SIGSTKFLT
    On architectures where the signal is available. See the man page
    _signal(7)_ for further information.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 signal.SIGTERM
 
@@ -255,21 +255,21 @@ SIG*
 
 signal.CTRL_C_EVENT
 
-   The signal corresponding to the "Ctrl+C" keystroke event. This
+   The signal corresponding to the "Ctrl"+"C" keystroke event. This
    signal can only be used with "os.kill()".
 
    Availability: Windows.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 signal.CTRL_BREAK_EVENT
 
-   The signal corresponding to the "Ctrl+Break" keystroke event. This
-   signal can only be used with "os.kill()".
+   The signal corresponding to the "Ctrl"+"Break" keystroke event.
+   This signal can only be used with "os.kill()".
 
    Availability: Windows.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 signal.NSIG
 
@@ -299,21 +299,21 @@ signal.SIG_BLOCK
    A possible value for the _how_ parameter to "pthread_sigmask()"
    indicating that signals are to be blocked.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 signal.SIG_UNBLOCK
 
    A possible value for the _how_ parameter to "pthread_sigmask()"
    indicating that signals are to be unblocked.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 signal.SIG_SETMASK
 
    A possible value for the _how_ parameter to "pthread_sigmask()"
    indicating that the signal mask is to be replaced.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 The "signal" module defines one exception:
 
@@ -324,7 +324,7 @@ exception signal.ItimerError
    interval timer or a negative time is passed to "setitimer()". This
    error is a subtype of "OSError".
 
-   New in version 3.3: This error used to be a subtype of "IOError",
+   Added in version 3.3: This error used to be a subtype of "IOError",
    which is now an alias of "OSError".
 
 The "signal" module defines the following functions:
@@ -359,7 +359,7 @@ signal.strsignal(signalnum)
    for "SIGINT". Returns "None" if _signalnum_ has no description.
    Raises "ValueError" if _signalnum_ is invalid.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 signal.valid_signals()
 
@@ -367,7 +367,7 @@ signal.valid_signals()
    be less than "range(1, NSIG)" if some signals are reserved by the
    system for internal use.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 signal.pause()
 
@@ -385,7 +385,7 @@ signal.raise_signal(signum)
 
    Sends a signal to the calling process. Returns nothing.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 signal.pidfd_send_signal(pidfd, sig, siginfo=None, flags=0)
 
@@ -398,7 +398,7 @@ signal.pidfd_send_signal(pidfd, sig, siginfo=None, flags=0)
 
    Availability: Linux >= 5.1
 
-   New in version 3.9.
+   Added in version 3.9.
 
 signal.pthread_kill(thread_id, signalnum)
 
@@ -427,7 +427,7 @@ signal.pthread_kill(thread_id, signalnum)
 
    See also "os.kill()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 signal.pthread_sigmask(how, mask)
 
@@ -465,7 +465,7 @@ signal.pthread_sigmask(how, mask)
 
    See also "pause()", "sigpending()" and "sigwait()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 signal.setitimer(which, seconds, interval=0.0)
 
@@ -590,7 +590,7 @@ signal.sigpending()
 
    See also "pause()", "pthread_sigmask()" and "sigwait()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 signal.sigwait(sigset)
 
@@ -606,7 +606,7 @@ signal.sigwait(sigset)
    See also "pause()", "pthread_sigmask()", "sigpending()",
    "sigwaitinfo()" and "sigtimedwait()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 signal.sigwaitinfo(sigset)
 
@@ -629,7 +629,7 @@ signal.sigwaitinfo(sigset)
 
    See also "pause()", "sigwait()" and "sigtimedwait()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.5: The function is now retried if interrupted
    by a signal not in _sigset_ and the signal handler does not raise
@@ -647,7 +647,7 @@ signal.sigtimedwait(sigset, timeout)
 
    See also "pause()", "sigwait()" and "sigwaitinfo()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.5: The function is now retried with the
    recomputed _timeout_ if interrupted by a signal not in _sigset_ and

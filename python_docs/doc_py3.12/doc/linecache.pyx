@@ -1,5 +1,5 @@
-Python 3.12.3
-*linecache.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*linecache.pyx*                               Last change: 2025 Dec 20
 
 "linecache" — Random access to text lines
 *****************************************
@@ -55,7 +55,7 @@ linecache.lazycache(filename, module_globals)
    actually needed, without having to carry the module globals around
    indefinitely.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 Example:
 >

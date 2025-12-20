@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-future.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*asyncio-future.pyx*                          Last change: 2025 Dec 20
 
 Futures
 *******
@@ -25,7 +25,7 @@ asyncio.isfuture(obj)
 
    * a Future-like object with a "_asyncio_future_blocking" attribute.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 asyncio.ensure_future(obj, *, loop=None)
 
@@ -107,21 +107,21 @@ class asyncio.Future(*, loop=None)
       If the Future has been _cancelled_, this method raises a
       "CancelledError" exception.
 
-      If the Future’s result isn’t yet available, this method raises a
-      "InvalidStateError" exception.
+      If the Future’s result isn’t yet available, this method raises
+      an "InvalidStateError" exception.
 
    set_result(result)
 
       Mark the Future as _done_ and set its result.
 
-      Raises a "InvalidStateError" error if the Future is already
+      Raises an "InvalidStateError" error if the Future is already
       _done_.
 
    set_exception(exception)
 
       Mark the Future as _done_ and set an exception.
 
-      Raises a "InvalidStateError" error if the Future is already
+      Raises an "InvalidStateError" error if the Future is already
       _done_.
 
    done()
@@ -200,7 +200,7 @@ class asyncio.Future(*, loop=None)
 
       Return the event loop the Future object is bound to.
 
-      New in version 3.7.
+      Added in version 3.7.
 
 This example creates a Future object, creates and schedules an
 asynchronous Task to set result for the Future, and waits until the

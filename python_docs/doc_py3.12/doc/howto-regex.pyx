@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-regex.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*howto-regex.pyx*                             Last change: 2025 Dec 20
 
 Regular Expression HOWTO
 ************************
@@ -484,7 +484,7 @@ the result.  The "finditer()" method returns a sequence of match
 object instances as an _iterator_:
 >
    >>> iterator = p.finditer('12 drummers drumming, 11 ... 10 ...')
-   >>> iterator  
+   >>> iterator
    <callable_iterator object at 0x...>
    >>> for match in iterator:
    ...     print(match.span())
@@ -506,7 +506,7 @@ a match object instance.
 >
    >>> print(re.match(r'From\s+', 'Fromage amk'))
    None
-   >>> re.match(r'From\s+', 'From amk Thu May 14 19:12:10 1998')  
+   >>> re.match(r'From\s+', 'From amk Thu May 14 19:12:10 1998')
    <re.Match object; span=(0, 5), match='From '>
 <
 Under the hood, these functions simply create a pattern object for you
@@ -708,7 +708,7 @@ obviously be matched an infinite number of times.
    For example, if you wish to match the word "From" only at the
    beginning of a line, the RE to use is "^From".
 >
-      >>> print(re.search('^From', 'From Here to Eternity'))  
+      >>> print(re.search('^From', 'From Here to Eternity'))
       <re.Match object; span=(0, 4), match='From'>
       >>> print(re.search('^From', 'Reciting From Memory'))
       None
@@ -719,11 +719,11 @@ obviously be matched an infinite number of times.
    Matches at the end of a line, which is defined as either the end of
    the string, or any location followed by a newline character.
 >
-      >>> print(re.search('}$', '{block}'))  
+      >>> print(re.search('}$', '{block}'))
       <re.Match object; span=(6, 7), match='}'>
       >>> print(re.search('}$', '{block} '))
       None
-      >>> print(re.search('}$', '{block}\n'))  
+      >>> print(re.search('}$', '{block}\n'))
       <re.Match object; span=(6, 7), match='}'>
 <
    To match a literal "'$'", use "\$" or enclose it inside a character

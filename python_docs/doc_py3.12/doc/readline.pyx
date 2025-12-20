@@ -1,5 +1,5 @@
-Python 3.12.3
-*readline.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*readline.pyx*                                Last change: 2025 Dec 20
 
 "readline" — GNU readline interface
 ***********************************
@@ -38,6 +38,10 @@ Note:
      python:bind -v
      python:bind ^I rl_complete
 <
+  Also note that different libraries may use different history file
+  formats. When switching the underlying library, existing history
+  files may become unusable.
+
 
 Init file
 =========
@@ -105,7 +109,7 @@ readline.append_history_file(nelements[, filename])
    function only exists if Python was compiled for a version of the
    library that supports it.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 readline.get_history_length()
 readline.set_history_length(length)
@@ -164,7 +168,7 @@ readline.set_auto_history(enabled)
    value that when true, enables auto history, and that when false,
    disables auto history.
 
-   New in version 3.6.
+   Added in version 3.6.
 
    **CPython implementation detail:** Auto history is enabled by
    default, and changes to this do not persist across multiple

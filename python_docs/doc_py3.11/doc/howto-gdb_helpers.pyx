@@ -1,5 +1,5 @@
-Python 3.11.9
-*howto-gdb_helpers.pyx*                       Last change: 2024 May 24
+Python 3.11.14
+*howto-gdb_helpers.pyx*                       Last change: 2025 Dec 20
 
 Debugging C API extensions and CPython Internals with GDB
 *********************************************************

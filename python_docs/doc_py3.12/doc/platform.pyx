@@ -1,5 +1,5 @@
-Python 3.12.3
-*platform.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*platform.pyx*                                Last change: 2025 Dec 20
 
 "platform" —  Access to underlying platform’s identifying data
 **************************************************************
@@ -195,8 +195,8 @@ platform.win32_ver(release='', version='', csd='', ptype='')
 
    As a hint: _ptype_ is "'Uniprocessor Free'" on single processor NT
    machines and "'Multiprocessor Free'" on multi processor machines.
-   The _‘Free’_ refers to the OS version being free of debugging code.
-   It could also state _‘Checked’_ which means the OS version uses
+   The "'Free'" refers to the OS version being free of debugging code.
+   It could also state "'Checked'" which means the OS version uses
    debugging code, i.e. code that checks arguments, ranges, etc.
 
 platform.win32_edition()
@@ -206,14 +206,14 @@ platform.win32_edition()
    but are not limited to "'Enterprise'", "'IoTUAP'",
    "'ServerStandard'", and "'nanoserver'".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 platform.win32_is_iot()
 
    Return "True" if the Windows edition returned by "win32_edition()"
    is recognized as an IoT edition.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 
 macOS Platform
@@ -280,6 +280,6 @@ platform.freedesktop_os_release()
               ids.extend(info["ID_LIKE"].split())
           return ids
 <
-   New in version 3.10.
+   Added in version 3.10.
 
 vim:tw=78:ts=8:ft=help:norl:

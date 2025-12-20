@@ -1,5 +1,5 @@
-Python 3.12.3
-*html.entities.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*html.entities.pyx*                           Last change: 2025 Dec 20
 
 "html.entities" — Definitions of HTML general entities
 ******************************************************
@@ -20,7 +20,7 @@ html.entities.html5
    the semicolon: in this case the name is present with and without
    the "';'". See also "html.unescape()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 html.entities.entitydefs
 

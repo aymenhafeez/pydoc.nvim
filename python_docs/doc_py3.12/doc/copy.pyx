@@ -1,5 +1,5 @@
-Python 3.12.3
-*copy.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*copy.pyx*                                    Last change: 2025 Dec 20
 
 "copy" — Shallow and deep copy operations
 *****************************************
@@ -73,14 +73,21 @@ information on these methods.  In fact, the "copy" module uses the
 registered pickle functions from the "copyreg" module.
 
 In order for a class to define its own copy implementation, it can
-define special methods "__copy__()" and "__deepcopy__()".  The former
-is called to implement the shallow copy operation; no additional
-arguments are passed. The latter is called to implement the deep copy
-operation; it is passed one argument, the "memo" dictionary.  If the
-"__deepcopy__()" implementation needs to make a deep copy of a
-component, it should call the "deepcopy()" function with the component
-as first argument and the memo dictionary as second argument. The memo
-dictionary should be treated as an opaque object.
+define special methods "__copy__()" and "__deepcopy__()".
+
+object.__copy__(self)
+
+   Called to implement the shallow copy operation; no additional
+   arguments are passed.
+
+object.__deepcopy__(self, memo)
+
+   Called to implement the deep copy operation; it is passed one
+   argument, the _memo_ dictionary.  If the "__deepcopy__"
+   implementation needs to make a deep copy of a component, it should
+   call the "deepcopy()" function with the component as first argument
+   and the _memo_ dictionary as second argument. The _memo_ dictionary
+   should be treated as an opaque object.
 
 See also:
 

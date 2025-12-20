@@ -1,5 +1,5 @@
-Python 3.12.3
-*dis.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*dis.pyx*                                     Last change: 2025 Dec 20
 
 "dis" — Disassembler for Python bytecode
 ****************************************
@@ -81,7 +81,7 @@ recieved from stdin.
 Bytecode analysis
 =================
 
-New in version 3.4.
+Added in version 3.4.
 
 The bytecode analysis API allows pieces of Python code to be wrapped
 in a "Bytecode" object that provides easy access to details of the
@@ -175,7 +175,7 @@ dis.code_info(x)
    implementation dependent and they may change arbitrarily across
    Python VMs or Python releases.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.7: This can now handle coroutine and
    asynchronous generator objects.
@@ -190,7 +190,7 @@ dis.show_code(x, *, file=None)
    file=file)", intended for interactive exploration at the
    interpreter prompt.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.4: Added _file_ parameter.
 
@@ -295,7 +295,7 @@ dis.get_instructions(x, *, first_line=None, show_caches=False, adaptive=False)
    The _show_caches_ and _adaptive_ parameters work as they do in
    "dis()".
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.11: Added the _show_caches_ and _adaptive_
    parameters.
@@ -328,7 +328,7 @@ dis.stack_effect(opcode, oparg=None, *, jump=None)
    And if _jump_ is "None" (default), it will return the maximal stack
    effect of both cases.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.8: Added _jump_ parameter.
 
@@ -382,7 +382,7 @@ class dis.Instruction
       "dis.Positions" object holding the start and end locations that
       are covered by this instruction.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.11: Field "positions" is added.
 
@@ -399,7 +399,7 @@ class dis.Positions
 
    end_col_offset
 
-   New in version 3.11.
+   Added in version 3.11.
 
 The Python compiler currently generates the following bytecode
 instructions.
@@ -426,14 +426,14 @@ END_FOR
    Removes the top two values from the stack. Equivalent to "POP_TOP";
    "POP_TOP". Used to clean up at the end of loops, hence the name.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 END_SEND
 
    Implements "del STACK[-2]". Used to clean up when a generator
    exits.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 COPY(i)
 
@@ -443,7 +443,7 @@ COPY(i)
       assert i > 0
       STACK.append(STACK[-i])
 <
-   New in version 3.11.
+   Added in version 3.11.
 
 SWAP(i)
 
@@ -451,7 +451,7 @@ SWAP(i)
 >
       STACK[-i], STACK[-1] = STACK[-1], STACK[-i]
 <
-   New in version 3.11.
+   Added in version 3.11.
 
 CACHE
 
@@ -468,7 +468,7 @@ CACHE
    care should be taken when reading or modifying raw, adaptive
    bytecode containing quickened data.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 **Unary operations**
 
@@ -497,7 +497,7 @@ GET_YIELD_FROM_ITER
    is left as is.  Otherwise, implements "STACK[-1] =
    iter(STACK[-1])".
 
-   New in version 3.5.
+   Added in version 3.5.
 
 **Binary and in-place operations**
 
@@ -518,7 +518,7 @@ BINARY_OP(op)
       lhs = STACK.pop()
       STACK.append(lhs op rhs)
 <
-   New in version 3.11.
+   Added in version 3.11.
 
 BINARY_SUBSCR
 
@@ -554,7 +554,7 @@ BINARY_SLICE
       container = STACK.pop()
       STACK.append(container[start:end])
 <
-   New in version 3.12.
+   Added in version 3.12.
 
 STORE_SLICE
 
@@ -566,7 +566,7 @@ STORE_SLICE
       values = STACK.pop()
       container[start:end] = value
 <
-   New in version 3.12.
+   Added in version 3.12.
 
 **Coroutine opcodes**
 
@@ -584,7 +584,7 @@ GET_AWAITABLE(where)
 
       * "2": After a call to "__aexit__"
 
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.11: Previously, this instruction did not have
    an oparg.
@@ -593,7 +593,7 @@ GET_AITER
 
    Implements "STACK[-1] = STACK[-1].__aiter__()".
 
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.7: Returning awaitable objects from
    "__aiter__" is no longer supported.
@@ -603,7 +603,7 @@ GET_ANEXT
    Implement "STACK.append(get_awaitable(STACK[-1].__anext__()))" to
    the stack. See "GET_AWAITABLE" for details about "get_awaitable".
 
-   New in version 3.5.
+   Added in version 3.5.
 
 END_ASYNC_FOR
 
@@ -613,7 +613,7 @@ END_ASYNC_FOR
    popped. If the exception is not "StopAsyncIteration", it is re-
    raised.
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Changed in version 3.11: Exception representation on the stack now
    consist of one, not three, items.
@@ -625,7 +625,7 @@ CLEANUP_THROW
    "StopIteration", pop three values from the stack and push its
    "value" member.  Otherwise, re-raise "STACK[-1]".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 BEFORE_ASYNC_WITH
 
@@ -634,7 +634,7 @@ BEFORE_ASYNC_WITH
 >
       STACK.extend((__aexit__, __aenter__())
 <
-   New in version 3.5.
+   Added in version 3.5.
 
 **Miscellaneous opcodes**
 
@@ -666,7 +666,7 @@ MAP_ADD(i)
 <
    Used to implement dict comprehensions.
 
-   New in version 3.1.
+   Added in version 3.1.
 
    Changed in version 3.8: Map value is "STACK[-1]" and map key is
    "STACK[-2]". Before, those were reversed.
@@ -684,7 +684,7 @@ RETURN_CONST(consti)
 
    Returns with "co_consts[consti]" to the caller of the function.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 YIELD_VALUE
 
@@ -701,7 +701,7 @@ SETUP_ANNOTATIONS
    it is set up to an empty "dict". This opcode is only emitted if a
    class or module body contains _variable annotations_ statically.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 POP_EXCEPT
 
@@ -717,7 +717,7 @@ RERAISE
    non-zero, pops an additional value from the stack which is used to
    set "f_lasti" of the current frame.
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Changed in version 3.11: Exception representation on the stack now
    consist of one, not three, items.
@@ -728,7 +728,7 @@ PUSH_EXC_INFO
    top of the stack. Pushes the value originally popped back to the
    stack. Used in exception handlers.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 CHECK_EXC_MATCH
 
@@ -736,7 +736,7 @@ CHECK_EXC_MATCH
    "STACK[-2]" is an exception matching "STACK[-1]". Pops "STACK[-1]"
    and pushes the boolean result of the test.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 CHECK_EG_MATCH
 
@@ -748,7 +748,7 @@ CHECK_EG_MATCH
    the matching subgroup. When there is no match, pops one item (the
    match type) and pushes "None".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 WITH_EXCEPT_START
 
@@ -757,7 +757,7 @@ WITH_EXCEPT_START
    to implement the call "context_manager.__exit__(*exc_info())" when
    an exception has occurred in a "with" statement.
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Changed in version 3.11: The "__exit__" function is in position 4
    of the stack rather than 7. Exception representation on the stack
@@ -768,7 +768,7 @@ LOAD_ASSERTION_ERROR
    Pushes "AssertionError" onto the stack.  Used by the "assert"
    statement.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 LOAD_BUILD_CLASS
 
@@ -783,13 +783,14 @@ BEFORE_WITH
    "__enter__()" is called. Finally, the result of calling the
    "__enter__()" method is pushed onto the stack.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 GET_LEN
 
-   Perform "STACK.append(len(STACK[-1]))".
+   Perform "STACK.append(len(STACK[-1]))". Used in "match" statements
+   where comparison with structure of pattern is needed.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 MATCH_MAPPING
 
@@ -798,7 +799,7 @@ MATCH_MAPPING
    its "tp_flags"), push "True" onto the stack.  Otherwise, push
    "False".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 MATCH_SEQUENCE
 
@@ -807,7 +808,7 @@ MATCH_SEQUENCE
    technically: if it has the "Py_TPFLAGS_SEQUENCE" flag set in its
    "tp_flags"), push "True" onto the stack.  Otherwise, push "False".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 MATCH_KEYS
 
@@ -816,7 +817,7 @@ MATCH_KEYS
    "STACK[-1]", push a "tuple" containing the corresponding values.
    Otherwise, push "None".
 
-   New in version 3.10.
+   Added in version 3.10.
 
    Changed in version 3.11: Previously, this instruction also pushed a
    boolean value indicating success ("True") or failure ("False").
@@ -907,7 +908,7 @@ LOAD_LOCALS
    is used to prepare namespace dictionaries for
    "LOAD_FROM_DICT_OR_DEREF" and "LOAD_FROM_DICT_OR_GLOBALS".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 LOAD_FROM_DICT_OR_GLOBALS(i)
 
@@ -917,16 +918,20 @@ LOAD_FROM_DICT_OR_GLOBALS(i)
    is used for loading global variables in annotation scopes within
    class bodies.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 BUILD_TUPLE(count)
 
    Creates a tuple consuming _count_ items from the stack, and pushes
-   the resulting tuple onto the stack.:
+   the resulting tuple onto the stack:
 >
-      assert count > 0
-      STACK, values = STACK[:-count], STACK[-count:]
-      STACK.append(tuple(values))
+      if count == 0:
+          value = ()
+      else:
+          value = tuple(STACK[-count:])
+          STACK = STACK[:-count]
+
+      STACK.append(value)
 <
 BUILD_LIST(count)
 
@@ -953,14 +958,14 @@ BUILD_CONST_KEY_MAP(count)
    starting from "STACK[-2]", pops _count_ values to form values in
    the built dictionary.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 BUILD_STRING(count)
 
    Concatenates _count_ strings from the stack and pushes the
    resulting string onto the stack.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 LIST_EXTEND(i)
 
@@ -971,7 +976,7 @@ LIST_EXTEND(i)
 <
    Used to build lists.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 SET_UPDATE(i)
 
@@ -982,7 +987,7 @@ SET_UPDATE(i)
 <
    Used to build sets.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 DICT_UPDATE(i)
 
@@ -993,13 +998,13 @@ DICT_UPDATE(i)
 <
    Used to build dicts.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 DICT_MERGE(i)
 
    Like "DICT_UPDATE" but raises an exception for duplicate keys.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 LOAD_ATTR(namei)
 
@@ -1040,24 +1045,28 @@ LOAD_SUPER_ATTR(namei)
    The second-low bit of "namei", if set, means that this was a two-
    argument call to "super()" (unset means zero-argument).
 
-   New in version 3.12.
+   Added in version 3.12.
 
 COMPARE_OP(opname)
 
    Performs a Boolean operation.  The operation name can be found in
-   "cmp_op[opname]".
+   "cmp_op[opname >> 4]".
+
+   Changed in version 3.12: The cmp_op index is now stored in the
+   four-highest bits of oparg instead of the four-lowest bits of
+   oparg.
 
 IS_OP(invert)
 
    Performs "is" comparison, or "is not" if "invert" is 1.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 CONTAINS_OP(invert)
 
    Performs "in" comparison, or "not in" if "invert" is 1.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 IMPORT_NAME(namei)
 
@@ -1081,14 +1090,14 @@ JUMP_BACKWARD(delta)
 
    Decrements bytecode counter by _delta_. Checks for interrupts.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 JUMP_BACKWARD_NO_INTERRUPT(delta)
 
    Decrements bytecode counter by _delta_. Does not check for
    interrupts.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 POP_JUMP_IF_TRUE(delta)
 
@@ -1122,7 +1131,7 @@ POP_JUMP_IF_NOT_NONE(delta)
    This opcode is a pseudo-instruction, replaced in final bytecode by
    the directed versions (forward/backward).
 
-   New in version 3.11.
+   Added in version 3.11.
 
    Changed in version 3.12: This is no longer a pseudo-instruction.
 
@@ -1134,7 +1143,7 @@ POP_JUMP_IF_NONE(delta)
    This opcode is a pseudo-instruction, replaced in final bytecode by
    the directed versions (forward/backward).
 
-   New in version 3.11.
+   Added in version 3.11.
 
    Changed in version 3.12: This is no longer a pseudo-instruction.
 
@@ -1170,7 +1179,7 @@ LOAD_FAST_CHECK(var_num)
    stack, raising an "UnboundLocalError" if the local variable has not
    been initialized.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 LOAD_FAST_AND_CLEAR(var_num)
 
@@ -1178,7 +1187,7 @@ LOAD_FAST_AND_CLEAR(var_num)
    stack (or pushes "NULL" onto the stack if the local variable has
    not been initialized) and sets "co_varnames[var_num]" to "NULL".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 STORE_FAST(var_num)
 
@@ -1193,7 +1202,7 @@ MAKE_CELL(i)
    Creates a new cell in slot "i".  If that slot is nonempty then that
    value is stored into the new cell.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 LOAD_CLOSURE(i)
 
@@ -1224,7 +1233,7 @@ LOAD_FROM_DICT_OR_DEREF(i)
    class bodies (which previously used "LOAD_CLASSDEREF") and in
    annotation scopes within class bodies.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 STORE_DEREF(i)
 
@@ -1239,7 +1248,7 @@ DELETE_DEREF(i)
    Empties the cell contained in slot "i" of the “fast locals”
    storage. Used by the "del" statement.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.11: "i" is no longer offset by the length of
    "co_varnames".
@@ -1250,7 +1259,7 @@ COPY_FREE_VARS(n)
    Removes the need for special code on the caller’s side when calling
    closures.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 RAISE_VARARGS(argc)
 
@@ -1296,7 +1305,7 @@ CALL(argc)
    calls the callable object with those arguments, and pushes the
    return value returned by the callable object.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 CALL_FUNCTION_EX(flags)
 
@@ -1310,14 +1319,14 @@ CALL_FUNCTION_EX(flags)
    callable object with those arguments, and pushes the return value
    returned by the callable object.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 PUSH_NULL
 
    Pushes a "NULL" to the stack. Used in the call sequence to match
    the "NULL" pushed by "LOAD_METHOD" for non-method calls.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 KW_NAMES(consti)
 
@@ -1325,7 +1334,7 @@ KW_NAMES(consti)
    internal variable for use by "CALL". "co_consts[consti]" must be a
    tuple of strings.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 MAKE_FUNCTION(flags)
 
@@ -1357,7 +1366,7 @@ BUILD_SLICE(argc)
 >
       end = STACK.pop()
       start = STACK.pop()
-      STACK.append(slice(start, stop))
+      STACK.append(slice(start, end))
 <
    if it is 3, implements:
 >
@@ -1399,7 +1408,7 @@ FORMAT_VALUE(flags)
    Formatting is performed using "PyObject_Format()".  The result is
    pushed on the stack.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 MATCH_CLASS(count)
 
@@ -1412,7 +1421,7 @@ MATCH_CLASS(count)
    attributes required by _count_ and "STACK[-1]", push a tuple of
    extracted attributes. Otherwise, push "None".
 
-   New in version 3.10.
+   Added in version 3.10.
 
    Changed in version 3.11: Previously, this instruction also pushed a
    boolean value indicating success ("True") or failure ("False").
@@ -1433,7 +1442,7 @@ RESUME(where)
 
    * "3" After an "await" expression
 
-   New in version 3.11.
+   Added in version 3.11.
 
 RETURN_GENERATOR
 
@@ -1442,7 +1451,7 @@ RETURN_GENERATOR
    mentioned callables. Clear the current frame and return the newly
    created generator.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 SEND(delta)
 
@@ -1453,7 +1462,7 @@ SEND(delta)
    stack, push the exception’s "value" attribute, and increment the
    bytecode counter by _delta_.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 HAVE_ARGUMENT
 
@@ -1495,7 +1504,7 @@ CALL_INTRINSIC_1
    | "INTRINSIC_STOPITERATION_ERROR"     | Extracts the return value from a    |
    |                                     | "StopIteration" exception.          |
    +-------------------------------------+-------------------------------------+
-   | "INTRINSIC_ASYNC_GEN_WRAP"          | Wraps an aync generator value       |
+   | "INTRINSIC_ASYNC_GEN_WRAP"          | Wraps an async generator value      |
    +-------------------------------------+-------------------------------------+
    | "INTRINSIC_UNARY_POSITIVE"          | Performs the unary "+" operation    |
    +-------------------------------------+-------------------------------------+
@@ -1517,7 +1526,7 @@ CALL_INTRINSIC_1
    |                                     | value.                              |
    +-------------------------------------+-------------------------------------+
 
-   New in version 3.12.
+   Added in version 3.12.
 
 CALL_INTRINSIC_2
 
@@ -1549,7 +1558,7 @@ CALL_INTRINSIC_2
    |                                          | attribute of a function.            |
    +------------------------------------------+-------------------------------------+
 
-   New in version 3.12.
+   Added in version 3.12.
 
 **Pseudo-instructions**
 
@@ -1626,7 +1635,7 @@ dis.hasarg
 
    Sequence of bytecodes that use their argument.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 dis.hasconst
 
@@ -1664,6 +1673,6 @@ dis.hasexc
 
    Sequence of bytecodes that set an exception handler.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 vim:tw=78:ts=8:ft=help:norl:

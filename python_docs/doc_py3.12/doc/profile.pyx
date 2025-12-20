@@ -1,5 +1,5 @@
-Python 3.12.3
-*profile.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*profile.pyx*                                 Last change: 2025 Dec 20
 
 The Python Profilers
 ********************
@@ -122,16 +122,22 @@ profile another script.  For example:
 >
    python -m cProfile [-o output_file] [-s sort_order] (-m module | myscript.py)
 <
-"-o" writes the profile results to a file instead of to stdout
+-o <output_file>
 
-"-s" specifies one of the "sort_stats()" sort values to sort the
-output by. This only applies when "-o" is not supplied.
+   Writes the profile results to a file instead of to stdout.
 
-"-m" specifies that a module is being profiled instead of a script.
+-s <sort_order>
 
-New in version 3.7: Added the "-m" option to "cProfile".
+   Specifies one of the "sort_stats()" sort values to sort the output
+   by. This only applies when "-o" is not supplied.
 
-New in version 3.8: Added the "-m" option to "profile".
+-m <module>
+
+   Specifies that a module is being profiled instead of a script.
+
+   Added in version 3.7: Added the "-m" option to "cProfile".
+
+   Added in version 3.8: Added the "-m" option to "profile".
 
 The "pstats" module’s "Stats" class has a variety of methods for
 manipulating and printing the data saved into a profile results file:
@@ -446,7 +452,7 @@ class pstats.Stats(*filenames or profile, stream=sys.stdout)
       one sort key (the numeric key) will be used, and additional
       arguments will be silently ignored.
 
-      New in version 3.7: Added the SortKey enum.
+      Added in version 3.7: Added the SortKey enum.
 
    reverse_order()
 
@@ -520,7 +526,7 @@ class pstats.Stats(*filenames or profile, stream=sys.stdout)
       function’s profile such as how long the function took to run,
       how many times it was called, etc…
 
-      New in version 3.9: Added the following dataclasses:
+      Added in version 3.9: Added the following dataclasses:
       StatsProfile, FunctionProfile. Added the following function:
       get_stats_profile.
 
@@ -663,7 +669,7 @@ whether you are using "profile.Profile" or "cProfile.Profile",
    timer function that you choose (see Calibration).  For most
    machines, a timer that returns a lone integer value will provide
    the best results in terms of low overhead during profiling.
-   ("os.times()" is _pretty_ bad, as it returns a tuple of floating
+   ("os.times()" is _pretty_ bad, as it returns a tuple of floating-
    point values).  If you want to substitute a better timer in the
    cleanest fashion, derive a class and hardwire a replacement
    dispatch method that best handles your timer call, along with the

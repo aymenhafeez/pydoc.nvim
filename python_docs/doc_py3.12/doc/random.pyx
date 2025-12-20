@@ -1,5 +1,5 @@
-Python 3.12.3
-*random.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*random.pyx*                                  Last change: 2025 Dec 20
 
 "random" — Generate pseudo-random numbers
 *****************************************
@@ -112,7 +112,7 @@ random.randbytes(n)
    This method should not be used for generating security tokens. Use
    "secrets.token_bytes()" instead.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 
 Functions for integers
@@ -195,12 +195,12 @@ random.choices(population, weights=None, *, cum_weights=None, k=1)
 
    For a given seed, the "choices()" function with equal weighting
    typically produces a different sequence than repeated calls to
-   "choice()".  The algorithm used by "choices()" uses floating point
+   "choice()".  The algorithm used by "choices()" uses floating-point
    arithmetic for internal consistency and speed.  The algorithm used
    by "choice()" defaults to integer arithmetic with repeated
    selections to avoid small biases from round-off error.
 
-   New in version 3.6.
+   Added in version 3.6.
 
    Changed in version 3.9: Raises a "ValueError" if all weights are
    zero.
@@ -273,7 +273,7 @@ random.binomialvariate(n=1, p=0.5)
    probability of success _p_ should be between "0.0 <= p <= 1.0". The
    result is an integer in the range "0 <= X <= n".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 
 Real-valued distributions
@@ -286,12 +286,12 @@ of these equations can be found in any statistics text.
 
 random.random()
 
-   Return the next random floating point number in the range "0.0 <= X
+   Return the next random floating-point number in the range "0.0 <= X
    < 1.0"
 
 random.uniform(a, b)
 
-   Return a random floating point number _N_ such that "a <= N <= b"
+   Return a random floating-point number _N_ such that "a <= N <= b"
    for "a <= b" and "b <= N <= a" for "b < a".
 
    The end-point value "b" may or may not be included in the range
@@ -300,7 +300,7 @@ random.uniform(a, b)
 
 random.triangular(low, high, mode)
 
-   Return a random floating point number _N_ such that "low <= N <=
+   Return a random floating-point number _N_ such that "low <= N <=
    high" and with the specified _mode_ between those bounds.  The
    _low_ and _high_ bounds default to zero and one.  The _mode_
    argument defaults to the midpoint between the bounds, giving a

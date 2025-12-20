@@ -1,5 +1,5 @@
-Python 3.11.9
-*xml.sax.handler.pyx*                         Last change: 2024 May 24
+Python 3.11.14
+*xml.sax.handler.pyx*                         Last change: 2025 Dec 20
 
 "xml.sax.handler" — Base classes for SAX handlers
 *************************************************

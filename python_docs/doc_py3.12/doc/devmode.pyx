@@ -1,10 +1,10 @@
-Python 3.12.3
-*devmode.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*devmode.pyx*                                 Last change: 2025 Dec 20
 
 Python Development Mode
 ***********************
 
-New in version 3.7.
+Added in version 3.7.
 
 The Python Development Mode introduces additional runtime checks that
 are too expensive to be enabled by default. It should not be more

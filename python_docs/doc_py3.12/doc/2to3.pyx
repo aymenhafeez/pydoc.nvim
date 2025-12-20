@@ -1,5 +1,5 @@
-Python 3.12.3
-*2to3.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*2to3.pyx*                                    Last change: 2025 Dec 20
 
 2to3 — Automated Python 2 to 3 code translation
 ***********************************************
@@ -106,7 +106,7 @@ directory for processed output files to be written to.  The "-n" flag
 is required when using this as backup files do not make sense when not
 overwriting the input files.
 
-New in version 3.2.3: The "-o" option was added.
+Added in version 3.2.3: The "-o" option was added.
 
 The "-W" or "--write-unchanged-files" flag tells 2to3 to always write
 output files even if no changes were required to the file.  This is
@@ -114,7 +114,7 @@ most useful with "-o" so that an entire Python source tree is copied
 with translation from one directory to another. This option implies
 the "-w" flag as it would not make sense otherwise.
 
-New in version 3.2.3: The "-W" flag was added.
+Added in version 3.2.3: The "-W" flag was added.
 
 The "--add-suffix" option specifies a string to append to all output
 filenames.  The "-n" flag is required when specifying this as backups
@@ -124,7 +124,7 @@ are not necessary when writing to different filenames.  Example:
 <
 Will cause a converted file named "example.py3" to be written.
 
-New in version 3.2.3: The "--add-suffix" option was added.
+Added in version 3.2.3: The "--add-suffix" option was added.
 
 To translate an entire project from one directory tree to another use:
 >

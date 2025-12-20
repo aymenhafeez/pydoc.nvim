@@ -1,5 +1,5 @@
-Python 3.11.9
-*csv.pyx*                                     Last change: 2024 May 24
+Python 3.11.14
+*csv.pyx*                                     Last change: 2025 Dec 20
 
 "csv" — CSV File Reading and Writing
 ************************************

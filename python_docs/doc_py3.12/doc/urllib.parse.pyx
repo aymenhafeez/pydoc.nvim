@@ -1,5 +1,5 @@
-Python 3.12.3
-*urllib.parse.pyx*                            Last change: 2024 May 24
+Python 3.12.12
+*urllib.parse.pyx*                            Last change: 2025 Dec 20
 
 "urllib.parse" — Parse URLs into components
 *******************************************
@@ -24,6 +24,12 @@ Uniform Resource Locators. It supports the following URL schemes:
 The "urllib.parse" module defines functions that fall into two broad
 categories: URL parsing and URL quoting. These are covered in detail
 in the following sections.
+
+This module’s functions use the deprecated term "netloc" (or
+"net_loc"), which was introduced in **RFC 1808**. However, this term
+has been obsoleted by **RFC 3986**, which introduced the term
+"authority" as its replacement. The use of "netloc" is continued for
+backward compatibility.
 
 
 URL Parsing
@@ -154,7 +160,7 @@ urllib.parse.urlparse(urlstring, scheme='', allow_fragments=True)
    Changed in version 3.2: Added IPv6 URL parsing capabilities.
 
    Changed in version 3.3: The fragment is now parsed for all URL
-   schemes (unless _allow_fragment_ is false), in accordance with
+   schemes (unless _allow_fragments_ is false), in accordance with
    **RFC 3986**.  Previously, an allowlist of schemes that support
    fragments existed.
 
@@ -366,6 +372,15 @@ urllib.parse.urljoin(base, url, allow_fragments=True)
      "urlsplit()" and "urlunsplit()", removing possible _scheme_ and
      _netloc_ parts.
 
+   Warning:
+
+     Because an absolute URL may be passed as the "url" parameter, it
+     is generally **not secure** to use "urljoin" with an attacker-
+     controlled "url". For example in,
+     "urljoin("https://website.com/users/", username)", if "username"
+     can contain an absolute URL, the result of "urljoin" will be the
+     absolute URL.
+
    Changed in version 3.5: Behavior updated to match the semantics
    defined in **RFC 3986**.
 
@@ -514,7 +529,7 @@ class urllib.parse.DefragResult(url, fragment)
    Concrete class for "urldefrag()" results containing "str" data. The
    "encode()" method returns a "DefragResultBytes" instance.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 class urllib.parse.ParseResult(scheme, netloc, path, params, query, fragment)
 
@@ -534,21 +549,21 @@ class urllib.parse.DefragResultBytes(url, fragment)
    Concrete class for "urldefrag()" results containing "bytes" data.
    The "decode()" method returns a "DefragResult" instance.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 class urllib.parse.ParseResultBytes(scheme, netloc, path, params, query, fragment)
 
    Concrete class for "urlparse()" results containing "bytes" data.
    The "decode()" method returns a "ParseResult" instance.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 class urllib.parse.SplitResultBytes(scheme, netloc, path, query, fragment)
 
    Concrete class for "urlsplit()" results containing "bytes" data.
    The "decode()" method returns a "SplitResult" instance.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 
 URL Quoting

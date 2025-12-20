@@ -1,5 +1,5 @@
-Python 3.12.3
-*heapq.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*heapq.pyx*                                   Last change: 2025 Dec 20
 
 "heapq" — Heap queue algorithm
 ******************************
@@ -12,12 +12,14 @@ This module provides an implementation of the heap queue algorithm,
 also known as the priority queue algorithm.
 
 Heaps are binary trees for which every parent node has a value less
-than or equal to any of its children.  This implementation uses arrays
-for which "heap[k] <= heap[2*k+1]" and "heap[k] <= heap[2*k+2]" for
-all _k_, counting elements from zero.  For the sake of comparison,
-non-existing elements are considered to be infinite.  The interesting
-property of a heap is that its smallest element is always the root,
-"heap[0]".
+than or equal to any of its children.  We refer to this condition as
+the heap invariant.
+
+This implementation uses arrays for which "heap[k] <= heap[2*k+1]" and
+"heap[k] <= heap[2*k+2]" for all _k_, counting elements from zero.
+For the sake of comparison, non-existing elements are considered to be
+infinite.  The interesting property of a heap is that its smallest
+element is always the root, "heap[0]".
 
 The API below differs from textbook heap algorithms in two aspects:
 (a) We use zero-based indexing.  This makes the relationship between

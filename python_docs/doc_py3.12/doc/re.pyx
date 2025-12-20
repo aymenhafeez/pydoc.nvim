@@ -1,5 +1,5 @@
-Python 3.12.3
-*re.pyx*                                      Last change: 2024 May 24
+Python 3.12.12
+*re.pyx*                                      Last change: 2025 Dec 20
 
 "re" — Regular expression operations
 ************************************
@@ -98,7 +98,8 @@ The special characters are:
 "."
    (Dot.)  In the default mode, this matches any character except a
    newline.  If the "DOTALL" flag has been specified, this matches any
-   character including a newline.
+   character including a newline.  "(?s:.)" matches any character
+   regardless of flags.
 
 "^"
    (Caret.)  Matches the start of the string, and in "MULTILINE" mode
@@ -153,7 +154,7 @@ The special characters are:
    "x?+" are equivalent to "(?>x*)", "(?>x+)" and "(?>x?)"
    correspondingly.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 "{m}"
    Specifies that exactly _m_ copies of the previous RE should be
@@ -190,7 +191,7 @@ The special characters are:
    then the final 2 "'a'"s are matched by the final "aa" in the
    pattern. "x{m,n}+" is equivalent to "(?>x{m,n})".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 "\"
    Either escapes special characters (permitting you to match
@@ -348,7 +349,7 @@ The special characters are:
    the narrow inline group, and the original matching mode is restored
    outside of the group.
 
-   New in version 3.6.
+   Added in version 3.6.
 
    Changed in version 3.7: The letters "'a'", "'L'" and "'u'" also can
    be used in a group.
@@ -366,7 +367,7 @@ The special characters are:
    Group, and there is no stack point before it, the entire expression
    would thus fail to match.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 "(?P<name>...)"
    Similar to regular parentheses, but the substring matched by the
@@ -509,6 +510,12 @@ example, "\$" matches the character "'$'".
    boundaries are determined by the current locale if the "LOCALE"
    flag is used.
 
+   Note:
+
+     Note that "\B" does not match an empty string, which differs from
+     RE implementations in other programming languages such as Perl.
+     This behavior is kept for compatibility reasons.
+
 "\d"
    For Unicode (str) patterns:
       Matches any Unicode decimal digit (that is, any character in
@@ -529,10 +536,10 @@ example, "\$" matches the character "'$'".
 
 "\s"
    For Unicode (str) patterns:
-      Matches Unicode whitespace characters (which includes "[
-      \t\n\r\f\v]", and also many other characters, for example the
-      non-breaking spaces mandated by typography rules in many
-      languages).
+      Matches Unicode whitespace characters (as defined by
+      "str.isspace()"). This includes "[ \t\n\r\f\v]", and also many
+      other characters, for example the non-breaking spaces mandated
+      by typography rules in many languages.
 
       Matches "[ \t\n\r\f\v]" if the "ASCII" flag is used.
 
@@ -623,7 +630,7 @@ class re.RegexFlag
 
    An "enum.IntFlag" class containing the regex options listed below.
 
-   New in version 3.11: - added to "__all__"
+   Added in version 3.11: - added to "__all__"
 
 re.A
 re.ASCII
@@ -716,7 +723,7 @@ re.NOFLAG
       def myfunc(text, flag=re.NOFLAG):
           return re.match(text, flag)
 <
-   New in version 3.11.
+   Added in version 3.11.
 
 re.S
 re.DOTALL
@@ -801,6 +808,10 @@ re.search(pattern, string, flags=0)
    matches the pattern; note that this is different from finding a
    zero-length match at some point in the string.
 
+   The expression’s behaviour can be modified by specifying a _flags_
+   value. Values can be any of the flags variables, combined using
+   bitwise OR (the "|" operator).
+
 re.match(pattern, string, flags=0)
 
    If zero or more characters at the beginning of _string_ match the
@@ -814,6 +825,10 @@ re.match(pattern, string, flags=0)
    If you want to locate a match anywhere in _string_, use "search()"
    instead (see also search() vs. match()).
 
+   The expression’s behaviour can be modified by specifying a _flags_
+   value. Values can be any of the flags variables, combined using
+   bitwise OR (the "|" operator).
+
 re.fullmatch(pattern, string, flags=0)
 
    If the whole _string_ matches the regular expression _pattern_,
@@ -821,7 +836,11 @@ re.fullmatch(pattern, string, flags=0)
    not match the pattern; note that this is different from a zero-
    length match.
 
-   New in version 3.4.
+   The expression’s behaviour can be modified by specifying a _flags_
+   value. Values can be any of the flags variables, combined using
+   bitwise OR (the "|" operator).
+
+   Added in version 3.4.
 
 re.split(pattern, string, maxsplit=0, flags=0)
 
@@ -861,6 +880,10 @@ re.split(pattern, string, maxsplit=0, flags=0)
       >>> re.split(r'(\W*)', '...words...')
       ['', '...', '', '', 'w', '', 'o', '', 'r', '', 'd', '', 's', '...', '', '', '']
 <
+   The expression’s behaviour can be modified by specifying a _flags_
+   value. Values can be any of the flags variables, combined using
+   bitwise OR (the "|" operator).
+
    Changed in version 3.1: Added the optional flags argument.
 
    Changed in version 3.7: Added support of splitting on a pattern
@@ -885,6 +908,10 @@ re.findall(pattern, string, flags=0)
    >>> re.findall(r'(\w+)=(\d+)', 'set width=20 and height=10')
    [('width', '20'), ('height', '10')]
 
+   The expression’s behaviour can be modified by specifying a _flags_
+   value. Values can be any of the flags variables, combined using
+   bitwise OR (the "|" operator).
+
    Changed in version 3.7: Non-empty matches can now start just after
    a previous empty match.
 
@@ -894,6 +921,10 @@ re.finditer(pattern, string, flags=0)
    overlapping matches for the RE _pattern_ in _string_.  The _string_
    is scanned left-to-right, and matches are returned in the order
    found.  Empty matches are included in the result.
+
+   The expression’s behaviour can be modified by specifying a _flags_
+   value. Values can be any of the flags variables, combined using
+   bitwise OR (the "|" operator).
 
    Changed in version 3.7: Non-empty matches can now start just after
    a previous empty match.
@@ -948,6 +979,10 @@ re.sub(pattern, repl, string, count=0, flags=0)
    followed by the literal character "'0'".  The backreference "\g<0>"
    substitutes in the entire substring matched by the RE.
 
+   The expression’s behaviour can be modified by specifying a _flags_
+   value. Values can be any of the flags variables, combined using
+   bitwise OR (the "|" operator).
+
    Changed in version 3.1: Added the optional flags argument.
 
    Changed in version 3.5: Unmatched groups are replaced with an empty
@@ -975,6 +1010,10 @@ re.subn(pattern, repl, string, count=0, flags=0)
 
    Changed in version 3.5: Unmatched groups are replaced with an empty
    string.
+
+   The expression’s behaviour can be modified by specifying a _flags_
+   value. Values can be any of the flags variables, combined using
+   bitwise OR (the "|" operator).
 
 re.escape(pattern)
 
@@ -1120,7 +1159,7 @@ Pattern.fullmatch(string[, pos[, endpos]])
       >>> pattern.fullmatch("doggie", 1, 3)   # Matches within given limits.
       <re.Match object; span=(1, 3), match='og'>
 <
-   New in version 3.4.
+   Added in version 3.4.
 
 Pattern.split(string, maxsplit=0)
 
@@ -1277,7 +1316,7 @@ Match.__getitem__(g)
       >>> m['last_name']
       'Newton'
 <
-   New in version 3.6.
+   Added in version 3.6.
 
 Match.groups(default=None)
 

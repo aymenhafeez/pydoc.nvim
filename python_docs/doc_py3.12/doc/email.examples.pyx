@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.examples.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*email.examples.pyx*                          Last change: 2025 Dec 20
 
 "email": Examples
 *****************
@@ -274,7 +274,7 @@ going to send to disk, as well as sending it.
                recipie
            </a> déjeuner.
        </p>
-       <img src="cid:{asparagus_cid}" />
+       <img src="cid:{asparagus_cid}">
      </body>
    </html>
    """.format(asparagus_cid=asparagus_cid[1:-1]), subtype='html')

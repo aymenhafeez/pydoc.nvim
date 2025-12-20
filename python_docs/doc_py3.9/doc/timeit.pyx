@@ -1,5 +1,5 @@
-Python 3.9.19
-*timeit.pyx*                                  Last change: 2024 May 24
+Python 3.9.25
+*timeit.pyx*                                  Last change: 2025 Dec 20
 
 "timeit" — Measure execution time of small code snippets
 ********************************************************

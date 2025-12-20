@@ -1,5 +1,5 @@
-Python 3.9.19
-*2to3.pyx*                                    Last change: 2024 May 24
+Python 3.9.25
+*2to3.pyx*                                    Last change: 2025 Dec 20
 
 2to3 - Automated Python 2 to 3 code translation
 ***********************************************

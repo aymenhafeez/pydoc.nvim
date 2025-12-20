@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-protocol.pyx*                        Last change: 2024 May 24
+Python 3.12.12
+*asyncio-protocol.pyx*                        Last change: 2025 Dec 20
 
 Transports and Protocols
 ************************
@@ -225,7 +225,7 @@ ReadTransport.is_reading()
 
    Return "True" if the transport is receiving new data.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 ReadTransport.pause_reading()
 
@@ -273,7 +273,7 @@ WriteTransport.get_write_buffer_limits()
 
    Use "set_write_buffer_limits()" to set the limits.
 
-   New in version 3.4.2.
+   Added in version 3.4.2.
 
 WriteTransport.set_write_buffer_limits(high=None, low=None)
 
@@ -557,7 +557,7 @@ State machine:
 Buffered Streaming Protocols
 ----------------------------
 
-New in version 3.7.
+Added in version 3.7.
 
 Buffered Protocols can be used with any event loop method that
 supports Streaming Protocols.

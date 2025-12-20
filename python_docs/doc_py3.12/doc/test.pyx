@@ -1,5 +1,5 @@
-Python 3.12.3
-*test.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*test.pyx*                                    Last change: 2025 Dec 20
 
 "test" — Regression tests package for Python
 ********************************************
@@ -301,10 +301,10 @@ test.support.PIPE_MAX_SIZE
 
 test.support.Py_DEBUG
 
-   True if Python was built with the "Py_DEBUG" macro defined, that
+   "True" if Python was built with the "Py_DEBUG" macro defined, that
    is, if Python was built in debug mode.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 test.support.SOCK_MAX_SIZE
 
@@ -462,7 +462,7 @@ test.support.get_pagesize()
 
    Get size of a page in bytes.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 test.support.setswitchinterval(interval)
 
@@ -587,7 +587,7 @@ test.support.flush_std_streams()
    It can be used to make sure that the logs order is consistent
    before writing into stderr.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 test.support.print_warning(msg)
 
@@ -595,7 +595,7 @@ test.support.print_warning(msg)
    "f"Warning -- {msg}"". If _msg_ is made of multiple lines, add
    ""Warning -- "" prefix to each line.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 test.support.wait_process(pid, *, exitcode, timeout=None)
 
@@ -609,7 +609,7 @@ test.support.wait_process(pid, *, exitcode, timeout=None)
    by default), kill the process and raise an "AssertionError". The
    timeout feature is not available on Windows.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 test.support.calcobjsize(fmt)
 
@@ -791,7 +791,7 @@ test.support.catch_unraisable_exception()
       # cm.unraisable attribute no longer exists at this point
       # (to break a reference cycle)
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 test.support.load_package_tests(pkg_dir, loader, standard_tests, pattern)
 
@@ -816,7 +816,7 @@ test.support.detect_api_mismatch(ref_api, other_api, *, ignore=())
    By default this skips private attributes beginning with ‘_’ but
    includes all magic methods, i.e. those starting and ending in ‘__’.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 test.support.patch(test_instance, object_to_patch, attr_name, new_value)
 
@@ -884,7 +884,7 @@ test.support.check__all__(test_case, module, name_of_module=None, extra=(), not_
               support.check__all__(self, bar, ('bar', '_bar'),
                                    extra=extra, not_exported=not_exported)
 <
-   New in version 3.6.
+   Added in version 3.6.
 
 test.support.skip_if_broken_multiprocessing_synchronize()
 
@@ -892,14 +892,14 @@ test.support.skip_if_broken_multiprocessing_synchronize()
    if there is no available semaphore implementation, or if creating a
    lock raises an "OSError".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 test.support.check_disallow_instantiation(test_case, tp, *args, **kwds)
 
    Assert that type _tp_ cannot be instantiated using _args_ and
    _kwds_.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 test.support.adjust_int_max_str_digits(max_digits)
 
@@ -909,7 +909,7 @@ test.support.adjust_int_max_str_digits(max_digits)
    limit on the number of digits when converting between an integer
    and string.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 The "test.support" module defines the following classes:
 
@@ -960,7 +960,7 @@ class test.support.Matcher
 The "test.support.socket_helper" module provides support for socket
 tests.
 
-New in version 3.9.
+Added in version 3.9.
 
 test.support.socket_helper.IPV6_ENABLED
 
@@ -1128,7 +1128,7 @@ test.support.script_helper.make_zip_pkg(zip_dir, zip_basename, pkg_name, script_
 The "test.support.bytecode_helper" module provides support for testing
 and inspecting bytecode generation.
 
-New in version 3.9.
+Added in version 3.9.
 
 The module defines the following class:
 
@@ -1156,7 +1156,7 @@ BytecodeTestCase.assertNotInBytecode(x, opname, argval=_UNSPECIFIED)
 The "test.support.threading_helper" module provides support for
 threading tests.
 
-New in version 3.10.
+Added in version 3.10.
 
 test.support.threading_helper.join_thread(thread, timeout=None)
 
@@ -1223,7 +1223,7 @@ test.support.threading_helper.catch_threading_exception()
       # exists at this point
       # (to avoid reference cycles)
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 
 "test.support.os_helper" — Utilities for os tests
@@ -1231,7 +1231,7 @@ test.support.threading_helper.catch_threading_exception()
 
 The "test.support.os_helper" module provides support for os tests.
 
-New in version 3.10.
+Added in version 3.10.
 
 test.support.os_helper.FS_NONASCII
 
@@ -1397,7 +1397,7 @@ test.support.os_helper.unlink(filename)
 The "test.support.import_helper" module provides support for import
 tests.
 
-New in version 3.10.
+Added in version 3.10.
 
 test.support.import_helper.forget(module_name)
 
@@ -1437,7 +1437,7 @@ test.support.import_helper.import_fresh_module(name, fresh=(), blocked=(), depre
       py_warnings = import_fresh_module('warnings', blocked=['_warnings'])
       c_warnings = import_fresh_module('warnings', fresh=['_warnings'])
 <
-   New in version 3.1.
+   Added in version 3.1.
 
 test.support.import_helper.import_module(name, deprecated=False, *, required_on=())
 
@@ -1450,7 +1450,7 @@ test.support.import_helper.import_module(name, deprecated=False, *, required_on=
    platform but optional for others, set _required_on_ to an iterable
    of platform prefixes which will be compared against "sys.platform".
 
-   New in version 3.1.
+   Added in version 3.1.
 
 test.support.import_helper.modules_setup()
 
@@ -1500,7 +1500,7 @@ class test.support.import_helper.DirsOnSysPath(*paths)
 The "test.support.warnings_helper" module provides support for
 warnings tests.
 
-New in version 3.10.
+Added in version 3.10.
 
 test.support.warnings_helper.ignore_warnings(*, category)
 
@@ -1513,7 +1513,7 @@ test.support.warnings_helper.ignore_warnings(*, category)
       def test_suppress_warning():
           # do something
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 test.support.warnings_helper.check_no_resource_warning(testcase)
 
@@ -1533,7 +1533,7 @@ test.support.warnings_helper.check_syntax_warning(testcase, statement, errtext='
    the warning and exception. If _offset_ is not "None", compares to
    the offset of the exception.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 test.support.warnings_helper.check_warnings(*filters, quiet=True)
 

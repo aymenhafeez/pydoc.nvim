@@ -1,5 +1,5 @@
-Python 3.12.3
-*time.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*time.pyx*                                    Last change: 2025 Dec 20
 
 "time" — Time access and conversions
 ************************************
@@ -36,9 +36,10 @@ An explanation of some terminology and conventions is in order.
   the POSIX and ISO C standards: values 69–99 are mapped to 1969–1999,
   and values 0–68 are mapped to 2000–2068.
 
-* UTC is Coordinated Universal Time (formerly known as Greenwich Mean
-  Time, or GMT).  The acronym UTC is not a mistake but a compromise
-  between English and French.
+* UTC is Coordinated Universal Time and superseded Greenwich Mean Time
+  or GMT as the basis of international timekeeping. The acronym UTC is
+  not a mistake but conforms to an earlier, language-agnostic naming
+  scheme for time standards such as UT0, UT1, and UT2.
 
 * DST is Daylight Saving Time, an adjustment of the timezone by
   (usually) one hour during part of the year.  DST rules are magic
@@ -53,7 +54,7 @@ An explanation of some terminology and conventions is in order.
   100 times a second.
 
 * On the other hand, the precision of "time()" and "sleep()" is better
-  than their Unix equivalents: times are expressed as floating point
+  than their Unix equivalents: times are expressed as floating-point
   numbers, "time()" returns the most accurate time available (using
   Unix "gettimeofday()" where available), and "sleep()" will accept a
   time with a nonzero fraction (Unix "select()" is used to implement
@@ -129,7 +130,7 @@ time.pthread_getcpuclockid(thread_id)
    See the man page for _pthread_getcpuclockid(3)_ for further
    information.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.clock_getres(clk_id)
 
@@ -139,7 +140,7 @@ time.clock_getres(clk_id)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.clock_gettime(clk_id) -> float
 
@@ -151,7 +152,7 @@ time.clock_gettime(clk_id) -> float
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.clock_gettime_ns(clk_id) -> int
 
@@ -159,7 +160,7 @@ time.clock_gettime_ns(clk_id) -> int
 
    Availability: Unix.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.clock_settime(clk_id, time: float)
 
@@ -171,7 +172,7 @@ time.clock_settime(clk_id, time: float)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.clock_settime_ns(clk_id, time: int)
 
@@ -179,7 +180,7 @@ time.clock_settime_ns(clk_id, time: int)
 
    Availability: Unix.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.ctime([secs])
 
@@ -224,7 +225,7 @@ time.get_clock_info(name)
 
    * _resolution_: The resolution of the clock in seconds ("float")
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.gmtime([secs])
 
@@ -253,7 +254,7 @@ time.mktime(t)
    This is the inverse function of "localtime()".  Its argument is the
    "struct_time" or full 9-tuple (since the dst flag is needed; use
    "-1" as the dst flag if it is unknown) which expresses the time in
-   _local_ time, not UTC.  It returns a floating point number, for
+   _local_ time, not UTC.  It returns a floating-point number, for
    compatibility with "time()". If the input value cannot be
    represented as a valid time, either "OverflowError" or "ValueError"
    will be raised (which depends on whether the invalid value is
@@ -271,7 +272,7 @@ time.monotonic() -> float
    Use "monotonic_ns()" to avoid the precision loss caused by the
    "float" type.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.5: The function is now always available and
    always system-wide.
@@ -282,7 +283,7 @@ time.monotonic_ns() -> int
 
    Similar to "monotonic()", but return time as nanoseconds.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.perf_counter() -> float
 
@@ -296,7 +297,7 @@ time.perf_counter() -> float
    Use "perf_counter_ns()" to avoid the precision loss caused by the
    "float" type.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.10: On Windows, the function is now system-
    wide.
@@ -305,7 +306,7 @@ time.perf_counter_ns() -> int
 
    Similar to "perf_counter()", but return time as nanoseconds.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.process_time() -> float
 
@@ -318,18 +319,18 @@ time.process_time() -> float
    Use "process_time_ns()" to avoid the precision loss caused by the
    "float" type.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.process_time_ns() -> int
 
    Similar to "process_time()" but return time as nanoseconds.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.sleep(secs)
 
    Suspend execution of the calling thread for the given number of
-   seconds. The argument may be a floating point number to indicate a
+   seconds. The argument may be a floating-point number to indicate a
    more precise sleep time.
 
    If the sleep is interrupted by a signal and no exception is raised
@@ -339,6 +340,8 @@ time.sleep(secs)
    The suspension time may be longer than requested by an arbitrary
    amount, because of the scheduling of other activity in the system.
 
+   -[ Windows implementation ]-
+
    On Windows, if _secs_ is zero, the thread relinquishes the
    remainder of its time slice to any other thread that is ready to
    run. If there are no other threads ready to run, the function
@@ -347,13 +350,19 @@ time.sleep(secs)
    timer which provides resolution of 100 nanoseconds. If _secs_ is
    zero, "Sleep(0)" is used.
 
-   Unix implementation:
+   -[ Unix implementation ]-
 
    * Use "clock_nanosleep()" if available (resolution: 1 nanosecond);
 
    * Or use "nanosleep()" if available (resolution: 1 nanosecond);
 
    * Or use "select()" (resolution: 1 microsecond).
+
+   Note:
+
+     To emulate a “no-op”, use "pass" instead of "time.sleep(0)".To
+     voluntarily relinquish the CPU, specify a real-time scheduling
+     policy and use "os.sched_yield()" instead.
 
    Changed in version 3.5: The function now sleeps at least _secs_
    even if the sleep is interrupted by a signal, except if the signal
@@ -420,6 +429,9 @@ time.strftime(format[, t])
    |             | days in a new year preceding the first Sunday    |         |
    |             | are considered to be in week 0.                  |         |
    +-------------+--------------------------------------------------+---------+
+   | "%u"        | Day of the week (Monday is 1; Sunday is 7) as a  |         |
+   |             | decimal number [1, 7].                           |         |
+   +-------------+--------------------------------------------------+---------+
    | "%w"        | Weekday as a decimal number [0(Sunday),6].       |         |
    +-------------+--------------------------------------------------+---------+
    | "%W"        | Week number of the year (Monday as the first day | (4)     |
@@ -444,6 +456,16 @@ time.strftime(format[, t])
    +-------------+--------------------------------------------------+---------+
    | "%Z"        | Time zone name (no characters if no time zone    |         |
    |             | exists). Deprecated. [1]                         |         |
+   +-------------+--------------------------------------------------+---------+
+   | "%G"        | ISO 8601 year (similar to "%Y" but follows the   |         |
+   |             | rules for the ISO 8601 calendar year). The year  |         |
+   |             | starts with the week that contains the first     |         |
+   |             | Thursday of the calendar year.                   |         |
+   +-------------+--------------------------------------------------+---------+
+   | "%V"        | ISO 8601 week number (as a decimal number        |         |
+   |             | [01,53]). The first week of the year is the one  |         |
+   |             | that contains the first Thursday of the year.    |         |
+   |             | Weeks start on Monday.                           |         |
    +-------------+--------------------------------------------------+---------+
    | "%%"        | A literal "'%'" character.                       |         |
    +-------------+--------------------------------------------------+---------+
@@ -502,7 +524,7 @@ time.strptime(string[, format])
    For example:
 
    >>> import time
-   >>> time.strptime("30 Nov 00", "%d %b %y")   
+   >>> time.strptime("30 Nov 00", "%d %b %y")
    time.struct_time(tm_year=2000, tm_mon=11, tm_mday=30, tm_hour=0, tm_min=0,
                     tm_sec=0, tm_wday=3, tm_yday=335, tm_isdst=-1)
 
@@ -532,7 +554,7 @@ class time.struct_time
    +-----------------------------------+-----------------------------------+-----------------------------------+
    | 1                                 | tm_mon                            | range [1, 12]                     |
    +-----------------------------------+-----------------------------------+-----------------------------------+
-   | 2                                 | tm_day                            | range [1, 31]                     |
+   | 2                                 | tm_mday                           | range [1, 31]                     |
    +-----------------------------------+-----------------------------------+-----------------------------------+
    | 3                                 | tm_hour                           | range [0, 23]                     |
    +-----------------------------------+-----------------------------------+-----------------------------------+
@@ -566,13 +588,13 @@ class time.struct_time
 
 time.time() -> float
 
-   Return the time in seconds since the epoch as a floating point
+   Return the time in seconds since the epoch as a floating-point
    number. The handling of leap seconds is platform dependent. On
    Windows and most Unix systems, the leap seconds are not counted
    towards the time in seconds since the epoch. This is commonly
    referred to as Unix time.
 
-   Note that even though the time is always returned as a floating
+   Note that even though the time is always returned as a floating-
    point number, not all systems provide time with a better precision
    than 1 second. While this function normally returns non-decreasing
    values, it can return a lower value than a previous call if the
@@ -593,7 +615,7 @@ time.time_ns() -> int
    Similar to "time()" but returns time as an integer number of
    nanoseconds since the epoch.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.thread_time() -> float
 
@@ -611,13 +633,13 @@ time.thread_time() -> float
 
    Unix systems supporting "CLOCK_THREAD_CPUTIME_ID".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.thread_time_ns() -> int
 
    Similar to "thread_time()" but return time as nanoseconds.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.tzset()
 
@@ -726,7 +748,7 @@ time.CLOCK_BOOTTIME
 
    Availability: Linux >= 2.6.39.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.CLOCK_HIGHRES
 
@@ -737,7 +759,7 @@ time.CLOCK_HIGHRES
 
    Availability: Solaris.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.CLOCK_MONOTONIC
 
@@ -746,7 +768,7 @@ time.CLOCK_MONOTONIC
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.CLOCK_MONOTONIC_RAW
 
@@ -755,7 +777,7 @@ time.CLOCK_MONOTONIC_RAW
 
    Availability: Linux >= 2.6.28, macOS >= 10.12.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.CLOCK_PROCESS_CPUTIME_ID
 
@@ -763,7 +785,7 @@ time.CLOCK_PROCESS_CPUTIME_ID
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.CLOCK_PROF
 
@@ -771,7 +793,7 @@ time.CLOCK_PROF
 
    Availability: FreeBSD, NetBSD >= 7, OpenBSD.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.CLOCK_TAI
 
@@ -783,7 +805,7 @@ time.CLOCK_TAI
 
    Availability: Linux.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 time.CLOCK_THREAD_CPUTIME_ID
 
@@ -791,7 +813,7 @@ time.CLOCK_THREAD_CPUTIME_ID
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 time.CLOCK_UPTIME
 
@@ -801,7 +823,7 @@ time.CLOCK_UPTIME
 
    Availability: FreeBSD, OpenBSD >= 5.5.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 time.CLOCK_UPTIME_RAW
 
@@ -811,7 +833,7 @@ time.CLOCK_UPTIME_RAW
 
    Availability: macOS >= 10.12.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 The following constant is the only parameter that can be sent to
 "clock_settime()".
@@ -823,7 +845,7 @@ time.CLOCK_REALTIME
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 
 Timezone Constants

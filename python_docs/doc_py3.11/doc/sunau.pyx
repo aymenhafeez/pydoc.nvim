@@ -1,5 +1,5 @@
-Python 3.11.9
-*sunau.pyx*                                   Last change: 2024 May 24
+Python 3.11.14
+*sunau.pyx*                                   Last change: 2025 Dec 20
 
 "sunau" — Read and write Sun AU files
 *************************************

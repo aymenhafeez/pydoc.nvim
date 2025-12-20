@@ -1,5 +1,5 @@
-Python 3.11.9
-*faulthandler.pyx*                            Last change: 2024 May 24
+Python 3.11.14
+*faulthandler.pyx*                            Last change: 2025 Dec 20
 
 "faulthandler" — Dump the Python traceback
 ******************************************

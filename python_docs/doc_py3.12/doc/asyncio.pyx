@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*asyncio.pyx*                                 Last change: 2025 Dec 20
 
 "asyncio" — Asynchronous I/O
 ****************************
@@ -52,6 +52,14 @@ developers_ to:
 
 * bridge callback-based libraries and code with async/await syntax.
 
+Availability: not Emscripten, not WASI.
+
+This module does not work or is not available on WebAssembly platforms
+"wasm32-emscripten" and "wasm32-wasi". See WebAssembly platforms for
+more information.
+
+-[ asyncio REPL ]-
+
 You can experiment with an "asyncio" concurrent context in the REPL:
 >
    $ python -m asyncio
@@ -62,11 +70,10 @@ You can experiment with an "asyncio" concurrent context in the REPL:
    >>> await asyncio.sleep(10, result='hello')
    'hello'
 <
-Availability: not Emscripten, not WASI.
+Raises an auditing event "cpython.run_stdin" with no arguments.
 
-This module does not work or is not available on WebAssembly platforms
-"wasm32-emscripten" and "wasm32-wasi". See WebAssembly platforms for
-more information.
+Changed in version 3.12.5: (also 3.11.10, 3.10.15, 3.9.20, and 3.8.20)
+Emits audit events.
 
 -[ Reference ]-
 

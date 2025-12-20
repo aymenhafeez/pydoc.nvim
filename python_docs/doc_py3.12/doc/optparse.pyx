@@ -1,5 +1,5 @@
-Python 3.12.3
-*optparse.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*optparse.pyx*                                Last change: 2025 Dec 20
 
 "optparse" — Parser for command line options
 ********************************************
@@ -1315,7 +1315,7 @@ OptionParser.parse_args(args=None, values=None)
       the list of arguments to process (default: "sys.argv[1:]")
 
    "values"
-      an "Values" object to store option arguments in (default: a new
+      a "Values" object to store option arguments in (default: a new
       instance of "Values") – if you give an existing object, the
       option defaults will not be initialized on it
 
@@ -1693,7 +1693,7 @@ is seen, but blow up if it comes after "-b" in the command-line.
 Callback example 3: check option order (generalized)
 ----------------------------------------------------
 
-If you want to re-use this callback for several similar options (set a
+If you want to reuse this callback for several similar options (set a
 flag, but blow up if "-b" has already been seen), it needs a bit of
 work: the error message and the flag that it sets must be generalized.
 >

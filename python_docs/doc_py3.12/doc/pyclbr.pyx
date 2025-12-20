@@ -1,5 +1,5 @@
-Python 3.12.3
-*pyclbr.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*pyclbr.pyx*                                  Last change: 2025 Dec 20
 
 "pyclbr" — Python module browser support
 ****************************************
@@ -41,7 +41,7 @@ pyclbr.readmodule_ex(module, path=None)
    the returned dictionary has a key "'__path__'" whose value is a
    list containing the package search path.
 
-New in version 3.7: Descriptors for nested definitions.  They are
+Added in version 3.7: Descriptors for nested definitions.  They are
 accessed through the new children attribute.  Each has a new parent
 attribute.
 
@@ -79,21 +79,21 @@ class pyclbr.Function
       For top-level functions, "None".  For nested functions, the
       parent.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    children
 
       A "dictionary" mapping names to descriptors for nested functions
       and classes.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    is_async
 
       "True" for functions that are defined with the "async" prefix,
       "False" otherwise.
 
-      New in version 3.10.
+      Added in version 3.10.
 
 
 Class Objects
@@ -123,16 +123,16 @@ class pyclbr.Class
 
    parent
 
-      For top-level classes, None.  For nested classes, the parent.
+      For top-level classes, "None".  For nested classes, the parent.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    children
 
       A dictionary mapping names to descriptors for nested functions
       and classes.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    super
 

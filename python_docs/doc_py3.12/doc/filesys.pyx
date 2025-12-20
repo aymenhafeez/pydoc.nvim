@@ -1,5 +1,5 @@
-Python 3.12.3
-*filesys.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*filesys.pyx*                                 Last change: 2025 Dec 20
 
 File and Directory Access
 *************************
@@ -26,7 +26,19 @@ is:
 
   * Concrete paths
 
-    * Methods
+    * Expanding and resolving paths
+
+    * Querying file type and status
+
+    * Reading and writing files
+
+    * Reading directories
+
+    * Creating files and directories
+
+    * Renaming and deleting
+
+    * Permissions and ownership
 
   * Correspondence to tools in the "os" module
 

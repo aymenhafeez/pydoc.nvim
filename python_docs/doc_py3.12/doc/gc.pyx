@@ -1,5 +1,5 @@
-Python 3.12.3
-*gc.pyx*                                      Last change: 2024 May 24
+Python 3.12.12
+*gc.pyx*                                      Last change: 2025 Dec 20
 
 "gc" — Garbage Collector interface
 **********************************
@@ -62,7 +62,7 @@ gc.get_debug()
 gc.get_objects(generation=None)
 
    Returns a list of all objects tracked by the collector, excluding
-   the list returned. If _generation_ is not None, return only the
+   the list returned. If _generation_ is not "None", return only the
    objects tracked by the collector that are in that generation.
 
    Changed in version 3.8: New _generation_ parameter.
@@ -87,7 +87,7 @@ gc.get_stats()
      to be uncollectable (and were therefore moved to the "garbage"
      list) inside this generation.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 gc.set_threshold(threshold0[, threshold1[, threshold2]])
 
@@ -179,7 +179,7 @@ gc.is_tracked(obj)
       >>> gc.is_tracked({"a": []})
       True
 <
-   New in version 3.1.
+   Added in version 3.1.
 
 gc.is_finalized(obj)
 
@@ -199,7 +199,7 @@ gc.is_finalized(obj)
       >>> gc.is_finalized(x)
       True
 <
-   New in version 3.9.
+   Added in version 3.9.
 
 gc.freeze()
 
@@ -217,20 +217,20 @@ gc.freeze()
    "gc.freeze()" right before "fork()", and "gc.enable()" early in
    child processes.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 gc.unfreeze()
 
    Unfreeze the objects in the permanent generation, put them back
    into the oldest generation.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 gc.get_freeze_count()
 
    Return the number of objects in the permanent generation.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 The following variables are provided for read-only access (you can
 mutate the values but should not rebind them):
@@ -286,7 +286,7 @@ gc.callbacks
       Allowing applications to identify and clear their own
       uncollectable types when they appear in "garbage".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 The following constants are provided for use with "set_debug()":
 

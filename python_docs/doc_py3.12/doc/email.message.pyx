@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.message.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*email.message.pyx*                           Last change: 2025 Dec 20
 
 "email.message": Representing an email message
 **********************************************
@@ -8,7 +8,7 @@ Python 3.12.3
 
 ======================================================================
 
-New in version 3.6: [1]
+Added in version 3.6: [1]
 
 The central class in the "email" package is the "EmailMessage" class,
 imported from the "email.message" module.  It is the base class for
@@ -41,7 +41,7 @@ names, which must be ASCII values.  The values of the dictionary are
 strings with some extra methods.  Headers are stored and returned in
 case-preserving form, but field names are matched case-insensitively.
 The keys are ordered, but unlike a real dict, there can be duplicates.
-Addtional methods are provided for working with headers that have
+Additional methods are provided for working with headers that have
 duplicate keys.
 
 The _payload_ is either a string or bytes object, in the case of
@@ -440,7 +440,7 @@ class email.message.EmailMessage(policy=default)
       The possible values for this method are _inline_, _attachment_
       or "None" if the message follows **RFC 2183**.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    The following methods relate to interrogating and manipulating the
    content (payload) of the message.

@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-api-index.pyx*                       Last change: 2024 May 24
+Python 3.12.12
+*asyncio-api-index.pyx*                       Last change: 2025 Dec 20
 
 High-level API Index
 ********************

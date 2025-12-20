@@ -1,5 +1,5 @@
-Python 3.12.3
-*xmlrpc.client.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*xmlrpc.client.pyx*                           Last change: 2025 Dec 20
 
 "xmlrpc.client" — XML-RPC client access
 ***************************************
@@ -54,88 +54,95 @@ class xmlrpc.client.ServerProxy(uri, transport=None, encoding=None, verbose=Fals
    to calls. The _headers_ parameter is an optional sequence of HTTP
    headers to send with each request, expressed as a sequence of
    2-tuples representing the header name and value. (e.g. "[('Header-
-   Name', 'value')]"). The obsolete _use_datetime_ flag is similar to
+   Name', 'value')]"). If an HTTPS URL is provided, _context_ may be
+   "ssl.SSLContext" and configures the SSL settings of the underlying
+   HTTPS connection. The obsolete _use_datetime_ flag is similar to
    _use_builtin_types_ but it applies only to date/time values.
 
-Changed in version 3.3: The _use_builtin_types_ flag was added.
+   Changed in version 3.3: The _use_builtin_types_ flag was added.
 
-Changed in version 3.8: The _headers_ parameter was added.Both the
-HTTP and HTTPS transports support the URL syntax extension for HTTP
-Basic Authentication: "http://user:pass@host:port/path".  The
-"user:pass" portion will be base64-encoded as an HTTP ‘Authorization’
-header, and sent to the remote server as part of the connection
-process when invoking an XML-RPC method.  You only need to use this if
-the remote server requires a Basic Authentication user and password.
-If an HTTPS URL is provided, _context_ may be "ssl.SSLContext" and
-configures the SSL settings of the underlying HTTPS connection.The
-returned instance is a proxy object with methods that can be used to
-invoke corresponding RPC calls on the remote server.  If the remote
-server supports the introspection API, the proxy can also be used to
-query the remote server for the methods it supports (service
-discovery) and fetch other server-associated metadata.Types that are
-conformable (e.g. that can be marshalled through XML), include the
-following (and except where noted, they are unmarshalled as the same
-Python type):
+   Changed in version 3.8: The _headers_ parameter was added.
 
-+------------------------+---------------------------------------------------------+
-| XML-RPC type           | Python type                                             |
-|========================|=========================================================|
-| "boolean"              | "bool"                                                  |
-+------------------------+---------------------------------------------------------+
-| "int", "i1", "i2",     | "int" in range from -2147483648 to 2147483647. Values   |
-| "i4", "i8" or          | get the "<int>" tag.                                    |
-| "biginteger"           |                                                         |
-+------------------------+---------------------------------------------------------+
-| "double" or "float"    | "float".  Values get the "<double>" tag.                |
-+------------------------+---------------------------------------------------------+
-| "string"               | "str"                                                   |
-+------------------------+---------------------------------------------------------+
-| "array"                | "list" or "tuple" containing conformable elements.      |
-|                        | Arrays are returned as "lists".                         |
-+------------------------+---------------------------------------------------------+
-| "struct"               | "dict".  Keys must be strings, values may be any        |
-|                        | conformable type. Objects of user-defined classes can   |
-|                        | be passed in; only their "__dict__" attribute is        |
-|                        | transmitted.                                            |
-+------------------------+---------------------------------------------------------+
-| "dateTime.iso8601"     | "DateTime" or "datetime.datetime". Returned type        |
-|                        | depends on values of _use_builtin_types_ and            |
-|                        | _use_datetime_ flags.                                   |
-+------------------------+---------------------------------------------------------+
-| "base64"               | "Binary", "bytes" or "bytearray".  Returned type        |
-|                        | depends on the value of the _use_builtin_types_ flag.   |
-+------------------------+---------------------------------------------------------+
-| "nil"                  | The "None" constant.  Passing is allowed only if        |
-|                        | _allow_none_ is true.                                   |
-+------------------------+---------------------------------------------------------+
-| "bigdecimal"           | "decimal.Decimal".  Returned type only.                 |
-+------------------------+---------------------------------------------------------+
+   Both the HTTP and HTTPS transports support the URL syntax extension
+   for HTTP Basic Authentication: "http://user:pass@host:port/path".
+   The  "user:pass" portion will be base64-encoded as an HTTP
+   ‘Authorization’ header, and sent to the remote server as part of
+   the connection process when invoking an XML-RPC method.  You only
+   need to use this if the remote server requires a Basic
+   Authentication user and password.
 
-This is the full set of data types supported by XML-RPC.  Method calls
-may also raise a special "Fault" instance, used to signal XML-RPC
-server errors, or "ProtocolError" used to signal an error in the
-HTTP/HTTPS transport layer. Both "Fault" and "ProtocolError" derive
-from a base class called "Error".  Note that the xmlrpc client module
-currently does not marshal instances of subclasses of built-in
-types.When passing strings, characters special to XML such as "<",
-">", and "&" will be automatically escaped.  However, it’s the
-caller’s responsibility to ensure that the string is free of
-characters that aren’t allowed in XML, such as the control characters
-with ASCII values between 0 and 31 (except, of course, tab, newline
-and carriage return); failing to do this will result in an XML-RPC
-request that isn’t well-formed XML.  If you have to pass arbitrary
-bytes via XML-RPC, use "bytes" or "bytearray" classes or the "Binary"
-wrapper class described below."Server" is retained as an alias for
-"ServerProxy" for backwards compatibility.  New code should use
-"ServerProxy".
+   The returned instance is a proxy object with methods that can be
+   used to invoke corresponding RPC calls on the remote server.  If
+   the remote server supports the introspection API, the proxy can
+   also be used to query the remote server for the methods it supports
+   (service discovery) and fetch other server-associated metadata.
 
-Changed in version 3.5: Added the _context_ argument.
+   Types that are conformable (e.g. that can be marshalled through
+   XML), include the following (and except where noted, they are
+   unmarshalled as the same Python type):
 
-Changed in version 3.6: Added support of type tags with prefixes (e.g.
-"ex:nil"). Added support of unmarshalling additional types used by
-Apache XML-RPC implementation for numerics: "i1", "i2", "i8",
-"biginteger", "float" and "bigdecimal". See
-https://ws.apache.org/xmlrpc/types.html for a description.
+   +------------------------+---------------------------------------------------------+
+   | XML-RPC type           | Python type                                             |
+   |========================|=========================================================|
+   | "boolean"              | "bool"                                                  |
+   +------------------------+---------------------------------------------------------+
+   | "int", "i1", "i2",     | "int" in range from -2147483648 to 2147483647. Values   |
+   | "i4", "i8" or          | get the "<int>" tag.                                    |
+   | "biginteger"           |                                                         |
+   +------------------------+---------------------------------------------------------+
+   | "double" or "float"    | "float".  Values get the "<double>" tag.                |
+   +------------------------+---------------------------------------------------------+
+   | "string"               | "str"                                                   |
+   +------------------------+---------------------------------------------------------+
+   | "array"                | "list" or "tuple" containing conformable elements.      |
+   |                        | Arrays are returned as "lists".                         |
+   +------------------------+---------------------------------------------------------+
+   | "struct"               | "dict".  Keys must be strings, values may be any        |
+   |                        | conformable type. Objects of user-defined classes can   |
+   |                        | be passed in; only their "__dict__" attribute is        |
+   |                        | transmitted.                                            |
+   +------------------------+---------------------------------------------------------+
+   | "dateTime.iso8601"     | "DateTime" or "datetime.datetime". Returned type        |
+   |                        | depends on values of _use_builtin_types_ and            |
+   |                        | _use_datetime_ flags.                                   |
+   +------------------------+---------------------------------------------------------+
+   | "base64"               | "Binary", "bytes" or "bytearray".  Returned type        |
+   |                        | depends on the value of the _use_builtin_types_ flag.   |
+   +------------------------+---------------------------------------------------------+
+   | "nil"                  | The "None" constant.  Passing is allowed only if        |
+   |                        | _allow_none_ is true.                                   |
+   +------------------------+---------------------------------------------------------+
+   | "bigdecimal"           | "decimal.Decimal".  Returned type only.                 |
+   +------------------------+---------------------------------------------------------+
+
+   This is the full set of data types supported by XML-RPC.  Method
+   calls may also raise a special "Fault" instance, used to signal
+   XML-RPC server errors, or "ProtocolError" used to signal an error
+   in the HTTP/HTTPS transport layer. Both "Fault" and "ProtocolError"
+   derive from a base class called "Error".  Note that the xmlrpc
+   client module currently does not marshal instances of subclasses of
+   built-in types.
+
+   When passing strings, characters special to XML such as "<", ">",
+   and "&" will be automatically escaped.  However, it’s the caller’s
+   responsibility to ensure that the string is free of characters that
+   aren’t allowed in XML, such as the control characters with ASCII
+   values between 0 and 31 (except, of course, tab, newline and
+   carriage return); failing to do this will result in an XML-RPC
+   request that isn’t well-formed XML.  If you have to pass arbitrary
+   bytes via XML-RPC, use "bytes" or "bytearray" classes or the
+   "Binary" wrapper class described below.
+
+   "Server" is retained as an alias for "ServerProxy" for backwards
+   compatibility.  New code should use "ServerProxy".
+
+   Changed in version 3.5: Added the _context_ argument.
+
+   Changed in version 3.6: Added support of type tags with prefixes
+   (e.g. "ex:nil"). Added support of unmarshalling additional types
+   used by Apache XML-RPC implementation for numerics: "i1", "i2",
+   "i8", "biginteger", "float" and "bigdecimal". See
+   https://ws.apache.org/xmlrpc/types.html for a description.
 
 See also:
 

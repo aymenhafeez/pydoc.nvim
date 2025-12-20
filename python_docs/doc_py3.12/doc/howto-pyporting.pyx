@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-pyporting.pyx*                         Last change: 2024 May 24
+Python 3.12.12
+*howto-pyporting.pyx*                         Last change: 2025 Dec 20
 
 How to port Python 2 Code to Python 3
 *************************************
@@ -18,7 +18,7 @@ code, please see Porting Extension Modules to Python 3.
 The archived python-porting mailing list may contain some useful
 guidance.
 
-Since Python 3.13 the original porting guide was discontinued. You can
+Since Python 3.11 the original porting guide was discontinued. You can
 find the old guide in the archive.
 
 

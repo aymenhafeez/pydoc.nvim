@@ -1,5 +1,5 @@
-Python 3.12.3
-*stdtypes.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*stdtypes.pyx*                                Last change: 2025 Dec 20
 
 Built-in Types
 **************
@@ -137,14 +137,14 @@ in", are supported by types that are _iterable_ or implement the
 Numeric Types — "int", "float", "complex"
 =========================================
 
-There are three distinct numeric types: _integers_, _floating point
+There are three distinct numeric types: _integers_, _floating-point
 numbers_, and _complex numbers_.  In addition, Booleans are a subtype
-of integers.  Integers have unlimited precision.  Floating point
+of integers.  Integers have unlimited precision.  Floating-point
 numbers are usually implemented using double in C; information about
-the precision and internal representation of floating point numbers
+the precision and internal representation of floating-point numbers
 for the machine on which your program is running is available in
 "sys.float_info".  Complex numbers have a real and imaginary part,
-which are each a floating point number.  To extract these parts from a
+which are each a floating-point number.  To extract these parts from a
 complex number _z_, use "z.real" and "z.imag". (The standard library
 includes the additional numeric types "fractions.Fraction", for
 rationals, and "decimal.Decimal", for floating-point numbers with
@@ -153,7 +153,7 @@ user-definable precision.)
 Numbers are created by numeric literals or as the result of built-in
 functions and operators.  Unadorned integer literals (including hex,
 octal and binary numbers) yield integers.  Numeric literals containing
-a decimal point or an exponent sign yield floating point numbers.
+a decimal point or an exponent sign yield floating-point numbers.
 Appending "'j'" or "'J'" to a numeric literal yields an imaginary
 number (a complex number with a zero real part) which you can add to
 an integer or float to get a complex number with real and imaginary
@@ -339,7 +339,7 @@ int.bit_length()
           s = s.lstrip('-0b') # remove leading zeros and minus sign
           return len(s)       # len('100101') --> 6
 <
-   New in version 3.1.
+   Added in version 3.1.
 
 int.bit_count()
 
@@ -360,7 +360,7 @@ int.bit_count()
       def bit_count(self):
           return bin(self).count("1")
 <
-   New in version 3.10.
+   Added in version 3.10.
 
 int.to_bytes(length=1, byteorder='big', *, signed=False)
 
@@ -412,7 +412,7 @@ int.to_bytes(length=1, byteorder='big', *, signed=False)
 
           return bytes((n >> i*8) & 0xff for i in order)
 <
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.11: Added default argument values for "length"
    and "byteorder".
@@ -461,7 +461,7 @@ classmethod int.from_bytes(bytes, byteorder='big', *, signed=False)
 
           return n
 <
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.11: Added default argument value for
    "byteorder".
@@ -473,14 +473,14 @@ int.as_integer_ratio()
    integers (whole numbers) is always the integer as the numerator and
    "1" as the denominator.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 int.is_integer()
 
    Returns "True". Exists for duck type compatibility with
    "float.is_integer()".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 
 Additional Methods on Float
@@ -674,7 +674,7 @@ booleans, they return a bool equivalent to the logical operations
 "!=" should be preferred over "&", "|" and "^".
 
 Deprecated since version 3.12: The use of the bitwise inversion
-operator "~" is deprecated and will raise an error in Python 3.14.
+operator "~" is deprecated and will raise an error in Python 3.16.
 
 "bool" is a subclass of "int" (see Numeric Types — int, float,
 complex). In many numeric contexts, "False" and "True" behave like the
@@ -976,7 +976,7 @@ accepts integers that meet the value restriction "0 <= x <= 255").
 | "s.pop()" or "s.pop(i)"        | retrieves the item at _i_ and    | (2)                   |
 |                                | also removes it from _s_         |                       |
 +--------------------------------+----------------------------------+-----------------------+
-| "s.remove(x)"                  | remove the first item from _s_   | (3)                   |
+| "s.remove(x)"                  | removes the first item from _s_  | (3)                   |
 |                                | where "s[i]" is equal to _x_     |                       |
 +--------------------------------+----------------------------------+-----------------------+
 | "s.reverse()"                  | reverses the items of _s_ in     | (4)                   |
@@ -985,7 +985,8 @@ accepts integers that meet the value restriction "0 <= x <= 255").
 
 Notes:
 
-1. _t_ must have the same length as the slice it is replacing.
+1. If _k_ is not equal to "1", _t_ must have the same length as the
+   slice it is replacing.
 
 2. The optional argument _i_ defaults to "-1", so that by default the
    last item is removed and returned.
@@ -1002,7 +1003,7 @@ Notes:
    "collections.abc.MutableSequence" ABC, but most concrete mutable
    sequence classes provide it.
 
-   New in version 3.3: "clear()" and "copy()" methods.
+   Added in version 3.3: "clear()" and "copy()" methods.
 
 6. The value _n_ is an integer, or an object implementing
    "__index__()".  Zero and negative values of _n_ clear the sequence.
@@ -1246,7 +1247,7 @@ attributes.
 See also:
 
   * The linspace recipe shows how to implement a lazy version of range
-    suitable for floating point applications.
+    suitable for floating-point applications.
 
 
 Text Sequence Type — "str"
@@ -1368,7 +1369,7 @@ str.casefold()
    The casefolding algorithm is described in section 3.13 ‘Default
    Case Folding’ of the Unicode Standard.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 str.center(width[, fillchar])
 
@@ -1497,7 +1498,7 @@ str.format_map(mapping)
    >>> '{name} was born in {country}'.format_map(Default(name='Guido'))
    'Guido was born in country'
 
-   New in version 3.2.
+   Added in version 3.2.
 
 str.index(sub[, start[, end]])
 
@@ -1527,7 +1528,7 @@ str.isascii()
    string are ASCII, "False" otherwise. ASCII characters have code
    points in the range U+0000-U+007F.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 str.isdecimal()
 
@@ -1582,14 +1583,19 @@ str.isnumeric()
 
 str.isprintable()
 
-   Return "True" if all characters in the string are printable or the
-   string is empty, "False" otherwise.  Nonprintable characters are
-   those characters defined in the Unicode character database as
-   “Other” or “Separator”, excepting the ASCII space (0x20) which is
-   considered printable.  (Note that printable characters in this
-   context are those which should not be escaped when "repr()" is
-   invoked on a string.  It has no bearing on the handling of strings
-   written to "sys.stdout" or "sys.stderr".)
+   Return true if all characters in the string are printable, false if
+   it contains at least one non-printable character.
+
+   Here “printable” means the character is suitable for "repr()" to
+   use in its output; “non-printable” means that "repr()" on built-in
+   types will hex-escape the character.  It has no bearing on the
+   handling of strings written to "sys.stdout" or "sys.stderr".
+
+   The printable characters are those which in the Unicode character
+   database (see "unicodedata") have a general category in group
+   Letter, Mark, Number, Punctuation, or Symbol (L, M, N, P, or S);
+   plus the ASCII space 0x20. Nonprintable characters are those in
+   group Separator or Other (Z or C), except the ASCII space.
 
 str.isspace()
 
@@ -1701,7 +1707,7 @@ str.removeprefix(prefix, /)
       >>> 'BaseTestCase'.removeprefix('Test')
       'BaseTestCase'
 <
-   New in version 3.9.
+   Added in version 3.9.
 
 str.removesuffix(suffix, /)
 
@@ -1714,7 +1720,7 @@ str.removesuffix(suffix, /)
       >>> 'TmpDirMixin'.removesuffix('Tests')
       'TmpDirMixin'
 <
-   New in version 3.9.
+   Added in version 3.9.
 
 str.replace(old, new[, count])
 
@@ -1790,9 +1796,9 @@ str.split(sep=None, maxsplit=-1)
    If _sep_ is given, consecutive delimiters are not grouped together
    and are deemed to delimit empty strings (for example,
    "'1,,2'.split(',')" returns "['1', '', '2']").  The _sep_ argument
-   may consist of multiple characters (for example,
-   "'1<>2<>3'.split('<>')" returns "['1', '2', '3']"). Splitting an
-   empty string with a specified separator returns "['']".
+   may consist of multiple characters as a single delimiter (to split
+   with multiple delimiters, use "re.split()"). Splitting an empty
+   string with a specified separator returns "['']".
 
    For example:
 >
@@ -1802,6 +1808,8 @@ str.split(sep=None, maxsplit=-1)
       ['1', '2,3']
       >>> '1,2,,3,'.split(',')
       ['1', '2', '', '3', '']
+      >>> '1<>2<>3<4'.split('<>')
+      ['1', '2', '3<4']
 <
    If _sep_ is not specified or is "None", a different splitting
    algorithm is applied: runs of consecutive whitespace are regarded
@@ -2098,19 +2106,19 @@ The conversion types are:
 +--------------+-------------------------------------------------------+---------+
 | "'X'"        | Signed hexadecimal (uppercase).                       | (2)     |
 +--------------+-------------------------------------------------------+---------+
-| "'e'"        | Floating point exponential format (lowercase).        | (3)     |
+| "'e'"        | Floating-point exponential format (lowercase).        | (3)     |
 +--------------+-------------------------------------------------------+---------+
-| "'E'"        | Floating point exponential format (uppercase).        | (3)     |
+| "'E'"        | Floating-point exponential format (uppercase).        | (3)     |
 +--------------+-------------------------------------------------------+---------+
-| "'f'"        | Floating point decimal format.                        | (3)     |
+| "'f'"        | Floating-point decimal format.                        | (3)     |
 +--------------+-------------------------------------------------------+---------+
-| "'F'"        | Floating point decimal format.                        | (3)     |
+| "'F'"        | Floating-point decimal format.                        | (3)     |
 +--------------+-------------------------------------------------------+---------+
-| "'g'"        | Floating point format. Uses lowercase exponential     | (4)     |
+| "'g'"        | Floating-point format. Uses lowercase exponential     | (4)     |
 |              | format if exponent is less than -4 or not less than   |         |
 |              | precision, decimal format otherwise.                  |         |
 +--------------+-------------------------------------------------------+---------+
-| "'G'"        | Floating point format. Uses uppercase exponential     | (4)     |
+| "'G'"        | Floating-point format. Uses uppercase exponential     | (4)     |
 |              | format if exponent is less than -4 or not less than   |         |
 |              | precision, decimal format otherwise.                  |         |
 +--------------+-------------------------------------------------------+---------+
@@ -2268,7 +2276,7 @@ class bytes([source[, encoding[, errors]]])
       >>> b'UUDDLRLRAB'.hex(' ', -4)
       '55554444 4c524c52 4142'
 
-      New in version 3.5.
+      Added in version 3.5.
 
       Changed in version 3.8: "bytes.hex()" now supports optional
       _sep_ and _bytes_per_sep_ parameters to insert separators
@@ -2340,7 +2348,7 @@ class bytearray([source[, encoding[, errors]]])
       >>> bytearray(b'\xf0\xf1\xf2').hex()
       'f0f1f2'
 
-      New in version 3.5.
+      Added in version 3.5.
 
       Changed in version 3.8: Similar to "bytes.hex()",
       "bytearray.hex()" now supports optional _sep_ and
@@ -2431,7 +2439,7 @@ bytearray.removeprefix(prefix, /)
      The bytearray version of this method does _not_ operate in place
      - it always produces a new object, even if no changes were made.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 bytes.removesuffix(suffix, /)
 bytearray.removesuffix(suffix, /)
@@ -2452,7 +2460,7 @@ bytearray.removesuffix(suffix, /)
      The bytearray version of this method does _not_ operate in place
      - it always produces a new object, even if no changes were made.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 bytes.decode(encoding='utf-8', errors='strict')
 bytearray.decode(encoding='utf-8', errors='strict')
@@ -2546,7 +2554,7 @@ static bytearray.maketrans(from, to)
    character at the same position in _to_; _from_ and _to_ must both
    be _bytes-like objects_ and have the same length.
 
-   New in version 3.1.
+   Added in version 3.1.
 
 bytes.partition(sep)
 bytearray.partition(sep)
@@ -2775,11 +2783,10 @@ bytearray.split(sep=None, maxsplit=-1)
    If _sep_ is given, consecutive delimiters are not grouped together
    and are deemed to delimit empty subsequences (for example,
    "b'1,,2'.split(b',')" returns "[b'1', b'', b'2']").  The _sep_
-   argument may consist of a multibyte sequence (for example,
-   "b'1<>2<>3'.split(b'<>')" returns "[b'1', b'2', b'3']"). Splitting
-   an empty sequence with a specified separator returns "[b'']" or
-   "[bytearray(b'')]" depending on the type of object being split.
-   The _sep_ argument may be any _bytes-like object_.
+   argument may consist of a multibyte sequence as a single delimiter.
+   Splitting an empty sequence with a specified separator returns
+   "[b'']" or "[bytearray(b'')]" depending on the type of object being
+   split.  The _sep_ argument may be any _bytes-like object_.
 
    For example:
 >
@@ -2789,6 +2796,8 @@ bytearray.split(sep=None, maxsplit=-1)
       [b'1', b'2,3']
       >>> b'1,2,,3,'.split(b',')
       [b'1', b'2', b'', b'3', b'']
+      >>> b'1<>2<>3<4'.split(b'<>')
+      [b'1', b'2', b'3<4']
 <
    If _sep_ is not specified or is "None", a different splitting
    algorithm is applied: runs of consecutive ASCII whitespace are
@@ -2914,7 +2923,7 @@ bytearray.isascii()
    Return "True" if the sequence is empty or all bytes in the sequence
    are ASCII, "False" otherwise. ASCII bytes are in the range 0-0x7F.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 bytes.isdigit()
 bytearray.isdigit()
@@ -3244,19 +3253,19 @@ The conversion types are:
 +--------------+-------------------------------------------------------+---------+
 | "'X'"        | Signed hexadecimal (uppercase).                       | (2)     |
 +--------------+-------------------------------------------------------+---------+
-| "'e'"        | Floating point exponential format (lowercase).        | (3)     |
+| "'e'"        | Floating-point exponential format (lowercase).        | (3)     |
 +--------------+-------------------------------------------------------+---------+
-| "'E'"        | Floating point exponential format (uppercase).        | (3)     |
+| "'E'"        | Floating-point exponential format (uppercase).        | (3)     |
 +--------------+-------------------------------------------------------+---------+
-| "'f'"        | Floating point decimal format.                        | (3)     |
+| "'f'"        | Floating-point decimal format.                        | (3)     |
 +--------------+-------------------------------------------------------+---------+
-| "'F'"        | Floating point decimal format.                        | (3)     |
+| "'F'"        | Floating-point decimal format.                        | (3)     |
 +--------------+-------------------------------------------------------+---------+
-| "'g'"        | Floating point format. Uses lowercase exponential     | (4)     |
+| "'g'"        | Floating-point format. Uses lowercase exponential     | (4)     |
 |              | format if exponent is less than -4 or not less than   |         |
 |              | precision, decimal format otherwise.                  |         |
 +--------------+-------------------------------------------------------+---------+
-| "'G'"        | Floating point format. Uses uppercase exponential     | (4)     |
+| "'G'"        | Floating-point format. Uses uppercase exponential     | (4)     |
 |              | format if exponent is less than -4 or not less than   |         |
 |              | precision, decimal format otherwise.                  |         |
 +--------------+-------------------------------------------------------+---------+
@@ -3317,7 +3326,7 @@ Note:
 
 See also: **PEP 461** - Adding % formatting to bytes and bytearray
 
-New in version 3.5.
+Added in version 3.5.
 
 
 Memory Views
@@ -3468,7 +3477,7 @@ class memoryview(object)
          >>> a == b
          False
 <
-      Note that, as with floating point numbers, "v is w" does _not_
+      Note that, as with floating-point numbers, "v is w" does _not_
       imply "v == w" for memoryview objects.
 
       Changed in version 3.3: Previous versions compared the raw
@@ -3491,7 +3500,7 @@ class memoryview(object)
       "tobytes()" supports all format strings, including those that
       are not in "struct" module syntax.
 
-      New in version 3.8: _order_ can be {‘C’, ‘F’, ‘A’}.  When
+      Added in version 3.8: _order_ can be {‘C’, ‘F’, ‘A’}.  When
       _order_ is ‘C’ or ‘F’, the data of the original array is
       converted to C or Fortran order. For contiguous views, ‘A’
       returns an exact copy of the physical memory. In particular, in-
@@ -3508,7 +3517,7 @@ class memoryview(object)
          >>> m.hex()
          '616263'
 <
-      New in version 3.5.
+      Added in version 3.5.
 
       Changed in version 3.8: Similar to "bytes.hex()",
       "memoryview.hex()" now supports optional _sep_ and
@@ -3548,7 +3557,7 @@ class memoryview(object)
          >>> mm.tolist()
          [43, 98, 99]
 <
-      New in version 3.8.
+      Added in version 3.8.
 
    release()
 
@@ -3582,7 +3591,7 @@ class memoryview(object)
            File "<stdin>", line 1, in <module>
          ValueError: operation forbidden on released memoryview object
 <
-      New in version 3.2.
+      Added in version 3.2.
 
    cast(format[, shape])
 
@@ -3672,7 +3681,7 @@ class memoryview(object)
          >>> y.tolist()
          [[0, 1, 2], [3, 4, 5]]
 <
-      New in version 3.3.
+      Added in version 3.3.
 
       Changed in version 3.5: The source format is no longer
       restricted when casting to a byte view.
@@ -3688,7 +3697,7 @@ class memoryview(object)
          >>> m.obj is b
          True
 <
-      New in version 3.3.
+      Added in version 3.3.
 
    nbytes
 
@@ -3725,7 +3734,7 @@ class memoryview(object)
          >>> y.nbytes
          96
 <
-      New in version 3.3.
+      Added in version 3.3.
 
    readonly
 
@@ -3785,19 +3794,19 @@ class memoryview(object)
 
       A bool indicating whether the memory is C-_contiguous_.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    f_contiguous
 
       A bool indicating whether the memory is Fortran _contiguous_.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    contiguous
 
       A bool indicating whether the memory is _contiguous_.
 
-      New in version 3.3.
+      Added in version 3.3.
 
 
 Set Types — "set", "frozenset"
@@ -4040,14 +4049,15 @@ class dict(iterable, **kwargs)
      200)])", "dict(foo=100, bar=200)"
 
    If no positional argument is given, an empty dictionary is created.
-   If a positional argument is given and it is a mapping object, a
-   dictionary is created with the same key-value pairs as the mapping
-   object.  Otherwise, the positional argument must be an _iterable_
-   object.  Each item in the iterable must itself be an iterable with
-   exactly two objects.  The first object of each item becomes a key
-   in the new dictionary, and the second object the corresponding
-   value.  If a key occurs more than once, the last value for that key
-   becomes the corresponding value in the new dictionary.
+   If a positional argument is given and it defines a "keys()" method,
+   a dictionary is created by calling "__getitem__()" on the argument
+   with each returned key from the method.  Otherwise, the positional
+   argument must be an _iterable_ object.  Each item in the iterable
+   must itself be an iterable with exactly two elements.  The first
+   element of each item becomes a key in the new dictionary, and the
+   second element the corresponding value.  If a key occurs more than
+   once, the last value for that key becomes the corresponding value
+   in the new dictionary.
 
    If keyword arguments are given, the keyword arguments and their
    values are added to the dictionary created from the positional
@@ -4141,7 +4151,7 @@ class dict(iterable, **kwargs)
 
       Return a shallow copy of the dictionary.
 
-   classmethod fromkeys(iterable[, value])
+   classmethod fromkeys(iterable, value=None, /)
 
       Create a new dictionary with keys from _iterable_ and values set
       to _value_.
@@ -4152,7 +4162,7 @@ class dict(iterable, **kwargs)
       to be a mutable object such as an empty list.  To get distinct
       values, use a dict comprehension instead.
 
-   get(key[, default])
+   get(key, default=None, /)
 
       Return the value for _key_ if _key_ is in the dictionary, else
       _default_. If _default_ is not given, it defaults to "None", so
@@ -4191,9 +4201,9 @@ class dict(iterable, **kwargs)
       Return a reverse iterator over the keys of the dictionary. This
       is a shortcut for "reversed(d.keys())".
 
-      New in version 3.8.
+      Added in version 3.8.
 
-   setdefault(key[, default])
+   setdefault(key, default=None, /)
 
       If _key_ is in the dictionary, return its value.  If not, insert
       _key_ with a value of _default_ and return _default_.  _default_
@@ -4204,11 +4214,12 @@ class dict(iterable, **kwargs)
       Update the dictionary with the key/value pairs from _other_,
       overwriting existing keys.  Return "None".
 
-      "update()" accepts either another dictionary object or an
-      iterable of key/value pairs (as tuples or other iterables of
-      length two).  If keyword arguments are specified, the dictionary
-      is then updated with those key/value pairs: "d.update(red=1,
-      blue=2)".
+      "update()" accepts either another object with a "keys()" method
+      (in which case "__getitem__()" is called with every key returned
+      from the method) or an iterable of key/value pairs (as tuples or
+      other iterables of length two). If keyword arguments are
+      specified, the dictionary is then updated with those key/value
+      pairs: "d.update(red=1, blue=2)".
 
    values()
 
@@ -4229,7 +4240,7 @@ class dict(iterable, **kwargs)
       and _other_, which must both be dictionaries. The values of
       _other_ take priority when _d_ and _other_ share keys.
 
-      New in version 3.9.
+      Added in version 3.9.
 
    d |= other
 
@@ -4238,7 +4249,7 @@ class dict(iterable, **kwargs)
       pairs. The values of _other_ take priority when _d_ and _other_
       share keys.
 
-      New in version 3.9.
+      Added in version 3.9.
 
    Dictionaries compare equal if and only if they have the same "(key,
    value)" pairs (regardless of ordering). Order comparisons (‘<’,
@@ -4337,7 +4348,7 @@ dictview.mapping
    Return a "types.MappingProxyType" that wraps the original
    dictionary to which the view refers.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 Keys views are set-like since their entries are unique and _hashable_.
 Items views also have set-like operations since the (key, value) pairs
@@ -4603,6 +4614,10 @@ This list is non-exhaustive.
 
 * "type"
 
+* "asyncio.Future"
+
+* "asyncio.Task"
+
 * "collections.deque"
 
 * "collections.defaultdict"
@@ -4743,7 +4758,7 @@ genericalias.__unpacked__
    A boolean that is true if the alias has been unpacked using the "*"
    operator (see "TypeVarTuple").
 
-   New in version 3.11.
+   Added in version 3.11.
 
 See also:
 
@@ -4759,7 +4774,7 @@ See also:
      Documentation on how to implement generic classes that can be
      parameterized at runtime and understood by static type-checkers.
 
-New in version 3.9.
+Added in version 3.9.
 
 
 Union Type
@@ -4868,7 +4883,7 @@ See also:
 
   **PEP 604** – PEP proposing the "X | Y" syntax and the Union type.
 
-New in version 3.10.
+Added in version 3.10.
 
 
 Other Built-in Types
@@ -5040,19 +5055,6 @@ The implementation adds a few special read-only attributes to several
 object types, where they are relevant.  Some of these are not reported
 by the "dir()" built-in function.
 
-object.__dict__
-
-   A dictionary or other mapping object used to store an object’s
-   (writable) attributes.
-
-instance.__class__
-
-   The class to which a class instance belongs.
-
-class.__bases__
-
-   The tuple of base classes of a class object.
-
 definition.__name__
 
    The name of the class, function, method, descriptor, or generator
@@ -5063,35 +5065,25 @@ definition.__qualname__
    The _qualified name_ of the class, function, method, descriptor, or
    generator instance.
 
-   New in version 3.3.
+   Added in version 3.3.
+
+definition.__module__
+
+   The name of the module in which a class or function was defined.
+
+definition.__doc__
+
+   The documentation string of a class or function, or "None" if
+   undefined.
 
 definition.__type_params__
 
    The type parameters of generic classes, functions, and type
-   aliases.
+   aliases. For classes and functions that are not generic, this will
+   be an empty tuple.
 
-   New in version 3.12.
+   Added in version 3.12.
 
-class.__mro__
-
-   This attribute is a tuple of classes that are considered when
-   looking for base classes during method resolution.
-
-class.mro()
-
-   This method can be overridden by a metaclass to customize the
-   method resolution order for its instances.  It is called at class
-   instantiation, and its result is stored in "__mro__".
-
-class.__subclasses__()
-
-   Each class keeps a list of weak references to its immediate
-   subclasses.  This method returns a list of all those references
-   still alive.  The list is in definition order.  Example:
->
-      >>> int.__subclasses__()
-      [<class 'bool'>, <enum 'IntEnum'>, <flag 'IntFlag'>, <class 're._constants._NamedIntConstant'>]
-<
 
 Integer string conversion length limitation
 ===========================================
@@ -5109,8 +5101,8 @@ best known algorithms for base 10 have sub-quadratic complexity.
 Converting a large value such as "int('1' * 500_000)" can take over a
 second on a fast CPU.
 
-Limiting conversion size offers a practical way to avoid
-CVE-2020-10735.
+Limiting conversion size offers a practical way to avoid **CVE
+2020-10735**.
 
 The limit is applied to the number of digit characters in the input or
 output string when a non-linear conversion algorithm would be
@@ -5151,7 +5143,7 @@ Verification:
    ...           '571186405732').to_bytes(53, 'big')
    ...
 <
-New in version 3.11.
+Added in version 3.11.
 
 
 Affected APIs
@@ -5222,7 +5214,7 @@ Information about the default and minimum can be found in
 * "sys.int_info.str_digits_check_threshold" is the lowest accepted
   value for the limit (other than 0 which disables it).
 
-New in version 3.11.
+Added in version 3.11.
 
 Caution:
 

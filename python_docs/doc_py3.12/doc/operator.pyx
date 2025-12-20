@@ -1,5 +1,5 @@
-Python 3.12.3
-*operator.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*operator.pyx*                                Last change: 2025 Dec 20
 
 "operator" — Standard operators as functions
 ********************************************
@@ -127,7 +127,7 @@ operator.__matmul__(a, b)
 
    Return "a @ b".
 
-   New in version 3.5.
+   Added in version 3.5.
 
 operator.neg(obj)
 operator.__neg__(obj)
@@ -213,7 +213,7 @@ operator.length_hint(obj, default=0)
    return its actual length, then an estimate using
    "object.__length_hint__()", and finally return the default value.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 The following operation works with callables:
 
@@ -222,7 +222,7 @@ operator.__call__(obj, /, *args, **kwargs)
 
    Return "obj(*args, **kwargs)".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 The "operator" module also defines tools for generalized attribute and
 item lookups.  These are useful for making fast field extractors as
@@ -489,7 +489,7 @@ operator.__imatmul__(a, b)
 
    "a = imatmul(a, b)" is equivalent to "a @= b".
 
-   New in version 3.5.
+   Added in version 3.5.
 
 operator.ior(a, b)
 operator.__ior__(a, b)

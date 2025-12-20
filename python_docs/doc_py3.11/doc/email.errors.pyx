@@ -1,5 +1,5 @@
-Python 3.11.9
-*email.errors.pyx*                            Last change: 2024 May 24
+Python 3.11.14
+*email.errors.pyx*                            Last change: 2025 Dec 20
 
 "email.errors": Exception and Defect classes
 ********************************************
@@ -51,6 +51,10 @@ exception email.errors.MultipartConversionError
    rarely raised in practice.  However the exception may also be
    raised if the "attach()" method is called on an instance of a class
    derived from "MIMENonMultipart" (e.g. "MIMEImage").
+
+exception email.errors.HeaderWriteError
+
+   Raised when an error occurs when the "generator" outputs headers.
 
 exception email.errors.MessageDefect
 

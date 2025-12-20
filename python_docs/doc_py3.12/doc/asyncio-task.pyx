@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-task.pyx*                            Last change: 2024 May 24
+Python 3.12.12
+*asyncio-task.pyx*                            Last change: 2025 Dec 20
 
 Coroutines and Tasks
 ********************
@@ -150,7 +150,7 @@ mechanisms:
   The timing and output should be the same as for the previous
   version.
 
-  New in version 3.11: "asyncio.TaskGroup".
+  Added in version 3.11: "asyncio.TaskGroup".
 
 
 Awaitables
@@ -177,7 +177,7 @@ other coroutines:
        # Nothing happens if we just call "nested()".
        # A coroutine object is created but not awaited,
        # so it *won't run at all*.
-       nested()
+       nested()  # will raise a "RuntimeWarning".
 
        # Let's do it differently now and await it:
        print(await nested())  # will print "42".
@@ -300,7 +300,7 @@ asyncio.create_task(coro, *, name=None, context=None)
             # completion:
             task.add_done_callback(background_tasks.discard)
 <
-   New in version 3.7.
+   Added in version 3.7.
 
    Changed in version 3.8: Added the _name_ parameter.
 
@@ -341,7 +341,7 @@ class asyncio.TaskGroup
    be added to the group using "create_task()". All tasks are awaited
    when the context manager exits.
 
-   New in version 3.11.
+   Added in version 3.11.
 
    create_task(coro, *, name=None, context=None)
 
@@ -393,10 +393,54 @@ in the exception group. The same special case is made for
 "KeyboardInterrupt" and "SystemExit" as in the previous paragraph.
 
 
+Terminating a Task Group
+------------------------
+
+While terminating a task group is not natively supported by the
+standard library, termination can be achieved by adding an exception-
+raising task to the task group and ignoring the raised exception:
+>
+   import asyncio
+   from asyncio import TaskGroup
+
+   class TerminateTaskGroup(Exception):
+       """Exception raised to terminate a task group."""
+
+   async def force_terminate_task_group():
+       """Used to force termination of a task group."""
+       raise TerminateTaskGroup()
+
+   async def job(task_id, sleep_time):
+       print(f'Task {task_id}: start')
+       await asyncio.sleep(sleep_time)
+       print(f'Task {task_id}: done')
+
+   async def main():
+       try:
+           async with TaskGroup() as group:
+               # spawn some tasks
+               group.create_task(job(1, 0.5))
+               group.create_task(job(2, 1.5))
+               # sleep for 1 second
+               await asyncio.sleep(1)
+               # add an exception-raising task to force the group to terminate
+               group.create_task(force_terminate_task_group())
+       except* TerminateTaskGroup:
+           pass
+
+   asyncio.run(main())
+<
+Expected output:
+>
+   Task 1: start
+   Task 2: start
+   Task 1: done
+<
+
 Sleeping
 ========
 
-coroutine asyncio.sleep(delay, result=None)
+async asyncio.sleep(delay, result=None)
 
    Block for _delay_ seconds.
 
@@ -509,7 +553,7 @@ awaitable asyncio.gather(*aws, return_exceptions=False)
 <
    Note:
 
-     If _return_exceptions_ is False, cancelling gather() after it has
+     If _return_exceptions_ is false, cancelling gather() after it has
      been marked done won’t cancel any submitted awaitables. For
      instance, gather can be marked done after propagating an
      exception to the caller, therefore, calling "gather.cancel()"
@@ -552,7 +596,7 @@ asyncio.eager_task_factory(loop, coro, *, name=None, context=None)
      changes to existing applications. For example, the application’s
      task execution order is likely to change.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 asyncio.create_eager_task_factory(custom_task_constructor)
 
@@ -567,7 +611,7 @@ asyncio.create_eager_task_factory(custom_task_constructor)
    This function returns a _callable_ intended to be used as a task
    factory of an event loop via "loop.set_task_factory(factory)").
 
-   New in version 3.12.
+   Added in version 3.12.
 
 
 Shielding From Cancellation
@@ -714,7 +758,7 @@ asyncio.timeout(delay)
 <
    Timeout context managers can be safely nested.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 asyncio.timeout_at(when)
 
@@ -734,9 +778,9 @@ asyncio.timeout_at(when)
 
           print("This statement will run regardless.")
 <
-   New in version 3.11.
+   Added in version 3.11.
 
-coroutine asyncio.wait_for(aw, timeout)
+async asyncio.wait_for(aw, timeout)
 
    Wait for the _aw_ awaitable to complete with a timeout.
 
@@ -789,7 +833,7 @@ coroutine asyncio.wait_for(aw, timeout)
 Waiting Primitives
 ==================
 
-coroutine asyncio.wait(aws, *, timeout=None, return_when=ALL_COMPLETED)
+async asyncio.wait(aws, *, timeout=None, return_when=ALL_COMPLETED)
 
    Run "Future" and "Task" instances in the _aws_ iterable
    concurrently and block until the condition specified by
@@ -868,7 +912,7 @@ asyncio.as_completed(aws, *, timeout=None)
 Running in Threads
 ==================
 
-coroutine asyncio.to_thread(func, /, *args, **kwargs)
+async asyncio.to_thread(func, /, *args, **kwargs)
 
    Asynchronously run function _func_ in a separate thread.
 
@@ -923,7 +967,7 @@ coroutine asyncio.to_thread(func, /, *args, **kwargs)
      implementations that don’t have one, "asyncio.to_thread()" can
      also be used for CPU-bound functions.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 
 Scheduling From Other Threads
@@ -968,7 +1012,7 @@ asyncio.run_coroutine_threadsafe(coro, loop)
    Unlike other asyncio functions this function requires the _loop_
    argument to be passed explicitly.
 
-   New in version 3.5.1.
+   Added in version 3.5.1.
 
 
 Introspection
@@ -982,7 +1026,7 @@ asyncio.current_task(loop=None)
    If _loop_ is "None" "get_running_loop()" is used to get the current
    loop.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 asyncio.all_tasks(loop=None)
 
@@ -991,13 +1035,13 @@ asyncio.all_tasks(loop=None)
    If _loop_ is "None", "get_running_loop()" is used for getting
    current loop.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 asyncio.iscoroutine(obj)
 
    Return "True" if _obj_ is a coroutine object.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 
 Task Object
@@ -1075,7 +1119,7 @@ class asyncio.Task(coro, *, loop=None, name=None, context=None, eager_start=Fals
       If the Task has been _cancelled_, this method raises a
       "CancelledError" exception.
 
-      If the Task’s result isn’t yet available, this method raises a
+      If the Task’s result isn’t yet available, this method raises an
       "InvalidStateError" exception.
 
    exception()
@@ -1154,7 +1198,7 @@ class asyncio.Task(coro, *, loop=None, name=None, context=None, eager_start=Fals
         This will return "None" for Tasks which have already completed
         eagerly. See the Eager Task Factory.
 
-      New in version 3.8.
+      Added in version 3.8.
 
       Changed in version 3.12: Newly added eager task execution means
       result may be "None".
@@ -1164,7 +1208,7 @@ class asyncio.Task(coro, *, loop=None, name=None, context=None, eager_start=Fals
       Return the "contextvars.Context" object associated with the
       task.
 
-      New in version 3.12.
+      Added in version 3.12.
 
    get_name()
 
@@ -1174,7 +1218,7 @@ class asyncio.Task(coro, *, loop=None, name=None, context=None, eager_start=Fals
       asyncio Task implementation generates a default name during
       instantiation.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    set_name(value)
 
@@ -1186,7 +1230,7 @@ class asyncio.Task(coro, *, loop=None, name=None, context=None, eager_start=Fals
       In the default Task implementation, the name will be visible in
       the "repr()" output of a task object.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    cancel(msg=None)
 
@@ -1264,7 +1308,7 @@ class asyncio.Task(coro, *, loop=None, name=None, context=None, eager_start=Fals
       Note that once execution of a cancelled task completed, further
       calls to "uncancel()" are ineffective.
 
-      New in version 3.11.
+      Added in version 3.11.
 
       This method is used by asyncio’s internals and isn’t expected to
       be used by end-user code.  In particular, if a Task gets
@@ -1290,8 +1334,8 @@ class asyncio.Task(coro, *, loop=None, name=None, context=None, eager_start=Fals
       timeout.  This is implemented with "uncancel()".  "TaskGroup"
       context managers use "uncancel()" in a similar fashion.
 
-      If end-user code is, for some reason, suppresing cancellation by
-      catching "CancelledError", it needs to call this method to
+      If end-user code is, for some reason, suppressing cancellation
+      by catching "CancelledError", it needs to call this method to
       remove the cancellation state.
 
    cancelling()
@@ -1309,6 +1353,6 @@ class asyncio.Task(coro, *, loop=None, name=None, context=None, eager_start=Fals
       This method is used by asyncio’s internals and isn’t expected to
       be used by end-user code.  See "uncancel()" for more details.
 
-      New in version 3.11.
+      Added in version 3.11.
 
 vim:tw=78:ts=8:ft=help:norl:

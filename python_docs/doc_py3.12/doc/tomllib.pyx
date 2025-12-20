@@ -1,18 +1,18 @@
-Python 3.12.3
-*tomllib.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*tomllib.pyx*                                 Last change: 2025 Dec 20
 
 "tomllib" — Parse TOML files
 ****************************
 
-New in version 3.11.
+Added in version 3.11.
 
 **Source code:** Lib/tomllib
 
 ======================================================================
 
-This module provides an interface for parsing TOML (Tom’s Obvious
-Minimal Language, https://toml.io). This module does not support
-writing TOML.
+This module provides an interface for parsing TOML 1.0.0 (Tom’s
+Obvious Minimal Language, https://toml.io). This module does not
+support writing TOML.
 
 See also:
 

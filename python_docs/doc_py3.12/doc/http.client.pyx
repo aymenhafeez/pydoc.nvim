@@ -1,5 +1,5 @@
-Python 3.12.3
-*http.client.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*http.client.pyx*                             Last change: 2025 Dec 20
 
 "http.client" — HTTP protocol client
 ************************************
@@ -190,7 +190,7 @@ exception http.client.RemoteDisconnected
    response results in no data read from the connection, indicating
    that the remote end has closed the connection.
 
-   New in version 3.5: Previously, "BadStatusLine""('')" was raised.
+   Added in version 3.5: Previously, "BadStatusLine""('')" was raised.
 
 The constants defined in this module are:
 
@@ -306,7 +306,7 @@ HTTPConnection.set_debuglevel(level)
    The "debuglevel" is passed to any new "HTTPResponse" objects that
    are created.
 
-   New in version 3.1.
+   Added in version 3.1.
 
 HTTPConnection.set_tunnel(host, port=None, headers=None)
 
@@ -337,7 +337,7 @@ HTTPConnection.set_tunnel(host, port=None, headers=None)
       >>> conn.set_tunnel("www.python.org")
       >>> conn.request("HEAD","/index.html")
 <
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.12: HTTP CONNECT tunnelling requests use
    protocol HTTP/1.1, upgraded from protocol HTTP/1.0. "Host:" HTTP
@@ -351,7 +351,7 @@ HTTPConnection.get_proxy_response_headers()
 
    If the CONNECT request was not sent, the method returns "None".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 HTTPConnection.connect()
 
@@ -370,7 +370,7 @@ HTTPConnection.blocksize
 
    Buffer size in bytes for sending a file-like message body.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 As an alternative to using the "request()" method described above, you
 can also send your request step by step, by using the four functions
@@ -449,7 +449,7 @@ HTTPResponse.readinto(b)
    Reads up to the next len(b) bytes of the response body into the
    buffer _b_. Returns the number of bytes read.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 HTTPResponse.getheader(name, default=None)
 

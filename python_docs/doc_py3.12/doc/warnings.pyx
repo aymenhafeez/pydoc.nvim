@@ -1,5 +1,5 @@
-Python 3.12.3
-*warnings.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*warnings.pyx*                                Last change: 2025 Dec 20
 
 "warnings" — Warning control
 ****************************
@@ -169,6 +169,22 @@ class, to turn a warning into an error we simply raise
 
 If a warning is reported and doesn’t match any registered filter then
 the “default” action is applied (hence its name).
+
+
+Repeated Warning Suppression Criteria
+-------------------------------------
+
+The filters that suppress repeated warnings apply the following
+criteria to determine if a warning is considered a repeat:
+
+* ""default"": A warning is considered a repeat only if the
+  (_message_, _category_, _module_, _lineno_) are all the same.
+
+* ""module"": A warning is considered a repeat if the (_message_,
+  _category_, _module_) are the same, ignoring the line number.
+
+* ""once"": A warning is considered a repeat if the (_message_,
+  _category_) are the same, ignoring the module and line number.
 
 
 Describing Warning Filters
@@ -378,7 +394,7 @@ possible.
 Available Functions
 ===================
 
-warnings.warn(message, category=None, stacklevel=1, source=None, *, skip_file_prefixes=None)
+warnings.warn(message, category=None, stacklevel=1, source=None, *, skip_file_prefixes=())
 
    Issue a warning, or maybe ignore it or raise an exception.  The
    _category_ argument, if given, must be a warning category class; it
@@ -520,6 +536,9 @@ class warnings.catch_warnings(*, record=False, module=None, action=None, categor
    If the _action_ argument is not "None", the remaining arguments are
    passed to "simplefilter()" as if it were called immediately on
    entering the context.
+
+   See The Warnings Filter for the meaning of the _category_ and
+   _lineno_ parameters.
 
    Note:
 

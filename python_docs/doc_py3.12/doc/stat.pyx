@@ -1,5 +1,5 @@
-Python 3.12.3
-*stat.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*stat.pyx*                                    Last change: 2025 Dec 20
 
 "stat" — Interpreting "stat()" results
 **************************************
@@ -52,19 +52,19 @@ stat.S_ISDOOR(mode)
 
    Return non-zero if the mode is from a door.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 stat.S_ISPORT(mode)
 
    Return non-zero if the mode is from an event port.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 stat.S_ISWHT(mode)
 
    Return non-zero if the mode is from a whiteout.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 Two additional functions are defined for more general manipulation of
 the file’s mode:
@@ -123,7 +123,7 @@ stat.filemode(mode)
 
    Convert a file’s mode to a string of the form ‘-rwxrwxrwx’.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.4: The function supports "S_IFDOOR",
    "S_IFPORT" and "S_IFWHT".
@@ -222,19 +222,19 @@ stat.S_IFDOOR
 
    Door.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 stat.S_IFPORT
 
    Event port.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 stat.S_IFWHT
 
    Whiteout.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 Note:
 
@@ -409,7 +409,7 @@ stat.FILE_ATTRIBUTE_SYSTEM
 stat.FILE_ATTRIBUTE_TEMPORARY
 stat.FILE_ATTRIBUTE_VIRTUAL
 
-   New in version 3.5.
+   Added in version 3.5.
 
 On Windows, the following constants are available for comparing
 against the "st_reparse_tag" member returned by "os.lstat()". These
@@ -419,6 +419,6 @@ stat.IO_REPARSE_TAG_SYMLINK
 stat.IO_REPARSE_TAG_MOUNT_POINT
 stat.IO_REPARSE_TAG_APPEXECLINK
 
-   New in version 3.8.
+   Added in version 3.8.
 
 vim:tw=78:ts=8:ft=help:norl:

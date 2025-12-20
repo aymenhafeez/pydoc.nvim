@@ -1,5 +1,5 @@
-Python 3.12.3
-*unittest.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*unittest.pyx*                                Last change: 2025 Dec 20
 
 "unittest" — Unit testing framework
 ***********************************
@@ -205,8 +205,8 @@ Command-line options
 
 -c, --catch
 
-   "Control-C" during the test run waits for the current test to end
-   and then reports all the results so far. A second "Control-C"
+   "Control"-"C" during the test run waits for the current test to end
+   and then reports all the results so far. A second "Control"-"C"
    raises the normal "KeyboardInterrupt" exception.
 
    See Signal Handling for the functions that provide this
@@ -241,14 +241,14 @@ Command-line options
 
    Show the N slowest test cases (N=0 for all).
 
-New in version 3.2: The command-line options "-b", "-c" and "-f" were
-added.
+Added in version 3.2: The command-line options "-b", "-c" and "-f"
+were added.
 
-New in version 3.5: The command-line option "--locals".
+Added in version 3.5: The command-line option "--locals".
 
-New in version 3.7: The command-line option "-k".
+Added in version 3.7: The command-line option "-k".
 
-New in version 3.12: The command-line option "--durations".
+Added in version 3.12: The command-line option "--durations".
 
 The command line can also be used for test discovery, for running all
 of the tests in a project or just a subset.
@@ -257,7 +257,7 @@ of the tests in a project or just a subset.
 Test Discovery
 ==============
 
-New in version 3.2.
+Added in version 3.2.
 
 Unittest supports simple test discovery. In order to be compatible
 with test discovery, all of the test files must be modules or packages
@@ -510,7 +510,7 @@ existing "doctest"-based tests.
 Skipping tests and expected failures
 ====================================
 
-New in version 3.1.
+Added in version 3.1.
 
 Unittest supports skipping individual test methods and even whole
 classes of tests.  In addition, it supports marking a test as an
@@ -624,7 +624,7 @@ run.
 Distinguishing test iterations using subtests
 =============================================
 
-New in version 3.4.
+Added in version 3.4.
 
 When there are very small differences among your tests, for instance
 some parameters, unittest allows you to distinguish them inside the
@@ -754,7 +754,7 @@ class unittest.TestCase(methodName='runTest')
 <
       See Class and Module Fixtures for more details.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    tearDownClass()
 
@@ -768,7 +768,7 @@ class unittest.TestCase(methodName='runTest')
 <
       See Class and Module Fixtures for more details.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    run(result=None)
 
@@ -790,7 +790,7 @@ class unittest.TestCase(methodName='runTest')
       test.  See Skipping tests and expected failures for more
       information.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    subTest(msg=None, **params)
 
@@ -805,7 +805,7 @@ class unittest.TestCase(methodName='runTest')
       See Distinguishing test iterations using subtests for more
       information.
 
-      New in version 3.4.
+      Added in version 3.4.
 
    debug()
 
@@ -891,21 +891,21 @@ class unittest.TestCase(methodName='runTest')
 
       Test that _first_ and _second_ are (or are not) the same object.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    assertIsNone(expr, msg=None)
    assertIsNotNone(expr, msg=None)
 
       Test that _expr_ is (or is not) "None".
 
-      New in version 3.1.
+      Added in version 3.1.
 
    assertIn(member, container, msg=None)
    assertNotIn(member, container, msg=None)
 
       Test that _member_ is (or is not) in _container_.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    assertIsInstance(obj, cls, msg=None)
    assertNotIsInstance(obj, cls, msg=None)
@@ -915,7 +915,7 @@ class unittest.TestCase(methodName='runTest')
       "isinstance()"). To check for the exact type, use
       "assertIs(type(obj), cls)".
 
-      New in version 3.2.
+      Added in version 3.2.
 
    It is also possible to check the production of exceptions,
    warnings, and log messages using the following methods:
@@ -995,7 +995,7 @@ class unittest.TestCase(methodName='runTest')
          with self.assertRaisesRegex(ValueError, 'literal'):
             int('XYZ')
 <
-      New in version 3.1: Added under the name "assertRaisesRegexp".
+      Added in version 3.1: Added under the name "assertRaisesRegexp".
 
       Changed in version 3.2: Renamed to "assertRaisesRegex()".
 
@@ -1037,7 +1037,7 @@ class unittest.TestCase(methodName='runTest')
       This method works regardless of the warning filters in place
       when it is called.
 
-      New in version 3.2.
+      Added in version 3.2.
 
       Changed in version 3.3: Added the _msg_ keyword argument when
       used as a context manager.
@@ -1059,7 +1059,7 @@ class unittest.TestCase(methodName='runTest')
          with self.assertWarnsRegex(RuntimeWarning, 'unsafe frobnicating'):
              frobnicate('/etc/passwd')
 <
-      New in version 3.2.
+      Added in version 3.2.
 
       Changed in version 3.3: Added the _msg_ keyword argument when
       used as a context manager.
@@ -1105,7 +1105,7 @@ class unittest.TestCase(methodName='runTest')
          self.assertEqual(cm.output, ['INFO:foo:first message',
                                       'ERROR:foo.bar:second message'])
 <
-      New in version 3.4.
+      Added in version 3.4.
 
    assertNoLogs(logger=None, level=None)
 
@@ -1124,7 +1124,7 @@ class unittest.TestCase(methodName='runTest')
       Unlike "assertLogs()", nothing will be returned by the context
       manager.
 
-      New in version 3.10.
+      Added in version 3.10.
 
    There are also other methods used to perform more specific checks,
    such as:
@@ -1185,7 +1185,7 @@ class unittest.TestCase(methodName='runTest')
          >>> self.assertGreaterEqual(3, 4)
          AssertionError: "3" unexpectedly not greater than or equal to "4"
 <
-      New in version 3.1.
+      Added in version 3.1.
 
    assertRegex(text, regex, msg=None)
    assertNotRegex(text, regex, msg=None)
@@ -1197,12 +1197,13 @@ class unittest.TestCase(methodName='runTest')
       object or a string containing a regular expression suitable for
       use by "re.search()".
 
-      New in version 3.1: Added under the name "assertRegexpMatches".
+      Added in version 3.1: Added under the name
+      "assertRegexpMatches".
 
       Changed in version 3.2: The method "assertRegexpMatches()" has
       been renamed to "assertRegex()".
 
-      New in version 3.2: "assertNotRegex()".
+      Added in version 3.2: "assertNotRegex()".
 
    assertCountEqual(first, second, msg=None)
 
@@ -1217,7 +1218,7 @@ class unittest.TestCase(methodName='runTest')
       "assertEqual(Counter(list(first)), Counter(list(second)))" but
       works with sequences of unhashable objects as well.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    The "assertEqual()" method dispatches the equality check for
    objects of the same type to different type-specific methods.  These
@@ -1237,7 +1238,7 @@ class unittest.TestCase(methodName='runTest')
       information and explaining the inequalities in details in the
       error message.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    The list of type-specific methods automatically used by
    "assertEqual()" are summarized in the following table.  Note that
@@ -1267,7 +1268,7 @@ class unittest.TestCase(methodName='runTest')
       method is used by default when comparing strings with
       "assertEqual()".
 
-      New in version 3.1.
+      Added in version 3.1.
 
    assertSequenceEqual(first, second, msg=None, seq_type=None)
 
@@ -1280,7 +1281,7 @@ class unittest.TestCase(methodName='runTest')
       This method is not called directly by "assertEqual()", but it’s
       used to implement "assertListEqual()" and "assertTupleEqual()".
 
-      New in version 3.1.
+      Added in version 3.1.
 
    assertListEqual(first, second, msg=None)
    assertTupleEqual(first, second, msg=None)
@@ -1291,7 +1292,7 @@ class unittest.TestCase(methodName='runTest')
       are of the wrong type. These methods are used by default when
       comparing lists or tuples with "assertEqual()".
 
-      New in version 3.1.
+      Added in version 3.1.
 
    assertSetEqual(first, second, msg=None)
 
@@ -1303,7 +1304,7 @@ class unittest.TestCase(methodName='runTest')
       Fails if either of _first_ or _second_ does not have a
       "set.difference()" method.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    assertDictEqual(first, second, msg=None)
 
@@ -1312,7 +1313,7 @@ class unittest.TestCase(methodName='runTest')
       This method will be used by default to compare dictionaries in
       calls to "assertEqual()".
 
-      New in version 3.1.
+      Added in version 3.1.
 
    Finally the "TestCase" provides the following methods and
    attributes:
@@ -1346,7 +1347,7 @@ class unittest.TestCase(methodName='runTest')
 
       The class setting gets reset before each test call.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    maxDiff
 
@@ -1360,7 +1361,7 @@ class unittest.TestCase(methodName='runTest')
       Setting "maxDiff" to "None" means that there is no maximum
       length of diffs.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    Testing frameworks can use the following methods to collect
    information on the test:
@@ -1410,7 +1411,7 @@ class unittest.TestCase(methodName='runTest')
       If "setUp()" fails, meaning that "tearDown()" is not called,
       then any cleanup functions added will still be called.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    enterContext(cm)
 
@@ -1418,7 +1419,7 @@ class unittest.TestCase(methodName='runTest')
       its "__exit__()" method as a cleanup function by "addCleanup()"
       and return the result of the "__enter__()" method.
 
-      New in version 3.11.
+      Added in version 3.11.
 
    doCleanups()
 
@@ -1433,7 +1434,7 @@ class unittest.TestCase(methodName='runTest')
       "doCleanups()" pops methods off the stack of cleanup functions
       one at a time, so it can be called at any time.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    classmethod addClassCleanup(function, /, *args, **kwargs)
 
@@ -1446,7 +1447,7 @@ class unittest.TestCase(methodName='runTest')
       If "setUpClass()" fails, meaning that "tearDownClass()" is not
       called, then any cleanup functions added will still be called.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    classmethod enterClassContext(cm)
 
@@ -1455,7 +1456,7 @@ class unittest.TestCase(methodName='runTest')
       "addClassCleanup()" and return the result of the "__enter__()"
       method.
 
-      New in version 3.11.
+      Added in version 3.11.
 
    classmethod doClassCleanups()
 
@@ -1470,16 +1471,16 @@ class unittest.TestCase(methodName='runTest')
       "doClassCleanups()" pops methods off the stack of cleanup
       functions one at a time, so it can be called at any time.
 
-      New in version 3.8.
+      Added in version 3.8.
 
 class unittest.IsolatedAsyncioTestCase(methodName='runTest')
 
    This class provides an API similar to "TestCase" and also accepts
    coroutines as test functions.
 
-   New in version 3.8.
+   Added in version 3.8.
 
-   coroutine asyncSetUp()
+   async asyncSetUp()
 
       Method called to prepare the test fixture. This is called after
       "setUp()". This is called immediately before calling the test
@@ -1487,7 +1488,7 @@ class unittest.IsolatedAsyncioTestCase(methodName='runTest')
       raised by this method will be considered an error rather than a
       test failure. The default implementation does nothing.
 
-   coroutine asyncTearDown()
+   async asyncTearDown()
 
       Method called immediately after the test method has been called
       and the result recorded.  This is called before "tearDown()".
@@ -1506,14 +1507,14 @@ class unittest.IsolatedAsyncioTestCase(methodName='runTest')
       This method accepts a coroutine that can be used as a cleanup
       function.
 
-   coroutine enterAsyncContext(cm)
+   async enterAsyncContext(cm)
 
       Enter the supplied _asynchronous context manager_.  If
       successful, also add its "__aexit__()" method as a cleanup
       function by "addAsyncCleanup()" and return the result of the
       "__aenter__()" method.
 
-      New in version 3.11.
+      Added in version 3.11.
 
    run(result=None)
 
@@ -1676,7 +1677,7 @@ class unittest.TestLoader
       fatal errors are also indicated by a synthetic test that will
       raise the original error when run.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    "TestLoader" objects have the following methods:
 
@@ -1773,7 +1774,7 @@ class unittest.TestLoader
 
       All test modules must be importable from the top level of the
       project. If the start directory is not the top level directory
-      then the top level directory must be specified separately.
+      then _top_level_dir_ must be specified separately.
 
       If importing a module fails, for example due to a syntax error,
       then this will be recorded as a single error and discovery will
@@ -1793,13 +1794,16 @@ class unittest.TestLoader
       in the package.
 
       The pattern is deliberately not stored as a loader attribute so
-      that packages can continue discovery themselves. _top_level_dir_
-      is stored so "load_tests" does not need to pass this argument in
-      to "loader.discover()".
+      that packages can continue discovery themselves.
+
+      _top_level_dir_ is stored internally, and used as a default to
+      any nested calls to "discover()". That is, if a package’s
+      "load_tests" calls "loader.discover()", it does not need to pass
+      this argument.
 
       _start_dir_ can be a dotted module name as well as a directory.
 
-      New in version 3.2.
+      Added in version 3.2.
 
       Changed in version 3.4: Modules that raise "SkipTest" on import
       are recorded as skips, not errors.
@@ -1819,6 +1823,9 @@ class unittest.TestLoader
       Changed in version 3.11: _start_dir_ can not be a _namespace
       packages_. It has been broken since Python 3.7 and Python 3.11
       officially remove it.
+
+      Changed in version 3.12.4: _top_level_dir_ is only stored for
+      the duration of _discover_ call.
 
    The following attributes of a "TestLoader" can be configured either
    by subclassing or assignment on an instance:
@@ -1859,7 +1866,7 @@ class unittest.TestLoader
 
       This affects all the "loadTestsFrom*" methods.
 
-      New in version 3.7.
+      Added in version 3.7.
 
 class unittest.TestResult
 
@@ -1896,7 +1903,7 @@ class unittest.TestResult
       A list containing 2-tuples of "TestCase" instances and strings
       holding the reason for skipping the test.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    expectedFailures
 
@@ -1914,7 +1921,7 @@ class unittest.TestResult
       A list containing 2-tuples of test case names and floats
       representing the elapsed time of each test which was run.
 
-      New in version 3.12.
+      Added in version 3.12.
 
    shouldStop
 
@@ -1933,20 +1940,20 @@ class unittest.TestResult
       and "sys.stderr" if the test fails or errors. Any output is also
       attached to the failure / error message.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    failfast
 
       If set to true "stop()" will be called on the first failure or
       error, halting the test run.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    tb_locals
 
       If set to true then local variables will be shown in tracebacks.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    wasSuccessful()
 
@@ -1988,13 +1995,13 @@ class unittest.TestResult
 
       Called once before any tests are executed.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    stopTestRun()
 
       Called once after all tests are executed.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    addError(test, err)
 
@@ -2061,7 +2068,7 @@ class unittest.TestResult
       The default implementation does nothing when the outcome is a
       success, and records subtest failures as normal failures.
 
-      New in version 3.4.
+      Added in version 3.4.
 
    addDuration(test, elapsed)
 
@@ -2069,7 +2076,7 @@ class unittest.TestResult
       represented in seconds, and it includes the execution of cleanup
       functions.
 
-      New in version 3.12.
+      Added in version 3.12.
 
 class unittest.TextTestResult(stream, descriptions, verbosity, *, durations=None)
 
@@ -2077,7 +2084,7 @@ class unittest.TextTestResult(stream, descriptions, verbosity, *, durations=None
    "TextTestRunner". Subclasses should accept "**kwargs" to ensure
    compatibility as the interface changes.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.12: Added the _durations_ keyword parameter.
 
@@ -2181,9 +2188,8 @@ unittest.main(module='__main__', defaultTest=None, argv=None, testRunner=None, t
    remain "None" if a "-W" option is passed to **python** (see Warning
    control), otherwise it will be set to "'default'".
 
-   Calling "main" actually returns an instance of the "TestProgram"
-   class. This stores the result of the tests run as the "result"
-   attribute.
+   Calling "main" returns an object with the "result" attribute that
+   contains the result of the tests run as a "unittest.TestResult".
 
    Changed in version 3.1: The _exit_ parameter was added.
 
@@ -2197,7 +2203,7 @@ unittest.main(module='__main__', defaultTest=None, argv=None, testRunner=None, t
 load_tests Protocol
 ~~~~~~~~~~~~~~~~~~~
 
-New in version 3.2.
+Added in version 3.2.
 
 Modules or packages can customize how tests are loaded from them
 during normal test runs or test discovery by implementing a function
@@ -2357,7 +2363,7 @@ unittest.addModuleCleanup(function, /, *args, **kwargs)
    If "setUpModule()" fails, meaning that "tearDownModule()" is not
    called, then any cleanup functions added will still be called.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 classmethod unittest.enterModuleContext(cm)
 
@@ -2365,7 +2371,7 @@ classmethod unittest.enterModuleContext(cm)
    "__exit__()" method as a cleanup function by "addModuleCleanup()"
    and return the result of the "__enter__()" method.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 unittest.doModuleCleanups()
 
@@ -2380,13 +2386,13 @@ unittest.doModuleCleanups()
    "doModuleCleanups()" pops methods off the stack of cleanup
    functions one at a time, so it can be called at any time.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 
 Signal Handling
 ===============
 
-New in version 3.2.
+Added in version 3.2.
 
 The "-c/--catch" command-line option to unittest, along with the
 "catchbreak" parameter to "unittest.main()", provide more friendly

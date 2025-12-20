@@ -1,5 +1,5 @@
-Python 3.9.19
-*copy.pyx*                                    Last change: 2024 May 24
+Python 3.9.25
+*copy.pyx*                                    Last change: 2025 Dec 20
 
 "copy" — Shallow and deep copy operations
 *****************************************

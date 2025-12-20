@@ -1,10 +1,10 @@
-Python 3.12.3
-*typing.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*typing.pyx*                                  Last change: 2025 Dec 20
 
 "typing" — Support for type hints
 *********************************
 
-New in version 3.5.
+Added in version 3.5.
 
 **Source code:** Lib/typing.py
 
@@ -20,11 +20,11 @@ This module provides runtime support for type hints.
 
 Consider the function below:
 >
-   def moon_weight(earth_weight: float) -> str:
-       return f'On the moon, you would weigh {earth_weight * 0.166} kilograms.'
+   def surface_area_of_cube(edge_length: float) -> str:
+       return f"The surface area of the cube is {6 * edge_length ** 2}."
 <
-The function "moon_weight" takes an argument expected to be an
-instance of "float", as indicated by the _type hint_ "earth_weight:
+The function "surface_area_of_cube" takes an argument expected to be
+an instance of "float", as indicated by the _type hint_ "edge_length:
 float". The function is expected to return an instance of "str", as
 indicated by the "-> str" hint.
 
@@ -89,8 +89,9 @@ example:
    # The static type checker will treat the previous type signature as
    # being exactly equivalent to this one.
    def broadcast_message(
-           message: str,
-           servers: Sequence[tuple[tuple[str, int], dict[str, str]]]) -> None:
+       message: str,
+       servers: Sequence[tuple[tuple[str, int], dict[str, str]]]
+   ) -> None:
        ...
 <
 The "type" statement is new in Python 3.12. For backwards
@@ -184,7 +185,7 @@ Note:
   expected. This is useful when you want to prevent logic errors with
   minimal runtime cost.
 
-New in version 3.5.2.
+Added in version 3.5.2.
 
 Changed in version 3.10: "NewType" is now a class rather than a
 function.  As a result, there is some additional runtime cost when
@@ -198,9 +199,9 @@ Annotating callable objects
 ===========================
 
 Functions – or other _callable_ objects – can be annotated using
-"collections.abc.Callable" or "typing.Callable". "Callable[[int],
-str]" signifies a function that takes a single parameter of type "int"
-and returns a "str".
+"collections.abc.Callable" or deprecated "typing.Callable".
+"Callable[[int], str]" signifies a function that takes a single
+parameter of type "int" and returns a "str".
 
 For example:
 >
@@ -381,9 +382,9 @@ The type of class objects
 =========================
 
 A variable annotated with "C" may accept a value of type "C". In
-contrast, a variable annotated with "type[C]" (or "typing.Type[C]")
-may accept values that are classes themselves – specifically, it will
-accept the _class object_ of "C". For example:
+contrast, a variable annotated with "type[C]" (or deprecated
+"typing.Type[C]") may accept values that are classes themselves –
+specifically, it will accept the _class object_ of "C". For example:
 >
    a = 3         # Has type ``int``
    b = int       # Has type ``type[int]``
@@ -419,6 +420,65 @@ variables, and unions of any of these types. For example:
 "type[Any]" is equivalent to "type", which is the root of Python’s
 metaclass hierarchy.
 
+
+Annotating generators and coroutines
+====================================
+
+A generator can be annotated using the generic type
+"Generator[YieldType, SendType, ReturnType]". For example:
+>
+   def echo_round() -> Generator[int, float, str]:
+       sent = yield 0
+       while sent >= 0:
+           sent = yield round(sent)
+       return 'Done'
+<
+Note that unlike many other generic classes in the standard library,
+the "SendType" of "Generator" behaves contravariantly, not covariantly
+or invariantly.
+
+If your generator will only yield values, set the "SendType" and
+"ReturnType" to "None":
+>
+   def infinite_stream(start: int) -> Generator[int, None, None]:
+       while True:
+           yield start
+           start += 1
+<
+Alternatively, annotate your generator as having a return type of
+either "Iterable[YieldType]" or "Iterator[YieldType]":
+>
+   def infinite_stream(start: int) -> Iterator[int]:
+       while True:
+           yield start
+           start += 1
+<
+Async generators are handled in a similar fashion, but don’t expect a
+"ReturnType" type argument ("AsyncGenerator[YieldType, SendType]"):
+>
+   async def infinite_stream(start: int) -> AsyncGenerator[int, None]:
+       while True:
+           yield start
+           start = await increment(start)
+<
+As in the synchronous case, "AsyncIterable[YieldType]" and
+"AsyncIterator[YieldType]" are available as well:
+>
+   async def infinite_stream(start: int) -> AsyncIterator[int]:
+       while True:
+           yield start
+           start = await increment(start)
+<
+Coroutines can be annotated using "Coroutine[YieldType, SendType,
+ReturnType]". Generic arguments correspond to those of "Generator",
+for example:
+>
+   from collections.abc import Coroutine
+   c: Coroutine[list[str], str, int]  # Some coroutine defined elsewhere
+   x = c.send('hi')                   # Inferred type of 'x' is list[str]
+   async def bar() -> None:
+       y = await c                    # Inferred type of 'y' is int
+<
 
 User-defined generic types
 ==========================
@@ -817,16 +877,26 @@ typing.LiteralString
 
    See **PEP 675** for more details.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 typing.Never
+typing.NoReturn
 
-   The bottom type, a type that has no members.
+   "Never" and "NoReturn" represent the bottom type, a type that has
+   no members.
 
-   This can be used to define a function that should never be called,
-   or a function that never returns:
+   They can be used to indicate that a function never returns, such as
+   "sys.exit()":
 >
-      from typing import Never
+      from typing import Never  # or NoReturn
+
+      def stop() -> Never:
+          raise RuntimeError('no way')
+<
+   Or to define a function that should never be called, as there are
+   no valid arguments, such as "assert_never()":
+>
+      from typing import Never  # or NoReturn
 
       def never_call_me(arg: Never) -> None:
           pass
@@ -839,29 +909,14 @@ typing.Never
               case str():
                   print("It's a str")
               case _:
-                  never_call_me(arg)  # OK, arg is of type Never
+                  never_call_me(arg)  # OK, arg is of type Never (or NoReturn)
 <
-   New in version 3.11: On older Python versions, "NoReturn" may be
-   used to express the same concept. "Never" was added to make the
-   intended meaning more explicit.
+   "Never" and "NoReturn" have the same meaning in the type system and
+   static type checkers treat both equivalently.
 
-typing.NoReturn
+   Added in version 3.6.2: Added "NoReturn".
 
-   Special type indicating that a function never returns.
-
-   For example:
->
-      from typing import NoReturn
-
-      def stop() -> NoReturn:
-          raise RuntimeError('no way')
-<
-   "NoReturn" can also be used as a bottom type, a type that has no
-   values. Starting in Python 3.11, the "Never" type should be used
-   for this concept instead. Type checkers should treat the two
-   equivalently.
-
-   New in version 3.6.2.
+   Added in version 3.11: Added "Never".
 
 typing.Self
 
@@ -920,7 +975,7 @@ typing.Self
 <
    See **PEP 673** for more details.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 typing.TypeAlias
 
@@ -953,7 +1008,7 @@ typing.TypeAlias
 <
    See **PEP 613** for more details.
 
-   New in version 3.10.
+   Added in version 3.10.
 
    Deprecated since version 3.12: "TypeAlias" is deprecated in favor
    of the "type" statement, which creates instances of "TypeAliasType"
@@ -1072,7 +1127,7 @@ typing.Concatenate
       # We don't need to pass in the lock ourselves thanks to the decorator.
       sum_threadsafe([1.1, 2.2, 3.3])
 <
-   New in version 3.10.
+   Added in version 3.10.
 
    See also:
 
@@ -1108,7 +1163,7 @@ typing.Literal
    may impose restrictions. See **PEP 586** for more details about
    literal types.
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Changed in version 3.9.1: "Literal" now de-duplicates parameters.
    Equality comparisons of "Literal" objects are no longer order
@@ -1141,7 +1196,7 @@ typing.ClassVar
       enterprise_d.stats = {} # Error, setting class variable on instance
       Starship.stats = {}     # This is OK
 <
-   New in version 3.5.3.
+   Added in version 3.5.3.
 
 typing.Final
 
@@ -1164,7 +1219,7 @@ typing.Final
    There is no runtime checking of these properties. See **PEP 591**
    for more details.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 typing.Required
 
@@ -1173,7 +1228,7 @@ typing.Required
    This is mainly useful for "total=False" TypedDicts. See "TypedDict"
    and **PEP 655** for more details.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 typing.NotRequired
 
@@ -1182,7 +1237,7 @@ typing.NotRequired
 
    See "TypedDict" and **PEP 655** for more details.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 typing.Annotated
 
@@ -1226,97 +1281,97 @@ typing.Annotated
       T1 = Annotated[int, ValueRange(-10, 5)]
       T2 = Annotated[T1, ValueRange(-20, 3)]
 <
-   Details of the syntax:
+   The first argument to "Annotated" must be a valid type. Multiple
+   metadata elements can be supplied as "Annotated" supports variadic
+   arguments. The order of the metadata elements is preserved and
+   matters for equality checks:
+>
+      @dataclass
+      class ctype:
+           kind: str
 
-   * The first argument to "Annotated" must be a valid type
+      a1 = Annotated[int, ValueRange(3, 10), ctype("char")]
+      a2 = Annotated[int, ctype("char"), ValueRange(3, 10)]
 
-   * Multiple metadata elements can be supplied ("Annotated" supports
-     variadic arguments):
->
-        @dataclass
-        class ctype:
-            kind: str
+      assert a1 != a2  # Order matters
+<
+   It is up to the tool consuming the annotations to decide whether
+   the client is allowed to add multiple metadata elements to one
+   annotation and how to merge those annotations.
 
-        Annotated[int, ValueRange(3, 10), ctype("char")]
+   Nested "Annotated" types are flattened. The order of the metadata
+   elements starts with the innermost annotation:
+>
+      assert Annotated[Annotated[int, ValueRange(3, 10)], ctype("char")] == Annotated[
+          int, ValueRange(3, 10), ctype("char")
+      ]
 <
-     It is up to the tool consuming the annotations to decide whether
-     the client is allowed to add multiple metadata elements to one
-     annotation and how to merge those annotations.
+   Duplicated metadata elements are not removed:
+>
+      assert Annotated[int, ValueRange(3, 10)] != Annotated[
+          int, ValueRange(3, 10), ValueRange(3, 10)
+      ]
+<
+   "Annotated" can be used with nested and generic aliases:
 
-   * "Annotated" must be subscripted with at least two arguments (
-     "Annotated[int]" is not valid)
+         @dataclass
+         class MaxLen:
+             value: int
 
-   * The order of the metadata elements is preserved and matters for
-     equality checks:
->
-        assert Annotated[int, ValueRange(3, 10), ctype("char")] != Annotated[
-            int, ctype("char"), ValueRange(3, 10)
-        ]
-<
-   * Nested "Annotated" types are flattened. The order of the metadata
-     elements starts with the innermost annotation:
->
-        assert Annotated[Annotated[int, ValueRange(3, 10)], ctype("char")] == Annotated[
-            int, ValueRange(3, 10), ctype("char")
-        ]
-<
-   * Duplicated metadata elements are not removed:
->
-        assert Annotated[int, ValueRange(3, 10)] != Annotated[
-            int, ValueRange(3, 10), ValueRange(3, 10)
-        ]
-<
-   * "Annotated" can be used with nested and generic aliases:
->
-        @dataclass
-        class MaxLen:
-            value: int
+         type Vec[T] = Annotated[list[tuple[T, T]], MaxLen(10)]
 
-        type Vec[T] = Annotated[list[tuple[T, T]], MaxLen(10)]
+         # When used in a type annotation, a type checker will treat "V" the same as
+         # ``Annotated[list[tuple[int, int]], MaxLen(10)]``:
+         type V = Vec[int]
+<
+   "Annotated" cannot be used with an unpacked "TypeVarTuple":
+>
+      type Variadic[*Ts] = Annotated[*Ts, Ann1] = Annotated[T1, T2, T3, ..., Ann1]  # NOT valid
+<
+   where "T1", "T2", … are "TypeVars". This is invalid as only one
+   type should be passed to Annotated.
 
-        # When used in a type annotation, a type checker will treat "V" the same as
-        # ``Annotated[list[tuple[int, int]], MaxLen(10)]``:
-        type V = Vec[int]
-<
-   * "Annotated" cannot be used with an unpacked "TypeVarTuple":
->
-        type Variadic[*Ts] = Annotated[*Ts, Ann1]  # NOT valid
-<
-     This would be equivalent to:
->
-        Annotated[T1, T2, T3, ..., Ann1]
-<
-     where "T1", "T2", etc. are "TypeVars". This would be invalid:
-     only one type should be passed to Annotated.
+   By default, "get_type_hints()" strips the metadata from
+   annotations. Pass "include_extras=True" to have the metadata
+   preserved:
 
-   * By default, "get_type_hints()" strips the metadata from
-     annotations. Pass "include_extras=True" to have the metadata
-     preserved:
->
-        >>> from typing import Annotated, get_type_hints
-        >>> def func(x: Annotated[int, "metadata"]) -> None: pass
-        ...
-        >>> get_type_hints(func)
-        {'x': <class 'int'>, 'return': <class 'NoneType'>}
-        >>> get_type_hints(func, include_extras=True)
-        {'x': typing.Annotated[int, 'metadata'], 'return': <class 'NoneType'>}
+         >>> from typing import Annotated, get_type_hints
+         >>> def func(x: Annotated[int, "metadata"]) -> None: pass
+         ...
+         >>> get_type_hints(func)
+         {'x': <class 'int'>, 'return': <class 'NoneType'>}
+         >>> get_type_hints(func, include_extras=True)
+         {'x': typing.Annotated[int, 'metadata'], 'return': <class 'NoneType'>}
 <
-   * At runtime, the metadata associated with an "Annotated" type can
-     be retrieved via the "__metadata__" attribute:
->
-        >>> from typing import Annotated
-        >>> X = Annotated[int, "very", "important", "metadata"]
-        >>> X
-        typing.Annotated[int, 'very', 'important', 'metadata']
-        >>> X.__metadata__
-        ('very', 'important', 'metadata')
+   At runtime, the metadata associated with an "Annotated" type can be
+   retrieved via the "__metadata__" attribute:
+
+         >>> from typing import Annotated
+         >>> X = Annotated[int, "very", "important", "metadata"]
+         >>> X
+         typing.Annotated[int, 'very', 'important', 'metadata']
+         >>> X.__metadata__
+         ('very', 'important', 'metadata')
+<
+   If you want to retrieve the original type wrapped by "Annotated",
+   use the "__origin__" attribute:
+
+         >>> from typing import Annotated, get_origin
+         >>> Password = Annotated[str, "secret"]
+         >>> Password.__origin__
+         <class 'str'>
+<
+   Note that using "get_origin()" will return "Annotated" itself:
+
+         >>> get_origin(Password)
+         <class 'typing.Annotated'>
 <
    See also:
 
      **PEP 593** - Flexible function and variable annotations
         The PEP introducing "Annotated" to the standard library.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 typing.TypeGuard
 
@@ -1372,8 +1427,8 @@ typing.TypeGuard
               print("Not a list of strings!")
 <
    If "is_str_list" is a class or instance method, then the type in
-   "TypeGuard" maps to the type of the second parameter after "cls" or
-   "self".
+   "TypeGuard" maps to the type of the second parameter (after "cls"
+   or "self").
 
    In short, the form "def foo(arg: TypeA) -> TypeGuard[TypeB]: ...",
    means that if "foo(arg)" returns "True", then "arg" narrows from
@@ -1391,7 +1446,7 @@ typing.TypeGuard
    "TypeGuard" also works with type variables.  See **PEP 647** for
    more details.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 typing.Unpack
 
@@ -1436,7 +1491,7 @@ typing.Unpack
    See **PEP 692** for more details on using "Unpack" for "**kwargs"
    typing.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 
 Building generic types and type aliases
@@ -1500,11 +1555,11 @@ class typing.TypeVar(name, *constraints, bound=None, covariant=False, contravari
       class Sequence[T]:  # T is a TypeVar
           ...
 <
-   This syntax can also be used to create bound and constrained type
+   This syntax can also be used to create bounded and constrained type
    variables:
 >
-      class StrSequence[S: str]:  # S is a TypeVar bound to str
-          ...
+      class StrSequence[S: str]:  # S is a TypeVar with a `str` upper bound;
+          ...                     # we can say that S is "bounded by `str`"
 
 
       class StrOrBytesSequence[A: (str, bytes)]:  # A is a TypeVar constrained to str or bytes
@@ -1538,8 +1593,8 @@ class typing.TypeVar(name, *constraints, bound=None, covariant=False, contravari
           """Add two strings or bytes objects together."""
           return x + y
 <
-   Note that type variables can be _bound_, _constrained_, or neither,
-   but cannot be both bound _and_ constrained.
+   Note that type variables can be _bounded_, _constrained_, or
+   neither, but cannot be both bounded _and_ constrained.
 
    The variance of type variables is inferred by type checkers when
    they are created through the type parameter syntax or when
@@ -1549,10 +1604,10 @@ class typing.TypeVar(name, *constraints, bound=None, covariant=False, contravari
    created type variables are invariant. See **PEP 484** and **PEP
    695** for more details.
 
-   Bound type variables and constrained type variables have different
-   semantics in several important ways. Using a _bound_ type variable
-   means that the "TypeVar" will be solved using the most specific
-   type possible:
+   Bounded type variables and constrained type variables have
+   different semantics in several important ways. Using a _bounded_
+   type variable means that the "TypeVar" will be solved using the
+   most specific type possible:
 >
       x = print_capitalized('a string')
       reveal_type(x)  # revealed type is str
@@ -1565,8 +1620,8 @@ class typing.TypeVar(name, *constraints, bound=None, covariant=False, contravari
 
       z = print_capitalized(45)  # error: int is not a subtype of str
 <
-   Type variables can be bound to concrete types, abstract types (ABCs
-   or protocols), and even unions of types:
+   The upper bound of a type variable can be a concrete type, abstract
+   type (ABC or Protocol), or even a union of types:
 >
       # Can be anything with an __abs__ method
       def print_abs[T: SupportsAbs](arg: T) -> None:
@@ -1607,11 +1662,11 @@ class typing.TypeVar(name, *constraints, bound=None, covariant=False, contravari
       Whether the type variable’s variance should be inferred by type
       checkers.
 
-      New in version 3.12.
+      Added in version 3.12.
 
    __bound__
 
-      The bound of the type variable, if any.
+      The upper bound of the type variable, if any.
 
       Changed in version 3.12: For type variables created through type
       parameter syntax, the bound is evaluated only when the attribute
@@ -1721,8 +1776,8 @@ class typing.TypeVarTuple(name)
    annotation of "*args":
 >
       def call_soon[*Ts](
-               callback: Callable[[*Ts], None],
-               *args: *Ts
+          callback: Callable[[*Ts], None],
+          *args: *Ts
       ) -> None:
           ...
           callback(*args)
@@ -1740,7 +1795,7 @@ class typing.TypeVarTuple(name)
 
       The name of the type variable tuple.
 
-   New in version 3.11.
+   Added in version 3.11.
 
    Changed in version 3.12: Type variable tuples can now be declared
    using the type parameter syntax introduced by **PEP 695**.
@@ -1790,8 +1845,8 @@ class typing.ParamSpec(name, *, bound=None, covariant=False, contravariant=False
           return x + y
 <
    Without "ParamSpec", the simplest way to annotate this previously
-   was to use a "TypeVar" with bound "Callable[..., Any]".  However
-   this causes two problems:
+   was to use a "TypeVar" with upper bound "Callable[..., Any]".
+   However this causes two problems:
 
    1. The type checker can’t type check the "inner" function because
       "*args" and "**kwargs" have to be typed "Any".
@@ -1825,7 +1880,7 @@ class typing.ParamSpec(name, *, bound=None, covariant=False, contravariant=False
    accepted, similar to "TypeVar".  However the actual semantics of
    these keywords are yet to be decided.
 
-   New in version 3.10.
+   Added in version 3.10.
 
    Changed in version 3.12: Parameter specifications can now be
    declared using the type parameter syntax introduced by **PEP 695**.
@@ -1845,7 +1900,6 @@ class typing.ParamSpec(name, *, bound=None, covariant=False, contravariant=False
      * Annotating callable objects
 
 typing.ParamSpecArgs
-
 typing.ParamSpecKwargs
 
    Arguments and keyword arguments attributes of a "ParamSpec". The
@@ -1864,7 +1918,7 @@ typing.ParamSpecKwargs
       >>> get_origin(P.kwargs) is P
       True
 <
-   New in version 3.10.
+   Added in version 3.10.
 
 class typing.TypeAliasType(name, value, *, type_params=())
 
@@ -1876,7 +1930,7 @@ class typing.TypeAliasType(name, value, *, type_params=())
       >>> type(Alias)
       <class 'typing.TypeAliasType'>
 <
-   New in version 3.12.
+   Added in version 3.12.
 
    __name__
 
@@ -1982,7 +2036,9 @@ class typing.NamedTuple
 <
    Backward-compatible usage:
 >
-      # For creating a generic NamedTuple on Python 3.11 or lower
+      # For creating a generic NamedTuple on Python 3.11
+      T = TypeVar("T")
+
       class Group(NamedTuple, Generic[T]):
           key: T
           group: list[T]
@@ -2031,7 +2087,7 @@ class typing.NewType(name, tp)
 
       The type that the new type is based on.
 
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
    Changed in version 3.10: "NewType" is now a class rather than a
    function.
@@ -2078,7 +2134,7 @@ class typing.Protocol(Generic)
           def meth(self) -> T:
               ...
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 @typing.runtime_checkable
 
@@ -2120,7 +2176,7 @@ class typing.Protocol(Generic)
      "hasattr()" calls for structural checks in performance-sensitive
      code.
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Changed in version 3.12: The internal implementation of
    "isinstance()" checks against runtime-checkable protocols now uses
@@ -2170,21 +2226,27 @@ class typing.TypedDict(dict)
 >
         Point2D = TypedDict('Point2D', x=int, y=int, label=str)
 <
-   Deprecated since version 3.11, will be removed in version 3.13: The
-   keyword-argument syntax is deprecated in 3.11 and will be removed
-   in 3.13. It may also be unsupported by static type checkers.
+     Deprecated since version 3.11, will be removed in version 3.13:
+     The keyword-argument syntax is deprecated in 3.11 and will be
+     removed in 3.13. It may also be unsupported by static type
+     checkers.
 
-   The functional syntax should also be used when any of the keys are
-   not valid identifiers, for example because they are keywords or
-   contain hyphens. Example:
+   This functional syntax allows defining keys which are not valid
+   identifiers, for example because they are keywords or contain
+   hyphens, or when key names must not be mangled like regular private
+   names:
 >
       # raises SyntaxError
       class Point2D(TypedDict):
           in: int  # 'in' is a keyword
           x-y: int  # name with hyphens
 
+      class Definition(TypedDict):
+          __schema: str  # mangled to `_Definition__schema`
+
       # OK, functional syntax
       Point2D = TypedDict('Point2D', {'in': int, 'x-y': int})
+      Definition = TypedDict('Definition', {'__schema': str})  # not mangled
 <
    By default, all keys must be present in a "TypedDict". It is
    possible to mark individual keys as non-required using
@@ -2300,14 +2362,14 @@ class typing.TypedDict(dict)
       This attribute reflects _only_ the value of the "total" argument
       to the current "TypedDict" class, not whether the class is
       semantically total. For example, a "TypedDict" with "__total__"
-      set to True may have keys marked with "NotRequired", or it may
+      set to "True" may have keys marked with "NotRequired", or it may
       inherit from another "TypedDict" with "total=False". Therefore,
       it is generally better to use "__required_keys__" and
       "__optional_keys__" for introspection.
 
    __required_keys__
 
-      New in version 3.9.
+      Added in version 3.9.
 
    __optional_keys__
 
@@ -2338,7 +2400,7 @@ class typing.TypedDict(dict)
          >>> Point3D.__optional_keys__ == frozenset({'x', 'y'})
          True
 <
-      New in version 3.9.
+      Added in version 3.9.
 
       Note:
 
@@ -2352,7 +2414,7 @@ class typing.TypedDict(dict)
    See **PEP 589** for more examples and detailed rules of using
    "TypedDict".
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Changed in version 3.11: Added support for marking individual keys
    as "Required" or "NotRequired". See **PEP 655**.
@@ -2387,7 +2449,7 @@ class typing.SupportsIndex
 
    An ABC with one abstract method "__index__".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 class typing.SupportsInt
 
@@ -2450,7 +2512,7 @@ typing.assert_type(val, typ, /)
           # Test whether the type checker correctly understands our function
           assert_type(arg, int)
 <
-   New in version 3.11.
+   Added in version 3.11.
 
 typing.assert_never(arg, /)
 
@@ -2487,7 +2549,7 @@ typing.assert_never(arg, /)
      Unreachable Code and Exhaustiveness Checking has more information
      about exhaustiveness checking with static typing.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 typing.reveal_type(obj, /)
 
@@ -2519,7 +2581,7 @@ typing.reveal_type(obj, /)
    "typing", however, allows your code to run without runtime errors
    and communicates intent more clearly.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 @typing.dataclass_transform(*, eq_default=True, order_default=False, kw_only_default=False, frozen_default=False, field_specifiers=(), **kwargs)
 
@@ -2599,7 +2661,7 @@ typing.reveal_type(obj, /)
         "True" or "False" if it is omitted by the caller. Defaults to
         "False".
 
-        New in version 3.12.
+        Added in version 3.12.
 
       * **field_specifiers** (_tuple__[__Callable__[__...__,
         __Any__]__, __...__]_) – Specifies a static list of supported
@@ -2647,7 +2709,7 @@ typing.reveal_type(obj, /)
 
    See **PEP 681** for more details.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 @typing.overload
 
@@ -2702,7 +2764,7 @@ typing.get_overloads(func)
    "get_overloads()" can be used for introspecting an overloaded
    function at runtime.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 typing.clear_overloads()
 
@@ -2710,7 +2772,7 @@ typing.clear_overloads()
 
    This can be used to reclaim the memory used by the registry.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 @typing.final
 
@@ -2739,7 +2801,7 @@ typing.clear_overloads()
    There is no runtime checking of these properties. See **PEP 591**
    for more details.
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Changed in version 3.11: The decorator will now attempt to set a
    "__final__" attribute to "True" on the decorated object. Thus, a
@@ -2804,7 +2866,7 @@ typing.clear_overloads()
 
    See **PEP 698** for more details.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 @typing.type_check_only
 
@@ -2833,31 +2895,42 @@ typing.get_type_hints(obj, globalns=None, localns=None, include_extras=False)
    Return a dictionary containing type hints for a function, method,
    module or class object.
 
-   This is often the same as "obj.__annotations__". In addition,
-   forward references encoded as string literals are handled by
-   evaluating them in "globals" and "locals" namespaces. For a class
-   "C", return a dictionary constructed by merging all the
-   "__annotations__" along "C.__mro__" in reverse order.
+   This is often the same as "obj.__annotations__", but this function
+   makes the following changes to the annotations dictionary:
 
-   The function recursively replaces all "Annotated[T, ...]" with "T",
-   unless "include_extras" is set to "True" (see "Annotated" for more
-   information). For example:
->
-      class Student(NamedTuple):
-          name: Annotated[str, 'some marker']
+   * Forward references encoded as string literals or "ForwardRef"
+     objects are handled by evaluating them in _globalns_, _localns_,
+     and (where applicable) _obj_’s type parameter namespace. If
+     _globalns_ or _localns_ is not given, appropriate namespace
+     dictionaries are inferred from _obj_.
 
-      assert get_type_hints(Student) == {'name': str}
-      assert get_type_hints(Student, include_extras=False) == {'name': str}
-      assert get_type_hints(Student, include_extras=True) == {
-          'name': Annotated[str, 'some marker']
-      }
-<
+   * "None" is replaced with "types.NoneType".
+
+   * If "@no_type_check" has been applied to _obj_, an empty
+     dictionary is returned.
+
+   * If _obj_ is a class "C", the function returns a dictionary that
+     merges annotations from "C"’s base classes with those on "C"
+     directly. This is done by traversing "C.__mro__" and iteratively
+     combining "__annotations__" dictionaries. Annotations on classes
+     appearing earlier in the _method resolution order_ always take
+     precedence over annotations on classes appearing later in the
+     method resolution order.
+
+   * The function recursively replaces all occurrences of
+     "Annotated[T, ...]" with "T", unless _include_extras_ is set to
+     "True" (see "Annotated" for more information).
+
+   See also "inspect.get_annotations()", a lower-level function that
+   returns annotations more directly.
+
    Note:
 
-     "get_type_hints()" does not work with imported type aliases that
-     include forward references. Enabling postponed evaluation of
-     annotations (**PEP 563**) may remove the need for most forward
-     references.
+     If any forward references in the annotations of _obj_ are not
+     resolvable or are not valid Python code, this function will raise
+     an exception such as "NameError". For example, this can happen
+     with imported type aliases that include forward references, or
+     with names imported under "if TYPE_CHECKING".
 
    Changed in version 3.9: Added "include_extras" parameter as part of
    **PEP 593**. See the documentation on "Annotated" for more
@@ -2882,11 +2955,12 @@ typing.get_origin(tp)
       assert get_origin(str) is None
       assert get_origin(Dict[str, int]) is dict
       assert get_origin(Union[int, str]) is Union
+      assert get_origin(Annotated[str, "metadata"]) is Annotated
       P = ParamSpec('P')
       assert get_origin(P.args) is P
       assert get_origin(P.kwargs) is P
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 typing.get_args(tp)
 
@@ -2904,7 +2978,7 @@ typing.get_args(tp)
       assert get_args(Dict[int, str]) == (int, str)
       assert get_args(Union[int, str]) == (int, str)
 <
-   New in version 3.8.
+   Added in version 3.8.
 
 typing.is_typeddict(tp)
 
@@ -2923,7 +2997,7 @@ typing.is_typeddict(tp)
       # not a typed dict itself
       assert not is_typeddict(TypedDict)
 <
-   New in version 3.10.
+   Added in version 3.10.
 
 class typing.ForwardRef
 
@@ -2940,7 +3014,7 @@ class typing.ForwardRef
      implicitly transformed into "list[ForwardRef("SomeClass")]" and
      thus will not automatically resolve to "list[SomeClass]".
 
-   New in version 3.7.4.
+   Added in version 3.7.4.
 
 
 Constant
@@ -2972,7 +3046,7 @@ typing.TYPE_CHECKING
      stored as strings in "__annotations__". This makes it unnecessary
      to use quotes around the annotation (see **PEP 563**).
 
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
 
 Deprecated aliases
@@ -3011,11 +3085,6 @@ class typing.Dict(dict, MutableMapping[KT, VT])
    collection type such as "Mapping" rather than to use "dict" or
    "typing.Dict".
 
-   This type can be used as follows:
->
-      def count_words(text: str) -> Dict[str, int]:
-          ...
-<
    Deprecated since version 3.9: "builtins.dict" now supports
    subscripting ("[]"). See **PEP 585** and Generic Alias Type.
 
@@ -3027,14 +3096,6 @@ class typing.List(list, MutableSequence[T])
    collection type such as "Sequence" or "Iterable" rather than to use
    "list" or "typing.List".
 
-   This type may be used as follows:
->
-      def vec2[T: (int, float)](x: T, y: T) -> List[T]:
-          return [x, y]
-
-      def keep_positives[T: (int, float)](vector: Sequence[T]) -> List[T]:
-          return [item for item in vector if item > 0]
-<
    Deprecated since version 3.9: "builtins.list" now supports
    subscripting ("[]"). See **PEP 585** and Generic Alias Type.
 
@@ -3043,8 +3104,8 @@ class typing.Set(set, MutableSet[T])
    Deprecated alias to "builtins.set".
 
    Note that to annotate arguments, it is preferred to use an abstract
-   collection type such as "AbstractSet" rather than to use "set" or
-   "typing.Set".
+   collection type such as "collections.abc.Set" rather than to use
+   "set" or "typing.Set".
 
    Deprecated since version 3.9: "builtins.set" now supports
    subscripting ("[]"). See **PEP 585** and Generic Alias Type.
@@ -3073,7 +3134,7 @@ class typing.Type(Generic[CT_co])
    See The type of class objects for details on using "type" or
    "typing.Type" in type annotations.
 
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
    Deprecated since version 3.9: "builtins.type" now supports
    subscripting ("[]"). See **PEP 585** and Generic Alias Type.
@@ -3086,7 +3147,7 @@ class typing.DefaultDict(collections.defaultdict, MutableMapping[KT, VT])
 
    Deprecated alias to "collections.defaultdict".
 
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
    Deprecated since version 3.9: "collections.defaultdict" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
@@ -3096,7 +3157,7 @@ class typing.OrderedDict(collections.OrderedDict, MutableMapping[KT, VT])
 
    Deprecated alias to "collections.OrderedDict".
 
-   New in version 3.7.2.
+   Added in version 3.7.2.
 
    Deprecated since version 3.9: "collections.OrderedDict" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
@@ -3106,7 +3167,7 @@ class typing.ChainMap(collections.ChainMap, MutableMapping[KT, VT])
 
    Deprecated alias to "collections.ChainMap".
 
-   New in version 3.6.1.
+   Added in version 3.6.1.
 
    Deprecated since version 3.9: "collections.ChainMap" now supports
    subscripting ("[]"). See **PEP 585** and Generic Alias Type.
@@ -3115,7 +3176,7 @@ class typing.Counter(collections.Counter, Dict[T, int])
 
    Deprecated alias to "collections.Counter".
 
-   New in version 3.6.1.
+   Added in version 3.6.1.
 
    Deprecated since version 3.9: "collections.Counter" now supports
    subscripting ("[]"). See **PEP 585** and Generic Alias Type.
@@ -3124,7 +3185,7 @@ class typing.Deque(deque, MutableSequence[T])
 
    Deprecated alias to "collections.deque".
 
-   New in version 3.6.1.
+   Added in version 3.6.1.
 
    Deprecated since version 3.9: "collections.deque" now supports
    subscripting ("[]"). See **PEP 585** and Generic Alias Type.
@@ -3168,7 +3229,7 @@ class typing.Text
       def add_unicode_checkmark(text: Text) -> Text:
           return text + u' \u2713'
 <
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
    Deprecated since version 3.11: Python 2 is no longer supported, and
    most type checkers also no longer support type checking Python 2
@@ -3199,7 +3260,7 @@ class typing.Collection(Sized, Iterable[T_co], Container[T_co])
 
    Deprecated alias to "collections.abc.Collection".
 
-   New in version 3.6.
+   Added in version 3.6.
 
    Deprecated since version 3.9: "collections.abc.Collection" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
@@ -3233,11 +3294,6 @@ class typing.Mapping(Collection[KT], Generic[KT, VT_co])
 
    Deprecated alias to "collections.abc.Mapping".
 
-   This type can be used as follows:
->
-      def get_position_in_index(word_list: Mapping[str, int], word: str) -> int:
-          return word_list[word]
-<
    Deprecated since version 3.9: "collections.abc.Mapping" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
    Type.
@@ -3298,16 +3354,11 @@ class typing.Coroutine(Awaitable[ReturnType], Generic[YieldType, SendType, Retur
 
    Deprecated alias to "collections.abc.Coroutine".
 
-   The variance and order of type variables correspond to those of
-   "Generator", for example:
->
-      from collections.abc import Coroutine
-      c: Coroutine[list[str], str, int]  # Some coroutine defined elsewhere
-      x = c.send('hi')                   # Inferred type of 'x' is list[str]
-      async def bar() -> None:
-          y = await c                    # Inferred type of 'y' is int
-<
-   New in version 3.5.3.
+   See Annotating generators and coroutines for details on using
+   "collections.abc.Coroutine" and "typing.Coroutine" in type
+   annotations.
+
+   Added in version 3.5.3.
 
    Deprecated since version 3.9: "collections.abc.Coroutine" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
@@ -3317,36 +3368,11 @@ class typing.AsyncGenerator(AsyncIterator[YieldType], Generic[YieldType, SendTyp
 
    Deprecated alias to "collections.abc.AsyncGenerator".
 
-   An async generator can be annotated by the generic type
-   "AsyncGenerator[YieldType, SendType]". For example:
->
-      async def echo_round() -> AsyncGenerator[int, float]:
-          sent = yield 0
-          while sent >= 0.0:
-              rounded = await round(sent)
-              sent = yield rounded
-<
-   Unlike normal generators, async generators cannot return a value,
-   so there is no "ReturnType" type parameter. As with "Generator",
-   the "SendType" behaves contravariantly.
+   See Annotating generators and coroutines for details on using
+   "collections.abc.AsyncGenerator" and "typing.AsyncGenerator" in
+   type annotations.
 
-   If your generator will only yield values, set the "SendType" to
-   "None":
->
-      async def infinite_stream(start: int) -> AsyncGenerator[int, None]:
-          while True:
-              yield start
-              start = await increment(start)
-<
-   Alternatively, annotate your generator as having a return type of
-   either "AsyncIterable[YieldType]" or "AsyncIterator[YieldType]":
->
-      async def infinite_stream(start: int) -> AsyncIterator[int]:
-          while True:
-              yield start
-              start = await increment(start)
-<
-   New in version 3.6.1.
+   Added in version 3.6.1.
 
    Deprecated since version 3.9: "collections.abc.AsyncGenerator" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
@@ -3356,7 +3382,7 @@ class typing.AsyncIterable(Generic[T_co])
 
    Deprecated alias to "collections.abc.AsyncIterable".
 
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
    Deprecated since version 3.9: "collections.abc.AsyncIterable" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
@@ -3366,7 +3392,7 @@ class typing.AsyncIterator(AsyncIterable[T_co])
 
    Deprecated alias to "collections.abc.AsyncIterator".
 
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
    Deprecated since version 3.9: "collections.abc.AsyncIterator" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
@@ -3376,7 +3402,7 @@ class typing.Awaitable(Generic[T_co])
 
    Deprecated alias to "collections.abc.Awaitable".
 
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
    Deprecated since version 3.9: "collections.abc.Awaitable" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
@@ -3421,35 +3447,10 @@ class typing.Generator(Iterator[YieldType], Generic[YieldType, SendType, ReturnT
 
    Deprecated alias to "collections.abc.Generator".
 
-   A generator can be annotated by the generic type
-   "Generator[YieldType, SendType, ReturnType]". For example:
->
-      def echo_round() -> Generator[int, float, str]:
-          sent = yield 0
-          while sent >= 0:
-              sent = yield round(sent)
-          return 'Done'
-<
-   Note that unlike many other generics in the typing module, the
-   "SendType" of "Generator" behaves contravariantly, not covariantly
-   or invariantly.
+   See Annotating generators and coroutines for details on using
+   "collections.abc.Generator" and "typing.Generator" in type
+   annotations.
 
-   If your generator will only yield values, set the "SendType" and
-   "ReturnType" to "None":
->
-      def infinite_stream(start: int) -> Generator[int, None, None]:
-          while True:
-              yield start
-              start += 1
-<
-   Alternatively, annotate your generator as having a return type of
-   either "Iterable[YieldType]" or "Iterator[YieldType]":
->
-      def infinite_stream(start: int) -> Iterator[int]:
-          while True:
-              yield start
-              start += 1
-<
    Deprecated since version 3.9: "collections.abc.Generator" now
    supports subscripting ("[]"). See **PEP 585** and Generic Alias
    Type.
@@ -3484,7 +3485,7 @@ class typing.ContextManager(Generic[T_co])
 
    Deprecated alias to "contextlib.AbstractContextManager".
 
-   New in version 3.5.4.
+   Added in version 3.5.4.
 
    Deprecated since version 3.9: "contextlib.AbstractContextManager"
    now supports subscripting ("[]"). See **PEP 585** and Generic Alias
@@ -3494,7 +3495,7 @@ class typing.AsyncContextManager(Generic[T_co])
 
    Deprecated alias to "contextlib.AbstractAsyncContextManager".
 
-   New in version 3.6.2.
+   Added in version 3.6.2.
 
    Deprecated since version 3.9:
    "contextlib.AbstractAsyncContextManager" now supports subscripting

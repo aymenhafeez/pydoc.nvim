@@ -1,5 +1,5 @@
-Python 3.12.3
-*copyreg.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*copyreg.pyx*                                 Last change: 2025 Dec 20
 
 "copyreg" — Register "pickle" support functions
 ***********************************************
@@ -53,9 +53,9 @@ and how it will be used:
 ...
 >>> copyreg.pickle(C, pickle_c)
 >>> c = C(1)
->>> d = copy.copy(c)  
+>>> d = copy.copy(c)
 pickling a C instance...
->>> p = pickle.dumps(c)  
+>>> p = pickle.dumps(c)
 pickling a C instance...
 
 vim:tw=78:ts=8:ft=help:norl:

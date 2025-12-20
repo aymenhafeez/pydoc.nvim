@@ -1,5 +1,5 @@
-Python 3.12.3
-*shutil.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*shutil.pyx*                                  Last change: 2025 Dec 20
 
 "shutil" — High-level file operations
 *************************************
@@ -77,7 +77,7 @@ exception shutil.SameFileError
    This exception is raised if source and destination in "copyfile()"
    are the same file.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 shutil.copymode(src, dst, *, follow_symlinks=True)
 
@@ -224,7 +224,7 @@ shutil.copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2, igno
    false or omitted, the contents and metadata of the linked files are
    copied to the new tree.
 
-   When _symlinks_ is false, if the file pointed by the symlink
+   When _symlinks_ is false, if the file pointed to by the symlink
    doesn’t exist, an exception will be added in the list of errors
    raised in an "Error" exception at the end of the copy process. You
    can set the optional _ignore_dangling_symlinks_ flag to true if you
@@ -318,7 +318,7 @@ shutil.rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=Non
    Changed in version 3.8: On Windows, will no longer delete the
    contents of a directory junction before removing the junction.
 
-   Changed in version 3.11: The _dir_fd_ parameter.
+   Changed in version 3.11: Added the _dir_fd_ parameter.
 
    Changed in version 3.12: Added the _onexc_ parameter, deprecated
    _onerror_.
@@ -330,7 +330,7 @@ shutil.rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=Non
       Currently this is only true for platforms supporting fd-based
       directory access functions.
 
-      New in version 3.3.
+      Added in version 3.3.
 
 shutil.move(src, dst, copy_function=copy2)
 
@@ -388,7 +388,7 @@ shutil.disk_usage(path)
      doesn’t attempt to retrieve disk usage information from non-
      mounted filesystems.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.8: On Windows, _path_ can now be a file or
    directory.
@@ -409,7 +409,7 @@ shutil.chown(path, user=None, group=None)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 shutil.which(cmd, mode=os.F_OK | os.X_OK, path=None)
 
@@ -417,11 +417,12 @@ shutil.which(cmd, mode=os.F_OK | os.X_OK, path=None)
    _cmd_ was called.  If no _cmd_ would be called, return "None".
 
    _mode_ is a permission mask passed to "os.access()", by default
-   determining if the file exists and executable.
+   determining if the file exists and is executable.
 
-   When no _path_ is specified, the results of "os.environ()" are
-   used, returning either the “PATH” value or a fallback of
-   "os.defpath".
+   _path_ is a “"PATH" string” specifying the directories to look in,
+   delimited by "os.pathsep". When no _path_ is specified, the "PATH"
+   environment variable is read from "os.environ", falling back to
+   "os.defpath" if it is not set.
 
    On Windows, the current directory is prepended to the _path_ if
    _mode_ does not include "os.X_OK". When the _mode_ does include
@@ -431,11 +432,11 @@ shutil.which(cmd, mode=os.F_OK | os.X_OK, path=None)
    directory for executables: set the environment variable
    "NoDefaultCurrentDirectoryInExePath".
 
-   Also on Windows, the "PATHEXT" variable is used to resolve commands
-   that may not already include an extension. For example, if you call
-   "shutil.which("python")", "which()" will search "PATHEXT" to know
-   that it should look for "python.exe" within the _path_ directories.
-   For example, on Windows:
+   Also on Windows, the "PATHEXT" environment variable is used to
+   resolve commands that may not already include an extension. For
+   example, if you call "shutil.which("python")", "which()" will
+   search "PATHEXT" to know that it should look for "python.exe"
+   within the _path_ directories. For example, on Windows:
 >
       >>> shutil.which("python")
       'C:\\Python33\\python.EXE'
@@ -446,7 +447,7 @@ shutil.which(cmd, mode=os.F_OK | os.X_OK, path=None)
       >> shutil.which("C:\\Python33\\python")
       'C:\\Python33\\python.EXE'
 <
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.8: The "bytes" type is now accepted.  If _cmd_
    type is "bytes", the result type is also "bytes".
@@ -458,11 +459,6 @@ shutil.which(cmd, mode=os.F_OK | os.X_OK, path=None)
    search path; "PATHEXT" is used now even when _cmd_ includes a
    directory component or ends with an extension that is in "PATHEXT";
    and filenames that have no extension can now be found.
-
-   Changed in version 3.12.1: On Windows, if _mode_ includes
-   "os.X_OK", executables with an extension in "PATHEXT" will be
-   preferred over executables without a matching extension. This
-   brings behavior closer to that of Python 3.11.
 
 exception shutil.Error
 
@@ -542,7 +538,7 @@ subsequent failure will propagate.
 Archiving operations
 ====================
 
-New in version 3.2.
+Added in version 3.2.
 
 Changed in version 3.5: Added support for the _xztar_ format.
 
@@ -832,7 +828,7 @@ shutil.get_terminal_size(fallback=(columns, lines))
    See also: The Single UNIX Specification, Version 2, Other
    Environment Variables.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.11: The "fallback" values are also used if
    "os.get_terminal_size()" returns zeroes.

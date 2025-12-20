@@ -1,5 +1,5 @@
-Python 3.11.9
-*email.headerregistry.pyx*                    Last change: 2024 May 24
+Python 3.11.14
+*email.headerregistry.pyx*                    Last change: 2025 Dec 20
 
 "email.headerregistry": Custom Header Objects
 *********************************************

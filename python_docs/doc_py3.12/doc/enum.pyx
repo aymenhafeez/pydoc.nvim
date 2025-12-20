@@ -1,10 +1,10 @@
-Python 3.12.3
-*enum.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*enum.pyx*                                    Last change: 2025 Dec 20
 
 "enum" — Support for enumerations
 *********************************
 
-New in version 3.4.
+Added in version 3.4.
 
 **Source code:** Lib/enum.py
 
@@ -46,7 +46,7 @@ function-call syntax:
    ...     BLUE = 3
 
    >>> # functional syntax
-   >>> Color = Enum('Color', ['RED', 'GREEN', 'BLUE'])
+   >>> Color = Enum('Color', [('RED', 1), ('GREEN', 2), ('BLUE', 3)])
 <
 Even though we can use "class" syntax to create Enums, Enums are not
 normal Python classes.  See How are Enums different? for more details.
@@ -158,9 +158,9 @@ Module Contents
 
       Return a list of all power-of-two integers contained in a flag.
 
-New in version 3.6: "Flag", "IntFlag", "auto"
+Added in version 3.6: "Flag", "IntFlag", "auto"
 
-New in version 3.11: "StrEnum", "EnumCheck", "ReprEnum",
+Added in version 3.11: "StrEnum", "EnumCheck", "ReprEnum",
 "FlagBoundary", "property", "member", "nonmember", "global_enum",
 "show_flag_values"
 
@@ -277,8 +277,8 @@ class enum.EnumType
          >>> list(reversed(Color))
          [<Color.BLUE: 3>, <Color.GREEN: 2>, <Color.RED: 1>]
 <
-   New in version 3.11: Before 3.11 "enum" used "EnumMeta" type, which
-   is kept as an alias.
+   Added in version 3.11: Before 3.11 "enum" used "EnumMeta" type,
+   which is kept as an alias.
 
 class enum.Enum
 
@@ -431,15 +431,16 @@ class enum.Enum
       given in the member assignment will be passed; e.g.
 
       >>> from enum import Enum
-      >>> class MyIntEnum(Enum):
-      ...     SEVENTEEN = '1a', 16
+      >>> class MyIntEnum(int, Enum):
+      ...     TWENTYSIX = '1a', 16
 
-      results in the call "int('1a', 16)" and a value of "17" for the
+      results in the call "int('1a', 16)" and a value of "26" for the
       member.
 
-      ..note:: When writing a custom "__new__", do not use
-      "super().__new__" –
-         call the appropriate "__new__" instead.
+      Note:
+
+        When writing a custom "__new__", do not use "super().__new__"
+        – call the appropriate "__new__" instead.
 
    __repr__(self)
 
@@ -551,13 +552,14 @@ class enum.StrEnum
      of existing constants_ use-case.  "__format__()" is likewise
      "str.__format__()" for that same reason.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 class enum.Flag
 
    "Flag" is the same as "Enum", but its members support the bitwise
    operators "&" (_AND_), "|" (_OR_), "^" (_XOR_), and "~" (_INVERT_);
-   the results of those operators are members of the enumeration.
+   the results of those operations are (aliases of) members of the
+   enumeration.
 
    __contains__(self, value)
 
@@ -589,7 +591,7 @@ class enum.Flag
          >>> list(purple)
          [<Color.RED: 1>, <Color.BLUE: 4>]
 <
-      New in version 3.11.
+      Added in version 3.11.
 
    __len__(self):
 
@@ -600,6 +602,8 @@ class enum.Flag
          >>> len(white)
          3
 <
+      Added in version 3.11.
+
    __bool__(self):
 
       Returns _True_ if any members in flag, _False_ otherwise:
@@ -662,7 +666,7 @@ class enum.Flag
    Changed in version 3.11: The _repr()_ of zero-valued flags has
    changed.  It is now::
 
-   >>> Color(0) 
+   >>> Color(0)
    <Color: 0>
 
 class enum.IntFlag
@@ -723,7 +727,7 @@ class enum.ReprEnum
    Inherit from "ReprEnum" to keep the "str()" / "format()" of the
    mixed-in data type instead of using the "Enum"-default "str()".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 class enum.EnumCheck
 
@@ -784,7 +788,7 @@ class enum.EnumCheck
      CONTINUOUS and NAMED_FLAGS are designed to work with integer-
      valued members.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 class enum.FlagBoundary
 
@@ -851,7 +855,7 @@ class enum.FlagBoundary
          >>> KeepFlag(2**2 + 2**4)
          <KeepFlag.BLUE|16: 20>
 <
-New in version 3.11.
+Added in version 3.11.
 
 ======================================================================
 
@@ -894,9 +898,9 @@ Supported "_sunder_" names
     chosen will be the next highest power-of-two, regardless of the
     last value seen.
 
-New in version 3.6: "_missing_", "_order_", "_generate_next_value_"
+Added in version 3.6: "_missing_", "_order_", "_generate_next_value_"
 
-New in version 3.7: "_ignore_"
+Added in version 3.7: "_ignore_"
 
 ======================================================================
 
@@ -951,7 +955,7 @@ class enum.auto
      defined in the _Enum_ class, and _Enum_ subclasses can define
      members with the names "value" and "name".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 @enum.unique
 
@@ -977,19 +981,19 @@ class enum.auto
    "EnumCheck" are used to specify which constraints should be checked
    on the decorated enumeration.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 @enum.member
 
    A decorator for use in enums: its target will become a member.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 @enum.nonmember
 
    A decorator for use in enums: its target will not become a member.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 @enum.global_enum
 
@@ -998,14 +1002,14 @@ class enum.auto
    only be used when the enum members are exported to the module
    global namespace (see "re.RegexFlag" for an example).
 
-   New in version 3.11.
+   Added in version 3.11.
 
 enum.show_flag_values(value)
 
    Return a list of all power-of-two integers contained in a flag
    _value_.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 ======================================================================
 

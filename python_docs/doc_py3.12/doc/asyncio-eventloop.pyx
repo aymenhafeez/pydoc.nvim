@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-eventloop.pyx*                       Last change: 2024 May 24
+Python 3.12.12
+*asyncio-eventloop.pyx*                       Last change: 2025 Dec 20
 
 Event Loop
 **********
@@ -33,7 +33,7 @@ asyncio.get_running_loop()
 
    This function can only be called from a coroutine or a callback.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 asyncio.get_event_loop()
 
@@ -184,7 +184,7 @@ loop.close()
    This method is idempotent and irreversible.  No other methods
    should be called after the event loop is closed.
 
-coroutine loop.shutdown_asyncgens()
+async loop.shutdown_asyncgens()
 
    Schedule all currently open _asynchronous generator_ objects to
    close with an "aclose()" call.  After calling this method, the
@@ -203,9 +203,9 @@ coroutine loop.shutdown_asyncgens()
           loop.run_until_complete(loop.shutdown_asyncgens())
           loop.close()
 <
-   New in version 3.6.
+   Added in version 3.6.
 
-coroutine loop.shutdown_default_executor(timeout=None)
+async loop.shutdown_default_executor(timeout=None)
 
    Schedule the closure of the default executor and wait for it to
    join all of the threads in the "ThreadPoolExecutor". Once this
@@ -226,7 +226,7 @@ coroutine loop.shutdown_default_executor(timeout=None)
      Do not call this method when using "asyncio.run()", as the latter
      handles default executor shutdown automatically.
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Changed in version 3.12: Added the _timeout_ parameter.
 
@@ -256,6 +256,10 @@ loop.call_soon_threadsafe(callback, *args, context=None)
    A thread-safe variant of "call_soon()". When scheduling callbacks
    from another thread, this function _must_ be used, since
    "call_soon()" is not thread-safe.
+
+   This function is safe to be called from a reentrant context or
+   signal handler, however, it is not safe or fruitful to use the
+   returned handle in such contexts.
 
    Raises "RuntimeError" if called on a loop that’s been closed. This
    can happen on a secondary thread when the main application is
@@ -360,7 +364,7 @@ loop.create_future()
    third-party event loops provide alternative implementations of the
    Future object (with better performance or instrumentation).
 
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
 loop.create_task(coro, *, name=None, context=None)
 
@@ -399,7 +403,7 @@ loop.get_task_factory()
 Opening network connections
 ---------------------------
 
-coroutine loop.create_connection(protocol_factory, host=None, port=None, *, ssl=None, family=0, proto=0, flags=0, sock=None, local_addr=None, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, happy_eyeballs_delay=None, interleave=None, all_errors=False)
+async loop.create_connection(protocol_factory, host=None, port=None, *, ssl=None, family=0, proto=0, flags=0, sock=None, local_addr=None, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, happy_eyeballs_delay=None, interleave=None, all_errors=False)
 
    Open a streaming transport connection to a given address specified
    by _host_ and _port_.
@@ -536,7 +540,7 @@ coroutine loop.create_connection(protocol_factory, host=None, port=None, *, ssl=
      It returns a pair of ("StreamReader", "StreamWriter") that can be
      used directly in async/await code.
 
-coroutine loop.create_datagram_endpoint(protocol_factory, local_addr=None, remote_addr=None, *, family=0, proto=0, flags=0, reuse_port=None, allow_broadcast=None, sock=None)
+async loop.create_datagram_endpoint(protocol_factory, local_addr=None, remote_addr=None, *, family=0, proto=0, flags=0, reuse_port=None, allow_broadcast=None, sock=None)
 
    Create a datagram connection.
 
@@ -611,7 +615,7 @@ coroutine loop.create_datagram_endpoint(protocol_factory, local_addr=None, remot
    Changed in version 3.11: The _reuse_address_ parameter, disabled
    since Python 3.8.1, 3.7.6 and 3.6.10, has been entirely removed.
 
-coroutine loop.create_unix_connection(protocol_factory, path=None, *, ssl=None, sock=None, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
+async loop.create_unix_connection(protocol_factory, path=None, *, ssl=None, sock=None, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
 
    Create a Unix connection.
 
@@ -639,7 +643,7 @@ coroutine loop.create_unix_connection(protocol_factory, path=None, *, ssl=None, 
 Creating network servers
 ------------------------
 
-coroutine loop.create_server(protocol_factory, host=None, port=None, *, family=socket.AF_UNSPEC, flags=socket.AI_PASSIVE, sock=None, backlog=100, ssl=None, reuse_address=None, reuse_port=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, start_serving=True)
+async loop.create_server(protocol_factory, host=None, port=None, *, family=socket.AF_UNSPEC, flags=socket.AI_PASSIVE, sock=None, backlog=100, ssl=None, reuse_address=None, reuse_port=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, start_serving=True)
 
    Create a TCP server (socket type "SOCK_STREAM") listening on _port_
    of the _host_ address.
@@ -735,7 +739,7 @@ coroutine loop.create_server(protocol_factory, host=None, port=None, *, family=s
      that returns a pair of "StreamReader" and "StreamWriter" that can
      be used in an async/await code.
 
-coroutine loop.create_unix_server(protocol_factory, path=None, *, sock=None, backlog=100, ssl=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, start_serving=True)
+async loop.create_unix_server(protocol_factory, path=None, *, sock=None, backlog=100, ssl=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, start_serving=True)
 
    Similar to "loop.create_server()" but works with the "AF_UNIX"
    socket family.
@@ -756,7 +760,7 @@ coroutine loop.create_unix_server(protocol_factory, path=None, *, sock=None, bac
    Changed in version 3.11: Added the _ssl_shutdown_timeout_
    parameter.
 
-coroutine loop.connect_accepted_socket(protocol_factory, sock, *, ssl=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
+async loop.connect_accepted_socket(protocol_factory, sock, *, ssl=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
 
    Wrap an already accepted connection into a transport/protocol pair.
 
@@ -790,7 +794,7 @@ coroutine loop.connect_accepted_socket(protocol_factory, sock, *, ssl=None, ssl_
 
    Returns a "(transport, protocol)" pair.
 
-   New in version 3.5.3.
+   Added in version 3.5.3.
 
    Changed in version 3.7: Added the _ssl_handshake_timeout_
    parameter.
@@ -802,7 +806,7 @@ coroutine loop.connect_accepted_socket(protocol_factory, sock, *, ssl=None, ssl_
 Transferring files
 ------------------
 
-coroutine loop.sendfile(transport, file, offset=0, count=None, *, fallback=True)
+async loop.sendfile(transport, file, offset=0, count=None, *, fallback=True)
 
    Send a _file_ over a _transport_.  Return the total number of bytes
    sent.
@@ -824,13 +828,13 @@ coroutine loop.sendfile(transport, file, offset=0, count=None, *, fallback=True)
    Raise "SendfileNotAvailableError" if the system does not support
    the _sendfile_ syscall and _fallback_ is "False".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 
 TLS Upgrade
 -----------
 
-coroutine loop.start_tls(transport, protocol, sslcontext, *, server_side=False, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
+async loop.start_tls(transport, protocol, sslcontext, *, server_side=False, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
 
    Upgrade an existing transport-based connection to TLS.
 
@@ -868,7 +872,7 @@ coroutine loop.start_tls(transport, protocol, sslcontext, *, server_side=False, 
      shutdown to complete before aborting the connection. "30.0"
      seconds if "None" (default).
 
-   New in version 3.7.
+   Added in version 3.7.
 
    Changed in version 3.11: Added the _ssl_shutdown_timeout_
    parameter.
@@ -883,6 +887,9 @@ loop.add_reader(fd, callback, *args)
    invoke _callback_ with the specified arguments once _fd_ is
    available for reading.
 
+   Any preexisting callback registered for _fd_ is cancelled and
+   replaced by _callback_.
+
 loop.remove_reader(fd)
 
    Stop monitoring the _fd_ file descriptor for read availability.
@@ -893,6 +900,9 @@ loop.add_writer(fd, callback, *args)
    Start monitoring the _fd_ file descriptor for write availability
    and invoke _callback_ with the specified arguments once _fd_ is
    available for writing.
+
+   Any preexisting callback registered for _fd_ is cancelled and
+   replaced by _callback_.
 
    Use "functools.partial()" to pass keyword arguments to _callback_.
 
@@ -914,7 +924,7 @@ faster than implementations that work with sockets directly. However,
 there are some use cases when performance is not critical, and working
 with "socket" objects directly is more convenient.
 
-coroutine loop.sock_recv(sock, nbytes)
+async loop.sock_recv(sock, nbytes)
 
    Receive up to _nbytes_ from _sock_.  Asynchronous version of
    "socket.recv()".
@@ -928,7 +938,7 @@ coroutine loop.sock_recv(sock, nbytes)
    returned a "Future". Since Python 3.7 this is an "async def"
    method.
 
-coroutine loop.sock_recv_into(sock, buf)
+async loop.sock_recv_into(sock, buf)
 
    Receive data from _sock_ into the _buf_ buffer.  Modeled after the
    blocking "socket.recv_into()" method.
@@ -937,9 +947,9 @@ coroutine loop.sock_recv_into(sock, buf)
 
    _sock_ must be a non-blocking socket.
 
-   New in version 3.7.
+   Added in version 3.7.
 
-coroutine loop.sock_recvfrom(sock, bufsize)
+async loop.sock_recvfrom(sock, bufsize)
 
    Receive a datagram of up to _bufsize_ from _sock_.  Asynchronous
    version of "socket.recvfrom()".
@@ -948,9 +958,9 @@ coroutine loop.sock_recvfrom(sock, bufsize)
 
    _sock_ must be a non-blocking socket.
 
-   New in version 3.11.
+   Added in version 3.11.
 
-coroutine loop.sock_recvfrom_into(sock, buf, nbytes=0)
+async loop.sock_recvfrom_into(sock, buf, nbytes=0)
 
    Receive a datagram of up to _nbytes_ from _sock_ into _buf_.
    Asynchronous version of "socket.recvfrom_into()".
@@ -959,9 +969,9 @@ coroutine loop.sock_recvfrom_into(sock, buf, nbytes=0)
 
    _sock_ must be a non-blocking socket.
 
-   New in version 3.11.
+   Added in version 3.11.
 
-coroutine loop.sock_sendall(sock, data)
+async loop.sock_sendall(sock, data)
 
    Send _data_ to the _sock_ socket. Asynchronous version of
    "socket.sendall()".
@@ -978,7 +988,7 @@ coroutine loop.sock_sendall(sock, data)
    documented as a coroutine method, before Python 3.7 it returned a
    "Future". Since Python 3.7, this is an "async def" method.
 
-coroutine loop.sock_sendto(sock, data, address)
+async loop.sock_sendto(sock, data, address)
 
    Send a datagram from _sock_ to _address_. Asynchronous version of
    "socket.sendto()".
@@ -987,9 +997,9 @@ coroutine loop.sock_sendto(sock, data, address)
 
    _sock_ must be a non-blocking socket.
 
-   New in version 3.11.
+   Added in version 3.11.
 
-coroutine loop.sock_connect(sock, address)
+async loop.sock_connect(sock, address)
 
    Connect _sock_ to a remote socket at _address_.
 
@@ -1006,7 +1016,7 @@ coroutine loop.sock_connect(sock, address)
 
      "loop.create_connection()" and  "asyncio.open_connection()".
 
-coroutine loop.sock_accept(sock)
+async loop.sock_accept(sock)
 
    Accept a connection.  Modeled after the blocking "socket.accept()"
    method.
@@ -1025,7 +1035,7 @@ coroutine loop.sock_accept(sock)
 
    See also: "loop.create_server()" and "start_server()".
 
-coroutine loop.sock_sendfile(sock, file, offset=0, count=None, *, fallback=True)
+async loop.sock_sendfile(sock, file, offset=0, count=None, *, fallback=True)
 
    Send a file using high-performance "os.sendfile" if possible.
    Return the total number of bytes sent.
@@ -1051,19 +1061,29 @@ coroutine loop.sock_sendfile(sock, file, offset=0, count=None, *, fallback=True)
 
    _sock_ must be a non-blocking socket.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 
 DNS
 ---
 
-coroutine loop.getaddrinfo(host, port, *, family=0, type=0, proto=0, flags=0)
+async loop.getaddrinfo(host, port, *, family=0, type=0, proto=0, flags=0)
 
    Asynchronous version of "socket.getaddrinfo()".
 
-coroutine loop.getnameinfo(sockaddr, flags=0)
+async loop.getnameinfo(sockaddr, flags=0)
 
    Asynchronous version of "socket.getnameinfo()".
+
+Note:
+
+  Both _getaddrinfo_ and _getnameinfo_ internally utilize their
+  synchronous versions through the loop’s default thread pool
+  executor. When this executor is saturated, these methods may
+  experience delays, which higher-level networking libraries may
+  report as increased timeouts. To mitigate this, consider using a
+  custom executor for other user tasks, or setting a default executor
+  with a larger number of workers.
 
 Changed in version 3.7: Both _getaddrinfo_ and _getnameinfo_ methods
 were always documented to return a coroutine, but prior to Python 3.7
@@ -1074,7 +1094,7 @@ Python 3.7 both methods are coroutines.
 Working with pipes
 ------------------
 
-coroutine loop.connect_read_pipe(protocol_factory, pipe)
+async loop.connect_read_pipe(protocol_factory, pipe)
 
    Register the read end of _pipe_ in the event loop.
 
@@ -1090,7 +1110,7 @@ coroutine loop.connect_read_pipe(protocol_factory, pipe)
    With "SelectorEventLoop" event loop, the _pipe_ is set to non-
    blocking mode.
 
-coroutine loop.connect_write_pipe(protocol_factory, pipe)
+async loop.connect_write_pipe(protocol_factory, pipe)
 
    Register the write end of _pipe_ in the event loop.
 
@@ -1156,7 +1176,10 @@ awaitable loop.run_in_executor(executor, func, *args)
    Arrange for _func_ to be called in the specified executor.
 
    The _executor_ argument should be an "concurrent.futures.Executor"
-   instance. The default executor is used if _executor_ is "None".
+   instance. The default executor is used if _executor_ is "None". The
+   default executor can be set by "loop.set_default_executor()",
+   otherwise, a "concurrent.futures.ThreadPoolExecutor" will be lazy-
+   initialized and used by "run_in_executor()" if needed.
 
    Example:
 >
@@ -1250,7 +1273,7 @@ loop.get_exception_handler()
    Return the current exception handler, or "None" if no custom
    exception handler was set.
 
-   New in version 3.5.2.
+   Added in version 3.5.2.
 
 loop.default_exception_handler(context)
 
@@ -1339,7 +1362,7 @@ Note:
   subprocesses, whereas "SelectorEventLoop" does not. See Subprocess
   Support on Windows for details.
 
-coroutine loop.subprocess_exec(protocol_factory, *args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs)
+async loop.subprocess_exec(protocol_factory, *args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs)
 
    Create a subprocess from one or more string arguments specified by
    _args_.
@@ -1431,7 +1454,7 @@ coroutine loop.subprocess_exec(protocol_factory, *args, stdin=subprocess.PIPE, s
    conforms to the "asyncio.SubprocessTransport" base class and
    _protocol_ is an object instantiated by the _protocol_factory_.
 
-coroutine loop.subprocess_shell(protocol_factory, cmd, *, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs)
+async loop.subprocess_shell(protocol_factory, cmd, *, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs)
 
    Create a subprocess from _cmd_, which can be a "str" or a "bytes"
    string encoded to the filesystem encoding, using the platform’s
@@ -1472,7 +1495,7 @@ class asyncio.Handle
       Return the "contextvars.Context" object associated with the
       handle.
 
-      New in version 3.12.
+      Added in version 3.12.
 
    cancel()
 
@@ -1483,7 +1506,7 @@ class asyncio.Handle
 
       Return "True" if the callback was cancelled.
 
-      New in version 3.7.
+      Added in version 3.7.
 
 class asyncio.TimerHandle
 
@@ -1499,7 +1522,7 @@ class asyncio.TimerHandle
       The time is an absolute timestamp, using the same time reference
       as "loop.time()".
 
-      New in version 3.7.
+      Added in version 3.7.
 
 
 Server Objects
@@ -1547,9 +1570,9 @@ class asyncio.Server
 
       Return the event loop associated with the server object.
 
-      New in version 3.7.
+      Added in version 3.7.
 
-   coroutine start_serving()
+   async start_serving()
 
       Start accepting connections.
 
@@ -1563,9 +1586,9 @@ class asyncio.Server
       "Server.serve_forever()" can be used to make the Server start
       accepting connections.
 
-      New in version 3.7.
+      Added in version 3.7.
 
-   coroutine serve_forever()
+   async serve_forever()
 
       Start accepting connections until the coroutine is cancelled.
       Cancellation of "serve_forever" task causes the server to be
@@ -1589,15 +1612,15 @@ class asyncio.Server
 
          asyncio.run(main('127.0.0.1', 0))
 <
-      New in version 3.7.
+      Added in version 3.7.
 
    is_serving()
 
       Return "True" if the server is accepting new connections.
 
-      New in version 3.7.
+      Added in version 3.7.
 
-   coroutine wait_closed()
+   async wait_closed()
 
       Wait until the "close()" method completes and all active
       connections have finished.

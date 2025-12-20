@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-urllib2.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*howto-urllib2.pyx*                           Last change: 2025 Dec 20
 
 HOWTO Fetch Internet Resources Using The urllib Package
 *******************************************************
@@ -155,7 +155,7 @@ This is done as follows:
    >>> data['location'] = 'Northampton'
    >>> data['language'] = 'Python'
    >>> url_values = urllib.parse.urlencode(data)
-   >>> print(url_values)  # The order may differ from below.  
+   >>> print(url_values)  # The order may differ from below.
    name=Somebody+Here&language=Python&location=Northampton
    >>> url = 'http://www.example.com/example.cgi'
    >>> full_url = url + '?' + url_values
@@ -228,7 +228,7 @@ e.g.
    >>> req = urllib.request.Request('http://www.pretend_server.org')
    >>> try: urllib.request.urlopen(req)
    ... except urllib.error.URLError as e:
-   ...     print(e.reason)      
+   ...     print(e.reason)
    ...
    (4, 'getaddrinfo failed')
 <
@@ -343,7 +343,7 @@ the "urllib.response" module:
    ...     urllib.request.urlopen(req)
    ... except urllib.error.HTTPError as e:
    ...     print(e.code)
-   ...     print(e.read())  
+   ...     print(e.read())
    ...
    404
    b'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"

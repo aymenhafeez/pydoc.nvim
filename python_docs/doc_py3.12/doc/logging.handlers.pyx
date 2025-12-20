@@ -1,5 +1,5 @@
-Python 3.12.3
-*logging.handlers.pyx*                        Last change: 2024 May 24
+Python 3.12.12
+*logging.handlers.pyx*                        Last change: 2025 Dec 20
 
 "logging.handlers" — Logging handlers
 *************************************
@@ -65,10 +65,10 @@ class logging.StreamHandler(stream=None)
          **stream** – The stream that the handler should use.
 
       Returns:
-         the old stream, if the stream was changed, or _None_ if it
+         the old stream, if the stream was changed, or "None" if it
          wasn’t.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    terminator
 
@@ -80,7 +80,7 @@ class logging.StreamHandler(stream=None)
 
       In earlier versions, the terminator was hardcoded as "'\n'".
 
-      New in version 3.2.
+      Added in version 3.2.
 
 
 FileHandler
@@ -121,7 +121,7 @@ class logging.FileHandler(filename, mode='a', encoding=None, delay=False, errors
 NullHandler
 ===========
 
-New in version 3.1.
+Added in version 3.1.
 
 The "NullHandler" class, located in the core "logging" package, does
 not do any formatting or output. It is essentially a ‘no-op’ handler
@@ -189,7 +189,7 @@ class logging.handlers.WatchedFileHandler(filename, mode='a', encoding=None, del
       stream is flushed and closed and the file opened again,
       typically as a precursor to outputting the record to the file.
 
-      New in version 3.6.
+      Added in version 3.6.
 
    emit(record)
 
@@ -239,7 +239,7 @@ class logging.handlers.BaseRotatingHandler(filename, mode, encoding=None, delay=
         "getFilesToDelete()" method to fit in with the custom naming
         scheme.)
 
-      New in version 3.3.
+      Added in version 3.3.
 
    rotator
 
@@ -247,7 +247,7 @@ class logging.handlers.BaseRotatingHandler(filename, mode, encoding=None, delay=
       delegates to this callable.  The parameters passed to the
       callable are those passed to "rotate()".
 
-      New in version 3.3.
+      Added in version 3.3.
 
    rotation_filename(default_name)
 
@@ -263,7 +263,7 @@ class logging.handlers.BaseRotatingHandler(filename, mode, encoding=None, delay=
       Parameters:
          **default_name** – The default name for the log file.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    rotate(source, dest)
 
@@ -281,7 +281,7 @@ class logging.handlers.BaseRotatingHandler(filename, mode, encoding=None, delay=
          * **dest** – The destination filename. This is normally what
            the source is rotated to, e.g. ‘test.log.1’.
 
-      New in version 3.3.
+      Added in version 3.3.
 
 The reason the attributes exist is to save you having to subclass -
 you can use the same callables for instances of "RotatingFileHandler"
@@ -650,7 +650,7 @@ class logging.handlers.SysLogHandler(address=('localhost', SYSLOG_UDP_PORT), fac
       called again when emitting an event, if there is no socket at
       that point.
 
-      New in version 3.11.
+      Added in version 3.11.
 
    emit(record)
 
@@ -993,7 +993,7 @@ class logging.handlers.HTTPHandler(host, url, method='GET', secure=False, creden
 QueueHandler
 ============
 
-New in version 3.2.
+Added in version 3.2.
 
 The "QueueHandler" class, located in the "logging.handlers" module,
 supports sending logging messages to a queue, such as those
@@ -1075,13 +1075,13 @@ class logging.handlers.QueueHandler(queue)
       attribute will contain a "QueueListener" instance for use with
       this handler. Otherwise, it will be "None".
 
-      New in version 3.12.
+      Added in version 3.12.
 
 
 QueueListener
 =============
 
-New in version 3.2.
+Added in version 3.2.
 
 The "QueueListener" class, located in the "logging.handlers" module,
 supports receiving logging messages from a queue, such as those
@@ -1171,7 +1171,7 @@ class logging.handlers.QueueListener(queue, *handlers, respect_handler_level=Fal
       override this method if you want to use timeouts or work with
       custom queue implementations.
 
-      New in version 3.3.
+      Added in version 3.3.
 
 See also:
 

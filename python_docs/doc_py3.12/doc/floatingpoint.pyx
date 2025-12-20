@@ -1,7 +1,7 @@
-Python 3.12.3
-*floatingpoint.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*floatingpoint.pyx*                           Last change: 2025 Dec 20
 
-15. Floating Point Arithmetic:  Issues and Limitations
+15. Floating-Point Arithmetic:  Issues and Limitations
 ******************************************************
 
 Floating-point numbers are represented in computer hardware as base 2
@@ -79,7 +79,7 @@ choose the one with 17 significant digits, "0.10000000000000001".
 Starting with Python 3.1, Python (on most systems) is now able to
 choose the shortest of these and simply display "0.1".
 
-Note that this is in the very nature of binary floating-point: this is
+Note that this is in the very nature of binary floating point: this is
 not a bug in Python, and it is not a bug in your code either.  You’ll
 see the same kind of thing in all languages that support your
 hardware’s floating-point arithmetic (although some languages may not
@@ -129,13 +129,13 @@ approximations:
 Binary floating-point arithmetic holds many surprises like this.  The
 problem with “0.1” is explained in precise detail below, in the
 “Representation Error” section.  See Examples of Floating Point
-Problems for a pleasant summary of how binary floating-point works and
+Problems for a pleasant summary of how binary floating point works and
 the kinds of problems commonly encountered in practice.  Also see The
 Perils of Floating Point for a more complete account of other common
 surprises.
 
 As that says near the end, “there are no easy answers.”  Still, don’t
-be unduly wary of floating-point!  The errors in Python float
+be unduly wary of floating point!  The errors in Python float
 operations are inherited from the floating-point hardware, and on most
 machines are on the order of no more than 1 part in 2**53 per
 operation.  That’s more than adequate for most tasks, but you do need

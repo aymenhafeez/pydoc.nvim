@@ -1,5 +1,5 @@
-Python 3.12.3
-*crypt.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*crypt.pyx*                                   Last change: 2025 Dec 20
 
 "crypt" — Function to check Unix passwords
 ******************************************
@@ -37,7 +37,7 @@ more information.
 Hashing Methods
 ===============
 
-New in version 3.3.
+Added in version 3.3.
 
 The "crypt" module defines the list of hashing methods (not all
 methods are available on all platforms):
@@ -58,7 +58,7 @@ crypt.METHOD_BLOWFISH
    Another Modular Crypt Format method with 22 character salt and 31
    character hash based on the Blowfish cipher.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 crypt.METHOD_MD5
 
@@ -74,7 +74,7 @@ crypt.METHOD_CRYPT
 Module Attributes
 =================
 
-New in version 3.3.
+Added in version 3.3.
 
 crypt.methods
 
@@ -134,7 +134,7 @@ crypt.mksalt(method=None, *, rounds=None)
    must be a power of two between "16" (2^4) and "2_147_483_648"
    (2^31), the default is "4096" (2^12).
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.7: Added the _rounds_ parameter.
 

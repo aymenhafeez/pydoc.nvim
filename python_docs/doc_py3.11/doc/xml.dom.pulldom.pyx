@@ -1,5 +1,5 @@
-Python 3.11.9
-*xml.dom.pulldom.pyx*                         Last change: 2024 May 24
+Python 3.11.14
+*xml.dom.pulldom.pyx*                         Last change: 2025 Dec 20
 
 "xml.dom.pulldom" — Support for building partial DOM trees
 **********************************************************

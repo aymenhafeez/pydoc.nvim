@@ -1,5 +1,5 @@
-Python 3.12.3
-*winreg.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*winreg.pyx*                                  Last change: 2025 Dec 20
 
 "winreg" — Windows registry access
 **********************************
@@ -108,7 +108,7 @@ winreg.CreateKeyEx(key, sub_key, reserved=0, access=KEY_WRITE)
    Raises an auditing event "winreg.OpenKey/result" with argument
    "key".
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.3: See above.
 
@@ -164,7 +164,7 @@ winreg.DeleteKeyEx(key, sub_key, access=KEY_WOW64_64KEY, reserved=0)
    Raises an auditing event "winreg.DeleteKey" with arguments "key",
    "sub_key", "access".
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.3: See above.
 
@@ -691,13 +691,13 @@ winreg.REG_QWORD
 
    A 64-bit number.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 winreg.REG_QWORD_LITTLE_ENDIAN
 
    A 64-bit number in little-endian format. Equivalent to "REG_QWORD".
 
-   New in version 3.6.
+   Added in version 3.6.
 
 winreg.REG_RESOURCE_LIST
 

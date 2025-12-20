@@ -1,5 +1,5 @@
-Python 3.12.3
-*io.pyx*                                      Last change: 2024 May 24
+Python 3.12.12
+*io.pyx*                                      Last change: 2025 Dec 20
 
 "io" — Core tools for working with streams
 ******************************************
@@ -128,7 +128,7 @@ See also:
 Opt-in EncodingWarning
 ----------------------
 
-New in version 3.10: See **PEP 597** for more details.
+Added in version 3.10: See **PEP 597** for more details.
 
 To find where the default locale encoding is used, you can enable the
 "-X warn_default_encoding" command line option or set the
@@ -172,7 +172,7 @@ io.open_code(path)
    behave the same as "open(path, 'rb')". Overriding the behavior is
    intended for additional validation or preprocessing of the file.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 io.text_encoding(encoding, stacklevel=2, /)
 
@@ -196,7 +196,7 @@ io.text_encoding(encoding, stacklevel=2, /)
 
    See Text Encoding for more information.
 
-   New in version 3.10.
+   Added in version 3.10.
 
    Changed in version 3.11: "text_encoding()" returns “utf-8” when
    UTF-8 mode is enabled and _encoding_ is "None".
@@ -393,9 +393,9 @@ class io.IOBase
       * "os.SEEK_END" or "2" – end of the stream; _offset_ is usually
         negative
 
-      New in version 3.1: The "SEEK_*" constants.
+      Added in version 3.1: The "SEEK_*" constants.
 
-      New in version 3.3: Some operating systems could support
+      Added in version 3.3: Some operating systems could support
       additional values, like "os.SEEK_HOLE" or "os.SEEK_DATA". The
       valid values for a file could depend on it being open in text or
       binary mode.
@@ -534,7 +534,7 @@ class io.BufferedIOBase
       single raw stream to return from this method.  They raise
       "UnsupportedOperation".
 
-      New in version 3.1.
+      Added in version 3.1.
 
    read(size=-1, /)
 
@@ -584,7 +584,7 @@ class io.BufferedIOBase
       A "BlockingIOError" is raised if the underlying raw stream is in
       non blocking-mode, and has no data available at the moment.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    write(b, /)
 
@@ -699,7 +699,7 @@ class io.BytesIO(initial_bytes=b'')
         As long as the view exists, the "BytesIO" object cannot be
         resized or closed.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    getvalue()
 
@@ -715,7 +715,7 @@ class io.BytesIO(initial_bytes=b'')
 
       In "BytesIO", this is the same as "readinto()".
 
-      New in version 3.5.
+      Added in version 3.5.
 
 class io.BufferedReader(raw, buffer_size=DEFAULT_BUFFER_SIZE)
 
@@ -871,7 +871,7 @@ class io.TextIOBase
       the concept of an underlying buffer and calling this method will
       raise "UnsupportedOperation".
 
-      New in version 3.1.
+      Added in version 3.1.
 
    read(size=-1, /)
 
@@ -905,7 +905,7 @@ class io.TextIOBase
 
       Return the new absolute position as an opaque number.
 
-      New in version 3.1: The "SEEK_*" constants.
+      Added in version 3.1: The "SEEK_*" constants.
 
    tell()
 
@@ -994,7 +994,7 @@ class io.TextIOWrapper(buffer, encoding=None, errors=None, newline=None, line_bu
       Whether writes are passed immediately to the underlying binary
       buffer.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    reconfigure(*, encoding=None, errors=None, newline=None, line_buffering=None, write_through=None)
 
@@ -1012,7 +1012,7 @@ class io.TextIOWrapper(buffer, encoding=None, errors=None, newline=None, line_bu
       This method does an implicit stream flush before setting the new
       parameters.
 
-      New in version 3.7.
+      Added in version 3.7.
 
       Changed in version 3.11: The method supports "encoding="locale""
       option.

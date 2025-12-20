@@ -1,7 +1,7 @@
-Python 3.12.3
-*decimal.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*decimal.pyx*                                 Last change: 2025 Dec 20
 
-"decimal" — Decimal fixed point and floating point arithmetic
+"decimal" — Decimal fixed-point and floating-point arithmetic
 *************************************************************
 
 **Source code:** Lib/decimal.py
@@ -9,7 +9,7 @@ Python 3.12.3
 ======================================================================
 
 The "decimal" module provides support for fast correctly rounded
-decimal floating point arithmetic. It offers several advantages over
+decimal floating-point arithmetic. It offers several advantages over
 the "float" datatype:
 
 * Decimal “is based on a floating-point model which was designed with
@@ -153,7 +153,7 @@ exception:
    >>> Decimal('3.5') == 3.5
    True
 <
-New in version 3.3.
+Added in version 3.3.
 
 The significance of a new Decimal is determined solely by the number
 of digits input.  Context precision and rounding only come into play
@@ -181,7 +181,7 @@ decimal raises "InvalidOperation":
 Changed in version 3.3.
 
 Decimals interact well with much of the rest of Python.  Here is a
-small decimal floating point flying circus:
+small decimal floating-point flying circus:
 >
    >>> data = list(map(Decimal, '1.34 1.87 3.45 2.35 1.00 0.03 9.25'.split()))
    >>> max(data)
@@ -336,7 +336,7 @@ class decimal.Decimal(value='0', context=None)
    integer exponent. For example, "Decimal((0, (1, 4, 1, 4), -3))"
    returns "Decimal('1.414')".
 
-   If _value_ is a "float", the binary floating point value is
+   If _value_ is a "float", the binary floating-point value is
    losslessly converted to its exact decimal equivalent.  This
    conversion can often require 53 or more digits of precision.  For
    example, "Decimal(float('1.1'))" converts to
@@ -363,7 +363,7 @@ class decimal.Decimal(value='0', context=None)
    Changed in version 3.6: Underscores are allowed for grouping, as
    with integral and floating-point literals in code.
 
-   Decimal floating point objects share many properties with the other
+   Decimal floating-point objects share many properties with the other
    built-in numeric types such as "float" and "int".  All of the usual
    math operations and special methods apply.  Likewise, decimal
    objects can be copied, pickled, printed, used as dictionary keys,
@@ -405,7 +405,7 @@ class decimal.Decimal(value='0', context=None)
    Changed in version 3.2: Mixed-type comparisons between "Decimal"
    instances and other numeric types are now fully supported.
 
-   In addition to the standard numeric properties, decimal floating
+   In addition to the standard numeric properties, decimal floating-
    point objects also have a number of specialized methods:
 
    adjusted()
@@ -428,7 +428,7 @@ class decimal.Decimal(value='0', context=None)
       The conversion is exact.  Raise OverflowError on infinities and
       ValueError on NaNs.
 
-   New in version 3.6.
+   Added in version 3.6.
 
    as_tuple()
 
@@ -562,7 +562,7 @@ class decimal.Decimal(value='0', context=None)
          >>> Decimal.from_float(float('-inf'))
          Decimal('-Infinity')
 <
-      New in version 3.1.
+      Added in version 3.1.
 
    fma(other, third, context=None)
 
@@ -891,6 +891,53 @@ class decimal.Decimal(value='0', context=None)
       rounding method in either the supplied _context_ or the current
       context.
 
+   Decimal numbers can be rounded using the "round()" function:
+
+   round(number)
+
+   round(number, ndigits)
+
+      If _ndigits_ is not given or "None", returns the nearest "int"
+      to _number_, rounding ties to even, and ignoring the rounding
+      mode of the "Decimal" context.  Raises "OverflowError" if
+      _number_ is an infinity or "ValueError" if it is a (quiet or
+      signaling) NaN.
+
+      If _ndigits_ is an "int", the context’s rounding mode is
+      respected and a "Decimal" representing _number_ rounded to the
+      nearest multiple of "Decimal('1E-ndigits')" is returned; in this
+      case, "round(number, ndigits)" is equivalent to
+      "self.quantize(Decimal('1E-ndigits'))".  Returns
+      "Decimal('NaN')" if _number_ is a quiet NaN.  Raises
+      "InvalidOperation" if _number_ is an infinity, a signaling NaN,
+      or if the length of the coefficient after the quantize operation
+      would be greater than the current context’s precision.  In other
+      words, for the non-corner cases:
+
+      * if _ndigits_ is positive, return _number_ rounded to _ndigits_
+        decimal places;
+
+      * if _ndigits_ is zero, return _number_ rounded to the nearest
+        integer;
+
+      * if _ndigits_ is negative, return _number_ rounded to the
+        nearest multiple of "10**abs(ndigits)".
+
+      For example:
+>
+         >>> from decimal import Decimal, getcontext, ROUND_DOWN
+         >>> getcontext().rounding = ROUND_DOWN
+         >>> round(Decimal('3.75'))     # context rounding ignored
+         4
+         >>> round(Decimal('3.5'))      # round-ties-to-even
+         4
+         >>> round(Decimal('3.75'), 0)  # uses the context rounding
+         Decimal('3')
+         >>> round(Decimal('3.75'), 1)
+         Decimal('3.7')
+         >>> round(Decimal('3.75'), -1)
+         Decimal('0E+1')
+<
 
 Logical operands
 ----------------
@@ -960,7 +1007,7 @@ New contexts can also be created using the "Context" constructor
 described below. In addition, the module provides three pre-made
 contexts:
 
-class decimal.BasicContext
+decimal.BasicContext
 
    This is a standard context defined by the General Decimal
    Arithmetic Specification.  Precision is set to nine.  Rounding is
@@ -971,7 +1018,7 @@ class decimal.BasicContext
    Because many of the traps are enabled, this context is useful for
    debugging.
 
-class decimal.ExtendedContext
+decimal.ExtendedContext
 
    This is a standard context defined by the General Decimal
    Arithmetic Specification.  Precision is set to nine.  Rounding is
@@ -984,7 +1031,7 @@ class decimal.ExtendedContext
    application to complete a run in the presence of conditions that
    would otherwise halt the program.
 
-class decimal.DefaultContext
+decimal.DefaultContext
 
    This context is used by the "Context" constructor as a prototype
    for new contexts.  Changing a field (such a precision) has the
@@ -1067,7 +1114,7 @@ class decimal.Context(prec=None, rounding=None, Emin=None, Emax=None, capitals=N
 
       Resets all of the traps to "0".
 
-      New in version 3.3.
+      Added in version 3.3.
 
    copy()
 
@@ -1117,7 +1164,7 @@ class decimal.Context(prec=None, rounding=None, Emin=None, Emax=None, capitals=N
              ...
          decimal.Inexact: None
 <
-      New in version 3.1.
+      Added in version 3.1.
 
    Etiny()
 
@@ -1456,7 +1503,7 @@ decimal.HAVE_CONTEXTVAR
    local rather than a coroutine-local context and the value is
    "False".  This is slightly faster in some nested context scenarios.
 
-New in version 3.8.3.
+   Added in version 3.8.3.
 
 
 Rounding modes
@@ -1623,7 +1670,7 @@ The following table summarizes the hierarchy of signals:
            FloatOperation(DecimalException, exceptions.TypeError)
 <
 
-Floating Point Notes
+Floating-Point Notes
 ====================
 
 
@@ -1638,7 +1685,7 @@ the fixed precision.
 The effects of round-off error can be amplified by the addition or
 subtraction of nearly offsetting quantities resulting in loss of
 significance.  Knuth provides two instructive examples where rounded
-floating point arithmetic with insufficient precision causes the
+floating-point arithmetic with insufficient precision causes the
 breakdown of the associative and distributive properties of addition:
 >
    # Examples from Seminumerical Algorithms, Section 4.2.2.
@@ -1728,7 +1775,7 @@ informational.
 In addition to the two signed zeros which are distinct yet equal,
 there are various representations of zero with differing precisions
 yet equivalent in value.  This takes a bit of getting used to.  For an
-eye accustomed to normalized floating point representations, it is not
+eye accustomed to normalized floating-point representations, it is not
 immediately obvious that the following calculation returns a value
 equal to zero:
 
@@ -2047,7 +2094,7 @@ Decimal('5000')
 
 Q. Is there a way to convert a regular float to a "Decimal"?
 
-A. Yes, any binary floating point number can be exactly expressed as a
+A. Yes, any binary floating-point number can be exactly expressed as a
 Decimal though an exact conversion may take more precision than
 intuition would suggest:
 >
@@ -2097,7 +2144,7 @@ Q. Is the CPython implementation fast for large numbers?
 
 A. Yes.  In the CPython and PyPy3 implementations, the C/CFFI versions
 of the decimal module integrate the high speed libmpdec library for
-arbitrary precision correctly rounded decimal floating point
+arbitrary precision correctly rounded decimal floating-point
 arithmetic [1]. "libmpdec" uses Karatsuba multiplication for medium-
 sized numbers and the Number Theoretic Transform for very large
 numbers.
@@ -2151,7 +2198,7 @@ In general (and especially on systems without overallocation), it is
 recommended to estimate even tighter bounds and set the "Inexact" trap
 if all calculations are expected to be exact.
 
-[1] New in version 3.3.
+[1] Added in version 3.3.
 
 [2] Changed in version 3.9: This approach now works for all exact
     results except for non-integer powers.

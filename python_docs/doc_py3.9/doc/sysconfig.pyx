@@ -1,5 +1,5 @@
-Python 3.9.19
-*sysconfig.pyx*                               Last change: 2024 May 24
+Python 3.9.25
+*sysconfig.pyx*                               Last change: 2025 Dec 20
 
 "sysconfig" — Provide access to Python’s configuration information
 ******************************************************************

@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-logging.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*howto-logging.pyx*                           Last change: 2025 Dec 20
 
 Logging HOWTO
 *************
@@ -949,9 +949,9 @@ provided:
     logging. See Configuring Logging for a Library for more
     information.
 
-New in version 3.1: The "NullHandler" class.
+Added in version 3.1: The "NullHandler" class.
 
-New in version 3.2: The "QueueHandler" class.
+Added in version 3.2: The "QueueHandler" class.
 
 The "NullHandler", "StreamHandler" and "FileHandler" classes are
 defined in the core logging package. The other handlers are defined in

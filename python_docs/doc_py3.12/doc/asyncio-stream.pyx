@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-stream.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*asyncio-stream.pyx*                          Last change: 2025 Dec 20
 
 Streams
 *******
@@ -40,7 +40,7 @@ See also the Examples section below.
 The following top-level asyncio functions can be used to create and
 work with streams:
 
-coroutine asyncio.open_connection(host=None, port=None, *, limit=None, ssl=None, family=0, proto=0, flags=0, sock=None, local_addr=None, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, happy_eyeballs_delay=None, interleave=None)
+async asyncio.open_connection(host=None, port=None, *, limit=None, ssl=None, family=0, proto=0, flags=0, sock=None, local_addr=None, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, happy_eyeballs_delay=None, interleave=None)
 
    Establish a network connection and return a pair of "(reader,
    writer)" objects.
@@ -71,7 +71,7 @@ coroutine asyncio.open_connection(host=None, port=None, *, limit=None, ssl=None,
    Changed in version 3.11: Added the _ssl_shutdown_timeout_
    parameter.
 
-coroutine asyncio.start_server(client_connected_cb, host=None, port=None, *, limit=None, family=socket.AF_UNSPEC, flags=socket.AI_PASSIVE, sock=None, backlog=100, ssl=None, reuse_address=None, reuse_port=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, start_serving=True)
+async asyncio.start_server(client_connected_cb, host=None, port=None, *, limit=None, family=socket.AF_UNSPEC, flags=socket.AI_PASSIVE, sock=None, backlog=100, ssl=None, reuse_address=None, reuse_port=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, start_serving=True)
 
    Start a socket server.
 
@@ -106,7 +106,8 @@ coroutine asyncio.start_server(client_connected_cb, host=None, port=None, *, lim
 
 -[ Unix Sockets ]-
 
-coroutine asyncio.open_unix_connection(path=None, *, limit=None, ssl=None, sock=None, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
+asyncio.open_unix_connection(path=None, *, limit=None, ssl=None, sock=None, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
+:async:
 
       Establish a Unix socket connection and return a pair of
       "(reader, writer)".
@@ -131,7 +132,7 @@ coroutine asyncio.open_unix_connection(path=None, *, limit=None, ssl=None, sock=
    Changed in version 3.11: Added the _ssl_shutdown_timeout_
    parameter.
 
-coroutine asyncio.start_unix_server(client_connected_cb, path=None, *, limit=None, sock=None, backlog=100, ssl=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, start_serving=True)
+async asyncio.start_unix_server(client_connected_cb, path=None, *, limit=None, sock=None, backlog=100, ssl=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None, start_serving=True)
 
    Start a Unix socket server.
 
@@ -173,7 +174,7 @@ class asyncio.StreamReader
 
       Acknowledge the EOF.
 
-   coroutine read(n=-1)
+   async read(n=-1)
 
       Read up to _n_ bytes from the stream.
 
@@ -188,7 +189,7 @@ class asyncio.StreamReader
       is received before any byte is read, return an empty "bytes"
       object.
 
-   coroutine readline()
+   async readline()
 
       Read one line, where “line” is a sequence of bytes ending with
       "\n".
@@ -199,7 +200,7 @@ class asyncio.StreamReader
       If EOF is received and the internal buffer is empty, return an
       empty "bytes" object.
 
-   coroutine readexactly(n)
+   async readexactly(n)
 
       Read exactly _n_ bytes.
 
@@ -207,7 +208,7 @@ class asyncio.StreamReader
       be read.  Use the "IncompleteReadError.partial" attribute to get
       the partially read data.
 
-   coroutine readuntil(separator=b'\n')
+   async readuntil(separator=b'\n')
 
       Read data from the stream until _separator_ is found.
 
@@ -224,7 +225,7 @@ class asyncio.StreamReader
       buffer is reset.  The "IncompleteReadError.partial" attribute
       may contain a portion of the separator.
 
-      New in version 3.5.2.
+      Added in version 3.5.2.
 
    at_eof()
 
@@ -294,7 +295,7 @@ class asyncio.StreamWriter
       Access optional transport information; see
       "BaseTransport.get_extra_info()" for details.
 
-   coroutine drain()
+   async drain()
 
       Wait until it is appropriate to resume writing to the stream.
       Example:
@@ -309,7 +310,7 @@ class asyncio.StreamWriter
       When there is nothing to wait for, the "drain()" returns
       immediately.
 
-   coroutine start_tls(sslcontext, *, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
+   async start_tls(sslcontext, *, server_hostname=None, ssl_handshake_timeout=None, ssl_shutdown_timeout=None)
 
       Upgrade an existing stream-based connection to TLS.
 
@@ -328,7 +329,7 @@ class asyncio.StreamWriter
         SSL shutdown to complete before aborting the connection.
         "30.0" seconds if "None" (default).
 
-      New in version 3.11.
+      Added in version 3.11.
 
       Changed in version 3.12: Added the _ssl_shutdown_timeout_
       parameter.
@@ -338,9 +339,9 @@ class asyncio.StreamWriter
       Return "True" if the stream is closed or in the process of being
       closed.
 
-      New in version 3.7.
+      Added in version 3.7.
 
-   coroutine wait_closed()
+   async wait_closed()
 
       Wait until the stream is closed.
 
@@ -348,7 +349,7 @@ class asyncio.StreamWriter
       connection is closed, ensuring that all data has been flushed
       before e.g. exiting the program.
 
-      New in version 3.7.
+      Added in version 3.7.
 
 
 Examples

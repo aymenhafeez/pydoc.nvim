@@ -1,5 +1,5 @@
-Python 3.11.9
-*tkinter.tix.pyx*                             Last change: 2024 May 24
+Python 3.11.14
+*tkinter.tix.pyx*                             Last change: 2025 Dec 20
 
 "tkinter.tix" — Extension widgets for Tk
 ****************************************

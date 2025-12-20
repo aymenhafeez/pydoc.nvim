@@ -1,5 +1,5 @@
-Python 3.12.3
-*compileall.pyx*                              Last change: 2024 May 24
+Python 3.12.12
+*compileall.pyx*                              Last change: 2025 Dec 20
 
 "compileall" — Byte-compile Python libraries
 ********************************************
@@ -228,7 +228,7 @@ compileall.compile_dir(dir, maxlevels=sys.getrecursionlimit(), ddir=None, force=
    added.
 
    Changed in version 3.7.2: The _invalidation_mode_ parameter’s
-   default value is updated to None.
+   default value is updated to "None".
 
    Changed in version 3.8: Setting _workers_ to 0 now chooses the
    optimal number of cores.
@@ -281,7 +281,7 @@ compileall.compile_file(fullname, ddir=None, force=False, rx=None, quiet=0, lega
    optimization level have the same content, use hard links to
    consolidate duplicate files.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.5: _quiet_ parameter was changed to a
    multilevel value.
@@ -294,7 +294,7 @@ compileall.compile_file(fullname, ddir=None, force=False, rx=None, quiet=0, lega
    added.
 
    Changed in version 3.7.2: The _invalidation_mode_ parameter’s
-   default value is updated to None.
+   default value is updated to "None".
 
    Changed in version 3.9: Added _stripdir_, _prependdir_,
    _limit_sl_dest_ and _hardlink_dupes_ arguments.
@@ -324,7 +324,7 @@ compileall.compile_path(skip_curdir=True, maxlevels=0, force=False, quiet=0, leg
    added.
 
    Changed in version 3.7.2: The _invalidation_mode_ parameter’s
-   default value is updated to None.
+   default value is updated to "None".
 
 To force a recompile of all the ".py" files in the "Lib/" subdirectory
 and all its subdirectories:

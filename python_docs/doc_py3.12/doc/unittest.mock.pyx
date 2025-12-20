@@ -1,10 +1,10 @@
-Python 3.12.3
-*unittest.mock.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*unittest.mock.pyx*                           Last change: 2025 Dec 20
 
 "unittest.mock" — mock object library
 *************************************
 
-New in version 3.3.
+Added in version 3.3.
 
 **Source code:** Lib/unittest/mock.py
 
@@ -240,7 +240,7 @@ class unittest.mock.Mock(spec=None, side_effect=None, return_value=DEFAULT, wrap
      an "AttributeError". Passing "unsafe=True" will allow access to
      these attributes.
 
-     New in version 3.5.
+     Added in version 3.5.
 
    * _wraps_: Item for the mock object to wrap. If _wraps_ is not
      "None" then calling the Mock will pass the call through to the
@@ -270,7 +270,7 @@ class unittest.mock.Mock(spec=None, side_effect=None, return_value=DEFAULT, wrap
       <Mock name='mock.method()' id='...'>
       >>> mock.method.assert_called()
 
-      New in version 3.6.
+      Added in version 3.6.
 
    assert_called_once()
 
@@ -287,7 +287,7 @@ class unittest.mock.Mock(spec=None, side_effect=None, return_value=DEFAULT, wrap
       ...
       AssertionError: Expected 'method' to have been called once. Called 2 times.
 
-      New in version 3.6.
+      Added in version 3.6.
 
    assert_called_with(*args, **kwargs)
 
@@ -360,35 +360,53 @@ class unittest.mock.Mock(spec=None, side_effect=None, return_value=DEFAULT, wrap
         ...
       AssertionError: Expected 'hello' to not have been called. Called 1 times.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    reset_mock(*, return_value=False, side_effect=False)
 
       The reset_mock method resets all the call attributes on a mock
       object:
+>
+         >>> mock = Mock(return_value=None)
+         >>> mock('hello')
+         >>> mock.called
+         True
+         >>> mock.reset_mock()
+         >>> mock.called
+         False
+<
+      This can be useful where you want to make a series of assertions
+      that reuse the same object.
 
-      >>> mock = Mock(return_value=None)
-      >>> mock('hello')
-      >>> mock.called
-      True
-      >>> mock.reset_mock()
-      >>> mock.called
-      False
+      _return_value_ parameter when set to "True" resets
+      "return_value":
+>
+         >>> mock = Mock(return_value=5)
+         >>> mock('hello')
+         5
+         >>> mock.reset_mock(return_value=True)
+         >>> mock('hello')
+         <Mock name='mock()' id='...'>
+<
+      _side_effect_ parameter when set to "True" resets "side_effect":
+>
+         >>> mock = Mock(side_effect=ValueError)
+         >>> mock('hello')
+         Traceback (most recent call last):
+           ...
+         ValueError
+         >>> mock.reset_mock(side_effect=True)
+         >>> mock('hello')
+         <Mock name='mock()' id='...'>
+<
+      Note that "reset_mock()" _doesn’t_ clear the "return_value",
+      "side_effect" or any child attributes you have set using normal
+      assignment by default.
+
+      Child mocks are reset as well.
 
       Changed in version 3.6: Added two keyword-only arguments to the
       reset_mock function.
-
-      This can be useful where you want to make a series of assertions
-      that reuse the same object. Note that "reset_mock()" _doesn’t_
-      clear the return value, "side_effect" or any child attributes
-      you have set using normal assignment by default. In case you
-      want to reset _return_value_ or "side_effect", then pass the
-      corresponding parameter as "True". Child mocks and the return
-      value mock (if any) are reset as well.
-
-      Note:
-
-        _return_value_, and "side_effect" are keyword-only arguments.
 
    mock_add_spec(spec, spec_set=False)
 
@@ -818,6 +836,21 @@ the mock type object:
    3
    >>> p.assert_called_once_with()
 <
+Caution:
+
+  If an "AttributeError" is raised by "PropertyMock", it will be
+  interpreted as a missing descriptor and "__getattr__()" will be
+  called on the parent mock:
+
+>
+     >>> m = MagicMock()
+     >>> no_attribute = PropertyMock(side_effect=AttributeError)
+     >>> type(m).my_property = no_attribute
+     >>> m.my_property
+     <MagicMock name='mock.my_property' id='140165240345424'>
+<
+  See "__getattr__()" for details.
+
 class unittest.mock.AsyncMock(spec=None, side_effect=None, return_value=DEFAULT, wraps=None, name=None, spec_set=None, unsafe=False, **kwargs)
 
    An asynchronous version of "MagicMock". The "AsyncMock" object will
@@ -827,7 +860,7 @@ class unittest.mock.AsyncMock(spec=None, side_effect=None, return_value=DEFAULT,
    >>> mock = AsyncMock()
    >>> asyncio.iscoroutinefunction(mock)
    True
-   >>> inspect.isawaitable(mock())  
+   >>> inspect.isawaitable(mock())
    True
 
    The result of "mock()" is an async function which will have the
@@ -856,7 +889,7 @@ class unittest.mock.AsyncMock(spec=None, side_effect=None, return_value=DEFAULT,
    >>> mock = MagicMock(async_func)
    >>> mock
    <MagicMock spec='function' id='...'>
-   >>> mock()  
+   >>> mock()
    <coroutine object AsyncMockMixin._mock_call at ...>
 
    Setting the _spec_ of a "Mock", "MagicMock", or "AsyncMock" to a
@@ -883,7 +916,7 @@ class unittest.mock.AsyncMock(spec=None, side_effect=None, return_value=DEFAULT,
    >>> mock.async_foo
    <AsyncMock name='mock.async_foo' id='...'>
 
-   New in version 3.8.
+   Added in version 3.8.
 
    assert_awaited()
 
@@ -1117,7 +1150,7 @@ return value of the call dynamically, based on the input:
 
 If you want the mock to still return the default return value (a new
 mock), or any set return value, then there are two ways of doing this.
-Either return "mock.return_value" from inside "side_effect", or return
+Either return "return_value" from inside "side_effect", or return
 "DEFAULT":
 
 >>> m = MagicMock()
@@ -1897,7 +1930,7 @@ structure:
 <
 Now we want to test "some_function" but we want to mock out
 "SomeClass" using "patch()". The problem is that when we import module
-b, which we will have to do then it imports "SomeClass" from module a.
+b, which we will have to do when it imports "SomeClass" from module a.
 If we use "patch()" to mock out "a.SomeClass" then it will have no
 effect on our test; module b already has a reference to the _real_
 "SomeClass" and it looks like our patching had no effect.
@@ -2450,7 +2483,7 @@ level switch "FILTER_DIR":
 <
 Alternatively you can just use "vars(my_mock)" (instance members) and
 "dir(type(my_mock))" (type members) to bypass the filtering
-irrespective of "mock.FILTER_DIR".
+irrespective of "FILTER_DIR".
 
 
 mock_open
@@ -2536,48 +2569,25 @@ original so they raise a "TypeError" if they are called incorrectly.
 
 Before I explain how auto-speccing works, here’s why it is needed.
 
-"Mock" is a very powerful and flexible object, but it suffers from two
-flaws when used to mock out objects from a system under test. One of
-these flaws is specific to the "Mock" api and the other is a more
-general problem with using mock objects.
+"Mock" is a very powerful and flexible object, but it suffers from a
+flaw which is general to mocking. If you refactor some of your code,
+rename members and so on, any tests for code that is still using the
+_old api_ but uses mocks instead of the real objects will still pass.
+This means your tests can all pass even though your code is broken.
 
-First the problem specific to "Mock". "Mock" has two assert methods
-that are extremely handy: "assert_called_with()" and
-"assert_called_once_with()".
-
->>> mock = Mock(name='Thing', return_value=None)
->>> mock(1, 2, 3)
->>> mock.assert_called_once_with(1, 2, 3)
->>> mock(1, 2, 3)
->>> mock.assert_called_once_with(1, 2, 3)
-Traceback (most recent call last):
- ...
-AssertionError: Expected 'mock' to be called once. Called 2 times.
-
-Because mocks auto-create attributes on demand, and allow you to call
-them with arbitrary arguments, if you misspell one of these assert
-methods then your assertion is gone:
->
-   >>> mock = Mock(name='Thing', return_value=None)
-   >>> mock(1, 2, 3)
-   >>> mock.assret_called_once_with(4, 5, 6)  # Intentional typo!
-<
-Your tests can pass silently and incorrectly because of the typo.
-
-The second issue is more general to mocking. If you refactor some of
-your code, rename members and so on, any tests for code that is still
-using the _old api_ but uses mocks instead of the real objects will
-still pass. This means your tests can all pass even though your code
-is broken.
+Changed in version 3.5: Before 3.5, tests with a typo in the word
+assert would silently pass when they should raise an error. You can
+still achieve this behavior by passing "unsafe=True" to Mock.
 
 Note that this is another reason why you need integration tests as
 well as unit tests. Testing everything in isolation is all fine and
 dandy, but if you don’t test how your units are “wired together” there
 is still lots of room for bugs that tests might have caught.
 
-"mock" already provides a feature to help with this, called speccing.
-If you use a class or instance as the "spec" for a mock then you can
-only access attributes on the mock that exist on the real class:
+"unittest.mock" already provides a feature to help with this, called
+speccing. If you use a class or instance as the "spec" for a mock then
+you can only access attributes on the mock that exist on the real
+class:
 
 >>> from urllib import request
 >>> mock = Mock(spec=request.Request)
@@ -2777,7 +2787,7 @@ unittest.mock.seal(mock)
       >>> mock.submock.attribute2  # This will raise AttributeError.
       >>> mock.not_submock.attribute2  # This won't raise.
 <
-   New in version 3.7.
+   Added in version 3.7.
 
 
 Order of precedence of "side_effect", "return_value" and _wraps_

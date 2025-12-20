@@ -1,5 +1,5 @@
-Python 3.9.19
-*introduction.pyx*                            Last change: 2024 May 24
+Python 3.9.25
+*introduction.pyx*                            Last change: 2025 Dec 20
 
 3. An Informal Introduction to Python
 *************************************

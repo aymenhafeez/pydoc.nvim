@@ -1,5 +1,5 @@
-Python 3.12.3
-*plistlib.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*plistlib.pyx*                                Last change: 2025 Dec 20
 
 "plistlib" — Generate and parse Apple ".plist" files
 ****************************************************
@@ -64,21 +64,21 @@ plistlib.load(fp, *, fmt=None, dict_type=dict)
    exceptions on ill-formed XML.  Unknown elements will simply be
    ignored by the plist parser.
 
-   The parser for the binary format raises "InvalidFileException" when
-   the file cannot be parsed.
+   The parser raises "InvalidFileException" when the file cannot be
+   parsed.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 plistlib.loads(data, *, fmt=None, dict_type=dict)
 
    Load a plist from a bytes object. See "load()" for an explanation
    of the keyword arguments.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 plistlib.dump(value, fp, *, fmt=FMT_XML, sort_keys=True, skipkeys=False)
 
-   Write _value_ to a plist file. _Fp_ should be a writable, binary
+   Write _value_ to a plist file. _fp_ should be a writable, binary
    file object.
 
    The _fmt_ argument specifies the format of the plist file and can
@@ -102,7 +102,7 @@ plistlib.dump(value, fp, *, fmt=FMT_XML, sort_keys=True, skipkeys=False)
    An "OverflowError" will be raised for integer values that cannot be
    represented in (binary) plist files.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 plistlib.dumps(value, *, fmt=FMT_XML, sort_keys=True, skipkeys=False)
 
@@ -110,7 +110,7 @@ plistlib.dumps(value, *, fmt=FMT_XML, sort_keys=True, skipkeys=False)
    documentation for "dump()" for an explanation of the keyword
    arguments of this function.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 The following classes are available:
 
@@ -123,7 +123,7 @@ class plistlib.UID(data)
    It has one attribute, "data", which can be used to retrieve the int
    value of the UID.  "data" must be in the range "0 <= data < 2**64".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 The following constants are available:
 
@@ -131,13 +131,21 @@ plistlib.FMT_XML
 
    The XML format for plist files.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 plistlib.FMT_BINARY
 
    The binary format for plist files
 
-   New in version 3.4.
+   Added in version 3.4.
+
+The module defines the following exceptions:
+
+exception plistlib.InvalidFileException
+
+   Raised when a file cannot be parsed.
+
+   Added in version 3.4.
 
 
 Examples

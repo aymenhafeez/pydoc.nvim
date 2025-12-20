@@ -1,5 +1,5 @@
-Python 3.12.3
-*_thread.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*_thread.pyx*                                 Last change: 2025 Dec 20
 
 "_thread" — Low-level threading API
 ***********************************
@@ -104,7 +104,7 @@ _thread.get_native_id()
    Availability: Windows, FreeBSD, Linux, macOS, OpenBSD, NetBSD, AIX,
    DragonFlyBSD.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 _thread.stack_size([size])
 
@@ -135,7 +135,7 @@ _thread.TIMEOUT_MAX
    "Lock.acquire". Specifying a timeout greater than this value will
    raise an "OverflowError".
 
-   New in version 3.2.
+   Added in version 3.2.
 
 Lock objects have the following methods:
 
@@ -147,14 +147,14 @@ lock.acquire(blocking=True, timeout=-1)
    that’s their reason for existence).
 
    If the _blocking_ argument is present, the action depends on its
-   value: if it is False, the lock is only acquired if it can be
-   acquired immediately without waiting, while if it is True, the lock
+   value: if it is false, the lock is only acquired if it can be
+   acquired immediately without waiting, while if it is true, the lock
    is acquired unconditionally as above.
 
    If the floating-point _timeout_ argument is present and positive,
    it specifies the maximum wait time in seconds before returning.  A
    negative _timeout_ argument specifies an unbounded wait.  You
-   cannot specify a _timeout_ if _blocking_ is False.
+   cannot specify a _timeout_ if _blocking_ is false.
 
    The return value is "True" if the lock is acquired successfully,
    "False" if not.
@@ -186,24 +186,20 @@ In addition to these methods, lock objects can also be used via the
 <
 **Caveats:**
 
-* Threads interact strangely with interrupts: the "KeyboardInterrupt"
-  exception will be received by an arbitrary thread.  (When the
-  "signal" module is available, interrupts always go to the main
-  thread.)
+* Interrupts always go to the main thread (the "KeyboardInterrupt"
+  exception will be received by that thread.)
 
 * Calling "sys.exit()" or raising the "SystemExit" exception is
   equivalent to calling "_thread.exit()".
 
-* It is not possible to interrupt the "acquire()" method on a lock —
-  the "KeyboardInterrupt" exception will happen after the lock has
-  been acquired.
+* It is platform-dependent whether the "acquire()" method on a lock
+  can be interrupted (so that the "KeyboardInterrupt" exception will
+  happen immediately, rather than only after the lock has been
+  acquired or the operation has timed out). It can be interrupted on
+  POSIX, but not on Windows.
 
 * When the main thread exits, it is system defined whether the other
   threads survive.  On most systems, they are killed without executing
   "try" … "finally" clauses or executing object destructors.
-
-* When the main thread exits, it does not do any of its usual cleanup
-  (except that "try" … "finally" clauses are honored), and the
-  standard I/O files are not flushed.
 
 vim:tw=78:ts=8:ft=help:norl:

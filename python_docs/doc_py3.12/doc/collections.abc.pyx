@@ -1,10 +1,10 @@
-Python 3.12.3
-*collections.abc.pyx*                         Last change: 2024 May 24
+Python 3.12.12
+*collections.abc.pyx*                         Last change: 2025 Dec 20
 
 "collections.abc" — Abstract Base Classes for Containers
 ********************************************************
 
-New in version 3.3: Formerly, this module was part of the
+Added in version 3.3: Formerly, this module was part of the
 "collections" module.
 
 **Source code:** Lib/_collections_abc.py
@@ -18,73 +18,74 @@ it is _hashable_ or whether it is a _mapping_.
 An "issubclass()" or "isinstance()" test for an interface works in one
 of three ways.
 
-1) A newly written class can inherit directly from one of the abstract
-base classes.  The class must supply the required abstract methods.
-The remaining mixin methods come from inheritance and can be
-overridden if desired.  Other methods may be added as needed:
+1. A newly written class can inherit directly from one of the abstract
+   base classes.  The class must supply the required abstract methods.
+   The remaining mixin methods come from inheritance and can be
+   overridden if desired.  Other methods may be added as needed:
 >
-   class C(Sequence):                      # Direct inheritance
-       def __init__(self): ...             # Extra method not required by the ABC
-       def __getitem__(self, index):  ...  # Required abstract method
-       def __len__(self):  ...             # Required abstract method
-       def count(self, value): ...         # Optionally override a mixin method
+      class C(Sequence):                      # Direct inheritance
+          def __init__(self): ...             # Extra method not required by the ABC
+          def __getitem__(self, index):  ...  # Required abstract method
+          def __len__(self):  ...             # Required abstract method
+          def count(self, value): ...         # Optionally override a mixin method
 <
 >
-   >>> issubclass(C, Sequence)
-   True
-   >>> isinstance(C(), Sequence)
-   True
+      >>> issubclass(C, Sequence)
+      True
+      >>> isinstance(C(), Sequence)
+      True
 <
-2) Existing classes and built-in classes can be registered as “virtual
-subclasses” of the ABCs.  Those classes should define the full API
-including all of the abstract methods and all of the mixin methods.
-This lets users rely on "issubclass()" or "isinstance()" tests to
-determine whether the full interface is supported.  The exception to
-this rule is for methods that are automatically inferred from the rest
-of the API:
+2. Existing classes and built-in classes can be registered as “virtual
+   subclasses” of the ABCs.  Those classes should define the full API
+   including all of the abstract methods and all of the mixin methods.
+   This lets users rely on "issubclass()" or "isinstance()" tests to
+   determine whether the full interface is supported.  The exception
+   to this rule is for methods that are automatically inferred from
+   the rest of the API:
 >
-   class D:                                 # No inheritance
-       def __init__(self): ...              # Extra method not required by the ABC
-       def __getitem__(self, index):  ...   # Abstract method
-       def __len__(self):  ...              # Abstract method
-       def count(self, value): ...          # Mixin method
-       def index(self, value): ...          # Mixin method
+      class D:                                 # No inheritance
+          def __init__(self): ...              # Extra method not required by the ABC
+          def __getitem__(self, index):  ...   # Abstract method
+          def __len__(self):  ...              # Abstract method
+          def count(self, value): ...          # Mixin method
+          def index(self, value): ...          # Mixin method
 
-   Sequence.register(D)                     # Register instead of inherit
+      Sequence.register(D)                     # Register instead of inherit
 <
 >
-   >>> issubclass(D, Sequence)
-   True
-   >>> isinstance(D(), Sequence)
-   True
+      >>> issubclass(D, Sequence)
+      True
+      >>> isinstance(D(), Sequence)
+      True
 <
-In this example, class "D" does not need to define "__contains__",
-"__iter__", and "__reversed__" because the in-operator, the
-_iteration_ logic, and the "reversed()" function automatically fall
-back to using "__getitem__" and "__len__".
+   In this example, class "D" does not need to define "__contains__",
+   "__iter__", and "__reversed__" because the in-operator, the
+   _iteration_ logic, and the "reversed()" function automatically fall
+   back to using "__getitem__" and "__len__".
 
-3) Some simple interfaces are directly recognizable by the presence of
-the required methods (unless those methods have been set to "None"):
+3. Some simple interfaces are directly recognizable by the presence of
+   the required methods (unless those methods have been set to
+   "None"):
 >
-   class E:
-       def __iter__(self): ...
-       def __next__(self): ...
+      class E:
+          def __iter__(self): ...
+          def __next__(self): ...
 <
 >
-   >>> issubclass(E, Iterable)
-   True
-   >>> isinstance(E(), Iterable)
-   True
+      >>> issubclass(E, Iterable)
+      True
+      >>> isinstance(E(), Iterable)
+      True
 <
-Complex interfaces do not support this last technique because an
-interface is more than just the presence of method names.  Interfaces
-specify semantics and relationships between methods that cannot be
-inferred solely from the presence of specific method names.  For
-example, knowing that a class supplies "__getitem__", "__len__", and
-"__iter__" is insufficient for distinguishing a "Sequence" from a
-"Mapping".
+   Complex interfaces do not support this last technique because an
+   interface is more than just the presence of method names.
+   Interfaces specify semantics and relationships between methods that
+   cannot be inferred solely from the presence of specific method
+   names.  For example, knowing that a class supplies "__getitem__",
+   "__len__", and "__iter__" is insufficient for distinguishing a
+   "Sequence" from a "Mapping".
 
-New in version 3.9: These abstract classes now support "[]". See
+Added in version 3.9: These abstract classes now support "[]". See
 Generic Alias Type and **PEP 585**.
 
 
@@ -127,8 +128,8 @@ The collections module offers the following _ABCs_:
 |                                |                        | "__len__"               |                                                      |
 +--------------------------------+------------------------+-------------------------+------------------------------------------------------+
 | "Set"                          | "Collection"           | "__contains__",         | "__le__", "__lt__", "__eq__", "__ne__", "__gt__",    |
-|                                |                        | "__iter__", "__len__"   | "__ge__", "__and__", "__or__", "__sub__", "__xor__", |
-|                                |                        |                         | and "isdisjoint"                                     |
+|                                |                        | "__iter__", "__len__"   | "__ge__", "__and__", "__or__", "__sub__",            |
+|                                |                        |                         | "__rsub__", "__xor__", "__rxor__" and "isdisjoint"   |
 +--------------------------------+------------------------+-------------------------+------------------------------------------------------+
 | "MutableSet"                   | "Set"                  | "__contains__",         | Inherited "Set" methods and "clear", "pop",          |
 |                                |                        | "__iter__", "__len__",  | "remove", "__ior__", "__iand__", "__ixor__", and     |
@@ -142,7 +143,7 @@ The collections module offers the following _ABCs_:
 |                                |                        | "__delitem__",          |                                                      |
 |                                |                        | "__iter__", "__len__"   |                                                      |
 +--------------------------------+------------------------+-------------------------+------------------------------------------------------+
-| "MappingView"                  | "Sized"                |                         | "__len__"                                            |
+| "MappingView"                  | "Sized"                |                         | "__init__", "__len__" and "__repr__"                 |
 +--------------------------------+------------------------+-------------------------+------------------------------------------------------+
 | "ItemsView"                    | "MappingView", "Set"   |                         | "__contains__", "__iter__"                           |
 +--------------------------------+------------------------+-------------------------+------------------------------------------------------+
@@ -198,6 +199,9 @@ class collections.abc.Callable
 
    ABC for classes that provide the "__call__()" method.
 
+   See Annotating callable objects for details on how to use
+   "Callable" in type annotations.
+
 class collections.abc.Iterable
 
    ABC for classes that provide the "__iter__()" method.
@@ -212,7 +216,7 @@ class collections.abc.Collection
 
    ABC for sized iterable container classes.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 class collections.abc.Iterator
 
@@ -224,7 +228,7 @@ class collections.abc.Reversible
    ABC for iterable classes that also provide the "__reversed__()"
    method.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 class collections.abc.Generator
 
@@ -232,7 +236,10 @@ class collections.abc.Generator
    **PEP 342** that extends _iterators_ with the "send()", "throw()"
    and "close()" methods.
 
-   New in version 3.5.
+   See Annotating generators and coroutines for details on using
+   "Generator" in type annotations.
+
+   Added in version 3.5.
 
 class collections.abc.Sequence
 class collections.abc.MutableSequence
@@ -291,7 +298,7 @@ class collections.abc.Awaitable
      Awaitable)" for them will return "False". Use
      "inspect.isawaitable()" to detect them.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 class collections.abc.Coroutine
 
@@ -309,35 +316,42 @@ class collections.abc.Coroutine
      Coroutine)" for them will return "False". Use
      "inspect.isawaitable()" to detect them.
 
-   New in version 3.5.
+   See Annotating generators and coroutines for details on using
+   "Coroutine" in type annotations. The variance and order of type
+   parameters correspond to those of "Generator".
+
+   Added in version 3.5.
 
 class collections.abc.AsyncIterable
 
    ABC for classes that provide an "__aiter__" method.  See also the
    definition of _asynchronous iterable_.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 class collections.abc.AsyncIterator
 
    ABC for classes that provide "__aiter__" and "__anext__" methods.
    See also the definition of _asynchronous iterator_.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 class collections.abc.AsyncGenerator
 
    ABC for _asynchronous generator_ classes that implement the
    protocol defined in **PEP 525** and **PEP 492**.
 
-   New in version 3.6.
+   See Annotating generators and coroutines for details on using
+   "AsyncGenerator" in type annotations.
+
+   Added in version 3.6.
 
 class collections.abc.Buffer
 
    ABC for classes that provide the "__buffer__()" method,
    implementing the buffer protocol. See **PEP 688**.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 
 Examples and Recipes

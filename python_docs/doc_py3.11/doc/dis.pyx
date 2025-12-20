@@ -1,5 +1,5 @@
-Python 3.11.9
-*dis.pyx*                                     Last change: 2024 May 24
+Python 3.11.14
+*dis.pyx*                                     Last change: 2025 Dec 20
 
 "dis" — Disassembler for Python bytecode
 ****************************************

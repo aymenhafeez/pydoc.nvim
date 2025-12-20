@@ -1,5 +1,5 @@
-Python 3.12.3
-*marshal.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*marshal.pyx*                                 Last change: 2025 Dec 20
 
 "marshal" — Internal Python object serialization
 ************************************************
@@ -9,7 +9,7 @@ Python 3.12.3
 This module contains functions that can read and write Python values
 in a binary format.  The format is specific to Python, but independent
 of machine architecture issues (e.g., you can write a Python value to
-a file on a PC, transport the file to a Sun, and read it back there).
+a file on a PC, transport the file to a Mac, and read it back there).
 Details of the format are undocumented on purpose; it may change
 between Python versions (although it rarely does). [1]
 
@@ -33,7 +33,7 @@ Warning:
 Not all Python object types are supported; in general, only objects
 whose value is independent from a particular invocation of Python can
 be written and read by this module.  The following types are
-supported: booleans, integers, floating point numbers, complex
+supported: booleans, integers, floating-point numbers, complex
 numbers, strings, bytes, bytearrays, tuples, lists, sets, frozensets,
 dictionaries, and code objects, where it should be understood that
 tuples, lists, sets, frozensets and dictionaries are only supported as
@@ -113,7 +113,7 @@ marshal.version
 
    Indicates the format that the module uses. Version 0 is the
    historical format, version 1 shares interned strings and version 2
-   uses a binary format for floating point numbers. Version 3 adds
+   uses a binary format for floating-point numbers. Version 3 adds
    support for object instancing and recursion. The current version is
    4.
 

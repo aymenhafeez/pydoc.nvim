@@ -1,5 +1,5 @@
-Python 3.11.9
-*urllib.parse.pyx*                            Last change: 2024 May 24
+Python 3.11.14
+*urllib.parse.pyx*                            Last change: 2025 Dec 20
 
 "urllib.parse" — Parse URLs into components
 *******************************************

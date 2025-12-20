@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.parser.pyx*                            Last change: 2024 May 24
+Python 3.12.12
+*email.parser.pyx*                            Last change: 2025 Dec 20
 
 "email.parser": Parsing email messages
 **************************************
@@ -85,7 +85,7 @@ class email.parser.BytesFeedParser(_factory=None, *, policy=policy.compat32)
    default will change to "email.policy.default" in a future version
    of Python.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.3: Added the _policy_ keyword.
 
@@ -174,14 +174,14 @@ class email.parser.BytesParser(_class=None, *, policy=policy.compat32)
 
       Optional _headersonly_ is as with the "parse()" method.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 class email.parser.BytesHeaderParser(_class=None, *, policy=policy.compat32)
 
    Exactly like "BytesParser", except that _headersonly_ defaults to
    "True".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 class email.parser.Parser(_class=None, *, policy=policy.compat32)
 
@@ -229,7 +229,7 @@ email.message_from_bytes(s, _class=None, *, policy=policy.compat32)
    and _policy_ are interpreted as with the "BytesParser" class
    constructor.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.3: Removed the _strict_ argument.  Added the
    _policy_ keyword.
@@ -241,7 +241,7 @@ email.message_from_binary_file(fp, _class=None, *, policy=policy.compat32)
    __class_ and _policy_ are interpreted as with the "BytesParser"
    class constructor.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.3: Removed the _strict_ argument.  Added the
    _policy_ keyword.
@@ -271,7 +271,7 @@ Here’s an example of how you might use "message_from_bytes()" at an
 interactive Python prompt:
 >
    >>> import email
-   >>> msg = email.message_from_bytes(myBytes)  
+   >>> msg = email.message_from_bytes(myBytes)
 <
 
 Additional notes

@@ -1,5 +1,5 @@
-Python 3.9.19
-*importlib.pyx*                               Last change: 2024 May 24
+Python 3.9.25
+*importlib.pyx*                               Last change: 2025 Dec 20
 
 "importlib" — The implementation of "import"
 ********************************************

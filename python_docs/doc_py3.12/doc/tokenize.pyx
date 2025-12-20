@@ -1,5 +1,5 @@
-Python 3.12.3
-*tokenize.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*tokenize.pyx*                                Last change: 2025 Dec 20
 
 "tokenize" — Tokenizer for Python source
 ****************************************
@@ -84,9 +84,8 @@ tokenize.untokenize(iterable)
    return sequences with at least two elements, the token type and the
    token string. Any additional sequence elements are ignored.
 
-   The reconstructed script is returned as a single string.  The
-   result is guaranteed to tokenize back to match the input so that
-   the conversion is lossless and round-trips are assured.  The
+   The result is guaranteed to tokenize back to match the input so
+   that the conversion is lossless and round-trips are assured.  The
    guarantee applies only to the token type and token string as the
    spacing between tokens (column positions) may change.
 
@@ -124,7 +123,7 @@ tokenize.open(filename)
    Open a file in read only mode using the encoding detected by
    "detect_encoding()".
 
-   New in version 3.2.
+   Added in version 3.2.
 
 exception tokenize.TokenError
 
@@ -144,7 +143,7 @@ exception tokenize.TokenError
 Command-Line Usage
 ==================
 
-New in version 3.3.
+Added in version 3.3.
 
 The "tokenize" module can be executed as a script from the command
 line. It is as simple as:

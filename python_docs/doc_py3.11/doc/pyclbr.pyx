@@ -1,5 +1,5 @@
-Python 3.11.9
-*pyclbr.pyx*                                  Last change: 2024 May 24
+Python 3.11.14
+*pyclbr.pyx*                                  Last change: 2025 Dec 20
 
 "pyclbr" — Python module browser support
 ****************************************

@@ -1,5 +1,5 @@
-Python 3.12.3
-*stdlib2.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*stdlib2.pyx*                                 Last change: 2025 Dec 20
 
 11. Brief Tour of the Standard Library — Part II
 ************************************************
@@ -285,8 +285,8 @@ Many data structure needs can be met with the built-in list type.
 However, sometimes there is a need for alternative implementations
 with different performance trade-offs.
 
-The "array" module provides an "array()" object that is like a list
-that stores only homogeneous data and stores it more compactly.  The
+The "array" module provides an "array" object that is like a list that
+stores only homogeneous data and stores it more compactly.  The
 following example shows an array of numbers stored as two byte
 unsigned binary numbers (typecode ""H"") rather than the usual 16
 bytes per entry for regular lists of Python int objects:
@@ -298,10 +298,10 @@ bytes per entry for regular lists of Python int objects:
    >>> a[1:3]
    array('H', [10, 700])
 <
-The "collections" module provides a "deque()" object that is like a
-list with faster appends and pops from the left side but slower
-lookups in the middle. These objects are well suited for implementing
-queues and breadth first tree searches:
+The "collections" module provides a "deque" object that is like a list
+with faster appends and pops from the left side but slower lookups in
+the middle. These objects are well suited for implementing queues and
+breadth first tree searches:
 >
    >>> from collections import deque
    >>> d = deque(["task1", "task2", "task3"])
@@ -341,10 +341,10 @@ smallest element but do not want to run a full list sort:
    [-5, 0, 1]
 <
 
-11.8. Decimal Floating Point Arithmetic
+11.8. Decimal Floating-Point Arithmetic
 =======================================
 
-The "decimal" module offers a "Decimal" datatype for decimal floating
+The "decimal" module offers a "Decimal" datatype for decimal floating-
 point arithmetic.  Compared to the built-in "float" implementation of
 binary floating point, the class is especially helpful for
 

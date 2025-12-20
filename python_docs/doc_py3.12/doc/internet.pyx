@@ -1,5 +1,5 @@
-Python 3.12.3
-*internet.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*internet.pyx*                                Last change: 2025 Dec 20
 
 Internet Protocols and Support
 ******************************
@@ -174,7 +174,9 @@ platforms.  Here is an overview:
 
 * "http.server" — HTTP servers
 
-  * Security Considerations
+  * Command-line interface
+
+  * Security considerations
 
 * "http.cookies" — HTTP state management
 

@@ -1,5 +1,5 @@
-Python 3.9.19
-*termios.pyx*                                 Last change: 2024 May 24
+Python 3.9.25
+*termios.pyx*                                 Last change: 2025 Dec 20
 
 "termios" — POSIX style tty control
 ***********************************

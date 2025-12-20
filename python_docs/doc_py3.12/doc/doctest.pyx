@@ -1,5 +1,5 @@
-Python 3.12.3
-*doctest.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*doctest.pyx*                                 Last change: 2025 Dec 20
 
 "doctest" — Test interactive Python examples
 ********************************************
@@ -161,16 +161,8 @@ or prohibit it by passing "verbose=False".  In either of those cases,
 "sys.argv" is not examined by "testmod()" (so passing "-v" or not has
 no effect).
 
-There is also a command line shortcut for running "testmod()".  You
-can instruct the Python interpreter to run the doctest module directly
-from the standard library and pass the module name(s) on the command
-line:
->
-   python -m doctest -v example.py
-<
-This will import "example.py" as a standalone module and run
-"testmod()" on it.  Note that this may not work correctly if the file
-is part of a package and imports other submodules from that package.
+There is also a command line shortcut for running "testmod()", see
+section Command-line Usage.
 
 For more information on "testmod()", see section Basic API.
 
@@ -230,17 +222,48 @@ locations.
 Like "testmod()", "testfile()"’s verbosity can be set with the "-v"
 command-line switch or with the optional keyword argument _verbose_.
 
-There is also a command line shortcut for running "testfile()".  You
-can instruct the Python interpreter to run the doctest module directly
-from the standard library and pass the file name(s) on the command
-line:
->
-   python -m doctest -v example.txt
-<
-Because the file name does not end with ".py", "doctest" infers that
-it must be run with "testfile()", not "testmod()".
+There is also a command line shortcut for running "testfile()", see
+section Command-line Usage.
 
 For more information on "testfile()", see section Basic API.
+
+
+Command-line Usage
+==================
+
+The "doctest" module can be invoked as a script from the command line:
+>
+   python -m doctest [-v] [-o OPTION] [-f] file [file ...]
+<
+-v, --verbose
+
+   Detailed report of all examples tried is printed to standard
+   output, along with assorted summaries at the end:
+>
+      python -m doctest -v example.py
+<
+   This will import "example.py" as a standalone module and run
+   "testmod()" on it. Note that this may not work correctly if the
+   file is part of a package and imports other submodules from that
+   package.
+
+   If the file name does not end with ".py", "doctest" infers that it
+   must be run with "testfile()" instead:
+>
+      python -m doctest -v example.txt
+<
+-o, --option <option>
+
+   Option flags control various aspects of doctest’s behavior, see
+   section Option Flags.
+
+   Added in version 3.4.
+
+-f, --fail-fast
+
+   This is shorthand for "-o FAIL_FAST".
+
+   Added in version 3.4.
 
 
 How It Works
@@ -509,8 +532,6 @@ constants, which can be bitwise ORed together and passed to various
 functions. The names can also be used in doctest directives, and may
 be passed to the doctest command line interface via the "-o" option.
 
-New in version 3.4: The "-o" command line option.
-
 The first group of options define test semantics, controlling aspects
 of how doctest decides whether actual output matches an example’s
 expected output:
@@ -644,11 +665,6 @@ doctest.FAIL_FAST
    debugging, since examples after the first failure won’t even
    produce debugging output.
 
-   The doctest command line accepts the option "-f" as a shorthand for
-   "-o FAIL_FAST".
-
-   New in version 3.4.
-
 doctest.REPORTING_FLAGS
 
    A bitmask or’ing together all the reporting flags above.
@@ -744,27 +760,27 @@ set, Python doesn’t guarantee that the element is printed in any
 particular order, so a test like
 >
    >>> foo()
-   {"Hermione", "Harry"}
+   {"spam", "eggs"}
 <
 is vulnerable!  One workaround is to do
 >
-   >>> foo() == {"Hermione", "Harry"}
+   >>> foo() == {"spam", "eggs"}
    True
 <
 instead.  Another is to do
 >
    >>> d = sorted(foo())
    >>> d
-   ['Harry', 'Hermione']
+   ['eggs', 'spam']
 <
 There are others, but you get the idea.
 
 Another bad idea is to print things that embed an object address, like
 >
-   >>> id(1.0)  # certain to fail some of the time  
+   >>> id(1.0)  # certain to fail some of the time
    7948648
    >>> class C: pass
-   >>> C()  # the default repr() for instances embeds an address   
+   >>> C()  # the default repr() for instances embeds an address
    <C object at 0x00AC18F0>
 <
 The "ELLIPSIS" directive gives a nice approach for the last example:

@@ -1,5 +1,5 @@
-Python 3.12.3
-*textwrap.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*textwrap.pyx*                                Last change: 2025 Dec 20
 
 "textwrap" — Text wrapping and filling
 **************************************
@@ -58,7 +58,7 @@ textwrap.shorten(text, width, *, fix_sentence_endings=False, break_long_words=Tr
    function, so changing the value of "tabsize", "expand_tabs",
    "drop_whitespace", and "replace_whitespace" will have no effect.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 textwrap.dedent(text)
 
@@ -111,7 +111,7 @@ textwrap.indent(text, prefix, predicate=None)
       +
       + world
 <
-   New in version 3.3.
+   Added in version 3.3.
 
 "wrap()", "fill()" and "shorten()" work by creating a "TextWrapper"
 instance and calling a single method on it.  That instance is not
@@ -136,8 +136,8 @@ class textwrap.TextWrapper(**kwargs)
       wrapper = TextWrapper()
       wrapper.initial_indent = "* "
 <
-   You can re-use the same "TextWrapper" object many times, and you
-   can change any of its options through direct assignment to instance
+   You can reuse the same "TextWrapper" object many times, and you can
+   change any of its options through direct assignment to instance
    attributes between uses.
 
    The "TextWrapper" instance attributes (and keyword arguments to the
@@ -162,7 +162,7 @@ class textwrap.TextWrapper(**kwargs)
       in _text_ will be expanded to zero or more spaces, depending on
       the current column and the given tab size.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    replace_whitespace
 
@@ -257,14 +257,14 @@ class textwrap.TextWrapper(**kwargs)
       most _max_lines_ lines, with _placeholder_ appearing at the end
       of the output.
 
-      New in version 3.4.
+      Added in version 3.4.
 
    placeholder
 
       (default: "' [...]'") String that will appear at the end of the
       output text if it has been truncated.
 
-      New in version 3.4.
+      Added in version 3.4.
 
    "TextWrapper" also provides some public methods, analogous to the
    module-level convenience functions:

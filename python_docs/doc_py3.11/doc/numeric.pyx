@@ -1,5 +1,5 @@
-Python 3.11.9
-*numeric.pyx*                                 Last change: 2024 May 24
+Python 3.11.14
+*numeric.pyx*                                 Last change: 2025 Dec 20
 
 Numeric and Mathematical Modules
 ********************************

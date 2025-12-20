@@ -1,5 +1,5 @@
-Python 3.12.3
-*exceptions.pyx*                              Last change: 2024 May 24
+Python 3.12.12
+*exceptions.pyx*                              Last change: 2025 Dec 20
 
 Built-in Exceptions
 *******************
@@ -141,7 +141,7 @@ exception BaseException
       the standard traceback after the exception string. A "TypeError"
       is raised if "note" is not a string.
 
-      New in version 3.11.
+      Added in version 3.11.
 
    __notes__
 
@@ -149,7 +149,7 @@ exception BaseException
       "add_note()". This attribute is created when "add_note()" is
       called.
 
-      New in version 3.11.
+      Added in version 3.11.
 
 exception Exception
 
@@ -239,7 +239,7 @@ exception ModuleNotFoundError
    module could not be located.  It is also raised when "None" is
    found in "sys.modules".
 
-   New in version 3.6.
+   Added in version 3.6.
 
 exception IndexError
 
@@ -254,7 +254,7 @@ exception KeyError
 
 exception KeyboardInterrupt
 
-   Raised when the user hits the interrupt key (normally "Control-C"
+   Raised when the user hits the interrupt key (normally "Control"-"C"
    or "Delete").  During execution, a check for interrupts is made
    regularly. The exception inherits from "BaseException" so as to not
    be accidentally caught by code that catches "Exception" and thus
@@ -306,11 +306,12 @@ exception NotImplementedError
      not meant to be supported at all – in that case either leave the
      operator / method undefined or, if a subclass, set it to "None".
 
-   Note:
+   Caution:
 
      "NotImplementedError" and "NotImplemented" are not
-     interchangeable, even though they have similar names and
-     purposes.  See "NotImplemented" for details on when to use it.
+     interchangeable. This exception should only be used as described
+     above; see "NotImplemented" for details on correct usage of the
+     built-in constant.
 
 exception OSError([arg])
 exception OSError(errno, strerror[, filename[, winerror[, filename2]]])
@@ -381,7 +382,7 @@ exception OverflowError
    raise "MemoryError" than give up).  However, for historical
    reasons, OverflowError is sometimes raised for integers that are
    outside a required range.   Because of the lack of standardization
-   of floating point exception handling in C, most floating point
+   of floating-point exception handling in C, most floating-point
    operations are not checked.
 
 exception RecursionError
@@ -390,7 +391,8 @@ exception RecursionError
    the interpreter detects that the maximum recursion depth (see
    "sys.getrecursionlimit()") is exceeded.
 
-   New in version 3.5: Previously, a plain "RuntimeError" was raised.
+   Added in version 3.5: Previously, a plain "RuntimeError" was
+   raised.
 
 exception ReferenceError
 
@@ -441,7 +443,7 @@ exception StopAsyncIteration
    Must be raised by "__anext__()" method of an _asynchronous
    iterator_ object to stop the iteration.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 exception SyntaxError(message, details)
 
@@ -507,14 +509,17 @@ exception SystemError
    Raised when the interpreter finds an internal error, but the
    situation does not look so serious to cause it to abandon all hope.
    The associated value is a string indicating what went wrong (in
-   low-level terms).
+   low-level terms). In _CPython_, this could be raised by incorrectly
+   using Python’s C API, such as returning a "NULL" value without an
+   exception set.
 
-   You should report this to the author or maintainer of your Python
-   interpreter. Be sure to report the version of the Python
-   interpreter ("sys.version"; it is also printed at the start of an
-   interactive Python session), the exact error message (the
-   exception’s associated value) and if possible the source of the
-   program that triggered the error.
+   If you’re confident that this exception wasn’t your fault, or the
+   fault of a package you’re using, you should report this to the
+   author or maintainer of your Python interpreter. Be sure to report
+   the version of the Python interpreter ("sys.version"; it is also
+   printed at the start of an interactive Python session), the exact
+   error message (the exception’s associated value) and if possible
+   the source of the program that triggered the error.
 
 exception SystemExit
 
@@ -741,7 +746,7 @@ exception TimeoutError
    Raised when a system function timed out at the system level.
    Corresponds to "errno" "ETIMEDOUT".
 
-New in version 3.3: All the above "OSError" subclasses were added.
+Added in version 3.3: All the above "OSError" subclasses were added.
 
 See also: **PEP 3151** - Reworking the OS and IO exception hierarchy
 
@@ -817,7 +822,7 @@ exception EncodingWarning
 
    See Opt-in EncodingWarning for details.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 exception BytesWarning
 
@@ -830,7 +835,7 @@ exception ResourceWarning
    Ignored by the default warning filters. Enabling the Python
    Development Mode shows this warning.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 
 Exception groups
@@ -905,9 +910,11 @@ exception BaseExceptionGroup(msg, excs)
       Returns an exception group with the same "message", but which
       wraps the exceptions in "excs".
 
-      This method is used by "subgroup()" and "split()". A subclass
-      needs to override it in order to make "subgroup()" and "split()"
-      return instances of the subclass rather than "ExceptionGroup".
+      This method is used by "subgroup()" and "split()", which are
+      used in various contexts to break up an exception group. A
+      subclass needs to override it in order to make "subgroup()" and
+      "split()" return instances of the subclass rather than
+      "ExceptionGroup".
 
       "subgroup()" and "split()" copy the "__traceback__",
       "__cause__", "__context__" and "__notes__" fields from the
@@ -956,7 +963,7 @@ exception BaseExceptionGroup(msg, excs)
    is also a subclass of "Exception" can only wrap instances of
    "Exception".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 
 Exception hierarchy

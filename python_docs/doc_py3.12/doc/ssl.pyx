@@ -1,5 +1,5 @@
-Python 3.12.3
-*ssl.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*ssl.pyx*                                     Last change: 2025 Dec 20
 
 "ssl" — TLS/SSL wrapper for socket objects
 ******************************************
@@ -165,7 +165,7 @@ ssl.create_default_context(purpose=Purpose.SERVER_AUTH, cafile=None, capath=None
         ctx = ssl.create_default_context(Purpose.CLIENT_AUTH)
         ctx.options &= ~ssl.OP_NO_SSLv3
 <
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.4.4: RC4 was dropped from the default cipher
    string.
@@ -202,7 +202,7 @@ exception ssl.SSLError
       error occurred, such as "SSL", "PEM" or "X509".  The range of
       possible values depends on the OpenSSL version.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    reason
 
@@ -210,7 +210,7 @@ exception ssl.SSLError
       for example "CERTIFICATE_VERIFY_FAILED".  The range of possible
       values depends on the OpenSSL version.
 
-      New in version 3.3.
+      Added in version 3.3.
 
 exception ssl.SSLZeroReturnError
 
@@ -218,7 +218,7 @@ exception ssl.SSLZeroReturnError
    the SSL connection has been closed cleanly.  Note that this doesn’t
    mean that the underlying transport (read TCP) has been closed.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 exception ssl.SSLWantReadError
 
@@ -226,7 +226,7 @@ exception ssl.SSLWantReadError
    trying to read or write data, but more data needs to be received on
    the underlying TCP transport before the request can be fulfilled.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 exception ssl.SSLWantWriteError
 
@@ -234,7 +234,7 @@ exception ssl.SSLWantWriteError
    trying to read or write data, but more data needs to be sent on the
    underlying TCP transport before the request can be fulfilled.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 exception ssl.SSLSyscallError
 
@@ -243,7 +243,7 @@ exception ssl.SSLSyscallError
    Unfortunately, there is no easy way to inspect the original errno
    number.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 exception ssl.SSLEOFError
 
@@ -251,14 +251,14 @@ exception ssl.SSLEOFError
    terminated abruptly.  Generally, you shouldn’t try to reuse the
    underlying transport when this error is encountered.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 exception ssl.SSLCertVerificationError
 
    A subclass of "SSLError" raised when certificate validation has
    failed.
 
-   New in version 3.7.
+   Added in version 3.7.
 
    verify_code
 
@@ -293,7 +293,7 @@ ssl.RAND_bytes(num)
    number generator (CSPRNG), to get the requirements of a
    cryptographically strong generator.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 ssl.RAND_status()
 
@@ -326,10 +326,10 @@ ssl.cert_time_to_seconds(cert_time)
 >
       >>> import ssl
       >>> timestamp = ssl.cert_time_to_seconds("Jan  5 09:34:43 2018 GMT")
-      >>> timestamp  
+      >>> timestamp
       1515144883
       >>> from datetime import datetime
-      >>> print(datetime.utcfromtimestamp(timestamp))  
+      >>> print(datetime.utcfromtimestamp(timestamp))
       2018-01-05 09:34:43
 <
    “notBefore” or “notAfter” dates must use GMT (**RFC 5280**).
@@ -394,7 +394,7 @@ ssl.get_default_verify_paths()
 
    * "openssl_capath" - hard coded path to a capath directory
 
-   New in version 3.4.
+   Added in version 3.4.
 
 ssl.enum_certificates(store_name)
 
@@ -417,7 +417,7 @@ ssl.enum_certificates(store_name)
 <
    Availability: Windows.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 ssl.enum_crls(store_name)
 
@@ -432,7 +432,7 @@ ssl.enum_crls(store_name)
 
    Availability: Windows.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 
 Constants
@@ -440,7 +440,7 @@ Constants
 
    All constants are now "enum.IntEnum" or "enum.IntFlag" collections.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 ssl.CERT_NONE
 
@@ -492,7 +492,7 @@ class ssl.VerifyMode
 
    "enum.IntEnum" collection of CERT_* constants.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 ssl.VERIFY_DEFAULT
 
@@ -500,7 +500,7 @@ ssl.VERIFY_DEFAULT
    certificate revocation lists (CRLs) are not checked. By default
    OpenSSL does neither require nor verify CRLs.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 ssl.VERIFY_CRL_CHECK_LEAF
 
@@ -511,28 +511,28 @@ ssl.VERIFY_CRL_CHECK_LEAF
    been loaded with "SSLContext.load_verify_locations", validation
    will fail.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 ssl.VERIFY_CRL_CHECK_CHAIN
 
    Possible value for "SSLContext.verify_flags". In this mode, CRLs of
    all certificates in the peer cert chain are checked.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 ssl.VERIFY_X509_STRICT
 
    Possible value for "SSLContext.verify_flags" to disable workarounds
    for broken X.509 certificates.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 ssl.VERIFY_ALLOW_PROXY_CERTS
 
    Possible value for "SSLContext.verify_flags" to enables proxy
    certificate verification.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 ssl.VERIFY_X509_TRUSTED_FIRST
 
@@ -540,7 +540,7 @@ ssl.VERIFY_X509_TRUSTED_FIRST
    to prefer trusted certificates when building the trust chain to
    validate a certificate. This flag is enabled by default.
 
-   New in version 3.4.4.
+   Added in version 3.4.4.
 
 ssl.VERIFY_X509_PARTIAL_CHAIN
 
@@ -550,13 +550,13 @@ ssl.VERIFY_X509_PARTIAL_CHAIN
    certificates. This makes it possible to trust certificates issued
    by an intermediate CA without having to trust its ancestor root CA.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 class ssl.VerifyFlags
 
    "enum.IntFlag" collection of VERIFY_* constants.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 ssl.PROTOCOL_TLS
 
@@ -564,7 +564,7 @@ ssl.PROTOCOL_TLS
    server support. Despite the name, this option can select both “SSL”
    and “TLS” protocols.
 
-   New in version 3.6.
+   Added in version 3.6.
 
    Deprecated since version 3.10: TLS clients and servers require
    different default settings for secure communication. The generic
@@ -578,7 +578,7 @@ ssl.PROTOCOL_TLS_CLIENT
    connections. The protocol enables "CERT_REQUIRED" and
    "check_hostname" by default.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 ssl.PROTOCOL_TLS_SERVER
 
@@ -586,7 +586,7 @@ ssl.PROTOCOL_TLS_SERVER
    and server support, and configure the context server-side
    connections.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 ssl.PROTOCOL_SSLv23
 
@@ -622,7 +622,7 @@ ssl.PROTOCOL_TLSv1_1
    Selects TLS version 1.1 as the channel encryption protocol.
    Available only with openssl version 1.0.1+.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Deprecated since version 3.6: OpenSSL has deprecated all version
    specific protocols.
@@ -632,7 +632,7 @@ ssl.PROTOCOL_TLSv1_2
    Selects TLS version 1.2 as the channel encryption protocol.
    Available only with openssl version 1.0.1+.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Deprecated since version 3.6: OpenSSL has deprecated all version
    specific protocols.
@@ -643,7 +643,7 @@ ssl.OP_ALL
    implementations. This option is set by default.  It does not
    necessarily set the same flags as OpenSSL’s "SSL_OP_ALL" constant.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 ssl.OP_NO_SSLv2
 
@@ -651,7 +651,7 @@ ssl.OP_NO_SSLv2
    conjunction with "PROTOCOL_TLS".  It prevents the peers from
    choosing SSLv2 as the protocol version.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Deprecated since version 3.6: SSLv2 is deprecated
 
@@ -661,7 +661,7 @@ ssl.OP_NO_SSLv3
    conjunction with "PROTOCOL_TLS".  It prevents the peers from
    choosing SSLv3 as the protocol version.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Deprecated since version 3.6: SSLv3 is deprecated
 
@@ -671,7 +671,7 @@ ssl.OP_NO_TLSv1
    conjunction with "PROTOCOL_TLS".  It prevents the peers from
    choosing TLSv1 as the protocol version.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Deprecated since version 3.7: The option is deprecated since
    OpenSSL 1.1.0, use the new "SSLContext.minimum_version" and
@@ -684,7 +684,7 @@ ssl.OP_NO_TLSv1_1
    choosing TLSv1.1 as the protocol version. Available only with
    openssl version 1.0.1+.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Deprecated since version 3.7: The option is deprecated since
    OpenSSL 1.1.0.
@@ -696,7 +696,7 @@ ssl.OP_NO_TLSv1_2
    choosing TLSv1.2 as the protocol version. Available only with
    openssl version 1.0.1+.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Deprecated since version 3.7: The option is deprecated since
    OpenSSL 1.1.0.
@@ -709,7 +709,7 @@ ssl.OP_NO_TLSv1_3
    OpenSSL 1.1.1 or later. When Python has been compiled against an
    older version of OpenSSL, the flag defaults to _0_.
 
-   New in version 3.6.3.
+   Added in version 3.6.3.
 
    Deprecated since version 3.7: The option is deprecated since
    OpenSSL 1.1.0. It was added to 2.7.15 and 3.6.3 for backwards
@@ -723,7 +723,7 @@ ssl.OP_NO_RENEGOTIATION
 
    This option is only available with OpenSSL 1.1.0h and later.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 ssl.OP_CIPHER_SERVER_PREFERENCE
 
@@ -731,23 +731,23 @@ ssl.OP_CIPHER_SERVER_PREFERENCE
    client’s. This option has no effect on client sockets and SSLv2
    server sockets.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 ssl.OP_SINGLE_DH_USE
 
-   Prevents re-use of the same DH key for distinct SSL sessions.  This
+   Prevents reuse of the same DH key for distinct SSL sessions.  This
    improves forward secrecy but requires more computational resources.
    This option only applies to server sockets.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 ssl.OP_SINGLE_ECDH_USE
 
-   Prevents re-use of the same ECDH key for distinct SSL sessions.
+   Prevents reuse of the same ECDH key for distinct SSL sessions.
    This improves forward secrecy but requires more computational
    resources. This option only applies to server sockets.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 ssl.OP_ENABLE_MIDDLEBOX_COMPAT
 
@@ -756,14 +756,14 @@ ssl.OP_ENABLE_MIDDLEBOX_COMPAT
 
    This option is only available with OpenSSL 1.1.1 and later.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 ssl.OP_NO_COMPRESSION
 
    Disable compression on the SSL channel.  This is useful if the
    application protocol supports its own compression scheme.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 class ssl.Options
 
@@ -773,7 +773,7 @@ ssl.OP_NO_TICKET
 
    Prevent client side from requesting a session ticket.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 ssl.OP_IGNORE_UNEXPECTED_EOF
 
@@ -781,7 +781,7 @@ ssl.OP_IGNORE_UNEXPECTED_EOF
 
    This option is only available with OpenSSL 3.0.0 and later.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 ssl.OP_ENABLE_KTLS
 
@@ -798,14 +798,14 @@ ssl.OP_ENABLE_KTLS
 
    This option is only available with OpenSSL 3.0.0 and later.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 ssl.OP_LEGACY_SERVER_CONNECT
 
    Allow legacy insecure renegotiation between OpenSSL and unpatched
    servers only.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 ssl.HAS_ALPN
 
@@ -813,7 +813,7 @@ ssl.HAS_ALPN
    _Application-Layer Protocol Negotiation_ TLS extension as described
    in **RFC 7301**.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 ssl.HAS_NEVER_CHECK_COMMON_NAME
 
@@ -821,7 +821,7 @@ ssl.HAS_NEVER_CHECK_COMMON_NAME
    subject common name and "SSLContext.hostname_checks_common_name" is
    writeable.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 ssl.HAS_ECDH
 
@@ -829,14 +829,14 @@ ssl.HAS_ECDH
    Curve-based Diffie-Hellman key exchange.  This should be true
    unless the feature was explicitly disabled by the distributor.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 ssl.HAS_SNI
 
    Whether the OpenSSL library has built-in support for the _Server
    Name Indication_ extension (as defined in **RFC 6066**).
 
-   New in version 3.2.
+   Added in version 3.2.
 
 ssl.HAS_NPN
 
@@ -846,56 +846,56 @@ ssl.HAS_NPN
    "SSLContext.set_npn_protocols()" method to advertise which
    protocols you want to support.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 ssl.HAS_SSLv2
 
    Whether the OpenSSL library has built-in support for the SSL 2.0
    protocol.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 ssl.HAS_SSLv3
 
    Whether the OpenSSL library has built-in support for the SSL 3.0
    protocol.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 ssl.HAS_TLSv1
 
    Whether the OpenSSL library has built-in support for the TLS 1.0
    protocol.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 ssl.HAS_TLSv1_1
 
    Whether the OpenSSL library has built-in support for the TLS 1.1
    protocol.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 ssl.HAS_TLSv1_2
 
    Whether the OpenSSL library has built-in support for the TLS 1.2
    protocol.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 ssl.HAS_TLSv1_3
 
    Whether the OpenSSL library has built-in support for the TLS 1.3
    protocol.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 ssl.CHANNEL_BINDING_TYPES
 
    List of supported TLS channel binding types.  Strings in this list
    can be used as arguments to "SSLSocket.get_channel_binding()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 ssl.OPENSSL_VERSION
 
@@ -905,7 +905,7 @@ ssl.OPENSSL_VERSION
       >>> ssl.OPENSSL_VERSION
       'OpenSSL 1.0.2k  26 Jan 2017'
 <
-   New in version 3.2.
+   Added in version 3.2.
 
 ssl.OPENSSL_VERSION_INFO
 
@@ -915,7 +915,7 @@ ssl.OPENSSL_VERSION_INFO
       >>> ssl.OPENSSL_VERSION_INFO
       (1, 0, 2, 11, 15)
 <
-   New in version 3.2.
+   Added in version 3.2.
 
 ssl.OPENSSL_VERSION_NUMBER
 
@@ -926,7 +926,7 @@ ssl.OPENSSL_VERSION_NUMBER
       >>> hex(ssl.OPENSSL_VERSION_NUMBER)
       '0x100020bf'
 <
-   New in version 3.2.
+   Added in version 3.2.
 
 ssl.ALERT_DESCRIPTION_HANDSHAKE_FAILURE
 ssl.ALERT_DESCRIPTION_INTERNAL_ERROR
@@ -939,13 +939,13 @@ ALERT_DESCRIPTION_*
    Used as the return value of the callback function in
    "SSLContext.set_servername_callback()".
 
-   New in version 3.4.
+   Added in version 3.4.
 
 class ssl.AlertDescription
 
    "enum.IntEnum" collection of ALERT_DESCRIPTION_* constants.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 Purpose.SERVER_AUTH
 
@@ -954,7 +954,7 @@ Purpose.SERVER_AUTH
    context may be used to authenticate web servers (therefore, it will
    be used to create client-side sockets).
 
-   New in version 3.4.
+   Added in version 3.4.
 
 Purpose.CLIENT_AUTH
 
@@ -963,20 +963,20 @@ Purpose.CLIENT_AUTH
    context may be used to authenticate web clients (therefore, it will
    be used to create server-side sockets).
 
-   New in version 3.4.
+   Added in version 3.4.
 
 class ssl.SSLErrorNumber
 
    "enum.IntEnum" collection of SSL_ERROR_* constants.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 class ssl.TLSVersion
 
    "enum.IntEnum" collection of SSL and TLS versions for
    "SSLContext.maximum_version" and "SSLContext.minimum_version".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 TLSVersion.MINIMUM_SUPPORTED
 
@@ -1219,7 +1219,7 @@ SSLSocket.shared_ciphers()
    "shared_ciphers()" returns "None" if no connection has been
    established or the socket is a client socket.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 SSLSocket.compression()
 
@@ -1230,7 +1230,7 @@ SSLSocket.compression()
    mechanism, you can use "OP_NO_COMPRESSION" to disable SSL-level
    compression.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 SSLSocket.get_channel_binding(cb_type='tls-unique')
 
@@ -1245,7 +1245,7 @@ SSLSocket.get_channel_binding(cb_type='tls-unique')
    "ValueError" will be raised if an unsupported channel binding type
    is requested.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 SSLSocket.selected_alpn_protocol()
 
@@ -1255,7 +1255,7 @@ SSLSocket.selected_alpn_protocol()
    the client’s proposed protocols, or if the handshake has not
    happened yet, "None" is returned.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 SSLSocket.selected_npn_protocol()
 
@@ -1264,7 +1264,7 @@ SSLSocket.selected_npn_protocol()
    called, or if the other party does not support NPN, or if the
    handshake has not yet happened, this will return "None".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Deprecated since version 3.10: NPN has been superseded by ALPN
 
@@ -1297,7 +1297,7 @@ SSLSocket.verify_client_post_handshake()
      Only available with OpenSSL 1.1.1 and TLS 1.3 enabled. Without
      TLS 1.3 support, the method raises "NotImplementedError".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 SSLSocket.version()
 
@@ -1307,7 +1307,7 @@ SSLSocket.version()
    ""SSLv3"", ""TLSv1"", ""TLSv1.1"" and ""TLSv1.2"". Recent OpenSSL
    versions may define more return values.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 SSLSocket.pending()
 
@@ -1318,21 +1318,21 @@ SSLSocket.context
 
    The "SSLContext" object this SSL socket is tied to.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 SSLSocket.server_side
 
    A boolean which is "True" for server-side sockets and "False" for
    client-side sockets.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 SSLSocket.server_hostname
 
    Hostname of the server: "str" type, or "None" for server-side
    socket or if the hostname was not specified in the constructor.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.7: The attribute is now always ASCII text.
    When "server_hostname" is an internationalized domain name (IDN),
@@ -1346,17 +1346,17 @@ SSLSocket.session
    performed. For client sockets the session can be set before
    "do_handshake()" has been called to reuse a session.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 SSLSocket.session_reused
 
-   New in version 3.6.
+   Added in version 3.6.
 
 
 SSL Contexts
 ============
 
-New in version 3.2.
+Added in version 3.2.
 
 An SSL context holds various data longer-lived than single SSL
 connections, such as SSL configuration options, certificate(s) and
@@ -1429,6 +1429,19 @@ class ssl.SSLContext(protocol=None)
    "PROTOCOL_TLS_CLIENT", and "PROTOCOL_TLS_SERVER" use TLS 1.2 as
    minimum TLS version.
 
+   Note:
+
+     "SSLContext" only supports limited mutation once it has been used
+     by a connection. Adding new certificates to the internal trust
+     store is allowed, but changing ciphers, verification settings, or
+     mTLS certificates may result in surprising behavior.
+
+   Note:
+
+     "SSLContext" is designed to be shared and used by multiple
+     connections. Thus, it is thread-safe as long as it is not
+     reconfigured after being used by a connection.
+
 "SSLContext" objects have the following methods and attributes:
 
 SSLContext.cert_store_stats()
@@ -1442,7 +1455,7 @@ SSLContext.cert_store_stats()
       >>> context.cert_store_stats()
       {'crl': 0, 'x509_ca': 1, 'x509': 2}
 <
-   New in version 3.4.
+   Added in version 3.4.
 
 SSLContext.load_cert_chain(certfile, keyfile=None, password=None)
 
@@ -1489,7 +1502,7 @@ SSLContext.load_default_certs(purpose=Purpose.SERVER_AUTH)
    CA certificates for client certificate verification on the server
    side.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 SSLContext.load_verify_locations(cafile=None, capath=None, cadata=None)
 
@@ -1533,7 +1546,7 @@ SSLContext.get_ca_certs(binary_form=False)
      Certificates in a capath directory aren’t loaded unless they have
      been used at least once.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 SSLContext.get_ciphers()
 
@@ -1570,7 +1583,7 @@ SSLContext.get_ciphers()
         'strength_bits': 128,
         'symmetric': 'aes-128-gcm'}]
 <
-   New in version 3.6.
+   Added in version 3.6.
 
 SSLContext.set_default_verify_paths()
 
@@ -1608,7 +1621,7 @@ SSLContext.set_alpn_protocols(protocols)
    This method will raise "NotImplementedError" if "HAS_ALPN" is
    "False".
 
-   New in version 3.5.
+   Added in version 3.5.
 
 SSLContext.set_npn_protocols(protocols)
 
@@ -1623,7 +1636,7 @@ SSLContext.set_npn_protocols(protocols)
    This method will raise "NotImplementedError" if "HAS_NPN" is
    "False".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Deprecated since version 3.10: NPN has been superseded by ALPN
 
@@ -1673,7 +1686,7 @@ SSLContext.sni_callback
    This method will raise "NotImplementedError" if the OpenSSL library
    had OPENSSL_NO_TLSEXT defined when it was built.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 SSLContext.set_servername_callback(server_name_callback)
 
@@ -1684,12 +1697,11 @@ SSLContext.set_servername_callback(server_name_callback)
    name, the _server_name_callback_ receives a decoded U-label
    (""pythön.org"").
 
-   If there is an decoding error on the server name, the TLS
-   connection will terminate with an
-   "ALERT_DESCRIPTION_INTERNAL_ERROR" fatal TLS alert message to the
-   client.
+   If there is a decoding error on the server name, the TLS connection
+   will terminate with an "ALERT_DESCRIPTION_INTERNAL_ERROR" fatal TLS
+   alert message to the client.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 SSLContext.load_dh_params(dhfile)
 
@@ -1702,7 +1714,7 @@ SSLContext.load_dh_params(dhfile)
    This setting doesn’t apply to client sockets.  You can also use the
    "OP_SINGLE_DH_USE" option to further improve security.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 SSLContext.set_ecdh_curve(curve_name)
 
@@ -1717,7 +1729,7 @@ SSLContext.set_ecdh_curve(curve_name)
 
    This method is not available if "HAS_ECDH" is "False".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    See also:
 
@@ -1784,7 +1796,7 @@ SSLContext.sslsocket_class
    "SSLSocket". The attribute can be overridden on instance of class
    in order to return a custom subclass of "SSLSocket".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 SSLContext.wrap_bio(incoming, outgoing, server_side=False, server_hostname=None, session=None)
 
@@ -1807,7 +1819,7 @@ SSLContext.sslobject_class
    "SSLObject". The attribute can be overridden on instance of class
    in order to return a custom subclass of "SSLObject".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 SSLContext.session_stats()
 
@@ -1847,7 +1859,7 @@ SSLContext.check_hostname
       ssl_sock = context.wrap_socket(s, server_hostname='www.verisign.com')
       ssl_sock.connect(('www.verisign.com', 443))
 <
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.7: "verify_mode" is now automatically changed
    to "CERT_REQUIRED"  when hostname checking is enabled and
@@ -1863,7 +1875,7 @@ SSLContext.keylog_filename
    mode. Writes are synchronized between threads, but not between
    processes.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 SSLContext.maximum_version
 
@@ -1879,14 +1891,14 @@ SSLContext.maximum_version
    "options" and "maximum_version" set to "TLSVersion.TLSv1_2" will
    not be able to establish a TLS 1.2 connection.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 SSLContext.minimum_version
 
    Like "SSLContext.maximum_version" except it is the lowest supported
    version or "TLSVersion.MINIMUM_SUPPORTED".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 SSLContext.num_tickets
 
@@ -1894,7 +1906,7 @@ SSLContext.num_tickets
    "PROTOCOL_TLS_SERVER" context. The setting has no impact on TLS 1.0
    to 1.2 connections.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 SSLContext.options
 
@@ -1905,7 +1917,7 @@ SSLContext.options
    Changed in version 3.6: "SSLContext.options" returns "Options"
    flags:
 
-   >>> ssl.create_default_context().options  
+   >>> ssl.create_default_context().options
    <Options.OP_ALL|OP_NO_SSLv3|OP_NO_SSLv2|OP_NO_COMPRESSION: 2197947391>
 
    Deprecated since version 3.7: All "OP_NO_SSL*" and "OP_NO_TLS*"
@@ -1930,7 +1942,7 @@ SSLContext.post_handshake_auth
    "SSLSocket.verify_client_post_handshake()" is called and some I/O
    is performed.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 SSLContext.protocol
 
@@ -1943,7 +1955,7 @@ SSLContext.hostname_checks_common_name
    common name in the absence of a subject alternative name extension
    (default: true).
 
-   New in version 3.7.
+   Added in version 3.7.
 
    Changed in version 3.10: The flag had no effect with OpenSSL before
    version 1.1.1l. Python 3.8.9, 3.9.3, and 3.10 include workarounds
@@ -1954,7 +1966,7 @@ SSLContext.security_level
    An integer representing the security level for the context. This
    attribute is read-only.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 SSLContext.verify_flags
 
@@ -1963,12 +1975,12 @@ SSLContext.verify_flags
    default OpenSSL does neither require nor verify certificate
    revocation lists (CRLs).
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.6: "SSLContext.verify_flags" returns
    "VerifyFlags" flags:
 
-   >>> ssl.create_default_context().verify_flags  
+   >>> ssl.create_default_context().verify_flags
    <VerifyFlags.VERIFY_X509_TRUSTED_FIRST: 32768>
 
 SSLContext.verify_mode
@@ -1980,7 +1992,7 @@ SSLContext.verify_mode
    Changed in version 3.6: "SSLContext.verify_mode" returns
    "VerifyMode" enum:
 
-   >>> ssl.create_default_context().verify_mode  
+   >>> ssl.create_default_context().verify_mode
    <VerifyMode.CERT_REQUIRED: 2>
 
 
@@ -2356,16 +2368,16 @@ several things you need to be aware of:
 See also:
 
   The "asyncio" module supports non-blocking SSL sockets and provides
-  a higher level API. It polls for events using the "selectors" module
-  and handles "SSLWantWriteError", "SSLWantReadError" and
-  "BlockingIOError" exceptions. It runs the SSL handshake
-  asynchronously as well.
+  a higher level Streams API. It polls for events using the
+  "selectors" module and handles "SSLWantWriteError",
+  "SSLWantReadError" and "BlockingIOError" exceptions. It runs the SSL
+  handshake asynchronously as well.
 
 
 Memory BIO Support
 ==================
 
-New in version 3.5.
+Added in version 3.5.
 
 Ever since the SSL module was introduced in Python 2.6, the
 "SSLSocket" class has provided two related but distinct areas of
@@ -2523,7 +2535,7 @@ class ssl.MemoryBIO
 SSL session
 ===========
 
-New in version 3.6.
+Added in version 3.6.
 
 class ssl.SSLSession
 
@@ -2581,13 +2593,13 @@ Verifying certificates
 
 When calling the "SSLContext" constructor directly, "CERT_NONE" is the
 default.  Since it does not authenticate the other peer, it can be
-insecure, especially in client mode where most of time you would like
-to ensure the authenticity of the server you’re talking to. Therefore,
-when in client mode, it is highly recommended to use "CERT_REQUIRED".
-However, it is in itself not sufficient; you also have to check that
-the server certificate, which can be obtained by calling
-"SSLSocket.getpeercert()", matches the desired service.  For many
-protocols and applications, the service can be identified by the
+insecure, especially in client mode where most of the time you would
+like to ensure the authenticity of the server you’re talking to.
+Therefore, when in client mode, it is highly recommended to use
+"CERT_REQUIRED".  However, it is in itself not sufficient; you also
+have to check that the server certificate, which can be obtained by
+calling "SSLSocket.getpeercert()", matches the desired service.  For
+many protocols and applications, the service can be identified by the
 hostname. This common check is automatically performed when
 "SSLContext.check_hostname" is enabled.
 
@@ -2648,7 +2660,7 @@ sufficient.
 TLS 1.3
 =======
 
-New in version 3.7.
+Added in version 3.7.
 
 The TLS 1.3 protocol behaves slightly differently than previous
 version of TLS/SSL. Some new TLS 1.3 features are not yet available.

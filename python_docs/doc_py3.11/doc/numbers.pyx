@@ -1,5 +1,5 @@
-Python 3.11.9
-*numbers.pyx*                                 Last change: 2024 May 24
+Python 3.11.14
+*numbers.pyx*                                 Last change: 2025 Dec 20
 
 "numbers" — Numeric abstract base classes
 *****************************************

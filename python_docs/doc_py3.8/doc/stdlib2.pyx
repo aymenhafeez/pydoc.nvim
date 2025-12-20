@@ -1,5 +1,5 @@
-Python 3.8.19
-*stdlib2.pyx*                                 Last change: 2024 May 24
+Python 3.8.20
+*stdlib2.pyx*                                 Last change: 2025 Dec 20
 
 11. Brief Tour of the Standard Library — Part II
 ************************************************

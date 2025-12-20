@@ -1,5 +1,5 @@
-Python 3.12.3
-*py_compile.pyx*                              Last change: 2024 May 24
+Python 3.12.12
+*py_compile.pyx*                              Last change: 2025 Dec 20
 
 "py_compile" — Compile Python source files
 ******************************************
@@ -89,13 +89,13 @@ py_compile.compile(file, cfile=None, dfile=None, doraise=False, optimize=-1, inv
 
 class py_compile.PycInvalidationMode
 
-   A enumeration of possible methods the interpreter can use to
+   An enumeration of possible methods the interpreter can use to
    determine whether a bytecode file is up to date with a source file.
    The ".pyc" file indicates the desired invalidation mode in its
    header. See Cached bytecode invalidation for more information on
    how Python invalidates ".pyc" files at runtime.
 
-   New in version 3.7.
+   Added in version 3.7.
 
    TIMESTAMP
 

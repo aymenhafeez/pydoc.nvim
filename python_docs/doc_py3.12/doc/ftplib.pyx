@@ -1,5 +1,5 @@
-Python 3.12.3
-*ftplib.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*ftplib.pyx*                                  Last change: 2025 Dec 20
 
 "ftplib" — FTP protocol client
 ******************************
@@ -89,7 +89,7 @@ class ftplib.FTP(host='', user='', passwd='', acct='', timeout=None, source_addr
    >>> with FTP("ftp1.at.proftpd.org") as ftp:
    ...     ftp.login()
    ...     ftp.dir()
-   ... 
+   ...
    '230 Anonymous login ok, restrictions apply.'
    dr-xr-xr-x   9 ftp      ftp           154 May  6 10:43 .
    dr-xr-xr-x   9 ftp      ftp           154 May  6 10:43 ..
@@ -209,7 +209,7 @@ class ftplib.FTP(host='', user='', passwd='', acct='', timeout=None, source_addr
       Retrieve a file in binary transfer mode.
 
       Parameters:
-         * **cmd** (_str_) – An appropriate "STOR" command: ""STOR
+         * **cmd** (_str_) – An appropriate "RETR" command: ""RETR
            _filename_"".
 
          * **callback** (_callable_) – A single parameter callable
@@ -317,7 +317,7 @@ class ftplib.FTP(host='', user='', passwd='', acct='', timeout=None, source_addr
       the _facts_ argument but server is not guaranteed to return all
       requested facts.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    nlst(argument[, ...])
 
@@ -445,7 +445,7 @@ class ftplib.FTP_TLS(host='', user='', passwd='', acct='', *, context=None, time
       * **encoding** (_str_) – The encoding for directories and
         filenames (default: "'utf-8'").
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.3: Added the _source_address_ parameter.
 
@@ -493,7 +493,7 @@ class ftplib.FTP_TLS(host='', user='', passwd='', acct='', *, context=None, time
       take advantage of firewalls that know how to handle NAT with
       non-secure FTP without opening fixed ports.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    prot_p()
 

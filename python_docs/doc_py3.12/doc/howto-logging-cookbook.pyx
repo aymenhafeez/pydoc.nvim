@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-logging-cookbook.pyx*                  Last change: 2024 May 24
+Python 3.12.12
+*howto-logging-cookbook.pyx*                  Last change: 2025 Dec 20
 
 Logging Cookbook
 ****************
@@ -818,6 +818,18 @@ To test these files, do the following in a POSIX environment:
 You may need to tweak the configuration files in the unlikely event
 that the configured ports clash with something else in your test
 environment.
+
+The default configuration uses a TCP socket on port 9020. You can use
+a Unix Domain socket instead of a TCP socket by doing the following:
+
+1. In "listener.json", add a "socket" key with the path to the domain
+   socket you want to use. If this key is present, the listener
+   listens on the corresponding domain socket and not on a TCP socket
+   (the "port" key is ignored).
+
+2. In "webapp.json", change the socket handler configuration
+   dictionary so that the "host" value is the path to the domain
+   socket, and set the "port" value to "null".
 
 
 Adding contextual information to your logging output
@@ -3950,7 +3962,7 @@ As you can see, this output isn’t ideal. That’s because the underlying
 code which writes to "sys.stderr" makes multiple writes, each of which
 results in a separate logged line (for example, the last three lines
 above). To get around this problem, you need to buffer things and only
-output log lines when newlines are seen. Let’s use a slghtly better
+output log lines when newlines are seen. Let’s use a slightly better
 implementation of "LoggerWriter":
 >
    class BufferingLoggerWriter(LoggerWriter):

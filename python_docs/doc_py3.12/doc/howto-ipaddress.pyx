@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-ipaddress.pyx*                         Last change: 2024 May 24
+Python 3.12.12
+*howto-ipaddress.pyx*                         Last change: 2025 Dec 20
 
 An introduction to the ipaddress module
 ***************************************
@@ -198,7 +198,7 @@ Iterating through the “usable” addresses on a network:
 >
    >>> net4 = ipaddress.ip_network('192.0.2.0/24')
    >>> for x in net4.hosts():
-   ...     print(x)  
+   ...     print(x)
    192.0.2.1
    192.0.2.2
    192.0.2.3

@@ -1,5 +1,5 @@
-Python 3.12.3
-*cmdline.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*cmdline.pyx*                                 Last change: 2025 Dec 20
 
 Modules command-line interface (CLI)
 ************************************
@@ -24,7 +24,7 @@ The following modules have a command-line interface.
 
 * dis
 
-* "doctest"
+* doctest
 
 * "encodings.rot_13"
 

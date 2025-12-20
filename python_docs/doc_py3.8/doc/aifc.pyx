@@ -1,5 +1,5 @@
-Python 3.8.19
-*aifc.pyx*                                    Last change: 2024 May 24
+Python 3.8.20
+*aifc.pyx*                                    Last change: 2025 Dec 20
 
 "aifc" — Read and write AIFF and AIFC files
 *******************************************

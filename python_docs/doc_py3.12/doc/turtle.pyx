@@ -1,5 +1,5 @@
-Python 3.12.3
-*turtle.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*turtle.pyx*                                  Last change: 2025 Dec 20
 
 "turtle" — Turtle graphics
 **************************
@@ -104,7 +104,7 @@ disappeared off-screen):
    home()
 <
 The home position is at the center of the turtle’s screen. If you ever
-need to know them, get the turtle’s x-y co-ordinates with:
+need to know them, get the turtle’s x-y coordinates with:
 >
    pos()
 <
@@ -547,7 +547,7 @@ turtle.teleport(x, y=None, *, fill_gap=False)
       >>> turtle.pos()
       (20.00,30.00)
 <
-   New in version 3.12.
+   Added in version 3.12.
 
 turtle.setx(x)
 
@@ -869,8 +869,8 @@ turtle.degrees(fullcircle=360.0)
       >>> turtle.heading()
       90.0
 
-      Change angle measurement unit to grad (also known as gon,
-      grade, or gradian and equals 1/100-th of the right angle.)
+      >>> # Change angle measurement unit to grad (also known as gon,
+      >>> # grade, or gradian and equals 1/100-th of the right angle.)
       >>> turtle.degrees(400.0)
       >>> turtle.heading()
       100.0

@@ -1,5 +1,5 @@
-Python 3.12.3
-*smtplib.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*smtplib.pyx*                                 Last change: 2025 Dec 20
 
 "smtplib" — SMTP protocol client
 ********************************
@@ -64,7 +64,7 @@ class smtplib.SMTP(host='', port=0, local_hostname=None, [timeout, ]source_addre
 
    Changed in version 3.3: _source_address_ argument was added.
 
-   New in version 3.5: The SMTPUTF8 extension (**RFC 6531**) is now
+   Added in version 3.5: The SMTPUTF8 extension (**RFC 6531**) is now
    supported.
 
    Changed in version 3.9: If the _timeout_ parameter is set to be
@@ -168,7 +168,7 @@ exception smtplib.SMTPNotSupportedError
 
    The command or option attempted is not supported by the server.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 exception smtplib.SMTPAuthenticationError
 
@@ -360,7 +360,7 @@ SMTP.auth(mechanism, authobject, *, initial_response_ok=True)
    facilitate the implementation of authentication methods not (or not
    yet) supported directly by "smtplib".
 
-   New in version 3.5.
+   Added in version 3.5.
 
 SMTP.starttls(*, context=None)
 
@@ -499,14 +499,14 @@ SMTP.send_message(msg, from_addr=None, to_addrs=None, mail_options=(), rcpt_opti
    "send_message" does not transmit any _Bcc_ or _Resent-Bcc_ headers
    that may appear in _msg_.  If any of the addresses in _from_addr_
    and _to_addrs_ contain non-ASCII characters and the server does not
-   advertise "SMTPUTF8" support, an "SMTPNotSupported" error is
-   raised.  Otherwise the "Message" is serialized with a clone of its
-   "policy" with the "utf8" attribute set to "True", and "SMTPUTF8"
-   and "BODY=8BITMIME" are added to _mail_options_.
+   advertise "SMTPUTF8" support, an "SMTPNotSupportedError" is raised.
+   Otherwise the "Message" is serialized with a clone of its "policy"
+   with the "utf8" attribute set to "True", and "SMTPUTF8" and
+   "BODY=8BITMIME" are added to _mail_options_.
 
-   New in version 3.2.
+   Added in version 3.2.
 
-   New in version 3.5: Support for internationalized addresses
+   Added in version 3.5: Support for internationalized addresses
    ("SMTPUTF8").
 
 SMTP.quit()
@@ -528,34 +528,33 @@ envelope (‘To’ and ‘From’ addresses), and the message to be delivered.
 Note that the headers to be included with the message must be included
 in the message as entered; this example doesn’t do any processing of
 the **RFC 822** headers.  In particular, the ‘To’ and ‘From’ addresses
-must be included in the message headers explicitly.
+must be included in the message headers explicitly:
 >
    import smtplib
 
-   def prompt(prompt):
-       return input(prompt).strip()
+   def prompt(title):
+       return input(title).strip()
 
-   fromaddr = prompt("From: ")
-   toaddrs  = prompt("To: ").split()
+   from_addr = prompt("From: ")
+   to_addrs  = prompt("To: ").split()
    print("Enter message, end with ^D (Unix) or ^Z (Windows):")
 
    # Add the From: and To: headers at the start!
-   msg = ("From: %s\r\nTo: %s\r\n\r\n"
-          % (fromaddr, ", ".join(toaddrs)))
+   lines = [f"From: {from_addr}", f"To: {', '.join(to_addrs)}", ""]
    while True:
        try:
            line = input()
        except EOFError:
            break
-       if not line:
-           break
-       msg = msg + line
+       else:
+           lines.append(line)
 
+   msg = "\r\n".join(lines)
    print("Message length is", len(msg))
 
-   server = smtplib.SMTP('localhost')
+   server = smtplib.SMTP("localhost")
    server.set_debuglevel(1)
-   server.sendmail(fromaddr, toaddrs, msg)
+   server.sendmail(from_addr, to_addrs, msg)
    server.quit()
 <
 Note:

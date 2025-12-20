@@ -1,5 +1,5 @@
-Python 3.10.14
-*asyncio.pyx*                                 Last change: 2024 May 24
+Python 3.10.19
+*asyncio.pyx*                                 Last change: 2025 Dec 20
 
 "asyncio" — Asynchronous I/O
 ****************************
@@ -52,6 +52,8 @@ developers_ to:
 
 * bridge callback-based libraries and code with async/await syntax.
 
+-[ asyncio REPL ]-
+
 You can experiment with an "asyncio" concurrent context in the REPL:
 >
    $ python -m asyncio
@@ -62,6 +64,11 @@ You can experiment with an "asyncio" concurrent context in the REPL:
    >>> await asyncio.sleep(10, result='hello')
    'hello'
 <
+Raises an auditing event "cpython.run_stdin" with no arguments.
+
+Changed in version 3.10.15: (also 3.9.20, and 3.8.20) Emits audit
+events.
+
 -[ Reference ]-
 
 High-level APIs

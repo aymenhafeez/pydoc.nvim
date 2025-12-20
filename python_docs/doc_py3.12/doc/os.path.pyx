@@ -1,11 +1,11 @@
-Python 3.12.3
-*os.path.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*os.path.pyx*                                 Last change: 2025 Dec 20
 
 "os.path" — Common pathname manipulations
 *****************************************
 
-**Source code:** Lib/posixpath.py (for POSIX) and Lib/ntpath.py (for
-Windows).
+**Source code:** Lib/genericpath.py, Lib/posixpath.py (for POSIX) and
+Lib/ntpath.py (for Windows).
 
 ======================================================================
 
@@ -70,13 +70,11 @@ os.path.commonpath(paths)
 
    Return the longest common sub-path of each pathname in the sequence
    _paths_.  Raise "ValueError" if _paths_ contain both absolute and
-   relative pathnames, the _paths_ are on the different drives or if
+   relative pathnames, if _paths_ are on different drives, or if
    _paths_ is empty.  Unlike "commonprefix()", this returns a valid
    path.
 
-   Availability: Unix, Windows.
-
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.6: Accepts a sequence of _path-like objects_.
 
@@ -123,8 +121,8 @@ os.path.exists(path)
 
 os.path.lexists(path)
 
-   Return "True" if _path_ refers to an existing path. Returns "True"
-   for broken symbolic links.   Equivalent to "exists()" on platforms
+   Return "True" if _path_ refers to an existing path, including
+   broken symbolic links.   Equivalent to "exists()" on platforms
    lacking "os.lstat()".
 
    Changed in version 3.6: Accepts a _path-like object_.
@@ -168,14 +166,14 @@ os.path.expandvars(path)
 os.path.getatime(path)
 
    Return the time of last access of _path_.  The return value is a
-   floating point number giving the number of seconds since the epoch
+   floating-point number giving the number of seconds since the epoch
    (see the  "time" module).  Raise "OSError" if the file does not
    exist or is inaccessible.
 
 os.path.getmtime(path)
 
    Return the time of last modification of _path_.  The return value
-   is a floating point number giving the number of seconds since the
+   is a floating-point number giving the number of seconds since the
    epoch (see the  "time" module). Raise "OSError" if the file does
    not exist or is inaccessible.
 
@@ -228,7 +226,7 @@ os.path.isjunction(path)
    that is a junction.  Always return "False" if junctions are not
    supported on the current platform.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 os.path.islink(path)
 
@@ -251,8 +249,8 @@ os.path.ismount(path)
    points, and for any other path "GetVolumePathName" is called to see
    if it is different from the input path.
 
-   New in version 3.4: Support for detecting non-root mount points on
-   Windows.
+   Changed in version 3.4: Added support for detecting non-root mount
+   points on Windows.
 
    Changed in version 3.6: Accepts a _path-like object_.
 
@@ -271,7 +269,7 @@ os.path.isdevdrive(path)
 
    Availability: Windows.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 os.path.join(path, *paths)
 
@@ -306,23 +304,23 @@ os.path.normcase(path)
 
 os.path.normpath(path)
 
-      Normalize a pathname by collapsing redundant separators and up-
-      level references so that "A//B", "A/B/", "A/./B" and
-      "A/foo/../B" all become "A/B".  This string manipulation may
-      change the meaning of a path that contains symbolic links.  On
-      Windows, it converts forward slashes to backward slashes. To
-      normalize case, use "normcase()".
+   Normalize a pathname by collapsing redundant separators and up-
+   level references so that "A//B", "A/B/", "A/./B" and "A/foo/../B"
+   all become "A/B".  This string manipulation may change the meaning
+   of a path that contains symbolic links.  On Windows, it converts
+   forward slashes to backward slashes. To normalize case, use
+   "normcase()".
 
    Note:
 
-        On POSIX systems, in accordance with IEEE Std 1003.1 2013
-        Edition; 4.13 Pathname Resolution, if a pathname begins with
-        exactly two slashes, the first component following the leading
-        characters may be interpreted in an implementation-defined
-        manner, although more than two leading characters shall be
-        treated as a single character.
+     On POSIX systems, in accordance with IEEE Std 1003.1 2013
+     Edition; 4.13 Pathname Resolution, if a pathname begins with
+     exactly two slashes, the first component following the leading
+     characters may be interpreted in an implementation-defined
+     manner, although more than two leading characters shall be
+     treated as a single character.
 
-     Changed in version 3.6: Accepts a _path-like object_.
+   Changed in version 3.6: Accepts a _path-like object_.
 
 os.path.realpath(path, *, strict=False)
 
@@ -330,10 +328,27 @@ os.path.realpath(path, *, strict=False)
    any symbolic links encountered in the path (if they are supported
    by the operating system).
 
-   If a path doesn’t exist or a symlink loop is encountered, and
-   _strict_ is "True", "OSError" is raised. If _strict_ is "False",
-   the path is resolved as far as possible and any remainder is
-   appended without checking whether it exists.
+   By default, the path is evaluated up to the first component that
+   does not exist, is a symlink loop, or whose evaluation raises
+   "OSError". All such components are appended unchanged to the
+   existing part of the path.
+
+   Some errors that are handled this way include “access denied”, “not
+   a directory”, or “bad argument to internal function”. Thus, the
+   resulting path may be missing or inaccessible, may still contain
+   links or loops, and may traverse non-directories.
+
+   This behavior can be modified by keyword arguments:
+
+   If _strict_ is "True", the first error encountered when evaluating
+   the path is re-raised. In particular, "FileNotFoundError" is raised
+   if _path_ does not exist, or another "OSError" if it is otherwise
+   inaccessible.
+
+   If _strict_ is "os.path.ALLOW_MISSING", errors other than
+   "FileNotFoundError" are re-raised (as with "strict=True"). Thus,
+   the returned path will not contain any symbolic links, but the
+   named file and some of its parent directories may be missing.
 
    Note:
 
@@ -350,6 +365,15 @@ os.path.realpath(path, *, strict=False)
 
    Changed in version 3.10: The _strict_ parameter was added.
 
+   Changed in version 3.12.11: The "ALLOW_MISSING" value for the
+   _strict_ parameter was added.
+
+os.path.ALLOW_MISSING
+
+   Special value used for the _strict_ argument in "realpath()".
+
+   Added in version 3.12.11.
+
 os.path.relpath(path, start=os.curdir)
 
    Return a relative filepath to _path_ either from the current
@@ -360,8 +384,6 @@ os.path.relpath(path, start=os.curdir)
 
    _start_ defaults to "os.curdir".
 
-   Availability: Unix, Windows.
-
    Changed in version 3.6: Accepts a _path-like object_.
 
 os.path.samefile(path1, path2)
@@ -370,8 +392,6 @@ os.path.samefile(path1, path2)
    directory. This is determined by the device number and i-node
    number and raises an exception if an "os.stat()" call on either
    pathname fails.
-
-   Availability: Unix, Windows.
 
    Changed in version 3.2: Added Windows support.
 
@@ -385,8 +405,6 @@ os.path.sameopenfile(fp1, fp2)
    Return "True" if the file descriptors _fp1_ and _fp2_ refer to the
    same file.
 
-   Availability: Unix, Windows.
-
    Changed in version 3.2: Added Windows support.
 
    Changed in version 3.6: Accepts a _path-like object_.
@@ -397,8 +415,6 @@ os.path.samestat(stat1, stat2)
    same file. These structures may have been returned by "os.fstat()",
    "os.lstat()", or "os.stat()".  This function implements the
    underlying comparison used by "samefile()" and "sameopenfile()".
-
-   Availability: Unix, Windows.
 
    Changed in version 3.4: Added Windows support.
 
@@ -472,7 +488,7 @@ os.path.splitroot(path)
       >>> splitroot('//Server/Share/Users/Sam')
       ('//Server/Share', '/', 'Users/Sam')
 <
-   New in version 3.12.
+   Added in version 3.12.
 
 os.path.splitext(path)
 

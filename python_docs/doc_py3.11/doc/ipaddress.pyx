@@ -1,5 +1,5 @@
-Python 3.11.9
-*ipaddress.pyx*                               Last change: 2024 May 24
+Python 3.11.14
+*ipaddress.pyx*                               Last change: 2025 Dec 20
 
 "ipaddress" — IPv4/IPv6 manipulation library
 ********************************************
@@ -172,17 +172,60 @@ class ipaddress.IPv4Address(address)
 
    is_private
 
-      "True" if the address is allocated for private networks.  See
+      "True" if the address is defined as not globally reachable by
       iana-ipv4-special-registry (for IPv4) or iana-ipv6-special-
-      registry (for IPv6).
+      registry (for IPv6) with the following exceptions:
+
+      * "is_private" is "False" for the shared address space
+        ("100.64.0.0/10")
+
+      * For IPv4-mapped IPv6-addresses the "is_private" value is
+        determined by the semantics of the underlying IPv4 addresses
+        and the following condition holds (see
+        "IPv6Address.ipv4_mapped"):
+>
+           address.is_private == address.ipv4_mapped.is_private
+<
+      "is_private" has value opposite to "is_global", except for the
+      shared address space ("100.64.0.0/10" range) where they are both
+      "False".
+
+      Changed in version 3.11.10: Fixed some false positives and false
+      negatives.
+
+      * "192.0.0.0/24" is considered private with the exception of
+        "192.0.0.9/32" and "192.0.0.10/32" (previously: only the
+        "192.0.0.0/29" sub-range was considered private).
+
+      * "64:ff9b:1::/48" is considered private.
+
+      * "2002::/16" is considered private.
+
+      * There are exceptions within "2001::/23" (otherwise considered
+        private): "2001:1::1/128", "2001:1::2/128", "2001:3::/32",
+        "2001:4:112::/48", "2001:20::/28", "2001:30::/28". The
+        exceptions are not considered private.
 
    is_global
 
-      "True" if the address is allocated for public networks.  See
-      iana-ipv4-special-registry (for IPv4) or iana-ipv6-special-
-      registry (for IPv6).
+      "True" if the address is defined as globally reachable by iana-
+      ipv4-special-registry (for IPv4) or iana-ipv6-special-registry
+      (for IPv6) with the following exception:
+
+      For IPv4-mapped IPv6-addresses the "is_private" value is
+      determined by the semantics of the underlying IPv4 addresses and
+      the following condition holds (see "IPv6Address.ipv4_mapped"):
+>
+         address.is_global == address.ipv4_mapped.is_global
+<
+      "is_global" has value opposite to "is_private", except for the
+      shared address space ("100.64.0.0/10" range) where they are both
+      "False".
 
       New in version 3.4.
+
+      Changed in version 3.11.10: Fixed some false positives and false
+      negatives, see "is_private" for details.
 
    is_unspecified
 

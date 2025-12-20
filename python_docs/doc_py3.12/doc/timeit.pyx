@@ -1,5 +1,5 @@
-Python 3.12.3
-*timeit.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*timeit.pyx*                                  Last change: 2025 Dec 20
 
 "timeit" — Measure execution time of small code snippets
 ********************************************************
@@ -148,7 +148,7 @@ class timeit.Timer(stmt='pass', setup='pass', timer=<timer function>, globals=No
       after each trial with two arguments: "callback(number,
       time_taken)".
 
-      New in version 3.6.
+      Added in version 3.6.
 
    repeat(repeat=5, number=1000000)
 
@@ -221,14 +221,14 @@ Where the following options are understood:
    "time.process_time()" instead of "time.perf_counter()", which is
    the default
 
-   New in version 3.3.
+   Added in version 3.3.
 
 -u, --unit=U
 
    specify a time unit for timer output; can select "nsec", "usec",
    "msec", or "sec"
 
-   New in version 3.5.
+   Added in version 3.5.
 
 -v, --verbose
 

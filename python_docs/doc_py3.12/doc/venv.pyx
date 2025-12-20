@@ -1,5 +1,5 @@
-Python 3.12.3
-*venv.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*venv.pyx*                                    Last change: 2025 Dec 20
 
 12. Virtual Environments and Packages
 *************************************
@@ -36,10 +36,9 @@ not affect application A’s environment.
 ===================================
 
 The module used to create and manage virtual environments is called
-"venv".  "venv" will usually install the most recent version of Python
-that you have available. If you have multiple versions of Python on
-your system, you can select a specific Python version by running
-"python3" or whichever version you want.
+"venv".  "venv" will install the Python version from which the command
+was run (as reported by the "--version" option). For instance,
+executing the command with "python3.12" will install version 3.12.
 
 To create a virtual environment, decide upon a directory where you
 want to place it, and run the "venv" module as a script with the

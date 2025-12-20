@@ -1,5 +1,5 @@
-Python 3.12.3
-*site.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*site.pyx*                                    Last change: 2025 Dec 20
 
 "site" — Site-specific configuration hook
 *****************************************
@@ -12,12 +12,12 @@ Python 3.12.3
 automatic import can be suppressed using the interpreter’s "-S"
 option.
 
-Importing this module will append site-specific paths to the module
-search path and add a few builtins, unless "-S" was used.  In that
-case, this module can be safely imported with no automatic
-modifications to the module search path or additions to the builtins.
-To explicitly trigger the usual site-specific additions, call the
-"main()" function.
+Importing this module normally appends site-specific paths to the
+module search path and adds callables, including "help()" to the
+built-in namespace. However, Python startup option "-S" blocks this
+and this module can be safely imported with no automatic modifications
+to the module search path or additions to the builtins.  To explicitly
+trigger the usual site-specific additions, call the "main()" function.
 
 Changed in version 3.3: Importing the module used to trigger paths
 manipulation even when using "-S".
@@ -200,7 +200,7 @@ site.getsitepackages()
 
    Return a list containing all global site-packages directories.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 site.getuserbase()
 
@@ -208,7 +208,7 @@ site.getuserbase()
    not initialized yet, this function will also set it, respecting
    "PYTHONUSERBASE".
 
-   New in version 3.2.
+   Added in version 3.2.
 
 site.getusersitepackages()
 
@@ -218,7 +218,7 @@ site.getusersitepackages()
    site-packages was added to "sys.path" "ENABLE_USER_SITE" should be
    used.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 
 Command Line Interface

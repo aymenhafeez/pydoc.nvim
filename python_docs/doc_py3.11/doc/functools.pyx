@@ -1,5 +1,5 @@
-Python 3.11.9
-*functools.pyx*                               Last change: 2024 May 24
+Python 3.11.14
+*functools.pyx*                               Last change: 2025 Dec 20
 
 "functools" — Higher-order functions and operations on callable objects
 ***********************************************************************

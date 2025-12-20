@@ -1,5 +1,5 @@
-Python 3.12.3
-*poplib.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*poplib.pyx*                                  Last change: 2025 Dec 20
 
 "poplib" — POP3 protocol client
 *******************************
@@ -129,7 +129,7 @@ POP3.capa()
    Query the server’s capabilities as specified in **RFC 2449**.
    Returns a dictionary in the form "{'name': ['param'...]}".
 
-   New in version 3.4.
+   Added in version 3.4.
 
 POP3.user(username)
 
@@ -210,7 +210,7 @@ POP3.utf8()
    Try to switch to UTF-8 mode. Returns the server response if
    successful, raises "error_proto" if not. Specified in **RFC 6856**.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 POP3.stls(context=None)
 
@@ -226,7 +226,7 @@ POP3.stls(context=None)
    "ssl.SSLContext.check_hostname" and _Server Name Indication_ (see
    "ssl.HAS_SNI").
 
-   New in version 3.4.
+   Added in version 3.4.
 
 Instances of "POP3_SSL" have no additional methods. The interface of
 this subclass is identical to its parent.

@@ -1,5 +1,5 @@
-Python 3.12.3
-*numeric.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*numeric.pyx*                                 Last change: 2025 Dec 20
 
 Numeric and Mathematical Modules
 ********************************
@@ -17,7 +17,7 @@ The following modules are documented in this chapter:
 
   * The numeric tower
 
-  * Notes for type implementors
+  * Notes for type implementers
 
     * Adding More Numeric ABCs
 
@@ -53,7 +53,7 @@ The following modules are documented in this chapter:
 
   * Constants
 
-* "decimal" — Decimal fixed point and floating point arithmetic
+* "decimal" — Decimal fixed-point and floating-point arithmetic
 
   * Quick-start Tutorial
 
@@ -69,7 +69,7 @@ The following modules are documented in this chapter:
 
   * Signals
 
-  * Floating Point Notes
+  * Floating-Point Notes
 
     * Mitigating round-off error with increased precision
 

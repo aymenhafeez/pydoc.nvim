@@ -1,5 +1,5 @@
-Python 3.12.3
-*stdlib.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*stdlib.pyx*                                  Last change: 2025 Dec 20
 
 10. Brief Tour of the Standard Library
 **************************************
@@ -124,7 +124,7 @@ because they are easier to read and debug:
 =================
 
 The "math" module gives access to the underlying C library functions
-for floating point math:
+for floating-point math:
 >
    >>> import math
    >>> math.cos(math.pi / 4)

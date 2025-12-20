@@ -1,5 +1,5 @@
-Python 3.12.3
-*token.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*token.pyx*                                   Last change: 2025 Dec 20
 
 "token" — Constants used with Python parse trees
 ************************************************
@@ -297,6 +297,13 @@ token.TYPE_COMMENT
    Token value indicating that a type comment was recognized.  Such
    tokens are only produced when "ast.parse()" is invoked with
    "type_comments=True".
+
+token.EXACT_TOKEN_TYPES
+
+   A dictionary mapping the string representation of a token to its
+   numeric code.
+
+   Added in version 3.8.
 
 Changed in version 3.5: Added "AWAIT" and "ASYNC" tokens.
 

@@ -1,5 +1,5 @@
-Python 3.10.14
-*socketserver.pyx*                            Last change: 2024 May 24
+Python 3.10.19
+*socketserver.pyx*                            Last change: 2025 Dec 20
 
 "socketserver" — A framework for network servers
 ************************************************

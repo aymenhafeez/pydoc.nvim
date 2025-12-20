@@ -1,10 +1,10 @@
-Python 3.12.3
-*zipapp.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*zipapp.pyx*                                  Last change: 2025 Dec 20
 
 "zipapp" — Manage executable Python zip archives
 ************************************************
 
-New in version 3.5.
+Added in version 3.5.
 
 **Source code:** Lib/zipapp.py
 
@@ -79,7 +79,7 @@ The following options are understood:
 
    "--compress" has no effect when copying an archive.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 --info
 

@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.compat32-message.pyx*                  Last change: 2024 May 24
+Python 3.12.12
+*email.compat32-message.pyx*                  Last change: 2025 Dec 20
 
 "email.message.Message": Representing an email message using the "compat32" API
 *******************************************************************************
@@ -130,14 +130,14 @@ class email.message.Message(policy=compat32)
          g.flatten(msg)
          text = fp.getvalue()
 <
-      New in version 3.4.
+      Added in version 3.4.
 
    __bytes__()
 
       Equivalent to "as_bytes()".  Allows "bytes(msg)" to produce a
       bytes object containing the formatted message.
 
-      New in version 3.4.
+      Added in version 3.4.
 
    is_multipart()
 
@@ -605,7 +605,7 @@ class email.message.Message(policy=compat32)
       The possible values for this method are _inline_, _attachment_
       or "None" if the message follows **RFC 2183**.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    walk()
 

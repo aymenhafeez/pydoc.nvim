@@ -1,5 +1,5 @@
-Python 3.12.3
-*pdb.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*pdb.pyx*                                     Last change: 2025 Dec 20
 
 "pdb" — The Python Debugger
 ***************************
@@ -68,7 +68,7 @@ and local names are offered as arguments of the "p" command.
 You can also invoke "pdb" from the command line to debug other
 scripts.  For example:
 >
-   python -m pdb myscript.py
+   python -m pdb [-c command] (-m module | pyfile) [args ...]
 <
 When invoked as a module, pdb will automatically enter post-mortem
 debugging if the program being debugged exits abnormally.  After post-
@@ -77,12 +77,20 @@ restart the program.  Automatic restarting preserves pdb’s state (such
 as breakpoints) and in most cases is more useful than quitting the
 debugger upon program’s exit.
 
-Changed in version 3.2: Added the "-c" option to execute commands as
-if given in a ".pdbrc" file; see Debugger Commands.
+-c, --command <command>
 
-Changed in version 3.7: Added the "-m" option to execute modules
-similar to the way "python -m" does. As with a script, the debugger
-will pause execution just before the first line of the module.
+   To execute commands as if given in a ".pdbrc" file; see Debugger
+   Commands.
+
+   Changed in version 3.2: Added the "-c" option.
+
+-m <module>
+
+   To execute modules similar to the way "python -m" does. As with a
+   script, the debugger will pause execution just before the first
+   line of the module.
+
+   Changed in version 3.7: Added the "-m" option.
 
 Typical usage to execute a statement under control of the debugger is:
 >
@@ -178,9 +186,9 @@ class pdb.Pdb(completekey='tab', stdin=None, stdout=None, skip=None, nosigint=Fa
    originate in a module that matches one of these patterns. [1]
 
    By default, Pdb sets a handler for the SIGINT signal (which is sent
-   when the user presses "Ctrl-C" on the console) when you give a
+   when the user presses "Ctrl"-"C" on the console) when you give a
    "continue" command. This allows you to break into the debugger
-   again by pressing "Ctrl-C".  If you want Pdb not to touch the
+   again by pressing "Ctrl"-"C".  If you want Pdb not to touch the
    SIGINT handler, set _nosigint_ to true.
 
    The _readrc_ argument defaults to true and controls whether Pdb
@@ -258,7 +266,7 @@ There are three preset _convenience variables_:
 
 * "$_exception": the exception if the frame is raising an exception
 
-New in version 3.12.
+Added in version 3.12: Added the _convenience variable_ feature.
 
 If a file ".pdbrc" exists in the user’s home directory or in the
 current directory, it is read with "'utf-8'" encoding and executed as
@@ -454,7 +462,7 @@ ll | longlist
    List all source code for the current function or frame.
    Interesting lines are marked as for "list".
 
-   New in version 3.2.
+   Added in version 3.2.
 
 a(rgs)
 
@@ -483,7 +491,7 @@ source expression
 
    Try to get source code of _expression_ and display it.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 display [expression]
 
@@ -538,14 +546,14 @@ display [expression]
       display lst[:]: [1]  [old: []]
       (Pdb)
 <
-   New in version 3.2.
+   Added in version 3.2.
 
 undisplay [expression]
 
    Do not display _expression_ anymore in the current frame.  Without
    _expression_, clear all display expressions for the current frame.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 interact
 
@@ -553,7 +561,7 @@ interact
    global namespace contains all the (global and local) names found in
    the current scope.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 alias [name [command]]
 

@@ -1,5 +1,5 @@
-Python 3.8.19
-*email.utils.pyx*                             Last change: 2024 May 24
+Python 3.8.20
+*email.utils.pyx*                             Last change: 2025 Dec 20
 
 "email.utils": Miscellaneous utilities
 **************************************
@@ -56,13 +56,19 @@ email.utils.unquote(str)
    Likewise if _str_ ends and begins with angle brackets, they are
    stripped off.
 
-email.utils.parseaddr(address)
+email.utils.parseaddr(address, *, strict=True)
 
    Parse address – which should be the value of some address-
    containing field such as _To_ or _Cc_ – into its constituent
    _realname_ and _email address_ parts.  Returns a tuple of that
    information, unless the parse fails, in which case a 2-tuple of
    "('', '')" is returned.
+
+   If _strict_ is true, use a strict parser which rejects malformed
+   inputs.
+
+   Changed in version 3.8.20: Add _strict_ optional parameter and
+   reject malformed inputs by default.
 
 email.utils.formataddr(pair, charset='utf-8')
 
@@ -78,12 +84,16 @@ email.utils.formataddr(pair, charset='utf-8')
 
    Changed in version 3.3: Added the _charset_ option.
 
-email.utils.getaddresses(fieldvalues)
+email.utils.getaddresses(fieldvalues, *, strict=True)
 
    This method returns a list of 2-tuples of the form returned by
    "parseaddr()". _fieldvalues_ is a sequence of header field values
-   as might be returned by "Message.get_all".  Here’s a simple example
-   that gets all the recipients of a message:
+   as might be returned by "Message.get_all".
+
+   If _strict_ is true, use a strict parser which rejects malformed
+   inputs.
+
+   Here’s a simple example that gets all the recipients of a message:
 >
       from email.utils import getaddresses
 
@@ -93,6 +103,9 @@ email.utils.getaddresses(fieldvalues)
       resent_ccs = msg.get_all('resent-cc', [])
       all_recipients = getaddresses(tos + ccs + resent_tos + resent_ccs)
 <
+   Changed in version 3.8.20: Add _strict_ optional parameter and
+   reject malformed inputs by default.
+
 email.utils.parsedate(date)
 
    Attempts to parse a date according to the rules in **RFC 2822**.

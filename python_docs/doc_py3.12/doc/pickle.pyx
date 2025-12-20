@@ -1,5 +1,5 @@
-Python 3.12.3
-*pickle.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*pickle.pyx*                                  Last change: 2025 Dec 20
 
 "pickle" — Python object serialization
 **************************************
@@ -293,16 +293,17 @@ class pickle.Pickler(file, protocol=None, *, fix_imports=True, buffer_callback=N
    try to map the new Python 3 names to the old module names used in
    Python 2, so that the pickle data stream is readable with Python 2.
 
-   If _buffer_callback_ is None (the default), buffer views are
+   If _buffer_callback_ is "None" (the default), buffer views are
    serialized into _file_ as part of the pickle stream.
 
-   If _buffer_callback_ is not None, then it can be called any number
-   of times with a buffer view.  If the callback returns a false value
-   (such as None), the given buffer is out-of-band; otherwise the
-   buffer is serialized in-band, i.e. inside the pickle stream.
+   If _buffer_callback_ is not "None", then it can be called any
+   number of times with a buffer view.  If the callback returns a
+   false value (such as "None"), the given buffer is out-of-band;
+   otherwise the buffer is serialized in-band, i.e. inside the pickle
+   stream.
 
-   It is an error if _buffer_callback_ is not None and _protocol_ is
-   None or smaller than 5.
+   It is an error if _buffer_callback_ is not "None" and _protocol_ is
+   "None" or smaller than 5.
 
    Changed in version 3.8: The _buffer_callback_ argument was added.
 
@@ -346,7 +347,7 @@ class pickle.Pickler(file, protocol=None, *, fix_imports=True, buffer_callback=N
 
       See Dispatch Tables for usage examples.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    reducer_override(obj)
 
@@ -360,7 +361,7 @@ class pickle.Pickler(file, protocol=None, *, fix_imports=True, buffer_callback=N
       For a detailed example, see Custom Reduction for Types,
       Functions, and Other Objects.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    fast
 
@@ -397,12 +398,12 @@ class pickle.Unpickler(file, *, fix_imports=True, encoding='ASCII', errors='stri
    "encoding='latin1'" is required for unpickling NumPy arrays and
    instances of "datetime", "date" and "time" pickled by Python 2.
 
-   If _buffers_ is None (the default), then all data necessary for
+   If _buffers_ is "None" (the default), then all data necessary for
    deserialization must be contained in the pickle stream.  This means
-   that the _buffer_callback_ argument was None when a "Pickler" was
+   that the _buffer_callback_ argument was "None" when a "Pickler" was
    instantiated (or when "dump()" or "dumps()" was called).
 
-   If _buffers_ is not None, it should be an iterable of buffer-
+   If _buffers_ is not "None", it should be an iterable of buffer-
    enabled objects that is consumed each time the pickle stream
    references an out-of-band buffer view.  Such buffers have been
    given in order to the _buffer_callback_ of a Pickler object.
@@ -454,7 +455,7 @@ class pickle.PickleBuffer(buffer)
    "PickleBuffer" objects can only be serialized using pickle protocol
    5 or higher.  They are eligible for out-of-band serialization.
 
-   New in version 3.8.
+   Added in version 3.8.
 
    raw()
 
@@ -701,7 +702,7 @@ object.__reduce__()
      static "__setstate__()" method. If not "None", this callable will
      have priority over "obj"’s "__setstate__()".
 
-     New in version 3.8: The optional sixth tuple item, "(obj,
+     Added in version 3.8: The optional sixth tuple item, "(obj,
      state)", was added.
 
 object.__reduce_ex__(protocol)
@@ -936,7 +937,7 @@ A sample usage might be something like this:
 Custom Reduction for Types, Functions, and Other Objects
 ========================================================
 
-New in version 3.8.
+Added in version 3.8.
 
 Sometimes, "dispatch_table" may not be flexible enough. In particular
 we may want to customize pickling based on another criterion than the
@@ -993,7 +994,7 @@ given class:
 Out-of-band Buffers
 ===================
 
-New in version 3.8.
+Added in version 3.8.
 
 In some contexts, the "pickle" module is used to transfer massive
 amounts of data.  Therefore, it can be important to minimize the

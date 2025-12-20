@@ -1,5 +1,5 @@
-Python 3.10.14
-*mmap.pyx*                                    Last change: 2024 May 24
+Python 3.10.19
+*mmap.pyx*                                    Last change: 2025 Dec 20
 
 "mmap" — Memory-mapped file support
 ***********************************

@@ -1,5 +1,5 @@
-Python 3.11.9
-*configparser.pyx*                            Last change: 2024 May 24
+Python 3.11.14
+*configparser.pyx*                            Last change: 2025 Dec 20
 
 "configparser" — Configuration file parser
 ******************************************

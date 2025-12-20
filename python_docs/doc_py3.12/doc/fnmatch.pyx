@@ -1,5 +1,5 @@
-Python 3.12.3
-*fnmatch.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*fnmatch.pyx*                                 Last change: 2025 Dec 20
 
 "fnmatch" — Unix filename pattern matching
 ******************************************
@@ -34,9 +34,14 @@ this module.  See module "glob" for pathname expansion ("glob" uses
 with a period are not special for this module, and are matched by the
 "*" and "?" patterns.
 
-Also note that "functools.lru_cache()" with the _maxsize_ of 32768 is
-used to cache the compiled regex patterns in the following functions:
-"fnmatch()", "fnmatchcase()", "filter()".
+Unless stated otherwise, “filename string” and “pattern string” either
+refer to "str" or "ISO-8859-1" encoded "bytes" objects. Note that the
+functions documented below do not allow to mix a "bytes" pattern with
+a "str" filename, and vice-versa.
+
+Finally, note that "functools.lru_cache()" with a _maxsize_ of 32768
+is used to cache the (typed) compiled regex patterns in the following
+functions: "fnmatch()", "fnmatchcase()", "filter()".
 
 fnmatch.fnmatch(name, pat)
 
@@ -64,14 +69,16 @@ fnmatch.fnmatchcase(name, pat)
 
 fnmatch.filter(names, pat)
 
-   Construct a list from those elements of the _iterable_ _names_ that
-   match pattern _pat_. It is the same as "[n for n in names if
-   fnmatch(n, pat)]", but implemented more efficiently.
+   Construct a list from those elements of the _iterable_ of filename
+   strings _names_ that match the pattern string _pat_. It is the same
+   as "[n for n in names if fnmatch(n, pat)]", but implemented more
+   efficiently.
 
 fnmatch.translate(pat)
 
    Return the shell-style pattern _pat_ converted to a regular
-   expression for using with "re.match()".
+   expression for using with "re.match()". The pattern is expected to
+   be a "str".
 
    Example:
 

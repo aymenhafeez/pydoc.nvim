@@ -1,5 +1,5 @@
-Python 3.8.19
-*_dummy_thread.pyx*                           Last change: 2024 May 24
+Python 3.8.20
+*_dummy_thread.pyx*                           Last change: 2025 Dec 20
 
 "_dummy_thread" — Drop-in replacement for the "_thread" module
 **************************************************************

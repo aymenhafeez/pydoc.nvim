@@ -1,5 +1,5 @@
-Python 3.12.3
-*http.server.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*http.server.pyx*                             Last change: 2025 Dec 20
 
 "http.server" — HTTP servers
 ****************************
@@ -44,7 +44,7 @@ class http.server.ThreadingHTTPServer(server_address, RequestHandlerClass)
    web browsers pre-opening sockets, on which "HTTPServer" would wait
    indefinitely.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 The "HTTPServer" and "ThreadingHTTPServer" must be given a
 _RequestHandlerClass_ on instantiation, of which this module provides
@@ -205,7 +205,7 @@ class http.server.BaseHTTPRequestHandler(request, client_address, server)
       client to continue.  For e.g. server can choose to send "417
       Expectation Failed" as a response header and "return False".
 
-      New in version 3.2.
+      Added in version 3.2.
 
    send_error(code, message=None, explain=None)
 
@@ -260,7 +260,7 @@ class http.server.BaseHTTPRequestHandler(request, client_address, server)
       _message_ is not specified, the HTTP message corresponding the
       response _code_  is sent.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    end_headers()
 
@@ -275,7 +275,7 @@ class http.server.BaseHTTPRequestHandler(request, client_address, server)
       Finally send the headers to the output stream and flush the
       internal headers buffer.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    log_request(code='-', size='-')
 
@@ -381,7 +381,7 @@ class http.server.SimpleHTTPRequestHandler(request, client_address, server, dire
 
       If the request was mapped to a file, it is opened. Any "OSError"
       exception in opening the requested file is mapped to a "404",
-      "'File not found'" error. If there was a "'If-Modified-Since'"
+      "'File not found'" error. If there was an "'If-Modified-Since'"
       header in the request, and the file was not modified after this
       time, a "304", "'Not Modified'" response is sent. Otherwise, the
       content type is guessed by calling the "guess_type()" method,
@@ -422,45 +422,6 @@ relative to the current directory:
 "SimpleHTTPRequestHandler" can also be subclassed to enhance behavior,
 such as using different index file names by overriding the class
 attribute "index_pages".
-
-"http.server" can also be invoked directly using the "-m" switch of
-the interpreter.  Similar to the previous example, this serves files
-relative to the current directory:
->
-   python -m http.server
-<
-The server listens to port 8000 by default. The default can be
-overridden by passing the desired port number as an argument:
->
-   python -m http.server 9000
-<
-By default, the server binds itself to all interfaces.  The option
-"-b/--bind" specifies a specific address to which it should bind. Both
-IPv4 and IPv6 addresses are supported. For example, the following
-command causes the server to bind to localhost only:
->
-   python -m http.server --bind 127.0.0.1
-<
-Changed in version 3.4: Added the "--bind" option.
-
-Changed in version 3.8: Support IPv6 in the "--bind" option.
-
-By default, the server uses the current directory. The option
-"-d/--directory" specifies a directory to which it should serve the
-files. For example, the following command uses a specific directory:
->
-   python -m http.server --directory /tmp/
-<
-Changed in version 3.7: Added the "--directory" option.
-
-By default, the server is conformant to HTTP/1.0. The option
-"-p/--protocol" specifies the HTTP version to which the server is
-conformant. For example, the following command runs an HTTP/1.1
-conformant server:
->
-   python -m http.server --protocol HTTP/1.1
-<
-Changed in version 3.11: Added the "--protocol" option.
 
 class http.server.CGIHTTPRequestHandler(request, client_address, server)
 
@@ -504,19 +465,73 @@ class http.server.CGIHTTPRequestHandler(request, client_address, server)
    security reasons.  Problems with the CGI script will be translated
    to error 403.
 
-"CGIHTTPRequestHandler" can be enabled in the command line by passing
-the "--cgi" option:
+
+Command-line interface
+======================
+
+"http.server" can also be invoked directly using the "-m" switch of
+the interpreter.  The following example illustrates how to serve files
+relative to the current directory:
 >
-   python -m http.server --cgi
+   python -m http.server [OPTIONS] [port]
+<
+The following options are accepted:
+
+port
+
+   The server listens to port 8000 by default. The default can be
+   overridden by passing the desired port number as an argument:
+>
+      python -m http.server 9000
+<
+-b, --bind <address>
+
+   Specifies a specific address to which it should bind. Both IPv4 and
+   IPv6 addresses are supported. By default, the server binds itself
+   to all interfaces. For example, the following command causes the
+   server to bind to localhost only:
+>
+      python -m http.server --bind 127.0.0.1
+<
+   Added in version 3.4.
+
+   Changed in version 3.8: Support IPv6 in the "--bind" option.
+
+-d, --directory <dir>
+
+   Specifies a directory to which it should serve the files. By
+   default, the server uses the current directory. For example, the
+   following command uses a specific directory:
+>
+      python -m http.server --directory /tmp/
+<
+   Added in version 3.7.
+
+-p, --protocol <version>
+
+   Specifies the HTTP version to which the server is conformant. By
+   default, the server is conformant to HTTP/1.0. For example, the
+   following command runs an HTTP/1.1 conformant server:
+>
+      python -m http.server --protocol HTTP/1.1
+<
+   Added in version 3.11.
+
+--cgi
+
+   "CGIHTTPRequestHandler" can be enabled in the command line by
+   passing the "--cgi" option:
+>
+      python -m http.server --cgi
 <
 Warning:
 
-  "CGIHTTPRequestHandler" and the "--cgi" command line option are not
+  "CGIHTTPRequestHandler" and the "--cgi" command-line option are not
   intended for use by untrusted clients and may be vulnerable to
   exploitation. Always use within a secure environment.
 
 
-Security Considerations
+Security considerations
 =======================
 
 "SimpleHTTPRequestHandler" will follow symbolic links when handling

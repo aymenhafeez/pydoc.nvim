@@ -1,5 +1,5 @@
-Python 3.8.19
-*os.pyx*                                      Last change: 2024 May 24
+Python 3.8.20
+*os.pyx*                                      Last change: 2025 Dec 20
 
 "os" — Miscellaneous operating system interfaces
 ************************************************
@@ -1795,6 +1795,10 @@ os.mkdir(path, mode=0o777, *, dir_fd=None)
    they are ignored and you should call "chmod()" explicitly to set
    them.
 
+   On Windows, a _mode_ of "0o700" is specifically handled to apply
+   access control to the new directory such that only the current user
+   and administrators have access. Other values of _mode_ are ignored.
+
    This function can also support paths relative to directory
    descriptors.
 
@@ -1807,6 +1811,8 @@ os.mkdir(path, mode=0o777, *, dir_fd=None)
    New in version 3.3: The _dir_fd_ argument.
 
    Changed in version 3.6: Accepts a _path-like object_.
+
+   Changed in version 3.8.20: Windows now handles a _mode_ of "0o700".
 
 os.makedirs(name, mode=0o777, exist_ok=False)
 

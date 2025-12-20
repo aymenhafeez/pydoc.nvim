@@ -1,5 +1,5 @@
-Python 3.12.3
-*os.pyx*                                      Last change: 2024 May 24
+Python 3.12.12
+*os.pyx*                                      Last change: 2025 Dec 20
 
 "os" — Miscellaneous operating system interfaces
 ************************************************
@@ -98,7 +98,7 @@ See also the _locale encoding_.
 Python UTF-8 Mode
 =================
 
-New in version 3.7: See **PEP 540** for more details.
+Added in version 3.7: See **PEP 540** for more details.
 
 The Python UTF-8 Mode ignores the _locale encoding_ and forces the
 usage of the UTF-8 encoding:
@@ -228,7 +228,7 @@ os.environb
 
    "environb" is only available if "supports_bytes_environ" is "True".
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.9: Updated to support **PEP 584**’s merge
    ("|") and update ("|=") operators.
@@ -246,7 +246,7 @@ os.fsencode(filename)
 
    "fsdecode()" is the reverse function.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.6: Support added to accept objects
    implementing the "os.PathLike" interface.
@@ -258,7 +258,7 @@ os.fsdecode(filename)
 
    "fsencode()" is the reverse function.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.6: Support added to accept objects
    implementing the "os.PathLike" interface.
@@ -272,14 +272,14 @@ os.fspath(path)
    long as it is a "str" or "bytes" object. In all other cases,
    "TypeError" is raised.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 class os.PathLike
 
    An _abstract base class_ for objects representing a file system
    path, e.g. "pathlib.PurePath".
 
-   New in version 3.6.
+   Added in version 3.6.
 
    abstractmethod __fspath__()
 
@@ -316,7 +316,7 @@ os.getenvb(key, default=None)
 
    Availability: Unix.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 os.get_exec_path(env=None)
 
@@ -326,7 +326,7 @@ os.get_exec_path(env=None)
    lookup the PATH in. By default, when _env_ is "None", "environ" is
    used.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 os.getegid()
 
@@ -360,7 +360,7 @@ os.getgrouplist(user, group, /)
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.getgroups()
 
@@ -441,7 +441,7 @@ os.getpriority(which, who)
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.PRIO_PROCESS
 os.PRIO_PGRP
@@ -451,7 +451,7 @@ os.PRIO_USER
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.PRIO_DARWIN_THREAD
 os.PRIO_DARWIN_PROCESS
@@ -462,7 +462,7 @@ os.PRIO_DARWIN_NONUI
 
    Availability: macOS
 
-   New in version 3.12.
+   Added in version 3.12.
 
 os.getresuid()
 
@@ -471,7 +471,7 @@ os.getresuid()
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 os.getresgid()
 
@@ -480,7 +480,7 @@ os.getresgid()
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 os.getuid()
 
@@ -499,7 +499,7 @@ os.initgroups(username, gid, /)
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 os.putenv(key, value, /)
 
@@ -589,7 +589,7 @@ os.setns(fd, nstype=0)
 <
    Availability: Linux >= 3.0 with glibc >= 2.14.
 
-   New in version 3.12.
+   Added in version 3.12.
 
    See also: The "unshare()" function.
 
@@ -623,7 +623,7 @@ os.setpriority(which, who, priority)
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.setregid(rgid, egid, /)
 
@@ -637,7 +637,7 @@ os.setresgid(rgid, egid, sgid, /)
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 os.setresuid(ruid, euid, suid, /)
 
@@ -645,7 +645,7 @@ os.setresuid(ruid, euid, suid, /)
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 os.setreuid(ruid, euid, /)
 
@@ -684,7 +684,7 @@ os.supports_bytes_environ
    "True" if the native OS type of the environment is bytes (eg.
    "False" on Windows).
 
-   New in version 3.2.
+   Added in version 3.2.
 
 os.umask(mask, /)
 
@@ -751,7 +751,7 @@ os.unshare(flags)
 
    Availability: Linux >= 2.6.16.
 
-   New in version 3.12.
+   Added in version 3.12.
 
    See also: The "setns()" function.
 
@@ -834,10 +834,10 @@ os.copy_file_range(src, dst, count, offset_src=None, offset_dst=None)
 
    Copy _count_ bytes from file descriptor _src_, starting from offset
    _offset_src_, to file descriptor _dst_, starting from offset
-   _offset_dst_. If _offset_src_ is None, then _src_ is read from the
-   current position; respectively for _offset_dst_.
+   _offset_dst_. If _offset_src_ is "None", then _src_ is read from
+   the current position; respectively for _offset_dst_.
 
-   In Linux kernel older than 5.3, the files pointed by _src_ and
+   In Linux kernel older than 5.3, the files pointed to by _src_ and
    _dst_ must reside in the same filesystem, otherwise an "OSError" is
    raised with "errno" set to "errno.EXDEV".
 
@@ -864,7 +864,7 @@ os.copy_file_range(src, dst, count, offset_src=None, offset_dst=None)
 
    Availability: Linux >= 4.5 with glibc >= 2.27.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 os.device_encoding(fd)
 
@@ -1020,7 +1020,7 @@ os.get_blocking(fd, /)
 
    On Windows, this function is limited to pipes.
 
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.12: Added support for pipes on Windows.
 
@@ -1041,7 +1041,7 @@ os.lockf(fd, cmd, len, /)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.F_LOCK
 os.F_TLOCK
@@ -1052,7 +1052,7 @@ os.F_TEST
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.login_tty(fd, /)
 
@@ -1063,7 +1063,7 @@ os.login_tty(fd, /)
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 os.lseek(fd, pos, whence, /)
 
@@ -1129,7 +1129,7 @@ os.SEEK_DATA
 
    Availability: Linux >= 3.1, macOS, Unix
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.open(path, flags, mode=0o777, *, dir_fd=None)
 
@@ -1265,7 +1265,7 @@ os.pipe2(flags, /)
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.posix_fallocate(fd, offset, len, /)
 
@@ -1274,7 +1274,7 @@ os.posix_fallocate(fd, offset, len, /)
 
    Availability: Unix, not Emscripten.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.posix_fadvise(fd, offset, len, advice, /)
 
@@ -1287,7 +1287,7 @@ os.posix_fadvise(fd, offset, len, advice, /)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.POSIX_FADV_NORMAL
 os.POSIX_FADV_SEQUENTIAL
@@ -1301,7 +1301,7 @@ os.POSIX_FADV_DONTNEED
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.pread(fd, n, offset, /)
 
@@ -1314,7 +1314,7 @@ os.pread(fd, n, offset, /)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.preadv(fd, buffers, offset, flags=0, /)
 
@@ -1344,7 +1344,7 @@ os.preadv(fd, buffers, offset, flags=0, /)
 
    Using flags requires Linux >= 4.6.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 os.RWF_NOWAIT
 
@@ -1359,7 +1359,7 @@ os.RWF_NOWAIT
 
    Availability: Linux >= 4.14.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 os.RWF_HIPRI
 
@@ -1372,7 +1372,7 @@ os.RWF_HIPRI
 
    Availability: Linux >= 4.6.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 os.pwrite(fd, str, offset, /)
 
@@ -1383,11 +1383,11 @@ os.pwrite(fd, str, offset, /)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.pwritev(fd, buffers, offset, flags=0, /)
 
-   Write the _buffers_ contents to file descriptor _fd_ at a offset
+   Write the _buffers_ contents to file descriptor _fd_ at an offset
    _offset_, leaving the file offset unchanged.  _buffers_ must be a
    sequence of _bytes-like objects_. Buffers are processed in array
    order. Entire contents of the first buffer is written before
@@ -1414,7 +1414,7 @@ os.pwritev(fd, buffers, offset, flags=0, /)
 
    Using flags requires Linux >= 4.6.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 os.RWF_DSYNC
 
@@ -1424,7 +1424,7 @@ os.RWF_DSYNC
 
    Availability: Linux >= 4.7.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 os.RWF_SYNC
 
@@ -1434,7 +1434,7 @@ os.RWF_SYNC
 
    Availability: Linux >= 4.7.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 os.RWF_APPEND
 
@@ -1447,7 +1447,7 @@ os.RWF_APPEND
 
    Availability: Linux >= 4.16.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 os.read(fd, n, /)
 
@@ -1505,7 +1505,7 @@ os.sendfile(out_fd, in_fd, offset, count, headers=(), trailers=(), flags=0)
      For a higher-level wrapper of "sendfile()", see
      "socket.socket.sendfile()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.9: Parameters _out_ and _in_ was renamed to
    _out_fd_ and _in_fd_.
@@ -1519,7 +1519,7 @@ os.SF_SYNC
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.SF_NOCACHE
 
@@ -1529,7 +1529,7 @@ os.SF_NOCACHE
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 os.set_blocking(fd, blocking, /)
 
@@ -1545,7 +1545,7 @@ os.set_blocking(fd, blocking, /)
 
    On Windows, this function is limited to pipes.
 
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.12: Added support for pipes on Windows.
 
@@ -1554,11 +1554,12 @@ os.splice(src, dst, count, offset_src=None, offset_dst=None)
    Transfer _count_ bytes from file descriptor _src_, starting from
    offset _offset_src_, to file descriptor _dst_, starting from offset
    _offset_dst_. At least one of the file descriptors must refer to a
-   pipe. If _offset_src_ is None, then _src_ is read from the current
-   position; respectively for _offset_dst_. The offset associated to
-   the file descriptor that refers to a pipe must be "None". The files
-   pointed by _src_ and _dst_ must reside in the same filesystem,
-   otherwise an "OSError" is raised with "errno" set to "errno.EXDEV".
+   pipe. If _offset_src_ is "None", then _src_ is read from the
+   current position; respectively for _offset_dst_. The offset
+   associated to the file descriptor that refers to a pipe must be
+   "None". The files pointed to by _src_ and _dst_ must reside in the
+   same filesystem, otherwise an "OSError" is raised with "errno" set
+   to "errno.EXDEV".
 
    This copy is done without the additional cost of transferring data
    from the kernel to user space and then back into the kernel.
@@ -1573,13 +1574,13 @@ os.splice(src, dst, count, offset_src=None, offset_dst=None)
 
    Availability: Linux >= 2.6.17 with glibc >= 2.5
 
-   New in version 3.10.
+   Added in version 3.10.
 
 os.SPLICE_F_MOVE
 os.SPLICE_F_NONBLOCK
 os.SPLICE_F_MORE
 
-   New in version 3.10.
+   Added in version 3.10.
 
 os.readv(fd, buffers, /)
 
@@ -1596,7 +1597,7 @@ os.readv(fd, buffers, /)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.tcgetpgrp(fd, /)
 
@@ -1653,13 +1654,13 @@ os.writev(fd, buffers, /)
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 
 Querying the size of a terminal
 -------------------------------
 
-New in version 3.3.
+Added in version 3.3.
 
 os.get_terminal_size(fd=STDOUT_FILENO, /)
 
@@ -1695,7 +1696,7 @@ class os.terminal_size
 Inheritance of File Descriptors
 -------------------------------
 
-New in version 3.4.
+Added in version 3.4.
 
 A file descriptor has an “inheritable” flag which indicates if the
 file descriptor can be inherited by child processes.  Since Python
@@ -1968,8 +1969,9 @@ os.chmod(path, mode, *, dir_fd=None, follow_symlinks=True)
    Raises an auditing event "os.chmod" with arguments "path", "mode",
    "dir_fd".
 
-   New in version 3.3: Added support for specifying _path_ as an open
-   file descriptor, and the _dir_fd_ and _follow_symlinks_ arguments.
+   Changed in version 3.3: Added support for specifying _path_ as an
+   open file descriptor, and the _dir_fd_ and _follow_symlinks_
+   arguments.
 
    Changed in version 3.6: Accepts a _path-like object_.
 
@@ -1992,8 +1994,9 @@ os.chown(path, uid, gid, *, dir_fd=None, follow_symlinks=True)
    The function is limited on Emscripten and WASI, see WebAssembly
    platforms for more information.
 
-   New in version 3.3: Added support for specifying _path_ as an open
-   file descriptor, and the _dir_fd_ and _follow_symlinks_ arguments.
+   Changed in version 3.3: Added support for specifying _path_ as an
+   open file descriptor, and the _dir_fd_ and _follow_symlinks_
+   arguments.
 
    Changed in version 3.6: Supports a _path-like object_.
 
@@ -2126,8 +2129,8 @@ os.listdir(path='.')
 
    Changed in version 3.2: The _path_ parameter became optional.
 
-   New in version 3.3: Added support for specifying _path_ as an open
-   file descriptor.
+   Changed in version 3.3: Added support for specifying _path_ as an
+   open file descriptor.
 
    Changed in version 3.6: Accepts a _path-like object_.
 
@@ -2146,7 +2149,7 @@ os.listdrives()
 
    Availability: Windows
 
-   New in version 3.12.
+   Added in version 3.12.
 
 os.listmounts(volume)
 
@@ -2169,7 +2172,7 @@ os.listmounts(volume)
 
    Availability: Windows
 
-   New in version 3.12.
+   Added in version 3.12.
 
 os.listvolumes()
 
@@ -2188,7 +2191,7 @@ os.listvolumes()
 
    Availability: Windows
 
-   New in version 3.12.
+   Added in version 3.12.
 
 os.lstat(path, *, dir_fd=None)
 
@@ -2234,6 +2237,10 @@ os.mkdir(path, mode=0o777, *, dir_fd=None)
    they are ignored and you should call "chmod()" explicitly to set
    them.
 
+   On Windows, a _mode_ of "0o700" is specifically handled to apply
+   access control to the new directory such that only the current user
+   and administrators have access. Other values of _mode_ are ignored.
+
    This function can also support paths relative to directory
    descriptors.
 
@@ -2246,6 +2253,8 @@ os.mkdir(path, mode=0o777, *, dir_fd=None)
    Changed in version 3.3: Added the _dir_fd_ parameter.
 
    Changed in version 3.6: Accepts a _path-like object_.
+
+   Changed in version 3.12.4: Windows now handles a _mode_ of "0o700".
 
 os.makedirs(name, mode=0o777, exist_ok=False)
 
@@ -2516,7 +2525,7 @@ os.replace(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
    Raises an auditing event "os.rename" with arguments "src", "dst",
    "src_dir_fd", "dst_dir_fd".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.6: Accepts a _path-like object_ for _src_ and
    _dst_.
@@ -2577,7 +2586,7 @@ os.scandir(path='.')
       However it is advisable to call it explicitly or use the "with"
       statement.
 
-      New in version 3.6.
+      Added in version 3.6.
 
    The following example shows a simple use of "scandir()" to display
    all the files (excluding directories) in the given _path_ that
@@ -2595,7 +2604,7 @@ os.scandir(path='.')
      and readdir() functions. On Windows, it uses the Win32
      FindFirstFileW and FindNextFileW functions.
 
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.6: Added support for the _context manager_
    protocol and the "close()" method.  If a "scandir()" iterator is
@@ -2732,7 +2741,7 @@ class os.DirEntry
       The result is cached on the "os.DirEntry" object. Call
       "os.path.isjunction()" to fetch up-to-date information.
 
-      New in version 3.12.
+      Added in version 3.12.
 
    stat(*, follow_symlinks=True)
 
@@ -2758,7 +2767,7 @@ class os.DirEntry
    the "name" attribute has the same meaning, as do the "is_dir()",
    "is_file()", "is_symlink()", "is_junction()", and "stat()" methods.
 
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.6: Added support for the "PathLike" interface.
    Added support for "bytes" paths on Windows.
@@ -2887,21 +2896,21 @@ class os.stat_result
       Time of most recent access expressed in nanoseconds as an
       integer.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    st_mtime_ns
 
       Time of most recent content modification expressed in
       nanoseconds as an integer.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    st_ctime_ns
 
       Time of most recent metadata change expressed in nanoseconds as
       an integer.
 
-      New in version 3.3.
+      Added in version 3.3.
 
       Changed in version 3.12: "st_ctime_ns" is deprecated on Windows.
       Use "st_birthtime_ns" for the file creation time. In the future,
@@ -2922,7 +2931,7 @@ class os.stat_result
       This attribute is not always available, and may raise
       "AttributeError".
 
-      New in version 3.12.
+      Added in version 3.12.
 
    Note:
 
@@ -3002,7 +3011,7 @@ class os.stat_result
       "GetFileInformationByHandle()". See the "FILE_ATTRIBUTE_*
       <stat.FILE_ATTRIBUTE_ARCHIVE>" constants in the "stat" module.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    st_reparse_tag
 
@@ -3114,7 +3123,7 @@ os.supports_dir_fd
    Currently _dir_fd_ parameters only work on Unix platforms; none of
    them work on Windows.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.supports_effective_ids
 
@@ -3132,7 +3141,7 @@ os.supports_effective_ids
    Currently _effective_ids_ is only supported on Unix platforms; it
    does not work on Windows.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.supports_fd
 
@@ -3151,7 +3160,7 @@ os.supports_fd
 >
       os.chdir in os.supports_fd
 <
-   New in version 3.3.
+   Added in version 3.3.
 
 os.supports_follow_symlinks
 
@@ -3174,7 +3183,7 @@ os.supports_follow_symlinks
 >
       os.stat in os.supports_follow_symlinks
 <
-   New in version 3.3.
+   Added in version 3.3.
 
 os.symlink(src, dst, target_is_directory=False, *, dir_fd=None)
 
@@ -3225,7 +3234,7 @@ os.sync()
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.truncate(path, length)
 
@@ -3239,7 +3248,7 @@ os.truncate(path, length)
 
    Availability: Unix, Windows.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.5: Added support for Windows
 
@@ -3364,16 +3373,16 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
 
    This example displays the number of bytes taken by non-directory
    files in each directory under the starting directory, except that
-   it doesn’t look under any CVS subdirectory:
+   it doesn’t look under any "__pycache__" subdirectory:
 >
       import os
       from os.path import join, getsize
-      for root, dirs, files in os.walk('python/Lib/email'):
+      for root, dirs, files in os.walk('python/Lib/xml'):
           print(root, "consumes", end=" ")
           print(sum(getsize(join(root, name)) for name in files), end=" ")
           print("bytes in", len(files), "non-directory files")
-          if 'CVS' in dirs:
-              dirs.remove('CVS')  # don't visit CVS directories
+          if '__pycache__' in dirs:
+              dirs.remove('__pycache__')  # don't visit __pycache__ directories
 <
    In the next example (simple implementation of "shutil.rmtree()"),
    walking the tree bottom-up is essential, "rmdir()" doesn’t allow
@@ -3389,6 +3398,7 @@ os.walk(top, topdown=True, onerror=None, followlinks=False)
               os.remove(os.path.join(root, name))
           for name in dirs:
               os.rmdir(os.path.join(root, name))
+      os.rmdir(top)
 <
    Raises an auditing event "os.walk" with arguments "top", "topdown",
    "onerror", "followlinks".
@@ -3421,16 +3431,16 @@ os.fwalk(top='.', topdown=True, onerror=None, *, follow_symlinks=False, dir_fd=N
 
    This example displays the number of bytes taken by non-directory
    files in each directory under the starting directory, except that
-   it doesn’t look under any CVS subdirectory:
+   it doesn’t look under any "__pycache__" subdirectory:
 >
       import os
-      for root, dirs, files, rootfd in os.fwalk('python/Lib/email'):
+      for root, dirs, files, rootfd in os.fwalk('python/Lib/xml'):
           print(root, "consumes", end="")
           print(sum([os.stat(name, dir_fd=rootfd).st_size for name in files]),
                 end="")
           print("bytes in", len(files), "non-directory files")
-          if 'CVS' in dirs:
-              dirs.remove('CVS')  # don't visit CVS directories
+          if '__pycache__' in dirs:
+              dirs.remove('__pycache__')  # don't visit __pycache__ directories
 <
    In the next example, walking the tree bottom-up is essential:
    "rmdir()" doesn’t allow deleting a directory before the directory
@@ -3452,7 +3462,7 @@ os.fwalk(top='.', topdown=True, onerror=None, *, follow_symlinks=False, dir_fd=N
 
    Availability: Unix.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.6: Accepts a _path-like object_.
 
@@ -3474,7 +3484,7 @@ os.memfd_create(name[, flags=os.MFD_CLOEXEC])
 
    Availability: Linux >= 3.17 with glibc >= 2.27.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 os.MFD_CLOEXEC
 os.MFD_ALLOW_SEALING
@@ -3500,7 +3510,7 @@ os.MFD_HUGE_16GB
 
    The "MFD_HUGE*" flags are only available since Linux 4.14.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 os.eventfd(initval[, flags=os.EFD_CLOEXEC])
 
@@ -3511,7 +3521,7 @@ os.eventfd(initval[, flags=os.EFD_CLOEXEC])
    inheritable.
 
    _initval_ is the initial value of the event counter. The initial
-   value must be an 32 bit unsigned integer. Please note that the
+   value must be a 32 bit unsigned integer. Please note that the
    initial value is limited to a 32 bit unsigned int although the
    event counter is an unsigned 64 bit integer with a maximum value of
    2^64-2.
@@ -3552,7 +3562,7 @@ os.eventfd(initval[, flags=os.EFD_CLOEXEC])
 <
    Availability: Linux >= 2.6.27 with glibc >= 2.8
 
-   New in version 3.10.
+   Added in version 3.10.
 
 os.eventfd_read(fd)
 
@@ -3562,7 +3572,7 @@ os.eventfd_read(fd)
 
    Availability: Linux >= 2.6.27
 
-   New in version 3.10.
+   Added in version 3.10.
 
 os.eventfd_write(fd, value)
 
@@ -3572,7 +3582,7 @@ os.eventfd_write(fd, value)
 
    Availability: Linux >= 2.6.27
 
-   New in version 3.10.
+   Added in version 3.10.
 
 os.EFD_CLOEXEC
 
@@ -3580,7 +3590,7 @@ os.EFD_CLOEXEC
 
    Availability: Linux >= 2.6.27
 
-   New in version 3.10.
+   Added in version 3.10.
 
 os.EFD_NONBLOCK
 
@@ -3588,22 +3598,22 @@ os.EFD_NONBLOCK
 
    Availability: Linux >= 2.6.27
 
-   New in version 3.10.
+   Added in version 3.10.
 
 os.EFD_SEMAPHORE
 
-   Provide semaphore-like semantics for reads from a "eventfd()" file
+   Provide semaphore-like semantics for reads from an "eventfd()" file
    descriptor. On read the internal counter is decremented by one.
 
    Availability: Linux >= 2.6.30
 
-   New in version 3.10.
+   Added in version 3.10.
 
 
 Linux extended attributes
 -------------------------
 
-New in version 3.3.
+Added in version 3.3.
 
 These functions are all available on Linux only.
 
@@ -3735,9 +3745,9 @@ os.add_dll_directory(path)
 
    Availability: Windows.
 
-   New in version 3.8: Previous versions of CPython would resolve DLLs
-   using the default behavior for the current process. This led to
-   inconsistencies, such as only sometimes searching "PATH" or the
+   Added in version 3.8: Previous versions of CPython would resolve
+   DLLs using the default behavior for the current process. This led
+   to inconsistencies, such as only sometimes searching "PATH" or the
    current working directory, and OS functions such as
    "AddDllDirectory" having no effect.In 3.8, the two primary ways
    DLLs are loaded now explicitly override the process-wide behavior
@@ -4025,8 +4035,7 @@ os.kill(pid, sig, /)
    processes which share a common console window, e.g., some
    subprocesses. Any other value for _sig_ will cause the process to
    be unconditionally killed by the TerminateProcess API, and the exit
-   code will be set to _sig_. The Windows version of "kill()"
-   additionally takes process handles to be killed.
+   code will be set to _sig_.
 
    See also "signal.pthread_kill()".
 
@@ -4061,7 +4070,7 @@ os.pidfd_open(pid, flags=0)
 
    Availability: Linux >= 5.3
 
-   New in version 3.9.
+   Added in version 3.9.
 
    os.PIDFD_NONBLOCK
 
@@ -4073,7 +4082,7 @@ os.pidfd_open(pid, flags=0)
 
    Availability: Linux >= 5.10
 
-   New in version 3.12.
+   Added in version 3.12.
 
 os.plock(op, /)
 
@@ -4203,7 +4212,7 @@ os.posix_spawn(path, argv, env, *, file_actions=None, setpgroup=None, resetids=F
    Raises an auditing event "os.posix_spawn" with arguments "path",
    "argv", "env".
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Availability: Unix, not Emscripten, not WASI.
 
@@ -4218,7 +4227,7 @@ os.posix_spawnp(path, argv, env, *, file_actions=None, setpgroup=None, resetids=
    Raises an auditing event "os.posix_spawn" with arguments "path",
    "argv", "env".
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Availability: POSIX, not Emscripten, not WASI.
 
@@ -4255,7 +4264,7 @@ os.register_at_fork(*, before=None, after_in_parent=None, after_in_child=None)
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 os.spawnl(mode, path, ...)
 os.spawnle(mode, path, ..., env)
@@ -4541,7 +4550,7 @@ os.waitid(idtype, id, options, /)
 
      This function is not available on macOS.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.waitpid(pid, options, /)
 
@@ -4636,9 +4645,9 @@ os.P_PIDFD
 
      "P_PIDFD" is only available on Linux >= 5.4.
 
-   New in version 3.3.
+   Added in version 3.3.
 
-   New in version 3.9: The "P_PIDFD" constant.
+   Added in version 3.9: The "P_PIDFD" constant.
 
 os.WCONTINUED
 
@@ -4658,7 +4667,7 @@ os.WEXITED
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.WSTOPPED
 
@@ -4669,7 +4678,7 @@ os.WSTOPPED
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 os.WUNTRACED
 
@@ -4712,7 +4721,7 @@ os.CLD_CONTINUED
 
    Availability: Unix, not Emscripten, not WASI.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.9: Added "CLD_KILLED" and "CLD_STOPPED"
    values.
@@ -4748,7 +4757,7 @@ os.waitstatus_to_exitcode(status)
 
    Availability: Unix, Windows, not Emscripten, not WASI.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 The following functions take a process status code as returned by
 "system()", "wait()", or "waitpid()" as a parameter.  They may be used
@@ -4832,7 +4841,7 @@ These functions control how a process is allocated CPU time by the
 operating system. They are only available on some Unix platforms. For
 more detailed information, consult your Unix manpages.
 
-New in version 3.3.
+Added in version 3.3.
 
 The following scheduling policies are exposed if they are supported by
 the operating system.
@@ -4920,7 +4929,7 @@ os.sched_rr_get_interval(pid, /)
 
 os.sched_yield()
 
-   Voluntarily relinquish the CPU.
+   Voluntarily relinquish the CPU. See _sched_yield(2)_ for details.
 
 os.sched_setaffinity(pid, mask, /)
 
@@ -4979,7 +4988,7 @@ os.cpu_count()
    number of logical CPUs the calling thread of the current process is
    restricted to
 
-   New in version 3.4.
+   Added in version 3.4.
 
 os.getloadavg()
 
@@ -5085,7 +5094,7 @@ os.RTLD_DEEPBIND
    functions.  See the Unix manual page _dlopen(3)_ for what the
    different flags mean.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 
 Random numbers
@@ -5112,7 +5121,7 @@ os.getrandom(size, flags=0)
 
    Availability: Linux >= 3.17.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 os.urandom(size, /)
 
@@ -5171,13 +5180,13 @@ os.GRND_NONBLOCK
    block in these cases, but instead immediately raises
    "BlockingIOError".
 
-   New in version 3.6.
+   Added in version 3.6.
 
 os.GRND_RANDOM
 
    If  this  bit  is  set,  then  random bytes are drawn from the
    "/dev/random" pool instead of the "/dev/urandom" pool.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 vim:tw=78:ts=8:ft=help:norl:

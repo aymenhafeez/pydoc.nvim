@@ -1,5 +1,5 @@
-Python 3.12.3
-*pydoc.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*pydoc.pyx*                                   Last change: 2025 Dec 20
 
 "pydoc" — Documentation generator and online help system
 ********************************************************
@@ -47,8 +47,9 @@ Note:
   script and not just imported.
 
 When printing output to the console, **pydoc** attempts to paginate
-the output for easier reading.  If the "PAGER" environment variable is
-set, **pydoc** will use its value as a pagination program.
+the output for easier reading.  If either the "MANPAGER" or the
+"PAGER" environment variable is set, **pydoc** will use its value as a
+pagination program. When both are set, "MANPAGER" is used.
 
 Specifying a "-w" flag before the argument will cause HTML
 documentation to be written out to a file in the current directory,

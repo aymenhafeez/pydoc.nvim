@@ -1,5 +1,5 @@
-Python 3.12.3
-*tkinter.dnd.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*tkinter.dnd.pyx*                             Last change: 2025 Dec 20
 
 "tkinter.dnd" — Drag and drop support
 *************************************
@@ -28,10 +28,10 @@ Selection of a target object occurs as follows:
 
    * Target widget should have a callable _dnd_accept_ attribute
 
-   * If _dnd_accept_ is not present or returns None, search moves to
+   * If _dnd_accept_ is not present or returns "None", search moves to
      parent widget
 
-   * If no target widget is found, then the target object is None
+   * If no target widget is found, then the target object is "None"
 
 2. Call to _<old_target>.dnd_leave(source, event)_
 

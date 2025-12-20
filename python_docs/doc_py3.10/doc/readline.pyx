@@ -1,5 +1,5 @@
-Python 3.10.14
-*readline.pyx*                                Last change: 2024 May 24
+Python 3.10.19
+*readline.pyx*                                Last change: 2025 Dec 20
 
 "readline" — GNU readline interface
 ***********************************

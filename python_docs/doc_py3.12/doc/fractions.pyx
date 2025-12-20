@@ -1,5 +1,5 @@
-Python 3.12.3
-*fractions.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*fractions.pyx*                               Last change: 2025 Dec 20
 
 "fractions" — Rational numbers
 ******************************
@@ -28,8 +28,8 @@ class fractions.Fraction(string)
    returns a "Fraction" instance with the same value.  The next two
    versions accept either a "float" or a "decimal.Decimal" instance,
    and return a "Fraction" instance with exactly the same value.  Note
-   that due to the usual issues with binary floating-point (see
-   Floating Point Arithmetic:  Issues and Limitations), the argument
+   that due to the usual issues with binary floating point (see
+   Floating-Point Arithmetic:  Issues and Limitations), the argument
    to "Fraction(1.1)" is not exactly equal to 11/10, and so
    "Fraction(1.1)" does _not_ return "Fraction(11, 10)" as one might
    expect. (But see the documentation for the "limit_denominator()"
@@ -83,7 +83,7 @@ class fractions.Fraction(string)
 
    Changed in version 3.9: The "math.gcd()" function is now used to
    normalize the _numerator_ and _denominator_. "math.gcd()" always
-   return a "int" type. Previously, the GCD type depended on
+   returns an "int" type. Previously, the GCD type depended on
    _numerator_ and _denominator_.
 
    Changed in version 3.11: Underscores are now permitted when
@@ -114,13 +114,13 @@ class fractions.Fraction(string)
       original Fraction.  The ratio is in lowest terms and has a
       positive denominator.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    is_integer()
 
       Return "True" if the Fraction is an integer.
 
-      New in version 3.12.
+      Added in version 3.12.
 
    classmethod from_float(flt)
 

@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-sync.pyx*                            Last change: 2024 May 24
+Python 3.12.12
+*asyncio-sync.pyx*                            Last change: 2025 Dec 20
 
 Synchronization Primitives
 **************************
@@ -66,7 +66,7 @@ class asyncio.Lock
 <
    Changed in version 3.10: Removed the _loop_ parameter.
 
-   coroutine acquire()
+   async acquire()
 
       Acquire the lock.
 
@@ -133,7 +133,7 @@ class asyncio.Event
 
       asyncio.run(main())
 <
-   coroutine wait()
+   async wait()
 
       Wait until the event is set.
 
@@ -200,7 +200,7 @@ class asyncio.Condition(lock=None)
       finally:
           cond.release()
 <
-   coroutine acquire()
+   async acquire()
 
       Acquire the underlying lock.
 
@@ -237,7 +237,7 @@ class asyncio.Condition(lock=None)
 
       When invoked on an unlocked lock, a "RuntimeError" is raised.
 
-   coroutine wait()
+   async wait()
 
       Wait until notified.
 
@@ -249,13 +249,14 @@ class asyncio.Condition(lock=None)
       awakened, the Condition re-acquires its lock and this method
       returns "True".
 
-   coroutine wait_for(predicate)
+   async wait_for(predicate)
 
       Wait until a predicate becomes _true_.
 
       The predicate must be a callable which result will be
-      interpreted as a boolean value.  The final value is the return
-      value.
+      interpreted as a boolean value.  The method will repeatedly
+      "wait()" until the predicate evaluates to _true_. The final
+      value is the return value.
 
 
 Semaphore
@@ -295,7 +296,7 @@ class asyncio.Semaphore(value=1)
       finally:
           sem.release()
 <
-   coroutine acquire()
+   async acquire()
 
       Acquire a semaphore.
 
@@ -377,9 +378,9 @@ class asyncio.Barrier(parties)
       barrier passed
       <asyncio.locks.Barrier object at 0x... [filling, waiters:0/3]>
 <
-   New in version 3.11.
+   Added in version 3.11.
 
-   coroutine wait()
+   async wait()
 
       Pass the barrier. When all the tasks party to the barrier have
       called this function, they are all unblocked simultaneously.
@@ -403,7 +404,7 @@ class asyncio.Barrier(parties)
       barrier is broken or reset while a task is waiting. It could
       raise a "CancelledError" if a task is cancelled.
 
-   coroutine reset()
+   async reset()
 
       Return the barrier to the default, empty state.  Any tasks
       waiting on it will receive the "BrokenBarrierError" exception.
@@ -411,7 +412,7 @@ class asyncio.Barrier(parties)
       If a barrier is broken it may be better to just leave it and
       create a new one.
 
-   coroutine abort()
+   async abort()
 
       Put the barrier into a broken state.  This causes any active or
       future calls to "wait()" to fail with the "BrokenBarrierError".

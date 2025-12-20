@@ -1,5 +1,5 @@
-Python 3.9.19
-*mailbox.pyx*                                 Last change: 2024 May 24
+Python 3.9.25
+*mailbox.pyx*                                 Last change: 2025 Dec 20
 
 "mailbox" — Manipulate mailboxes in various formats
 ***************************************************

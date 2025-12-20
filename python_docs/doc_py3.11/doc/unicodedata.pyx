@@ -1,5 +1,5 @@
-Python 3.11.9
-*unicodedata.pyx*                             Last change: 2024 May 24
+Python 3.11.14
+*unicodedata.pyx*                             Last change: 2025 Dec 20
 
 "unicodedata" — Unicode Database
 ********************************

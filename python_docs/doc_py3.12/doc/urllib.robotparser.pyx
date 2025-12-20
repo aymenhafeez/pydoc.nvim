@@ -1,5 +1,5 @@
-Python 3.12.3
-*urllib.robotparser.pyx*                      Last change: 2024 May 24
+Python 3.12.12
+*urllib.robotparser.pyx*                      Last change: 2025 Dec 20
 
 "urllib.robotparser" —  Parser for robots.txt
 *********************************************
@@ -56,7 +56,7 @@ class urllib.robotparser.RobotFileParser(url='')
       or the "robots.txt" entry for this parameter has invalid syntax,
       return "None".
 
-      New in version 3.6.
+      Added in version 3.6.
 
    request_rate(useragent)
 
@@ -66,7 +66,7 @@ class urllib.robotparser.RobotFileParser(url='')
       the _useragent_ specified or the "robots.txt" entry for this
       parameter has invalid syntax, return "None".
 
-      New in version 3.6.
+      Added in version 3.6.
 
    site_maps()
 
@@ -75,7 +75,7 @@ class urllib.robotparser.RobotFileParser(url='')
       parameter or the "robots.txt" entry for this parameter has
       invalid syntax, return "None".
 
-      New in version 3.8.
+      Added in version 3.8.
 
 The following example demonstrates basic use of the "RobotFileParser"
 class:

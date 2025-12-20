@@ -1,5 +1,5 @@
-Python 3.12.3
-*logging.config.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*logging.config.pyx*                          Last change: 2025 Dec 20
 
 "logging.config" — Logging configuration
 ****************************************
@@ -79,7 +79,7 @@ logging.config.dictConfig(config)
    subclass, and then "dictConfig()" could be called exactly as in the
    default, uncustomized state.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 logging.config.fileConfig(fname, defaults=None, disable_existing_loggers=True, encoding=None)
 
@@ -726,14 +726,18 @@ The "queue" and "listener" keys are optional.
 If the "queue" key is present, the corresponding value can be one of
 the following:
 
-* An actual instance of "queue.Queue" or a subclass thereof. This is
-  of course only possible if you are constructing or modifying the
-  configuration dictionary in code.
+* An object implementing the "Queue.put_nowait" and "Queue.get" public
+  API. For instance, this may be an actual instance of "queue.Queue"
+  or a subclass thereof, or a proxy obtained by
+  "multiprocessing.managers.SyncManager.Queue()".
+
+  This is of course only possible if you are constructing or modifying
+  the configuration dictionary in code.
 
 * A string that resolves to a callable which, when called with no
-  arguments, returns the "queue.Queue" instance to use. That callable
-  could be a "queue.Queue" subclass or a function which returns a
-  suitable queue instance, such as "my.module.queue_factory()".
+  arguments, returns the queue instance to use. That callable could be
+  a "queue.Queue" subclass or a function which returns a suitable
+  queue instance, such as "my.module.queue_factory()".
 
 * A dict with a "'()'" key which is constructed in the usual way as
   discussed in User-defined objects. The result of this construction
@@ -768,7 +772,7 @@ Any custom queue handler and listener classes will need to be defined
 with the same initialization signatures as "QueueHandler" and
 "QueueListener".
 
-New in version 3.12.
+Added in version 3.12.
 
 
 Configuration file format

@@ -1,5 +1,5 @@
-Python 3.10.14
-*stat.pyx*                                    Last change: 2024 May 24
+Python 3.10.19
+*stat.pyx*                                    Last change: 2025 Dec 20
 
 "stat" — Interpreting "stat()" results
 **************************************

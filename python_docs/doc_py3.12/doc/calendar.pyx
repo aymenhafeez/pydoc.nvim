@@ -1,5 +1,5 @@
-Python 3.12.3
-*calendar.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*calendar.pyx*                                Last change: 2025 Dec 20
 
 "calendar" — General calendar-related functions
 ***********************************************
@@ -35,7 +35,27 @@ class calendar.Calendar(firstweekday=0)
    preparing the calendar data for formatting. This class doesn’t do
    any formatting itself. This is the job of subclasses.
 
-   "Calendar" instances have the following methods:
+   "Calendar" instances have the following methods and attributes:
+
+   firstweekday
+
+      The first weekday as an integer (0–6).
+
+      This property can also be set and read using "setfirstweekday()"
+      and "getfirstweekday()" respectively.
+
+   getfirstweekday()
+
+      Return an "int" for the current first weekday (0–6).
+
+      Identical to reading the "firstweekday" property.
+
+   setfirstweekday(firstweekday)
+
+      Set the first weekday to _firstweekday_, passed as an "int"
+      (0–6)
+
+      Identical to setting the "firstweekday" property.
 
    iterweekdays()
 
@@ -73,7 +93,7 @@ class calendar.Calendar(firstweekday=0)
       "datetime.date" range. Days returned will be tuples consisting
       of a year, a month and a day of the month numbers.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    itermonthdays4(year, month)
 
@@ -83,7 +103,7 @@ class calendar.Calendar(firstweekday=0)
       of a year, a month, a day of the month, and a day of the week
       numbers.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    monthdatescalendar(year, month)
 
@@ -128,6 +148,34 @@ class calendar.TextCalendar(firstweekday=0)
 
    "TextCalendar" instances have the following methods:
 
+   formatday(theday, weekday, width)
+
+      Return a string representing a single day formatted with the
+      given _width_. If _theday_ is "0", return a string of spaces of
+      the specified width, representing an empty day. The _weekday_
+      parameter is unused.
+
+   formatweek(theweek, w=0)
+
+      Return a single week in a string with no newline. If _w_ is
+      provided, it specifies the width of the date columns, which are
+      centered. Depends on the first weekday as specified in the
+      constructor or set by the "setfirstweekday()" method.
+
+   formatweekday(weekday, width)
+
+      Return a string representing the name of a single weekday
+      formatted to the specified _width_. The _weekday_ parameter is
+      an integer representing the day of the week, where "0" is Monday
+      and "6" is Sunday.
+
+   formatweekheader(width)
+
+      Return a string containing the header row of weekday names,
+      formatted with the given _width_ for each column. The names
+      depend on the locale settings and are padded to the specified
+      width.
+
    formatmonth(theyear, themonth, w=0, l=0)
 
       Return a month’s calendar in a multi-line string. If _w_ is
@@ -135,6 +183,13 @@ class calendar.TextCalendar(firstweekday=0)
       centered. If _l_ is given, it specifies the number of lines that
       each week will use. Depends on the first weekday as specified in
       the constructor or set by the "setfirstweekday()" method.
+
+   formatmonthname(theyear, themonth, width=0, withyear=True)
+
+      Return a string representing the month’s name centered within
+      the specified _width_. If _withyear_ is "True", include the year
+      in the output. The _theyear_ and _themonth_ parameters specify
+      the year and month for the name to be formatted respectively.
 
    prmonth(theyear, themonth, w=0, l=0)
 
@@ -208,42 +263,42 @@ class calendar.HTMLCalendar(firstweekday=0)
       The CSS class for a weekday occurring in the previous or coming
       month.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    cssclasses_weekday_head
 
       A list of CSS classes used for weekday names in the header row.
       The default is the same as "cssclasses".
 
-      New in version 3.7.
+      Added in version 3.7.
 
    cssclass_month_head
 
       The month’s head CSS class (used by "formatmonthname()"). The
       default value is ""month"".
 
-      New in version 3.7.
+      Added in version 3.7.
 
    cssclass_month
 
       The CSS class for the whole month’s table (used by
       "formatmonth()"). The default value is ""month"".
 
-      New in version 3.7.
+      Added in version 3.7.
 
    cssclass_year
 
       The CSS class for the whole year’s table of tables (used by
       "formatyear()"). The default value is ""year"".
 
-      New in version 3.7.
+      Added in version 3.7.
 
    cssclass_year_head
 
       The CSS class for the table head for the whole year (used by
       "formatyear()"). The default value is ""year"".
 
-      New in version 3.7.
+      Added in version 3.7.
 
    Note that although the naming for the above described class
    attributes is singular (e.g. "cssclass_month" "cssclass_noday"),
@@ -361,13 +416,21 @@ The "calendar" module exports the following data attributes:
 
 calendar.day_name
 
-   An array that represents the days of the week in the current
-   locale.
+   A sequence that represents the days of the week in the current
+   locale, where Monday is day number 0.
+
+   >>> import calendar
+   >>> list(calendar.day_name)
+   ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 calendar.day_abbr
 
-   An array that represents the abbreviated days of the week in the
-   current locale.
+   A sequence that represents the abbreviated days of the week in the
+   current locale, where Mon is day number 0.
+
+   >>> import calendar
+   >>> list(calendar.day_abbr)
+   ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 calendar.MONDAY
 calendar.TUESDAY
@@ -380,7 +443,7 @@ calendar.SUNDAY
    Aliases for the days of the week, where "MONDAY" is "0" and
    "SUNDAY" is "6".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 class calendar.Day
 
@@ -388,21 +451,29 @@ class calendar.Day
    members of this enumeration are exported to the module scope as
    "MONDAY" through "SUNDAY".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 calendar.month_name
 
-   An array that represents the months of the year in the current
+   A sequence that represents the months of the year in the current
    locale.  This follows normal convention of January being month
-   number 1, so it has a length of 13 and  "month_name[0]" is the
-   empty string.
+   number 1, so it has a length of 13 and "month_name[0]" is the empty
+   string.
+
+   >>> import calendar
+   >>> list(calendar.month_name)
+   ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 calendar.month_abbr
 
-   An array that represents the abbreviated months of the year in the
-   current locale.  This follows normal convention of January being
-   month number 1, so it has a length of 13 and  "month_abbr[0]" is
-   the empty string.
+   A sequence that represents the abbreviated months of the year in
+   the current locale.  This follows normal convention of January
+   being month number 1, so it has a length of 13 and  "month_abbr[0]"
+   is the empty string.
+
+   >>> import calendar
+   >>> list(calendar.month_abbr)
+   ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 calendar.JANUARY
 calendar.FEBRUARY
@@ -420,7 +491,7 @@ calendar.DECEMBER
    Aliases for the months of the year, where "JANUARY" is "1" and
    "DECEMBER" is "12".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 class calendar.Month
 
@@ -428,7 +499,7 @@ class calendar.Month
    members of this enumeration are exported to the module scope as
    "JANUARY" through "DECEMBER".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 The "calendar" module defines the following exceptions:
 
@@ -463,7 +534,7 @@ See also:
 Command-Line Usage
 ==================
 
-New in version 2.5.
+Added in version 2.5.
 
 The "calendar" module can be executed as a script from the command
 line to interactively print a calendar.

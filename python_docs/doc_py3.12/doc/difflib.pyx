@@ -1,5 +1,5 @@
-Python 3.12.3
-*difflib.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*difflib.pyx*                                 Last change: 2025 Dec 20
 
 "difflib" — Helpers for computing deltas
 ****************************************
@@ -336,7 +336,7 @@ difflib.diff_bytes(dfunc, a, b, fromfile=b'', tofile=b'', fromfiledate=b'', tofi
    so the delta lines that you receive have the same
    unknown/inconsistent encodings as _a_ and _b_.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 difflib.IS_LINE_JUNK(line)
 
@@ -392,7 +392,7 @@ class difflib.SequenceMatcher(isjunk=None, a='', b='', autojunk=True)
    elements of _b_ to a list of positions where they occur. All three
    are reset whenever _b_ is reset with "set_seqs()" or "set_seq2()".
 
-   New in version 3.2: The _bjunk_ and _bpopular_ attributes.
+   Added in version 3.2: The _bjunk_ and _bpopular_ attributes.
 
    "SequenceMatcher" objects have the following methods:
 

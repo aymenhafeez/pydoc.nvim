@@ -1,5 +1,5 @@
-Python 3.12.3
-*dbm.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*dbm.pyx*                                     Last change: 2025 Dec 20
 
 "dbm" — Interfaces to Unix “databases”
 **************************************
@@ -384,7 +384,7 @@ dbm.dumb.open(filename, flag='c', mode=0o666)
    dumbdbm.sync()
 
       Synchronize the on-disk directory and data files.  This method
-      is called by the "Shelve.sync()" method.
+      is called by the "shelve.Shelf.sync()" method.
 
    dumbdbm.close()
 

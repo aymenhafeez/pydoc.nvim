@@ -1,28 +1,27 @@
-Python 3.12.3
-*howto-index.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*howto-index.pyx*                             Last change: 2025 Dec 20
 
 Python HOWTOs
 *************
 
-Python HOWTOs are documents that cover a single, specific topic, and
-attempt to cover it fairly completely. Modelled on the Linux
-Documentation Project’s HOWTO collection, this collection is an effort
-to foster documentation that’s more detailed than the Python Library
-Reference.
+Python HOWTOs are documents that cover a specific topic in-depth.
+Modeled on the Linux Documentation Project’s HOWTO collection, this
+collection is an effort to foster documentation that’s more detailed
+than the Python Library Reference.
 
-Currently, the HOWTOs are:
+General:
 
-* Porting Extension Modules to Python 3
+* Annotations Best Practices
 
-* Curses Programming with Python
+* Argparse Tutorial
 
 * Descriptor Guide
-
-* Debugging C API extensions and CPython Internals with GDB
 
 * Enum HOWTO
 
 * Functional Programming HOWTO
+
+* An introduction to the ipaddress module
 
 * Logging HOWTO
 
@@ -30,24 +29,30 @@ Currently, the HOWTOs are:
 
 * Regular Expression HOWTO
 
-* Socket Programming HOWTO
-
 * Sorting Techniques
 
 * Unicode HOWTO
 
 * HOWTO Fetch Internet Resources Using The urllib Package
 
-* Argparse Tutorial
+Advanced development:
 
-* An introduction to the ipaddress module
+* Curses Programming with Python
+
+* Isolating Extension Modules
+
+* The Python 2.3 Method Resolution Order
+
+* Socket Programming HOWTO
+
+* Porting Extension Modules to Python 3
+
+Debugging and profiling:
+
+* Debugging C API extensions and CPython Internals with GDB
 
 * Instrumenting CPython with DTrace and SystemTap
 
-* Python support for the Linux "perf" profiler
-
-* Annotations Best Practices
-
-* Isolating Extension Modules
+* Python support for the Linux perf profiler
 
 vim:tw=78:ts=8:ft=help:norl:

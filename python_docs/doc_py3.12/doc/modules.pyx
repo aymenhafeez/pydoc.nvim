@@ -1,5 +1,5 @@
-Python 3.12.3
-*modules.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*modules.pyx*                                 Last change: 2025 Dec 20
 
 6. Modules
 **********
@@ -308,7 +308,7 @@ defines.  It returns a sorted list of strings:
    >>> import fibo, sys
    >>> dir(fibo)
    ['__name__', 'fib', 'fib2']
-   >>> dir(sys)  
+   >>> dir(sys)
    ['__breakpointhook__', '__displayhook__', '__doc__', '__excepthook__',
     '__interactivehook__', '__loader__', '__name__', '__package__', '__spec__',
     '__stderr__', '__stdin__', '__stdout__', '__unraisablehook__',
@@ -347,7 +347,7 @@ If you want a list of those, they are defined in the standard module
 "builtins":
 >
    >>> import builtins
-   >>> dir(builtins)  
+   >>> dir(builtins)
    ['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException',
     'BlockingIOError', 'BrokenPipeError', 'BufferError', 'BytesWarning',
     'ChildProcessError', 'ConnectionAbortedError', 'ConnectionError',
@@ -579,10 +579,10 @@ must always use absolute imports.
 ---------------------------------------
 
 Packages support one more special attribute, "__path__".  This is
-initialized to be a list containing the name of the directory holding
-the package’s "__init__.py" before the code in that file is executed.
-This variable can be modified; doing so affects future searches for
-modules and subpackages contained in the package.
+initialized to be a _sequence_ of strings containing the name of the
+directory holding the package’s "__init__.py" before the code in that
+file is executed.  This variable can be modified; doing so affects
+future searches for modules and subpackages contained in the package.
 
 While this feature is not often needed, it can be used to extend the
 set of modules found in a package.

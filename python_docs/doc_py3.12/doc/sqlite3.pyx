@@ -1,5 +1,5 @@
-Python 3.12.3
-*sqlite3.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*sqlite3.pyx*                                 Last change: 2025 Dec 20
 
 "sqlite3" — DB-API 2.0 interface for SQLite databases
 *****************************************************
@@ -211,10 +211,8 @@ sqlite3.connect(database, timeout=5.0, detect_types=0, isolation_level='DEFERRED
         "register_converter()". Set it to any combination (using "|",
         bitwise or) of "PARSE_DECLTYPES" and "PARSE_COLNAMES" to
         enable this. Column names takes precedence over declared types
-        if both flags are set. Types cannot be detected for generated
-        fields (for example "max(data)"), even when the _detect_types_
-        parameter is set; "str" will be returned instead. By default
-        ("0"), type detection is disabled.
+        if both flags are set. By default ("0"), type detection is
+        disabled.
 
       * **isolation_level** (_str__ | __None_) – Control legacy
         transaction handling behaviour. See
@@ -339,18 +337,6 @@ sqlite3.LEGACY_TRANSACTION_CONTROL
    3.12) transaction control behaviour. See Transaction control via
    the isolation_level attribute for more information.
 
-sqlite3.PARSE_COLNAMES
-
-   Pass this flag value to the _detect_types_ parameter of "connect()"
-   to look up a converter function by using the type name, parsed from
-   the query column name, as the converter dictionary key. The type
-   name must be wrapped in square brackets ("[]").
->
-      SELECT p as "p [point]" FROM test;  ! will look up converter "point"
-<
-   This flag may be combined with "PARSE_DECLTYPES" using the "|"
-   (bitwise or) operator.
-
 sqlite3.PARSE_DECLTYPES
 
    Pass this flag value to the _detect_types_ parameter of "connect()"
@@ -366,6 +352,24 @@ sqlite3.PARSE_DECLTYPES
        )
 <
    This flag may be combined with "PARSE_COLNAMES" using the "|"
+   (bitwise or) operator.
+
+   Note:
+
+     Generated fields (for example "MAX(p)") are returned as "str".
+     Use "PARSE_COLNAMES" to enforce types for such queries.
+
+sqlite3.PARSE_COLNAMES
+
+   Pass this flag value to the _detect_types_ parameter of "connect()"
+   to look up a converter function by using the type name, parsed from
+   the query column name, as the converter dictionary key. The query
+   column name must be wrapped in double quotes (""") and the type
+   name must be wrapped in square brackets ("[]").
+>
+      SELECT MAX(p) as "p [point]" FROM test;  ! will look up converter "point"
+<
+   This flag may be combined with "PARSE_DECLTYPES" using the "|"
    (bitwise or) operator.
 
 sqlite3.SQLITE_OK
@@ -426,19 +430,19 @@ sqlite3.threadsafety
    The mappings from SQLite threading modes to DB-API 2.0 threadsafety
    levels are as follows:
 
-   +--------------------+-------------------+------------------------+---------------------------------+
-   | SQLite threading   | threadsafety      | SQLITE_THREADSAFE      | DB-API 2.0 meaning              |
-   | mode               |                   |                        |                                 |
-   |====================|===================|========================|=================================|
-   | single-thread      | 0                 | 0                      | Threads may not share the       |
-   |                    |                   |                        | module                          |
-   +--------------------+-------------------+------------------------+---------------------------------+
-   | multi-thread       | 1                 | 2                      | Threads may share the module,   |
-   |                    |                   |                        | but not connections             |
-   +--------------------+-------------------+------------------------+---------------------------------+
-   | serialized         | 3                 | 1                      | Threads may share the module,   |
-   |                    |                   |                        | connections and cursors         |
-   +--------------------+-------------------+------------------------+---------------------------------+
+   +--------------------+------------------------+------------------------+---------------------------------+
+   | SQLite threading   | **threadsafety**       | SQLITE_THREADSAFE      | DB-API 2.0 meaning              |
+   | mode               |                        |                        |                                 |
+   |====================|========================|========================|=================================|
+   | single-thread      | 0                      | 0                      | Threads may not share the       |
+   |                    |                        |                        | module                          |
+   +--------------------+------------------------+------------------------+---------------------------------+
+   | multi-thread       | 1                      | 2                      | Threads may share the module,   |
+   |                    |                        |                        | but not connections             |
+   +--------------------+------------------------+------------------------+---------------------------------+
+   | serialized         | 3                      | 1                      | Threads may share the module,   |
+   |                    |                        |                        | connections and cursors         |
+   +--------------------+------------------------+------------------------+---------------------------------+
 
    Changed in version 3.11: Set _threadsafety_ dynamically instead of
    hard-coding it to "1".
@@ -486,7 +490,7 @@ sqlite3.SQLITE_DBCONFIG_WRITABLE_SCHEMA
    The availability of these constants varies depending on the version
    of SQLite Python was compiled with.
 
-   New in version 3.12.
+   Added in version 3.12.
 
    See also:
 
@@ -551,7 +555,7 @@ class sqlite3.Connection
         the SQL function "zeroblob" to create a blob with a fixed
         size.
 
-      New in version 3.11.
+      Added in version 3.11.
 
    commit()
 
@@ -712,7 +716,7 @@ class sqlite3.Connection
          older than 3.25.0, which does not support aggregate window
          functions.
 
-      New in version 3.11.
+      Added in version 3.11.
 
       Example:
 >
@@ -867,7 +871,7 @@ class sqlite3.Connection
         "enable_callback_tracebacks()" to enable printing tracebacks
         from exceptions raised in the trace callback.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    enable_load_extension(enabled, /)
 
@@ -889,7 +893,7 @@ class sqlite3.Connection
       Raises an auditing event "sqlite3.enable_load_extension" with
       arguments "connection", "enabled".
 
-      New in version 3.2.
+      Added in version 3.2.
 
       Changed in version 3.10: Added the
       "sqlite3.enable_load_extension" auditing event.
@@ -933,7 +937,7 @@ class sqlite3.Connection
       Raises an auditing event "sqlite3.load_extension" with arguments
       "connection", "path".
 
-      New in version 3.2.
+      Added in version 3.2.
 
       Changed in version 3.10: Added the "sqlite3.load_extension"
       auditing event.
@@ -1007,7 +1011,7 @@ class sqlite3.Connection
          dst.close()
          src.close()
 <
-      New in version 3.7.
+      Added in version 3.7.
 
       See also: How to handle non-UTF-8 text encodings
 
@@ -1032,7 +1036,7 @@ class sqlite3.Connection
          >>> con.getlimit(sqlite3.SQLITE_LIMIT_SQL_LENGTH)
          1000000000
 <
-      New in version 3.11.
+      Added in version 3.11.
 
    setlimit(category, limit, /)
 
@@ -1062,7 +1066,7 @@ class sqlite3.Connection
          >>> con.getlimit(sqlite3.SQLITE_LIMIT_ATTACHED)
          1
 <
-      New in version 3.11.
+      Added in version 3.11.
 
    getconfig(op, /)
 
@@ -1074,7 +1078,7 @@ class sqlite3.Connection
       Return type:
          bool
 
-      New in version 3.12.
+      Added in version 3.12.
 
    setconfig(op, enable=True, /)
 
@@ -1087,7 +1091,7 @@ class sqlite3.Connection
            should be enabled (default); "False" if it should be
            disabled.
 
-      New in version 3.12.
+      Added in version 3.12.
 
    serialize(*, name='main')
 
@@ -1109,7 +1113,7 @@ class sqlite3.Connection
         This method is only available if the underlying SQLite library
         has the serialize API.
 
-      New in version 3.11.
+      Added in version 3.11.
 
    deserialize(data, /, *, name='main')
 
@@ -1140,7 +1144,7 @@ class sqlite3.Connection
         This method is only available if the underlying SQLite library
         has the deserialize API.
 
-      New in version 3.11.
+      Added in version 3.11.
 
    autocommit
 
@@ -1173,7 +1177,7 @@ class sqlite3.Connection
         The "isolation_level" attribute has no effect unless
         "autocommit" is "LEGACY_TRANSACTION_CONTROL".
 
-      New in version 3.12.
+      Added in version 3.12.
 
    in_transaction
 
@@ -1183,7 +1187,7 @@ class sqlite3.Connection
       "True" if a transaction is active (there are uncommitted
       changes), "False" otherwise.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    isolation_level
 
@@ -1483,7 +1487,7 @@ Blob objects
 
 class sqlite3.Blob
 
-   New in version 3.11.
+   Added in version 3.11.
 
    A "Blob" instance is a _file-like object_ that can read and write
    data in an SQLite BLOB (Binary Large OBject). Call "len(blob)" to
@@ -1581,13 +1585,13 @@ exception sqlite3.Error
 
       The numeric error code from the SQLite API
 
-      New in version 3.11.
+      Added in version 3.11.
 
    sqlite_errorname
 
       The symbolic name of the numeric error code from the SQLite API
 
-      New in version 3.11.
+      Added in version 3.11.
 
 exception sqlite3.InterfaceError
 
@@ -1742,7 +1746,7 @@ Type ".quit" or CTRL-D to exit the shell.
 
    Print underlying SQLite library version.
 
-New in version 3.12.
+Added in version 3.12.
 
 
 How-to guides
@@ -2070,6 +2074,7 @@ Some useful URI tricks include:
    >>> con.execute("CREATE TABLE readonly(data)")
    Traceback (most recent call last):
    OperationalError: attempt to write a readonly database
+   >>> con.close()
 <
 * Do not implicitly create a new database file if it does not already
   exist; will raise "OperationalError" if unable to create a new file:

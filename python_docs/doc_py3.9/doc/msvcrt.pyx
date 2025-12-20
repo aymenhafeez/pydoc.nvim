@@ -1,5 +1,5 @@
-Python 3.9.19
-*msvcrt.pyx*                                  Last change: 2024 May 24
+Python 3.9.25
+*msvcrt.pyx*                                  Last change: 2025 Dec 20
 
 "msvcrt" — Useful routines from the MS VC++ runtime
 ***************************************************

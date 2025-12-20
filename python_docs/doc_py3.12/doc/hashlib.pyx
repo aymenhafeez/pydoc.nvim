@@ -1,5 +1,5 @@
-Python 3.12.3
-*hashlib.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*hashlib.pyx*                                 Last change: 2025 Dec 20
 
 "hashlib" — Secure hashes and message digests
 *********************************************
@@ -58,9 +58,9 @@ Warning:
   and SHA1). Refer to Attacks on cryptographic hash algorithms and the
   hashlib-seealso section at the end of this document.
 
-New in version 3.6: SHA3 (Keccak) and SHAKE constructors "sha3_224()",
-"sha3_256()", "sha3_384()", "sha3_512()", "shake_128()", "shake_256()"
-were added. "blake2b()" and "blake2s()" were added.
+Added in version 3.6: SHA3 (Keccak) and SHAKE constructors
+"sha3_224()", "sha3_256()", "sha3_384()", "sha3_512()", "shake_128()",
+"shake_256()" were added. "blake2b()" and "blake2s()" were added.
 
 Changed in version 3.9: All hashlib constructors take a keyword-only
 argument _usedforsecurity_ with default value "True". A false value
@@ -151,7 +151,7 @@ hashlib.algorithms_guaranteed
    this list despite some upstream vendors offering an odd “FIPS
    compliant” Python build that excludes it.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 hashlib.algorithms_available
 
@@ -161,7 +161,7 @@ hashlib.algorithms_available
    always be a subset.  The same algorithm may appear multiple times
    in this set under different names (thanks to OpenSSL).
 
-   New in version 3.2.
+   Added in version 3.2.
 
 
 Hash Objects
@@ -279,7 +279,7 @@ hashlib.file_digest(fileobj, digest, /)
    >>> with open(hashlib.__file__, "rb") as f:
    ...     digest = hashlib.file_digest(f, "sha256")
    ...
-   >>> digest.hexdigest()  
+   >>> digest.hexdigest()
    '...'
 
    >>> buf = io.BytesIO(b"somedata")
@@ -292,7 +292,7 @@ hashlib.file_digest(fileobj, digest, /)
    >>> mac1.digest() == mac2.digest()
    True
 
-   New in version 3.11.
+   Added in version 3.11.
 
 
 Key derivation
@@ -322,9 +322,9 @@ hashlib.pbkdf2_hmac(hash_name, password, salt, iterations, dklen=None)
    A.2.2_ of NIST-SP-800-132. The answers on the stackexchange pbkdf2
    iterations question explain in detail.
 
-   _dklen_ is the length of the derived key. If _dklen_ is "None" then
-   the digest size of the hash algorithm _hash_name_ is used, e.g. 64
-   for SHA-512.
+   _dklen_ is the length of the derived key in bytes. If _dklen_ is
+   "None" then the digest size of the hash algorithm _hash_name_ is
+   used, e.g. 64 for SHA-512.
 
    >>> from hashlib import pbkdf2_hmac
    >>> our_app_iters = 500_000  # Application specific, read above.
@@ -334,7 +334,7 @@ hashlib.pbkdf2_hmac(hash_name, password, salt, iterations, dklen=None)
 
    Function only available when Python is compiled with OpenSSL.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.12: Function now only available when Python is
    built with OpenSSL. The slow pure Python implementation has been
@@ -352,9 +352,10 @@ hashlib.scrypt(password, *, salt, n, r, p, maxmem=0, dklen=64)
 
    _n_ is the CPU/Memory cost factor, _r_ the block size, _p_
    parallelization factor and _maxmem_ limits memory (OpenSSL 1.1.0
-   defaults to 32 MiB). _dklen_ is the length of the derived key.
+   defaults to 32 MiB). _dklen_ is the length of the derived key in
+   bytes.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 
 BLAKE2
@@ -800,7 +801,7 @@ See also:
   https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.180-4.pdf
      The FIPS 180-4 publication on Secure Hash Algorithms.
 
-  https://csrc.nist.gov/publications/detail/fips/202/final
+  https://csrc.nist.gov/pubs/fips/202/final
      The FIPS 202 publication on the SHA-3 Standard.
 
   https://www.blake2.net/

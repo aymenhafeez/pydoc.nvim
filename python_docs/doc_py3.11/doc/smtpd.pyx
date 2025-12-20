@@ -1,5 +1,5 @@
-Python 3.11.9
-*smtpd.pyx*                                   Last change: 2024 May 24
+Python 3.11.14
+*smtpd.pyx*                                   Last change: 2025 Dec 20
 
 "smtpd" — SMTP Server
 *********************

@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-isolating-extensions.pyx*              Last change: 2024 May 24
+Python 3.12.12
+*howto-isolating-extensions.pyx*              Last change: 2025 Dec 20
 
 Isolating Extension Modules
 ***************************
@@ -338,7 +338,7 @@ garbage collection protocol. That is, heap types should:
 * Define a traverse function using "Py_tp_traverse", which visits the
   type (e.g. using "Py_VISIT(Py_TYPE(self))").
 
-Please refer to the the documentation of "Py_TPFLAGS_HAVE_GC" and
+Please refer to the documentation of "Py_TPFLAGS_HAVE_GC" and
 "tp_traverse" for additional considerations.
 
 The API for defining heap types grew organically, leaving it somewhat

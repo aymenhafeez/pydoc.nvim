@@ -1,5 +1,5 @@
-Python 3.12.3
-*xml.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*xml.pyx*                                     Last change: 2025 Dec 20
 
 XML Processing Modules
 **********************
@@ -128,7 +128,7 @@ large tokens
    Expat needs to re-parse unfinished tokens; without the protection
    introduced in Expat 2.6.0, this can lead to quadratic runtime that
    can be used to cause denial of service in the application parsing
-   XML. The issue is known as CVE-2023-52425.
+   XML. The issue is known as **CVE 2023-52425**.
 
 The documentation for defusedxml on PyPI has further information about
 all known attack vectors with examples and references.

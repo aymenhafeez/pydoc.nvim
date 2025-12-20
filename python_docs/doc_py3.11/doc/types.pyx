@@ -1,5 +1,5 @@
-Python 3.11.9
-*types.pyx*                                   Last change: 2024 May 24
+Python 3.11.14
+*types.pyx*                                   Last change: 2025 Dec 20
 
 "types" — Dynamic type creation and names for built-in types
 ************************************************************

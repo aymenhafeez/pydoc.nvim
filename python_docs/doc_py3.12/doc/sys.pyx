@@ -1,5 +1,5 @@
-Python 3.12.3
-*sys.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*sys.pyx*                                     Last change: 2025 Dec 20
 
 "sys" — System-specific parameters and functions
 ************************************************
@@ -8,7 +8,8 @@ Python 3.12.3
 
 This module provides access to some variables used or maintained by
 the interpreter and to functions that interact strongly with the
-interpreter. It is always available.
+interpreter. It is always available. Unless explicitly noted
+otherwise, all variables are read-only.
 
 sys.abiflags
 
@@ -16,7 +17,7 @@ sys.abiflags
    "configure" script, this contains the ABI flags as specified by
    **PEP 3149**.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.8: Default flags became an empty string ("m"
    flag for pymalloc has been removed).
@@ -56,7 +57,7 @@ sys.addaudithook(hook)
    See the audit events table for all events raised by CPython, and
    **PEP 578** for the original design discussion.
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Changed in version 3.8.1: Exceptions derived from "Exception" but
    not "RuntimeError" are no longer suppressed.
@@ -115,7 +116,7 @@ sys.audit(event, *args)
 
    See the audit events table for all events raised by CPython.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 sys.base_exec_prefix
 
@@ -128,7 +129,7 @@ sys.base_exec_prefix
    base Python installation (the one which the virtual environment was
    created from).
 
-   New in version 3.3.
+   Added in version 3.3.
 
 sys.base_prefix
 
@@ -141,7 +142,7 @@ sys.base_prefix
    base Python installation (the one which the virtual environment was
    created from).
 
-   New in version 3.3.
+   Added in version 3.3.
 
 sys.byteorder
 
@@ -257,7 +258,7 @@ sys.breakpointhook()
    Also note that if "sys.breakpointhook()" is overridden
    programmatically, "PYTHONBREAKPOINT" is _not_ consulted.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 sys._debugmallocstats()
 
@@ -268,7 +269,7 @@ sys._debugmallocstats()
    option"), it also performs some expensive internal consistency
    checks.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    **CPython implementation detail:** This function is specific to
    CPython.  The exact output format is not defined here, and may
@@ -350,7 +351,7 @@ sys._emscripten_info
 
    Availability: Emscripten.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 sys.pycache_prefix
 
@@ -371,7 +372,7 @@ sys.pycache_prefix
    "PYTHONPYCACHEPREFIX" environment variable (command-line takes
    precedence). If neither are set, it is "None".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 sys.excepthook(type, value, traceback)
 
@@ -412,9 +413,9 @@ sys.__unraisablehook__
    case they happen to get replaced with broken or alternative
    objects.
 
-   New in version 3.7: __breakpointhook__
+   Added in version 3.7: __breakpointhook__
 
-   New in version 3.8: __unraisablehook__
+   Added in version 3.8: __unraisablehook__
 
 sys.exception()
 
@@ -426,7 +427,7 @@ sys.exception()
 
    If no exception handler is executing, this function returns "None".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 sys.exc_info()
 
@@ -550,7 +551,7 @@ sys.flags
    Changed in version 3.2: Added "quiet" attribute for the new "-q"
    flag.
 
-   New in version 3.2.3: The "hash_randomization" attribute.
+   Added in version 3.2.3: The "hash_randomization" attribute.
 
    Changed in version 3.3: Removed obsolete "division_warning"
    attribute.
@@ -673,7 +674,7 @@ sys.float_repr_style
    "repr(x)" behaves in the same way as it did in versions of Python
    prior to 3.1.
 
-   New in version 3.1.
+   Added in version 3.1.
 
 sys.getallocatedblocks()
 
@@ -687,13 +688,13 @@ sys.getallocatedblocks()
    If a Python build or implementation cannot reasonably compute this
    information, "getallocatedblocks()" is allowed to return 0 instead.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 sys.getunicodeinternedsize()
 
    Return the number of unicode objects that have been interned.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 sys.getandroidapilevel()
 
@@ -701,12 +702,12 @@ sys.getandroidapilevel()
 
    Availability: Android.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 sys.getdefaultencoding()
 
-   Return the name of the current default string encoding used by the
-   Unicode implementation.
+   Return "'utf-8'". This is the name of the default string encoding,
+   used in methods like "str.encode()".
 
 sys.getdlopenflags()
 
@@ -762,14 +763,14 @@ sys.getfilesystemencodeerrors()
    "filesystem_encoding" and "filesystem_errors" members of
    "PyConfig".
 
-   New in version 3.6.
+   Added in version 3.6.
 
 sys.get_int_max_str_digits()
 
    Returns the current value for the integer string conversion length
    limitation. See also "set_int_max_str_digits()".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 sys.getrefcount(object)
 
@@ -816,10 +817,10 @@ sys.getsizeof(object[, default])
 
 sys.getswitchinterval()
 
-   Return the interpreter’s “thread switch interval”; see
+   Return the interpreter’s “thread switch interval” in seconds; see
    "setswitchinterval()".
 
-   New in version 3.2.
+   Added in version 3.2.
 
 sys._getframe([depth])
 
@@ -849,6 +850,31 @@ sys._getframemodulename([depth])
    **CPython implementation detail:** This function should be used for
    internal and specialized purposes only. It is not guaranteed to
    exist in all implementations of Python.
+
+sys.getobjects(limit[, type])
+
+   This function only exists if CPython was built using the
+   specialized configure option "--with-trace-refs". It is intended
+   only for debugging garbage-collection issues.
+
+   Return a list of up to _limit_ dynamically allocated Python
+   objects. If _type_ is given, only objects of that exact type (not
+   subtypes) are included.
+
+   Objects from the list are not safe to use. Specifically, the result
+   will include objects from all interpreters that share their object
+   allocator state (that is, ones created with
+   "PyInterpreterConfig.use_main_obmalloc" set to 1 or using
+   "Py_NewInterpreter()", and the main interpreter). Mixing objects
+   from different interpreters may lead to crashes or other unexpected
+   behavior.
+
+   **CPython implementation detail:** This function should be used for
+   specialized purposes only. It is not guaranteed to exist in all
+   implementations of Python.
+
+   Changed in version 3.12.8: The result may include objects from
+   other interpreters.
 
 sys.getprofile()
 
@@ -925,7 +951,7 @@ sys.get_asyncgen_hooks()
    argument, and are used to schedule finalization of an asynchronous
    generator by an event loop.
 
-   New in version 3.6: See **PEP 525** for more details.
+   Added in version 3.6: See **PEP 525** for more details.
 
    Note:
 
@@ -937,7 +963,7 @@ sys.get_coroutine_origin_tracking_depth()
    Get the current coroutine origin tracking depth, as set by
    "set_coroutine_origin_tracking_depth()".
 
-   New in version 3.7.
+   Added in version 3.7.
 
    Note:
 
@@ -983,7 +1009,7 @@ sys.hash_info
 
       The size of the seed key of the hash algorithm
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.4: Added _algorithm_, _hash_bits_ and
    _seed_bits_
@@ -1048,7 +1074,7 @@ sys.implementation
    change between Python language versions, however.)  See **PEP 421**
    for more information.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Note:
 
@@ -1079,7 +1105,7 @@ sys.int_info
       The minimum non-zero value for "sys.set_int_max_str_digits()",
       "PYTHONINTMAXSTRDIGITS", or "-X int_max_str_digits".
 
-   New in version 3.1.
+   Added in version 3.1.
 
    Changed in version 3.11: Added "default_max_str_digits" and
    "str_digits_check_threshold".
@@ -1094,7 +1120,7 @@ sys.__interactivehook__
    Raises an auditing event "cpython.run_interactivehook" with the
    hook object as the argument when the hook is called on startup.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 sys.intern(string)
 
@@ -1116,7 +1142,7 @@ sys.is_finalizing()
    Return "True" if the Python interpreter is _shutting down_, "False"
    otherwise.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 sys.last_exc
 
@@ -1129,7 +1155,7 @@ sys.last_exc
    enter the post-mortem debugger; see "pdb" module for more
    information.)
 
-   New in version 3.12.
+   Added in version 3.12.
 
 sys.last_type
 sys.last_value
@@ -1206,7 +1232,7 @@ sys.orig_argv
    the user’s program. Arguments consumed by the interpreter itself
    will be present in "sys.orig_argv" and missing from "sys.argv".
 
-   New in version 3.10.
+   Added in version 3.10.
 
 sys.path
 
@@ -1338,7 +1364,7 @@ sys.platlibdir
    * "/usr/lib64/pythonX.Y/site-packages/": C extension modules of
      third-party packages
 
-   New in version 3.9.
+   Added in version 3.9.
 
 sys.prefix
 
@@ -1384,7 +1410,7 @@ sys.set_int_max_str_digits(maxdigits)
    Set the integer string conversion length limitation used by this
    interpreter. See also "get_int_max_str_digits()".
 
-   New in version 3.11.
+   Added in version 3.11.
 
 sys.setprofile(profilefunc)
 
@@ -1466,7 +1492,7 @@ sys.setswitchinterval(interval)
    operating system’s decision.  The interpreter doesn’t have its own
    scheduler.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 sys.settrace(tracefunc)
 
@@ -1585,7 +1611,7 @@ sys.set_asyncgen_hooks([firstiter] [, finalizer])
    Two auditing events are raised because the underlying API consists
    of two calls, each of which must raise its own event.
 
-   New in version 3.6: See **PEP 525** for more details, and for a
+   Added in version 3.6: See **PEP 525** for more details, and for a
    reference example of a _finalizer_ method see the implementation of
    "asyncio.Loop.shutdown_asyncgens" in Lib/asyncio/base_events.py
 
@@ -1601,7 +1627,7 @@ sys.set_coroutine_origin_tracking_depth(depth)
    contain a tuple of (filename, line number, function name) tuples
    describing the traceback where the coroutine object was created,
    with the most recent call first. When disabled, "cr_origin" will be
-   None.
+   "None".
 
    To enable, pass a _depth_ value greater than zero; this sets the
    number of frames whose information will be captured. To disable,
@@ -1609,7 +1635,7 @@ sys.set_coroutine_origin_tracking_depth(depth)
 
    This setting is thread-specific.
 
-   New in version 3.7.
+   Added in version 3.7.
 
    Note:
 
@@ -1623,7 +1649,7 @@ sys.activate_stack_trampoline(backend, /)
 
    Availability: Linux.
 
-   New in version 3.12.
+   Added in version 3.12.
 
    See also:
 
@@ -1639,7 +1665,7 @@ sys.deactivate_stack_trampoline()
 
    Availability: Linux.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 sys.is_stack_trampoline_active()
 
@@ -1647,7 +1673,7 @@ sys.is_stack_trampoline_active()
 
    Availability: Linux.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 sys._enablelegacywindowsfsencoding()
 
@@ -1663,7 +1689,7 @@ sys._enablelegacywindowsfsencoding()
 
    Availability: Windows.
 
-   New in version 3.6: See **PEP 529** for more details.
+   Added in version 3.6: See **PEP 529** for more details.
 
 sys.stdin
 sys.stdout
@@ -1767,7 +1793,7 @@ sys.stdlib_module_names
 
    See also the "sys.builtin_module_names" list.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 sys.thread_info
 
@@ -1802,7 +1828,7 @@ sys.thread_info
       The name and version of the thread library. It is a string, or
       "None" if this information is unknown.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 sys.tracebacklimit
 
@@ -1855,7 +1881,7 @@ sys.unraisablehook(unraisable, /)
    _unraisable_ object is the same as what will be passed to the hook.
    If no hook has been set, _hook_ may be "None".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 sys.version
 
@@ -1926,7 +1952,7 @@ sys._xoptions
    of accessing options passed through "-X".  Other implementations
    may export them through other means, or not at all.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 -[ Citations ]-
 

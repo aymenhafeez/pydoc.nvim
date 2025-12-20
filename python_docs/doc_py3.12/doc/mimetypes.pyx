@@ -1,5 +1,5 @@
-Python 3.12.3
-*mimetypes.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*mimetypes.pyx*                               Last change: 2025 Dec 20
 
 "mimetypes" — Map filenames to MIME types
 *****************************************
@@ -248,6 +248,16 @@ class mimetypes.MimeTypes(filenames=(), strict=True)
       If _strict_ is "True", information will be added to the list of
       standard types, else to the list of non-standard types.
 
-      New in version 3.2.
+      Added in version 3.2.
+
+   add_type(type, ext, strict=True)
+
+      Add a mapping from the MIME type _type_ to the extension _ext_.
+      When the extension is already known, the new type will replace
+      the old one. When the type is already known the extension will
+      be added to the list of known extensions.
+
+      When _strict_ is "True" (the default), the mapping will be added
+      to the official MIME types, otherwise to the non-standard ones.
 
 vim:tw=78:ts=8:ft=help:norl:

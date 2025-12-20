@@ -1,5 +1,5 @@
-Python 3.12.3
-*mmap.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*mmap.pyx*                                    Last change: 2025 Dec 20
 
 "mmap" — Memory-mapped file support
 ***********************************
@@ -147,7 +147,7 @@ class mmap.mmap(fileno, length, flags=MAP_SHARED, prot=PROT_WRITE|PROT_READ, acc
       with mmap.mmap(-1, 13) as mm:
           mm.write(b"Hello world!")
 <
-   New in version 3.2: Context manager support.
+   Added in version 3.2: Context manager support.
 
    The next example demonstrates how to create an anonymous map and
    exchange data between the parent and child processes:
@@ -181,7 +181,7 @@ class mmap.mmap(fileno, length, flags=MAP_SHARED, prot=PROT_WRITE|PROT_READ, acc
 
       "True" if the file is closed.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    find(sub[, start[, end]])
 
@@ -222,7 +222,7 @@ class mmap.mmap(fileno, length, flags=MAP_SHARED, prot=PROT_WRITE|PROT_READ, acc
 
       Availability: Systems with the "madvise()" system call.
 
-      New in version 3.8.
+      Added in version 3.8.
 
    move(dest, src, count)
 
@@ -352,7 +352,7 @@ mmap.MADV_FREE_REUSE
 
    Availability: Systems with the madvise() system call.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 
 MAP_* Constants
@@ -376,9 +376,9 @@ mmap.MAP_CONCEAL
 
    Changed in version 3.10: Added "MAP_POPULATE" constant.
 
-   New in version 3.11: Added "MAP_STACK" constant.
+   Added in version 3.11: Added "MAP_STACK" constant.
 
-   New in version 3.12: Added "MAP_ALIGNED_SUPER" constant. Added
+   Added in version 3.12: Added "MAP_ALIGNED_SUPER" constant. Added
    "MAP_CONCEAL" constant.
 
 vim:tw=78:ts=8:ft=help:norl:

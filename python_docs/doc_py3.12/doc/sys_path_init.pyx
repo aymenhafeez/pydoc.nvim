@@ -1,5 +1,5 @@
-Python 3.12.3
-*sys_path_init.pyx*                           Last change: 2024 May 24
+Python 3.12.12
+*sys_path_init.pyx*                           Last change: 2025 Dec 20
 
 The initialization of the "sys.path" module search path
 *******************************************************

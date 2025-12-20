@@ -1,5 +1,5 @@
-Python 3.12.3
-*csv.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*csv.pyx*                                     Last change: 2025 Dec 20
 
 "csv" — CSV File Reading and Writing
 ************************************
@@ -145,8 +145,10 @@ class csv.DictReader(f, fieldnames=None, restkey=None, restval=None, dialect='ex
 
    The _fieldnames_ parameter is a _sequence_.  If _fieldnames_ is
    omitted, the values in the first row of file _f_ will be used as
-   the fieldnames.  Regardless of how the fieldnames are determined,
-   the dictionary preserves their original ordering.
+   the fieldnames and will be omitted from the results. If
+   _fieldnames_ is provided, they will be used and the first row will
+   be included in the results.  Regardless of how the fieldnames are
+   determined, the dictionary preserves their original ordering.
 
    If a row has more fields than fieldnames, the remaining data is put
    in a list and stored with the fieldname specified by _restkey_
@@ -250,7 +252,7 @@ class csv.unix_dialect
    quoting all fields.  It is registered with the dialect name
    "'unix'".
 
-   New in version 3.2.
+   Added in version 3.2.
 
 class csv.Sniffer
 
@@ -331,9 +333,9 @@ csv.QUOTE_NOTNULL
    value is "None" an empty (unquoted) string is written.
 
    Instructs "reader" objects to interpret an empty (unquoted) field
-   as None and to otherwise behave as "QUOTE_ALL".
+   as "None" and to otherwise behave as "QUOTE_ALL".
 
-   New in version 3.12.
+   Added in version 3.12.
 
 csv.QUOTE_STRINGS
 
@@ -345,7 +347,13 @@ csv.QUOTE_STRINGS
    Instructs "reader" objects to interpret an empty (unquoted) string
    as "None" and to otherwise behave as "QUOTE_NONNUMERIC".
 
-   New in version 3.12.
+   Added in version 3.12.
+
+Note:
+
+  Due to a bug, constants "QUOTE_NOTNULL" and "QUOTE_STRINGS" do not
+  affect behaviour of "reader" objects. This bug is fixed in Python
+  3.13.
 
 The "csv" module defines the following exception:
 
@@ -505,7 +513,7 @@ DictWriter.writeheader()
    dialect. Return the return value of the "csvwriter.writerow()" call
    used internally.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.8: "writeheader()" now also returns the value
    returned by the "csvwriter.writerow()" method it uses internally.

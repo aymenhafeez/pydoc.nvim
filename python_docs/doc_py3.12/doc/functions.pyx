@@ -1,5 +1,5 @@
-Python 3.12.3
-*functions.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*functions.pyx*                               Last change: 2025 Dec 20
 
 Built-in Functions
 ******************
@@ -28,7 +28,7 @@ order.
 abs(x)
 
    Return the absolute value of a number.  The argument may be an
-   integer, a floating point number, or an object implementing
+   integer, a floating-point number, or an object implementing
    "__abs__()". If the argument is a complex number, its magnitude is
    returned.
 
@@ -39,7 +39,7 @@ aiter(async_iterable)
 
    Note: Unlike "iter()", "aiter()" has no 2-argument variant.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 all(iterable)
 
@@ -66,7 +66,7 @@ awaitable anext(async_iterator, default)
    iterator. If _default_ is given, it is returned if the iterator is
    exhausted, otherwise "StopAsyncIteration" is raised.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 any(iterable)
 
@@ -109,16 +109,17 @@ bin(x)
 
    See also "format()" for more information.
 
-class bool(x=False)
+class bool(object=False, /)
 
-   Return a Boolean value, i.e. one of "True" or "False".  _x_ is
-   converted using the standard truth testing procedure.  If _x_ is
-   false or omitted, this returns "False"; otherwise, it returns
-   "True".  The "bool" class is a subclass of "int" (see Numeric Types
-   — int, float, complex). It cannot be subclassed further.  Its only
-   instances are "False" and "True" (see Boolean Type - bool).
+   Return a Boolean value, i.e. one of "True" or "False".  The
+   argument is converted using the standard truth testing procedure.
+   If the argument is false or omitted, this returns "False";
+   otherwise, it returns "True".  The "bool" class is a subclass of
+   "int" (see Numeric Types — int, float, complex). It cannot be
+   subclassed further.  Its only instances are "False" and "True" (see
+   Boolean Type - bool).
 
-   Changed in version 3.7: _x_ is now a positional-only parameter.
+   Changed in version 3.7: The parameter is now positional-only.
 
 breakpoint(*args, **kws)
 
@@ -143,7 +144,7 @@ breakpoint(*args, **kws)
    Raises an auditing event "builtins.breakpoint" with argument
    "breakpointhook".
 
-   New in version 3.7.
+   Added in version 3.7.
 
 class bytearray(source=b'')
 class bytearray(source, encoding)
@@ -205,7 +206,7 @@ callable(object)
    instance); instances are callable if their class has a "__call__()"
    method.
 
-   New in version 3.2: This function was first removed in Python 3.0
+   Added in version 3.2: This function was first removed in Python 3.0
    and then brought back in Python 3.2.
 
 chr(i)
@@ -327,34 +328,70 @@ compile(source, filename, mode, flags=0, dont_inherit=False, optimize=-1)
    Changed in version 3.5: Previously, "TypeError" was raised when
    null bytes were encountered in _source_.
 
-   New in version 3.8: "ast.PyCF_ALLOW_TOP_LEVEL_AWAIT" can now be
+   Added in version 3.8: "ast.PyCF_ALLOW_TOP_LEVEL_AWAIT" can now be
    passed in flags to enable support for top-level "await", "async
    for", and "async with".
 
+class complex(number=0, /)
+class complex(string, /)
 class complex(real=0, imag=0)
-class complex(string)
 
-   Return a complex number with the value _real_ + _imag_*1j or
-   convert a string or number to a complex number.  If the first
-   parameter is a string, it will be interpreted as a complex number
-   and the function must be called without a second parameter.  The
-   second parameter can never be a string. Each argument may be any
-   numeric type (including complex).  If _imag_ is omitted, it
-   defaults to zero and the constructor serves as a numeric conversion
-   like "int" and "float".  If both arguments are omitted, returns
-   "0j".
+   Convert a single string or number to a complex number, or create a
+   complex number from real and imaginary parts.
 
-   For a general Python object "x", "complex(x)" delegates to
-   "x.__complex__()".  If "__complex__()" is not defined then it falls
-   back to "__float__()".  If "__float__()" is not defined then it
-   falls back to "__index__()".
+   Examples:
+>
+      >>> complex('+1.23')
+      (1.23+0j)
+      >>> complex('-4.5j')
+      -4.5j
+      >>> complex('-1.23+4.5j')
+      (-1.23+4.5j)
+      >>> complex('\t( -1.23+4.5J )\n')
+      (-1.23+4.5j)
+      >>> complex('-Infinity+NaNj')
+      (-inf+nanj)
+      >>> complex(1.23)
+      (1.23+0j)
+      >>> complex(imag=-4.5)
+      -4.5j
+      >>> complex(-1.23, 4.5)
+      (-1.23+4.5j)
+<
+   If the argument is a string, it must contain either a real part (in
+   the same format as for "float()") or an imaginary part (in the same
+   format but with a "'j'" or "'J'" suffix), or both real and
+   imaginary parts (the sign of the imaginary part is mandatory in
+   this case). The string can optionally be surrounded by whitespaces
+   and the round parentheses "'('" and "')'", which are ignored. The
+   string must not contain whitespace between "'+'", "'-'", the "'j'"
+   or "'J'" suffix, and the decimal number. For example,
+   "complex('1+2j')" is fine, but "complex('1 + 2j')" raises
+   "ValueError". More precisely, the input must conform to the
+   "complexvalue" production rule in the following grammar, after
+   parentheses and leading and trailing whitespace characters are
+   removed:
 
-   Note:
+      complexvalue ::= floatvalue |
+                       floatvalue ("j" | "J") |
+                       floatvalue sign absfloatvalue ("j" | "J")
 
-     When converting from a string, the string must not contain
-     whitespace around the central "+" or "-" operator.  For example,
-     "complex('1+2j')" is fine, but "complex('1 + 2j')" raises
-     "ValueError".
+   If the argument is a number, the constructor serves as a numeric
+   conversion like "int" and "float". For a general Python object "x",
+   "complex(x)" delegates to "x.__complex__()". If "__complex__()" is
+   not defined then it falls back to "__float__()". If "__float__()"
+   is not defined then it falls back to "__index__()".
+
+   If two arguments are provided or keyword arguments are used, each
+   argument may be any numeric type (including complex). If both
+   arguments are real numbers, return a complex number with the real
+   component _real_ and the imaginary component _imag_. If both
+   arguments are complex numbers, return a complex number with the
+   real component "real.real-imag.imag" and the imaginary component
+   "real.imag+imag.real". If one of arguments is a real number, only
+   its real component is used in the above expressions.
+
+   If all arguments are omitted, returns "0j".
 
    The complex type is described in Numeric Types — int, float,
    complex.
@@ -421,9 +458,9 @@ dir(object)
    The resulting list is sorted alphabetically.  For example:
 
    >>> import struct
-   >>> dir()   # show the names in the module namespace  
+   >>> dir()   # show the names in the module namespace
    ['__builtins__', '__name__', 'struct']
-   >>> dir(struct)   # show the names in the struct module 
+   >>> dir(struct)   # show the names in the struct module
    ['Struct', '__all__', '__builtins__', '__cached__', '__doc__', '__file__',
     '__initializing__', '__loader__', '__name__', '__package__',
     '_clearcache', 'calcsize', 'error', 'pack', 'pack_into',
@@ -451,7 +488,7 @@ divmod(a, b)
    numbers consisting of their quotient and remainder when using
    integer division.  With mixed operand types, the rules for binary
    arithmetic operators apply.  For integers, the result is the same
-   as "(a // b, a % b)". For floating point numbers the result is "(q,
+   as "(a // b, a % b)". For floating-point numbers the result is "(q,
    a % b)", where _q_ is usually "math.floor(a / b)" but may be 1 less
    than that.  In any case "q * b + a % b" is very close to _a_, if "a
    % b" is non-zero it has the same sign as _b_, and "0 <= abs(a % b)
@@ -481,9 +518,25 @@ enumerate(iterable, start=0)
 <
 eval(expression, globals=None, locals=None)
 
-   The arguments are a string and optional globals and locals.  If
-   provided, _globals_ must be a dictionary.  If provided, _locals_
-   can be any mapping object.
+   Parameters:
+      * **expression** ("str" | code object) – A Python expression.
+
+      * **globals** ("dict" | "None") – The global namespace (default:
+        "None").
+
+      * **locals** (_mapping_ | "None") – The local namespace
+        (default: "None").
+
+   Returns:
+      The result of the evaluated expression.
+
+   Raises:
+      Syntax errors are reported as exceptions.
+
+   Warning:
+
+     This function executes arbitrary code. Calling it with user-
+     supplied input may lead to security vulnerabilities.
 
    The _expression_ argument is parsed and evaluated as a Python
    expression (technically speaking, a condition list) using the
@@ -500,8 +553,7 @@ eval(expression, globals=None, locals=None)
    "eval()" is called.  Note, _eval()_ does not have access to the
    _nested scopes_ (non-locals) in the enclosing environment.
 
-   The return value is the result of the evaluated expression. Syntax
-   errors are reported as exceptions.  Example:
+   Example:
 
    >>> x = 1
    >>> eval('x+1')
@@ -529,6 +581,11 @@ eval(expression, globals=None, locals=None)
 
 exec(object, globals=None, locals=None, /, *, closure=None)
 
+   Warning:
+
+     This function executes arbitrary code. Calling it with user-
+     supplied input may lead to security vulnerabilities.
+
    This function supports dynamic execution of Python code. _object_
    must be either a string or a code object.  If it is a string, the
    string is parsed as a suite of Python statements which is then
@@ -547,9 +604,14 @@ exec(object, globals=None, locals=None, /, *, closure=None)
    and _locals_ are given, they are used for the global and local
    variables, respectively.  If provided, _locals_ can be any mapping
    object.  Remember that at the module level, globals and locals are
-   the same dictionary. If exec gets two separate objects as _globals_
-   and _locals_, the code will be executed as if it were embedded in a
-   class definition.
+   the same dictionary.
+
+   Note:
+
+     Most users should just pass a _globals_ argument and never
+     _locals_. If exec gets two separate objects as _globals_ and
+     _locals_, the code will be executed as if it were embedded in a
+     class definition.
 
    If the _globals_ dictionary does not contain a value for the key
    "__builtins__", a reference to the dictionary of the built-in
@@ -599,44 +661,11 @@ filter(function, iterable)
    See "itertools.filterfalse()" for the complementary function that
    returns elements of _iterable_ for which _function_ is false.
 
-class float(x=0.0)
+class float(number=0.0, /)
+class float(string, /)
 
-   Return a floating point number constructed from a number or string
-   _x_.
-
-   If the argument is a string, it should contain a decimal number,
-   optionally preceded by a sign, and optionally embedded in
-   whitespace.  The optional sign may be "'+'" or "'-'"; a "'+'" sign
-   has no effect on the value produced.  The argument may also be a
-   string representing a NaN (not-a-number), or positive or negative
-   infinity.  More precisely, the input must conform to the
-   "floatvalue" production rule in the following grammar, after
-   leading and trailing whitespace characters are removed:
-
-      sign        ::= "+" | "-"
-      infinity    ::= "Infinity" | "inf"
-      nan         ::= "nan"
-      digit       ::= <a Unicode decimal digit, i.e. characters in Unicode general category Nd>
-      digitpart   ::= digit (["_"] digit)*
-      number      ::= [digitpart] "." digitpart | digitpart ["."]
-      exponent    ::= ("e" | "E") ["+" | "-"] digitpart
-      floatnumber ::= number [exponent]
-      floatvalue  ::= [sign] (floatnumber | infinity | nan)
-
-   Case is not significant, so, for example, “inf”, “Inf”, “INFINITY”,
-   and “iNfINity” are all acceptable spellings for positive infinity.
-
-   Otherwise, if the argument is an integer or a floating point
-   number, a floating point number with the same value (within
-   Python’s floating point precision) is returned.  If the argument is
-   outside the range of a Python float, an "OverflowError" will be
-   raised.
-
-   For a general Python object "x", "float(x)" delegates to
-   "x.__float__()".  If "__float__()" is not defined then it falls
-   back to "__index__()".
-
-   If no argument is given, "0.0" is returned.
+   Return a floating-point number constructed from a number or a
+   string.
 
    Examples:
 >
@@ -651,12 +680,47 @@ class float(x=0.0)
       >>> float('-Infinity')
       -inf
 <
+   If the argument is a string, it should contain a decimal number,
+   optionally preceded by a sign, and optionally embedded in
+   whitespace.  The optional sign may be "'+'" or "'-'"; a "'+'" sign
+   has no effect on the value produced.  The argument may also be a
+   string representing a NaN (not-a-number), or positive or negative
+   infinity. More precisely, the input must conform to the
+   "floatvalue" production rule in the following grammar, after
+   leading and trailing whitespace characters are removed:
+
+      sign          ::= "+" | "-"
+      infinity      ::= "Infinity" | "inf"
+      nan           ::= "nan"
+      digit         ::= <a Unicode decimal digit, i.e. characters in Unicode general category Nd>
+      digitpart     ::= digit (["_"] digit)*
+      number        ::= [digitpart] "." digitpart | digitpart ["."]
+      exponent      ::= ("e" | "E") [sign] digitpart
+      floatnumber   ::= number [exponent]
+      absfloatvalue ::= floatnumber | infinity | nan
+      floatvalue    ::= [sign] absfloatvalue
+
+   Case is not significant, so, for example, “inf”, “Inf”, “INFINITY”,
+   and “iNfINity” are all acceptable spellings for positive infinity.
+
+   Otherwise, if the argument is an integer or a floating-point
+   number, a floating-point number with the same value (within
+   Python’s floating-point precision) is returned.  If the argument is
+   outside the range of a Python float, an "OverflowError" will be
+   raised.
+
+   For a general Python object "x", "float(x)" delegates to
+   "x.__float__()".  If "__float__()" is not defined then it falls
+   back to "__index__()".
+
+   If no argument is given, "0.0" is returned.
+
    The float type is described in Numeric Types — int, float, complex.
 
    Changed in version 3.6: Grouping digits with underscores as in code
    literals is allowed.
 
-   Changed in version 3.7: _x_ is now a positional-only parameter.
+   Changed in version 3.7: The parameter is now positional-only.
 
    Changed in version 3.8: Falls back to "__index__()" if
    "__float__()" is not defined.
@@ -813,9 +877,9 @@ input(prompt)
    and returns that.  When EOF is read, "EOFError" is raised.
    Example:
 >
-      >>> s = input('--> ')  
+      >>> s = input('--> ')
       --> Monty Python's Flying Circus
-      >>> s  
+      >>> s
       "Monty Python's Flying Circus"
 <
    If the "readline" module was loaded, then "input()" will use it to
@@ -827,22 +891,39 @@ input(prompt)
    Raises an auditing event "builtins.input/result" with the result
    after successfully reading input.
 
-class int(x=0)
-class int(x, base=10)
+class int(number=0, /)
+class int(string, /, base=10)
 
-   Return an integer object constructed from a number or string _x_,
-   or return "0" if no arguments are given.  If _x_ defines
-   "__int__()", "int(x)" returns "x.__int__()".  If _x_ defines
-   "__index__()", it returns "x.__index__()".  If _x_ defines
-   "__trunc__()", it returns "x.__trunc__()". For floating point
-   numbers, this truncates towards zero.
+   Return an integer object constructed from a number or a string, or
+   return "0" if no arguments are given.
 
-   If _x_ is not a number or if _base_ is given, then _x_ must be a
-   string, "bytes", or "bytearray" instance representing an integer in
-   radix _base_.  Optionally, the string can be preceded by "+" or "-"
-   (with no space in between), have leading zeros, be surrounded by
-   whitespace, and have single underscores interspersed between
-   digits.
+   Examples:
+>
+      >>> int(123.45)
+      123
+      >>> int('123')
+      123
+      >>> int('   -12_345\n')
+      -12345
+      >>> int('FACE', 16)
+      64206
+      >>> int('0xface', 0)
+      64206
+      >>> int('01110011', base=2)
+      115
+<
+   If the argument defines "__int__()", "int(x)" returns
+   "x.__int__()".  If the argument defines "__index__()", it returns
+   "x.__index__()".  If the argument defines "__trunc__()", it returns
+   "x.__trunc__()". For floating-point numbers, this truncates towards
+   zero.
+
+   If the argument is not a number or if _base_ is given, then it must
+   be a string, "bytes", or "bytearray" instance representing an
+   integer in radix _base_.  Optionally, the string can be preceded by
+   "+" or "-" (with no space in between), have leading zeros, be
+   surrounded by whitespace, and have single underscores interspersed
+   between digits.
 
    A base-n integer string contains digits, each representing a value
    from 0 to n-1. The values 0–9 can be represented by any Unicode
@@ -867,7 +948,7 @@ class int(x, base=10)
    Changed in version 3.6: Grouping digits with underscores as in code
    literals is allowed.
 
-   Changed in version 3.7: _x_ is now a positional-only parameter.
+   Changed in version 3.7: The first parameter is now positional-only.
 
    Changed in version 3.8: Falls back to "__index__()" if "__int__()"
    is not defined.
@@ -878,9 +959,9 @@ class int(x, base=10)
    Changed in version 3.11: "int" string inputs and string
    representations can be limited to help avoid denial of service
    attacks. A "ValueError" is raised when the limit is exceeded while
-   converting a string _x_ to an "int" or when converting an "int"
-   into a string would exceed the limit. See the integer string
-   conversion length limitation documentation.
+   converting a string to an "int" or when converting an "int" into a
+   string would exceed the limit. See the integer string conversion
+   length limitation documentation.
 
 isinstance(object, classinfo)
 
@@ -1043,14 +1124,15 @@ next(iterator, default)
 
 class object
 
-   Return a new featureless object.  "object" is a base for all
-   classes. It has methods that are common to all instances of Python
-   classes.  This function does not accept any arguments.
+   This is the ultimate base class of all other classes. It has
+   methods that are common to all instances of Python classes. When
+   the constructor is called, it returns a new featureless object. The
+   constructor does not accept any arguments.
 
    Note:
 
-     "object" does _not_ have a "__dict__", so you can’t assign
-     arbitrary attributes to an instance of the "object" class.
+     "object" instances do _not_ have "__dict__" attributes, so you
+     can’t assign arbitrary attributes to an instance of "object".
 
 oct(x)
 
@@ -1259,7 +1341,7 @@ open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, clo
    (where "open()" is declared), "os", "os.path", "tempfile", and
    "shutil".
 
-   Raises an auditing event "open" with arguments "file", "mode",
+   Raises an auditing event "open" with arguments "path", "mode",
    "flags".
 
    The "mode" and "flags" arguments may have been modified or inferred
@@ -1320,7 +1402,10 @@ pow(base, exp, mod=None)
    For example, "pow(10, 2)" returns "100", but "pow(10, -2)" returns
    "0.01".  For a negative base of type "int" or "float" and a non-
    integral exponent, a complex result is delivered.  For example,
-   "pow(-9, 0.5)" returns a value close to "3j".
+   "pow(-9, 0.5)" returns a value close to "3j". Whereas, for a
+   negative base of type "int" or "float" with an integral exponent, a
+   float result is delivered. For example, "pow(-9, 2.0)" returns
+   "81.0".
 
    For "int" operands _base_ and _exp_, if _mod_ is present, _mod_
    must also be of integer type and _mod_ must be nonzero. If _mod_ is
@@ -1511,7 +1596,7 @@ round(number, ndigits=None)
      example, "round(2.675, 2)" gives "2.67" instead of the expected
      "2.68". This is not a bug: it’s a result of the fact that most
      decimal fractions can’t be represented exactly as a float.  See
-     Floating Point Arithmetic:  Issues and Limitations for more
+     Floating-Point Arithmetic:  Issues and Limitations for more
      information.
 
 class set
@@ -1622,8 +1707,9 @@ sorted(iterable, /, *, key=None, reverse=False)
    definitions for details.
 
    A static method can be called either on the class (such as "C.f()")
-   or on an instance (such as "C().f()"). Moreover, they can be called
-   as regular functions (such as "f()").
+   or on an instance (such as "C().f()"). Moreover, the static method
+   _descriptor_ is also callable, so it can be used in the class
+   definition (such as "f()").
 
    Static methods in Python are similar to those found in Java or C++.
    Also, see "classmethod()" for a variant that is useful for creating
@@ -1665,7 +1751,7 @@ sum(iterable, /, start=0)
 
    For some use cases, there are good alternatives to "sum()". The
    preferred, fast way to concatenate a sequence of strings is by
-   calling "''.join(sequence)".  To add floating point values with
+   calling "''.join(sequence)".  To add floating-point values with
    extended precision, see "math.fsum()".  To concatenate a series of
    iterables, consider using "itertools.chain()".
 
@@ -1689,10 +1775,10 @@ class super(type, object_or_type=None)
    -> object" and the value of _type_ is "B", then "super()" searches
    "C -> A -> object".
 
-   The "__mro__" attribute of the _object_or_type_ lists the method
-   resolution search order used by both "getattr()" and "super()".
-   The attribute is dynamic and can change whenever the inheritance
-   hierarchy is updated.
+   The "__mro__" attribute of the class corresponding to
+   _object_or_type_ lists the method resolution search order used by
+   both "getattr()" and "super()".  The attribute is dynamic and can
+   change whenever the inheritance hierarchy is updated.
 
    If the second argument is omitted, the super object returned is
    unbound.  If the second argument is an object, "isinstance(obj,
@@ -1780,7 +1866,11 @@ class type(name, bases, dict, **kwds)
    ...
    >>> X = type('X', (), dict(a=1))
 
-   See also Type Objects.
+   See also:
+
+   * Documentation on attributes and methods on classes.
+
+   * Type Objects
 
    Keyword arguments provided to the three argument form are passed to
    the appropriate metaclass machinery (usually "__init_subclass__()")
@@ -1859,7 +1949,7 @@ zip(*iterables, strict=False)
      Unlike the default behavior, it raises a "ValueError" if one
      iterable is exhausted before the others:
 
-     >>> for item in zip(range(3), ['fee', 'fi', 'fo', 'fum'], strict=True):  
+     >>> for item in zip(range(3), ['fee', 'fi', 'fo', 'fum'], strict=True):
      ...     print(item)
      ...
      (0, 'fee')

@@ -1,5 +1,5 @@
-Python 3.12.3
-*asyncio-policy.pyx*                          Last change: 2024 May 24
+Python 3.12.12
+*asyncio-policy.pyx*                          Last change: 2025 Dec 20
 
 Policies
 ********
@@ -197,7 +197,7 @@ class asyncio.AbstractChildWatcher
       Spawning a subprocess with _inactive_ current child watcher
       raises "RuntimeError".
 
-      New in version 3.8.
+      Added in version 3.8.
 
    close()
 
@@ -222,7 +222,7 @@ class asyncio.ThreadedChildWatcher
 
    This watcher is used by default.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 class asyncio.MultiLoopChildWatcher
 
@@ -240,7 +240,7 @@ class asyncio.MultiLoopChildWatcher
    handling a big number of processes (_O_(_n_) each time a "SIGCHLD"
    is received).
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Deprecated since version 3.12.
 
@@ -285,7 +285,7 @@ class asyncio.PidfdChildWatcher
    disadvantage is that pidfds are specific to Linux, and only work on
    recent (5.3+) kernels.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 
 Custom Policies

@@ -1,5 +1,5 @@
-Python 3.12.3
-*index.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*index.pyx*                                   Last change: 2025 Dec 20
 
 The Python Tutorial
 *******************
@@ -79,44 +79,45 @@ The Glossary is also worth going through.
 
   * 4.3. The "range()" Function
 
-  * 4.4. "break" and "continue" Statements, and "else" Clauses on
-    Loops
+  * 4.4. "break" and "continue" Statements
 
-  * 4.5. "pass" Statements
+  * 4.5. "else" Clauses on Loops
 
-  * 4.6. "match" Statements
+  * 4.6. "pass" Statements
 
-  * 4.7. Defining Functions
+  * 4.7. "match" Statements
 
-  * 4.8. More on Defining Functions
+  * 4.8. Defining Functions
 
-    * 4.8.1. Default Argument Values
+  * 4.9. More on Defining Functions
 
-    * 4.8.2. Keyword Arguments
+    * 4.9.1. Default Argument Values
 
-    * 4.8.3. Special parameters
+    * 4.9.2. Keyword Arguments
 
-      * 4.8.3.1. Positional-or-Keyword Arguments
+    * 4.9.3. Special parameters
 
-      * 4.8.3.2. Positional-Only Parameters
+      * 4.9.3.1. Positional-or-Keyword Arguments
 
-      * 4.8.3.3. Keyword-Only Arguments
+      * 4.9.3.2. Positional-Only Parameters
 
-      * 4.8.3.4. Function Examples
+      * 4.9.3.3. Keyword-Only Arguments
 
-      * 4.8.3.5. Recap
+      * 4.9.3.4. Function Examples
 
-    * 4.8.4. Arbitrary Argument Lists
+      * 4.9.3.5. Recap
 
-    * 4.8.5. Unpacking Argument Lists
+    * 4.9.4. Arbitrary Argument Lists
 
-    * 4.8.6. Lambda Expressions
+    * 4.9.5. Unpacking Argument Lists
 
-    * 4.8.7. Documentation Strings
+    * 4.9.6. Lambda Expressions
 
-    * 4.8.8. Function Annotations
+    * 4.9.7. Documentation Strings
 
-  * 4.9. Intermezzo: Coding Style
+    * 4.9.8. Function Annotations
+
+  * 4.10. Intermezzo: Coding Style
 
 * 5. Data Structures
 
@@ -284,7 +285,7 @@ The Glossary is also worth going through.
 
   * 11.7. Tools for Working with Lists
 
-  * 11.8. Decimal Floating Point Arithmetic
+  * 11.8. Decimal Floating-Point Arithmetic
 
 * 12. Virtual Environments and Packages
 
@@ -302,7 +303,7 @@ The Glossary is also worth going through.
 
   * 14.2. Alternatives to the Interactive Interpreter
 
-* 15. Floating Point Arithmetic:  Issues and Limitations
+* 15. Floating-Point Arithmetic:  Issues and Limitations
 
   * 15.1. Representation Error
 

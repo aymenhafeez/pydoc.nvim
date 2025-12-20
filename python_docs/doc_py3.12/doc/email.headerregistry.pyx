@@ -1,5 +1,5 @@
-Python 3.12.3
-*email.headerregistry.pyx*                    Last change: 2024 May 24
+Python 3.12.12
+*email.headerregistry.pyx*                    Last change: 2025 Dec 20
 
 "email.headerregistry": Custom Header Objects
 *********************************************
@@ -8,7 +8,7 @@ Python 3.12.3
 
 ======================================================================
 
-New in version 3.6: [1]
+Added in version 3.6: [1]
 
 Headers are represented by customized subclasses of "str".  The
 particular class used to represent a given header is determined by the

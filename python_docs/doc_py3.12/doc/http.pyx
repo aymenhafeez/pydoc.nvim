@@ -1,5 +1,5 @@
-Python 3.12.3
-*http.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*http.pyx*                                    Last change: 2025 Dec 20
 
 "http" — HTTP modules
 *********************
@@ -27,7 +27,7 @@ with http related code:
 
 class http.HTTPStatus
 
-   New in version 3.5.
+   Added in version 3.5.
 
    A subclass of "enum.IntEnum" that defines a set of HTTP status
    codes, reason phrases and long descriptions written in English.
@@ -191,17 +191,17 @@ available as "http.client.OK").
 
 Changed in version 3.7: Added "421 MISDIRECTED_REQUEST" status code.
 
-New in version 3.8: Added "451 UNAVAILABLE_FOR_LEGAL_REASONS" status
+Added in version 3.8: Added "451 UNAVAILABLE_FOR_LEGAL_REASONS" status
 code.
 
-New in version 3.9: Added "103 EARLY_HINTS", "418 IM_A_TEAPOT" and
+Added in version 3.9: Added "103 EARLY_HINTS", "418 IM_A_TEAPOT" and
 "425 TOO_EARLY" status codes.
 
 
 HTTP status category
 ====================
 
-New in version 3.12.
+Added in version 3.12.
 
 The enum values have several properties to indicate the HTTP status
 category:
@@ -235,7 +235,7 @@ category:
 <
 class http.HTTPMethod
 
-   New in version 3.11.
+   Added in version 3.11.
 
    A subclass of "enum.StrEnum" that defines a set of HTTP methods and
    descriptions written in English.

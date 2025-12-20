@@ -1,5 +1,5 @@
-Python 3.12.3
-*abc.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*abc.pyx*                                     Last change: 2025 Dec 20
 
 "abc" — Abstract Base Classes
 *****************************
@@ -46,7 +46,7 @@ class abc.ABC
       class MyABC(metaclass=ABCMeta):
           pass
 <
-   New in version 3.4.
+   Added in version 3.4.
 
 class abc.ABCMeta
 
@@ -233,7 +233,7 @@ The "abc" module also supports the following legacy decorators:
 
 @abc.abstractclassmethod
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Deprecated since version 3.3: It is now possible to use
    "classmethod" with "abstractmethod()", making this decorator
@@ -254,7 +254,7 @@ The "abc" module also supports the following legacy decorators:
 <
 @abc.abstractstaticmethod
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Deprecated since version 3.3: It is now possible to use
    "staticmethod" with "abstractmethod()", making this decorator
@@ -325,7 +325,7 @@ abc.get_cache_token()
    for virtual subclasses. The token changes with every call to
    "ABCMeta.register()" on any ABC.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 abc.update_abstractmethods(cls)
 
@@ -343,7 +343,7 @@ abc.update_abstractmethods(cls)
      This function assumes that _cls_’s superclasses are already
      updated. It does not update any subclasses.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 -[ Footnotes ]-
 

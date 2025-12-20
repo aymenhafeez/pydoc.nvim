@@ -1,5 +1,5 @@
-Python 3.12.3
-*winsound.pyx*                                Last change: 2024 May 24
+Python 3.12.12
+*winsound.pyx*                                Last change: 2025 Dec 20
 
 "winsound" — Sound-playing interface for Windows
 ************************************************
@@ -124,6 +124,12 @@ winsound.SND_NOWAIT
    Note:
 
      This flag is not supported on modern Windows platforms.
+
+winsound.SND_APPLICATION
+
+   The _sound_ parameter is an application-specific alias in the
+   registry. This flag can be combined with the "SND_ALIAS" flag to
+   specify an application-defined sound alias.
 
 winsound.MB_ICONASTERISK
 

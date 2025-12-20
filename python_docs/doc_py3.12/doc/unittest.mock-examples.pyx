@@ -1,10 +1,10 @@
-Python 3.12.3
-*unittest.mock-examples.pyx*                  Last change: 2024 May 24
+Python 3.12.12
+*unittest.mock-examples.pyx*                  Last change: 2025 Dec 20
 
 "unittest.mock" — getting started
 *********************************
 
-New in version 3.3.
+Added in version 3.3.
 
 
 Using Mock

@@ -1,5 +1,5 @@
-Python 3.12.3
-*tty.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*tty.pyx*                                     Last change: 2025 Dec 20
 
 "tty" — Terminal control functions
 **********************************
@@ -22,7 +22,7 @@ tty.cfmakeraw(mode)
    Convert the tty attribute list _mode_, which is a list like the one
    returned by "termios.tcgetattr()", to that of a tty in raw mode.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 tty.cfmakecbreak(mode)
 
@@ -32,7 +32,7 @@ tty.cfmakecbreak(mode)
    This clears the "ECHO" and "ICANON" local mode flags in _mode_ as
    well as setting the minimum input to 1 byte with no delay.
 
-   New in version 3.12.
+   Added in version 3.12.
 
    Changed in version 3.12.2: The "ICRNL" flag is no longer cleared.
    This matches Linux and macOS "stty cbreak" behavior and what
@@ -46,7 +46,7 @@ tty.setraw(fd, when=termios.TCSAFLUSH)
    saved before setting _fd_ to raw mode; this value is returned.
 
    Changed in version 3.12: The return value is now the original tty
-   attributes, instead of None.
+   attributes, instead of "None".
 
 tty.setcbreak(fd, when=termios.TCSAFLUSH)
 
@@ -59,7 +59,7 @@ tty.setcbreak(fd, when=termios.TCSAFLUSH)
    setting the minimum input to 1 byte with no delay.
 
    Changed in version 3.12: The return value is now the original tty
-   attributes, instead of None.
+   attributes, instead of "None".
 
    Changed in version 3.12.2: The "ICRNL" flag is no longer cleared.
    This restores the behavior of Python 3.11 and earlier as well as

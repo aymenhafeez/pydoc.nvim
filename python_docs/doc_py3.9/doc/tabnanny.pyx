@@ -1,5 +1,5 @@
-Python 3.9.19
-*tabnanny.pyx*                                Last change: 2024 May 24
+Python 3.9.25
+*tabnanny.pyx*                                Last change: 2025 Dec 20
 
 "tabnanny" — Detection of ambiguous indentation
 ***********************************************

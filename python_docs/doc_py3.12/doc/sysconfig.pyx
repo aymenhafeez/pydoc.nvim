@@ -1,10 +1,10 @@
-Python 3.12.3
-*sysconfig.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*sysconfig.pyx*                               Last change: 2025 Dec 20
 
 "sysconfig" — Provide access to Python’s configuration information
 ******************************************************************
 
-New in version 3.2.
+Added in version 3.2.
 
 **Source code:** Lib/sysconfig.py
 
@@ -323,7 +323,7 @@ sysconfig.get_default_scheme()
 
    Return the default scheme name for the current platform.
 
-   New in version 3.10: This function was previously named
+   Added in version 3.10: This function was previously named
    "_get_default_scheme()" and considered an implementation detail.
 
    Changed in version 3.11: When Python runs from a virtual
@@ -340,7 +340,7 @@ sysconfig.get_preferred_scheme(key)
    It can be passed to "sysconfig" functions that take a _scheme_
    argument, such as "get_paths()".
 
-   New in version 3.10.
+   Added in version 3.10.
 
    Changed in version 3.11: When Python runs from a virtual
    environment and "key="prefix"", the _venv_ scheme is returned.
@@ -358,7 +358,7 @@ sysconfig._get_preferred_schemes()
    End users should not use this function, but "get_default_scheme()"
    and "get_preferred_scheme()" instead.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 sysconfig.get_path_names()
 
@@ -425,7 +425,7 @@ sysconfig.get_platform()
    This is used mainly to distinguish platform-specific build
    directories and platform-specific built distributions.  Typically
    includes the OS name and version and the architecture (as supplied
-   by ‘os.uname()’), although the exact information included depends
+   by "os.uname()"), although the exact information included depends
    on the OS; e.g., on Linux, the kernel version isn’t particularly
    important.
 
@@ -439,8 +439,10 @@ sysconfig.get_platform()
 
    Windows will return one of:
 
-   * win-amd64 (64bit Windows on AMD64, aka x86_64, Intel64, and
+   * win-amd64 (64-bit Windows on AMD64, aka x86_64, Intel64, and
      EM64T)
+
+   * win-arm64 (64-bit Windows on ARM64, aka AArch64)
 
    * win32 (all others - specifically, sys.platform is returned)
 

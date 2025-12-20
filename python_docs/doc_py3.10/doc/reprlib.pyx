@@ -1,5 +1,5 @@
-Python 3.10.14
-*reprlib.pyx*                                 Last change: 2024 May 24
+Python 3.10.19
+*reprlib.pyx*                                 Last change: 2025 Dec 20
 
 "reprlib" — Alternate "repr()" implementation
 *********************************************

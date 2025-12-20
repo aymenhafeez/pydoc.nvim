@@ -1,5 +1,5 @@
-Python 3.12.3
-*numbers.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*numbers.pyx*                                 Last change: 2025 Dec 20
 
 "numbers" — Numeric abstract base classes
 *****************************************
@@ -80,10 +80,10 @@ class numbers.Integral
    operations: "<<", ">>", "&", "^", "|", "~".
 
 
-Notes for type implementors
+Notes for type implementers
 ===========================
 
-Implementors should be careful to make equal numbers equal and hash
+Implementers should be careful to make equal numbers equal and hash
 them to the same values. This may be subtle if there are two different
 extensions of the real numbers. For example, "fractions.Fraction"
 implements "hash()" as follows:

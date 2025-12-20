@@ -1,10 +1,10 @@
-Python 3.12.3
-*importlib.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*importlib.pyx*                               Last change: 2025 Dec 20
 
 "importlib" — The implementation of "import"
 ********************************************
 
-New in version 3.1.
+Added in version 3.1.
 
 **Source code:** Lib/importlib/__init__.py
 
@@ -134,7 +134,7 @@ importlib.invalidate_caches()
    program is running to guarantee all finders will notice the new
    module’s existence.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.10: Namespace packages created/installed in a
    different "sys.path" location after the same namespace was already
@@ -202,7 +202,7 @@ importlib.reload(module)
    the instances — they continue to use the old class definition.  The
    same is true for derived classes.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.7: "ModuleNotFoundError" is raised when the
    module being reloaded lacks a "ModuleSpec".
@@ -235,7 +235,7 @@ class importlib.abc.MetaPathFinder
 
    An abstract base class representing a _meta path finder_.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.10: No longer a subclass of "Finder".
 
@@ -251,7 +251,7 @@ class importlib.abc.MetaPathFinder
       "importlib.util.spec_from_loader()" may be useful for
       implementing concrete "MetaPathFinders".
 
-      New in version 3.4.
+      Added in version 3.4.
 
    invalidate_caches()
 
@@ -270,7 +270,7 @@ class importlib.abc.PathEntryFinder
    is meant for use only within the path-based import subsystem
    provided by "importlib.machinery.PathFinder".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.10: No longer a subclass of "Finder".
 
@@ -284,7 +284,7 @@ class importlib.abc.PathEntryFinder
       about what spec to return. "importlib.util.spec_from_loader()"
       may be useful for implementing concrete "PathEntryFinders".
 
-      New in version 3.4.
+      Added in version 3.4.
 
    invalidate_caches()
 
@@ -311,7 +311,7 @@ class importlib.abc.Loader
       module.  This method may return "None", indicating that default
       module creation semantics should take place.
 
-      New in version 3.4.
+      Added in version 3.4.
 
       Changed in version 3.6: This method is no longer optional when
       "exec_module()" is defined.
@@ -323,7 +323,7 @@ class importlib.abc.Loader
       already be initialized when "exec_module()" is called.  When
       this method exists, "create_module()" must be defined.
 
-      New in version 3.4.
+      Added in version 3.4.
 
       Changed in version 3.6: "create_module()" must also be defined.
 
@@ -346,35 +346,17 @@ class importlib.abc.Loader
       that some of these attributes can change when a module is
       reloaded):
 
-      * "__name__"
-           The module’s fully qualified name. It is "'__main__'" for
-           an executed module.
+      * "module.__name__"
 
-      * "__file__"
-           The location the _loader_ used to load the module. For
-           example, for modules loaded from a .py file this is the
-           filename. It is not set on all modules (e.g. built-in
-           modules).
+      * "module.__file__"
 
-      * "__cached__"
-           The filename of a compiled version of the module’s code. It
-           is not set on all modules (e.g. built-in modules).
+      * "module.__cached__"
 
-      * "__path__"
-           The list of locations where the package’s submodules will
-           be found. Most of the time this is a single directory. The
-           import system passes this attribute to "__import__()" and
-           to finders in the same way as "sys.path" but just for the
-           package. It is not set on non-package modules so it can be
-           used as an indicator that the module is a package.
+      * "module.__path__"
 
-      * "__package__"
-           The fully qualified name of the package the module is in
-           (or the empty string for a top-level module). If the module
-           is a package then this is the same as "__name__".
+      * "module.__package__"
 
-      * "__loader__"
-           The _loader_ used to load the module.
+      * "module.__loader__" _(deprecated)_
 
       When "exec_module()" is available then backwards-compatible
       functionality is provided.
@@ -383,34 +365,38 @@ class importlib.abc.Loader
       of "NotImplementedError".  Functionality provided when
       "exec_module()" is available.
 
-      Deprecated since version 3.4: The recommended API for loading a
-      module is "exec_module()" (and "create_module()").  Loaders
-      should implement it instead of "load_module()".  The import
-      machinery takes care of all the other responsibilities of
-      "load_module()" when "exec_module()" is implemented.
+      Deprecated since version 3.4, will be removed in version 3.15:
+      The recommended API for loading a module is "exec_module()" (and
+      "create_module()").  Loaders should implement it instead of
+      "load_module()".  The import machinery takes care of all the
+      other responsibilities of "load_module()" when "exec_module()"
+      is implemented.
 
 class importlib.abc.ResourceLoader
 
-   An abstract base class for a _loader_ which implements the optional
-   **PEP 302** protocol for loading arbitrary resources from the
-   storage back-end.
+   _Superseded by TraversableResources_
 
-   Deprecated since version 3.7: This ABC is deprecated in favour of
-   supporting resource loading through
-   "importlib.resources.abc.ResourceReader".
+      An abstract base class for a _loader_ which implements the
+      optional **PEP 302** protocol for loading arbitrary resources
+      from the storage back-end.
 
-   abstractmethod get_data(path)
+      Deprecated since version 3.7: This ABC is deprecated in favour
+      of supporting resource loading through
+      "importlib.resources.abc.TraversableResources".
 
-      An abstract method to return the bytes for the data located at
-      _path_. Loaders that have a file-like storage back-end that
-      allows storing arbitrary data can implement this abstract method
-      to give direct access to the data stored. "OSError" is to be
-      raised if the _path_ cannot be found. The _path_ is expected to
-      be constructed using a module’s "__file__" attribute or an item
-      from a package’s "__path__".
+      abstractmethod get_data(path)
 
-      Changed in version 3.4: Raises "OSError" instead of
-      "NotImplementedError".
+            An abstract method to return the bytes for the data
+            located at _path_. Loaders that have a file-like storage
+            back-end that allows storing arbitrary data can implement
+            this abstract method to give direct access to the data
+            stored. "OSError" is to be raised if the _path_ cannot be
+            found. The _path_ is expected to be constructed using a
+            module’s "__file__" attribute or an item from a package’s
+            "__path__".
+
+            Changed in version 3.4: Raises "OSError" instead of
+            "NotImplementedError".
 
 class importlib.abc.InspectLoader
 
@@ -434,15 +420,15 @@ class importlib.abc.InspectLoader
 
    abstractmethod get_source(fullname)
 
-      An abstract method to return the source of a module. It is
-      returned as a text string using _universal newlines_,
-      translating all recognized line separators into "'\n'"
-      characters.  Returns "None" if no source is available (e.g. a
-      built-in module). Raises "ImportError" if the loader cannot find
-      the module specified.
+         An abstract method to return the source of a module. It is
+         returned as a text string using _universal newlines_,
+         translating all recognized line separators into "'\n'"
+         characters.  Returns "None" if no source is available (e.g. a
+         built-in module). Raises "ImportError" if the loader cannot
+         find the module specified.
 
-      Changed in version 3.4: Raises "ImportError" instead of
-      "NotImplementedError".
+         Changed in version 3.4: Raises "ImportError" instead of
+         "NotImplementedError".
 
    is_package(fullname)
 
@@ -465,7 +451,7 @@ class importlib.abc.InspectLoader
       With the subsequent code object one can execute it in a module
       by running "exec(code, module.__dict__)".
 
-      New in version 3.4.
+      Added in version 3.4.
 
       Changed in version 3.5: Made the method static.
 
@@ -473,13 +459,14 @@ class importlib.abc.InspectLoader
 
       Implementation of "Loader.exec_module()".
 
-      New in version 3.4.
+      Added in version 3.4.
 
    load_module(fullname)
 
       Implementation of "Loader.load_module()".
 
-      Deprecated since version 3.4: use "exec_module()" instead.
+      Deprecated since version 3.4, will be removed in version 3.15:
+      use "exec_module()" instead.
 
 class importlib.abc.ExecutionLoader
 
@@ -489,16 +476,16 @@ class importlib.abc.ExecutionLoader
 
    abstractmethod get_filename(fullname)
 
-      An abstract method that is to return the value of "__file__" for
-      the specified module. If no path is available, "ImportError" is
-      raised.
+         An abstract method that is to return the value of "__file__"
+         for the specified module. If no path is available,
+         "ImportError" is raised.
 
-      If source code is available, then the method should return the
-      path to the source file, regardless of whether a bytecode was
-      used to load the module.
+         If source code is available, then the method should return
+         the path to the source file, regardless of whether a bytecode
+         was used to load the module.
 
-      Changed in version 3.4: Raises "ImportError" instead of
-      "NotImplementedError".
+         Changed in version 3.4: Raises "ImportError" instead of
+         "NotImplementedError".
 
 class importlib.abc.FileLoader(fullname, path)
 
@@ -510,7 +497,7 @@ class importlib.abc.FileLoader(fullname, path)
    loader is to handle. The _path_ argument is the path to the file
    for the module.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    name
 
@@ -524,8 +511,8 @@ class importlib.abc.FileLoader(fullname, path)
 
       Calls super’s "load_module()".
 
-      Deprecated since version 3.4: Use "Loader.exec_module()"
-      instead.
+      Deprecated since version 3.4, will be removed in version 3.15:
+      Use "Loader.exec_module()" instead.
 
    abstractmethod get_filename(fullname)
 
@@ -573,7 +560,7 @@ class importlib.abc.SourceLoader
       future extensions. If the path cannot be handled, "OSError" is
       raised.
 
-      New in version 3.3.
+      Added in version 3.3.
 
       Changed in version 3.4: Raise "OSError" instead of
       "NotImplementedError".
@@ -612,13 +599,14 @@ class importlib.abc.SourceLoader
 
       Concrete implementation of "Loader.exec_module()".
 
-      New in version 3.4.
+      Added in version 3.4.
 
    load_module(fullname)
 
       Concrete implementation of "Loader.load_module()".
 
-      Deprecated since version 3.4: Use "exec_module()" instead.
+      Deprecated since version 3.4, will be removed in version 3.15:
+      Use "exec_module()" instead.
 
    get_source(fullname)
 
@@ -644,7 +632,7 @@ class importlib.abc.ResourceReader
    a data file that lives next to the "__init__.py" file of the
    package. The purpose of this class is to help abstract out the
    accessing of such data files so that it does not matter if the
-   package and its data file(s) are stored in a e.g. zip file versus
+   package and its data file(s) are stored e.g. in a zip file versus
    on the file system.
 
    For any of methods of this class, a _resource_ argument is expected
@@ -664,45 +652,48 @@ class importlib.abc.ResourceReader
    "None". An object compatible with this ABC should only be returned
    when the specified module is a package.
 
-   New in version 3.7.
+   Added in version 3.7.
 
    Deprecated since version 3.12, will be removed in version 3.14: Use
    "importlib.resources.abc.TraversableResources" instead.
 
    abstractmethod open_resource(resource)
 
-      Returns an opened, _file-like object_ for binary reading of the
-      _resource_.
+         Returns an opened, _file-like object_ for binary reading of
+         the _resource_.
 
-      If the resource cannot be found, "FileNotFoundError" is raised.
+         If the resource cannot be found, "FileNotFoundError" is
+         raised.
 
    abstractmethod resource_path(resource)
 
-      Returns the file system path to the _resource_.
+         Returns the file system path to the _resource_.
 
-      If the resource does not concretely exist on the file system,
-      raise "FileNotFoundError".
+         If the resource does not concretely exist on the file system,
+         raise "FileNotFoundError".
 
    abstractmethod is_resource(name)
 
-      Returns "True" if the named _name_ is considered a resource.
-      "FileNotFoundError" is raised if _name_ does not exist.
+         Returns "True" if the named _name_ is considered a resource.
+         "FileNotFoundError" is raised if _name_ does not exist.
 
    abstractmethod contents()
 
-      Returns an _iterable_ of strings over the contents of the
-      package. Do note that it is not required that all names returned
-      by the iterator be actual resources, e.g. it is acceptable to
-      return names for which "is_resource()" would be false.
+         Returns an _iterable_ of strings over the contents of the
+         package. Do note that it is not required that all names
+         returned by the iterator be actual resources, e.g. it is
+         acceptable to return names for which "is_resource()" would be
+         false.
 
-      Allowing non-resource names to be returned is to allow for
-      situations where how a package and its resources are stored are
-      known a priori and the non-resource names would be useful. For
-      instance, returning subdirectory names is allowed so that when
-      it is known that the package and resources are stored on the
-      file system then those subdirectory names can be used directly.
+         Allowing non-resource names to be returned is to allow for
+         situations where how a package and its resources are stored
+         are known a priori and the non-resource names would be
+         useful. For instance, returning subdirectory names is allowed
+         so that when it is known that the package and resources are
+         stored on the file system then those subdirectory names can
+         be used directly.
 
-      The abstract method returns an iterable of no items.
+         The abstract method returns an iterable of no items.
 
 class importlib.abc.Traversable
 
@@ -712,7 +703,7 @@ class importlib.abc.Traversable
    For a representation of the object on the file-system, use
    "importlib.resources.as_file()".
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Deprecated since version 3.12, will be removed in version 3.14: Use
    "importlib.resources.abc.Traversable" instead.
@@ -770,7 +761,7 @@ class importlib.abc.TraversableResources
    Loaders that wish to support resource reading are expected to
    implement this interface.
 
-   New in version 3.9.
+   Added in version 3.9.
 
    Deprecated since version 3.12, will be removed in version 3.14: Use
    "importlib.resources.abc.TraversableResources" instead.
@@ -796,14 +787,14 @@ importlib.machinery.SOURCE_SUFFIXES
    A list of strings representing the recognized file suffixes for
    source modules.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 importlib.machinery.DEBUG_BYTECODE_SUFFIXES
 
    A list of strings representing the file suffixes for non-optimized
    bytecode modules.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Deprecated since version 3.5: Use "BYTECODE_SUFFIXES" instead.
 
@@ -812,7 +803,7 @@ importlib.machinery.OPTIMIZED_BYTECODE_SUFFIXES
    A list of strings representing the file suffixes for optimized
    bytecode modules.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Deprecated since version 3.5: Use "BYTECODE_SUFFIXES" instead.
 
@@ -821,7 +812,7 @@ importlib.machinery.BYTECODE_SUFFIXES
    A list of strings representing the recognized file suffixes for
    bytecode modules (including the leading dot).
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.5: The value is no longer dependent on
    "__debug__".
@@ -831,7 +822,7 @@ importlib.machinery.EXTENSION_SUFFIXES
    A list of strings representing the recognized file suffixes for
    extension modules.
 
-   New in version 3.3.
+   Added in version 3.3.
 
 importlib.machinery.all_suffixes()
 
@@ -841,7 +832,7 @@ importlib.machinery.all_suffixes()
    potentially refers to a module without needing any details on the
    kind of module (for example, "inspect.getmodulename()").
 
-   New in version 3.3.
+   Added in version 3.3.
 
 class importlib.machinery.BuiltinImporter
 
@@ -877,7 +868,7 @@ class importlib.machinery.WindowsRegistryFinder
    Only class methods are defined by this class to alleviate the need
    for instantiation.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Deprecated since version 3.6: Use "site" configuration instead.
    Future versions of Python may not enable this finder by default.
@@ -903,7 +894,7 @@ class importlib.machinery.PathFinder
       being queried about the module. If no finder is ever found then
       "None" is both stored in the cache and returned.
 
-      New in version 3.4.
+      Added in version 3.4.
 
       Changed in version 3.5: If the current working directory –
       represented by an empty string – is no longer valid then "None"
@@ -946,7 +937,7 @@ class importlib.machinery.FileFinder(path, *loader_details)
    prevent this from happening, when you create a module dynamically,
    make sure to call "importlib.invalidate_caches()".
 
-   New in version 3.3.
+   Added in version 3.3.
 
    path
 
@@ -956,7 +947,7 @@ class importlib.machinery.FileFinder(path, *loader_details)
 
       Attempt to find the spec to handle _fullname_ within "path".
 
-      New in version 3.4.
+      Added in version 3.4.
 
    invalidate_caches()
 
@@ -978,7 +969,7 @@ class importlib.machinery.SourceFileLoader(fullname, path)
    subclassing "importlib.abc.FileLoader" and providing some concrete
    implementations of other methods.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    name
 
@@ -1007,8 +998,8 @@ class importlib.machinery.SourceFileLoader(fullname, path)
       Concrete implementation of "importlib.abc.Loader.load_module()"
       where specifying the name of the module to load is optional.
 
-      Deprecated since version 3.6: Use
-      "importlib.abc.Loader.exec_module()" instead.
+      Deprecated since version 3.6, will be removed in version 3.15:
+      Use "importlib.abc.Loader.exec_module()" instead.
 
 class importlib.machinery.SourcelessFileLoader(fullname, path)
 
@@ -1020,7 +1011,7 @@ class importlib.machinery.SourcelessFileLoader(fullname, path)
    implementations or new versions of Python which change the bytecode
    format.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    name
 
@@ -1048,7 +1039,7 @@ class importlib.machinery.SourcelessFileLoader(fullname, path)
    Concrete implementation of "importlib.abc.Loader.load_module()"
    where specifying the name of the module to load is optional.
 
-   Deprecated since version 3.6: Use
+   Deprecated since version 3.6, will be removed in version 3.15: Use
    "importlib.abc.Loader.exec_module()" instead.
 
 class importlib.machinery.ExtensionFileLoader(fullname, path)
@@ -1064,7 +1055,7 @@ class importlib.machinery.ExtensionFileLoader(fullname, path)
    subinterpreters if it doesn’t implement multi-phase init (see **PEP
    489**), even if it would otherwise import successfully.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.12: Multi-phase init is now required for use
    in subinterpreters.
@@ -1082,14 +1073,14 @@ class importlib.machinery.ExtensionFileLoader(fullname, path)
       Creates the module object from the given specification in
       accordance with **PEP 489**.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    exec_module(module)
 
       Initializes the given module object in accordance with **PEP
       489**.
 
-      New in version 3.5.
+      Added in version 3.5.
 
    is_package(fullname)
 
@@ -1108,7 +1099,7 @@ class importlib.machinery.ExtensionFileLoader(fullname, path)
 
       Returns "path".
 
-      New in version 3.4.
+      Added in version 3.4.
 
 class importlib.machinery.NamespaceLoader(name, path, path_finder)
 
@@ -1125,83 +1116,77 @@ class importlib.machinery.NamespaceLoader(name, path, path_finder)
       >>> isinstance(my_namespace.__loader__, importlib.abc.Loader)
       True
 <
-   New in version 3.11.
+   Added in version 3.11.
 
 class importlib.machinery.ModuleSpec(name, loader, *, origin=None, loader_state=None, is_package=None)
 
    A specification for a module’s import-system-related state.  This
-   is typically exposed as the module’s "__spec__" attribute.  In the
-   descriptions below, the names in parentheses give the corresponding
-   attribute available directly on the module object, e.g.
-   "module.__spec__.origin == module.__file__".  Note, however, that
-   while the _values_ are usually equivalent, they can differ since
-   there is no synchronization between the two objects.  For example,
-   it is possible to update the module’s "__file__" at runtime and
-   this will not be automatically reflected in the module’s
-   "__spec__.origin", and vice versa.
+   is typically exposed as the module’s "__spec__" attribute.  Many of
+   these attributes are also available directly on a module: for
+   example, "module.__spec__.origin == module.__file__".  Note,
+   however, that while the _values_ are usually equivalent, they can
+   differ since there is no synchronization between the two objects.
+   For example, it is possible to update the module’s "__file__" at
+   runtime and this will not be automatically reflected in the
+   module’s "__spec__.origin", and vice versa.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    name
 
-   ("__name__")
-
-   The module’s fully qualified name. The _finder_ should always set
-   this attribute to a non-empty string.
+      The module’s fully qualified name (see "module.__name__"). The
+      _finder_ should always set this attribute to a non-empty string.
 
    loader
 
-   ("__loader__")
-
-   The _loader_ used to load the module. The _finder_ should always
-   set this attribute.
+      The _loader_ used to load the module (see "module.__loader__").
+      The _finder_ should always set this attribute.
 
    origin
 
-   ("__file__")
-
-   The location the _loader_ should use to load the module. For
-   example, for modules loaded from a .py file this is the filename.
-   The _finder_ should always set this attribute to a meaningful value
-   for the _loader_ to use.  In the uncommon case that there is not
-   one (like for namespace packages), it should be set to "None".
+      The location the _loader_ should use to load the module (see
+      "module.__file__"). For example, for modules loaded from a ".py"
+      file this is the filename. The _finder_ should always set this
+      attribute to a meaningful value for the _loader_ to use.  In the
+      uncommon case that there is not one (like for namespace
+      packages), it should be set to "None".
 
    submodule_search_locations
 
-   ("__path__")
+      A (possibly empty) _sequence_ of strings enumerating the
+      locations in which a package’s submodules will be found (see
+      "module.__path__"). Most of the time there will only be a single
+      directory in this list.
 
-   The list of locations where the package’s submodules will be found.
-   Most of the time this is a single directory. The _finder_ should
-   set this attribute to a list, even an empty one, to indicate to the
-   import system that the module is a package.  It should be set to
-   "None" for non-package modules.  It is set automatically later to a
-   special object for namespace packages.
+      The _finder_ should set this attribute to a sequence, even an
+      empty one, to indicate to the import system that the module is a
+      package.  It should be set to "None" for non-package modules.
+      It is set automatically later to a special object for namespace
+      packages.
 
    loader_state
 
-   The _finder_ may set this attribute to an object containing
-   additional, module-specific data to use when loading the module.
-   Otherwise it should be set to "None".
+      The _finder_ may set this attribute to an object containing
+      additional, module-specific data to use when loading the module.
+      Otherwise it should be set to "None".
 
    cached
 
-   ("__cached__")
-
-   The filename of a compiled version of the module’s code. The
-   _finder_ should always set this attribute but it may be "None" for
-   modules that do not need compiled code stored.
+      The filename of a compiled version of the module’s code (see
+      "module.__cached__"). The _finder_ should always set this
+      attribute but it may be "None" for modules that do not need
+      compiled code stored.
 
    parent
 
-   ("__package__")
-
-   (Read-only) The fully qualified name of the package the module is
-   in (or the empty string for a top-level module). If the module is a
-   package then this is the same as "name".
+      (Read-only) The fully qualified name of the package the module
+      is in (or the empty string for a top-level module). See
+      "module.__package__". If the module is a package then this is
+      the same as "name".
 
    has_location
 
-   "True" if the spec’s "origin" refers to a loadable location,
+      "True" if the spec’s "origin" refers to a loadable location,
       "False" otherwise.  This value impacts how "origin" is
       interpreted and how the module’s "__file__" is populated.
 
@@ -1222,7 +1207,7 @@ importlib.util.MAGIC_NUMBER
    help with loading/writing bytecode then consider
    "importlib.abc.SourceLoader".
 
-   New in version 3.4.
+   Added in version 3.4.
 
 importlib.util.cache_from_source(path, debug_override=None, *, optimization=None)
 
@@ -1253,7 +1238,7 @@ importlib.util.cache_from_source(path, debug_override=None, *, optimization=None
    _debug_override_ an _optimization_ are not "None" then "TypeError"
    is raised.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.5: The _optimization_ parameter was added and
    the _debug_override_ parameter was deprecated.
@@ -1270,7 +1255,7 @@ importlib.util.source_from_cache(path)
    is raised. If "sys.implementation.cache_tag" is not defined,
    "NotImplementedError" is raised.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.6: Accepts a _path-like object_.
 
@@ -1280,7 +1265,7 @@ importlib.util.decode_source(source_bytes)
    string with universal newlines (as required by
    "importlib.abc.InspectLoader.get_source()").
 
-   New in version 3.4.
+   Added in version 3.4.
 
 importlib.util.resolve_name(name, package)
 
@@ -1297,7 +1282,7 @@ importlib.util.resolve_name(name, package)
    containing package (e.g. requesting "..bacon" from within the
    "spam" package).
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.9: To improve consistency with import
    statements, raise "ImportError" instead of "ValueError" for invalid
@@ -1317,7 +1302,7 @@ importlib.util.find_spec(name, package=None)
 
    **name** and **package** work the same as for "import_module()".
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.7: Raises "ModuleNotFoundError" instead of
    "AttributeError" if **package** is in fact not a package (i.e.
@@ -1337,7 +1322,7 @@ importlib.util.module_from_spec(spec)
    a new module as **spec** is used to set as many import-controlled
    attributes on the module as possible.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 importlib.util.spec_from_loader(name, loader, *, origin=None, is_package=None)
 
@@ -1347,7 +1332,7 @@ importlib.util.spec_from_loader(name, loader, *, origin=None, is_package=None)
    "InspectLoader.is_package()", to fill in any missing information on
    the spec.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 importlib.util.spec_from_file_location(name, location, *, loader=None, submodule_search_locations=None)
 
@@ -1356,7 +1341,7 @@ importlib.util.spec_from_file_location(name, location, *, loader=None, submodule
    spec by making use of loader APIs and by the implication that the
    module will be file-based.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.6: Accepts a _path-like object_.
 
@@ -1366,7 +1351,7 @@ importlib.util.source_hash(source_bytes)
    file embeds the "source_hash()" of the corresponding source file’s
    contents in its header.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 importlib.util._incompatible_extension_module_restrictions(*, disable_check)
 
@@ -1391,7 +1376,7 @@ importlib.util._incompatible_extension_module_restrictions(*, disable_check)
      behavior and even crashes.  It should only be used during
      extension module development.
 
-   New in version 3.12.
+   Added in version 3.12.
 
 class importlib.util.LazyLoader(loader)
 
@@ -1417,7 +1402,7 @@ class importlib.util.LazyLoader(loader)
      messages created during loading being postponed and thus
      occurring out of context.
 
-   New in version 3.5.
+   Added in version 3.5.
 
    Changed in version 3.6: Began calling "create_module()", removing
    the compatibility warning for "importlib.machinery.BuiltinImporter"
@@ -1479,20 +1464,35 @@ Note that if "name" is a submodule (contains a dot),
 Importing a source file directly
 --------------------------------
 
-To import a Python source file directly, use the following recipe:
+This recipe should be used with caution: it is an approximation of an
+import statement where the file path is specified directly, rather
+than "sys.path" being searched. Alternatives should first be
+considered first, such as modifying "sys.path" when a proper module is
+required, or using "runpy.run_path()" when the global namespace
+resulting from running a Python file is appropriate.
+
+To import a Python source file directly from a path, use the following
+recipe:
 >
    import importlib.util
    import sys
 
-   # For illustrative purposes.
-   import tokenize
-   file_path = tokenize.__file__
-   module_name = tokenize.__name__
 
-   spec = importlib.util.spec_from_file_location(module_name, file_path)
-   module = importlib.util.module_from_spec(spec)
-   sys.modules[module_name] = module
-   spec.loader.exec_module(module)
+   def import_from_path(module_name, file_path):
+       spec = importlib.util.spec_from_file_location(module_name, file_path)
+       module = importlib.util.module_from_spec(spec)
+       sys.modules[module_name] = module
+       spec.loader.exec_module(module)
+       return module
+
+
+   # For illustrative purposes only (use of `json` is arbitrary).
+   import json
+   file_path = json.__file__
+   module_name = json.__name__
+
+   # Similar outcome as `import json`.
+   json = import_from_path(module_name, file_path)
 <
 
 Implementing lazy imports

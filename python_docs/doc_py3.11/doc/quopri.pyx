@@ -1,5 +1,5 @@
-Python 3.11.9
-*quopri.pyx*                                  Last change: 2024 May 24
+Python 3.11.14
+*quopri.pyx*                                  Last change: 2025 Dec 20
 
 "quopri" — Encode and decode MIME quoted-printable data
 *******************************************************

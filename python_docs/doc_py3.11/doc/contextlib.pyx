@@ -1,5 +1,5 @@
-Python 3.11.9
-*contextlib.pyx*                              Last change: 2024 May 24
+Python 3.11.14
+*contextlib.pyx*                              Last change: 2025 Dec 20
 
 "contextlib" — Utilities for "with"-statement contexts
 ******************************************************

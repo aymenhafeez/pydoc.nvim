@@ -1,5 +1,5 @@
-Python 3.12.3
-*imaplib.pyx*                                 Last change: 2024 May 24
+Python 3.12.12
+*imaplib.pyx*                                 Last change: 2025 Dec 20
 
 "imaplib" — IMAP4 protocol client
 *********************************
@@ -31,7 +31,7 @@ class imaplib.IMAP4(host='', port=IMAP4_PORT, timeout=None)
    (the local host) is used. If _port_ is omitted, the standard IMAP4
    port (143) is used. The optional _timeout_ parameter specifies a
    timeout in seconds for the connection attempt. If timeout is not
-   given or is None, the global default socket timeout is used.
+   given or is "None", the global default socket timeout is used.
 
    The "IMAP4" class supports the "with" statement.  When used like
    this, the IMAP4 "LOGOUT" command is issued automatically when the
@@ -83,7 +83,7 @@ class imaplib.IMAP4_SSL(host='', port=IMAP4_SSL_PORT, *, ssl_context=None, timeo
    practices.
 
    The optional _timeout_ parameter specifies a timeout in seconds for
-   the connection attempt. If timeout is not given or is None, the
+   the connection attempt. If timeout is not given or is "None", the
    global default socket timeout is used.
 
    Changed in version 3.3: _ssl_context_ parameter was added.
@@ -236,8 +236,8 @@ IMAP4.enable(capability)
    need to be enabled.  Currently only the "UTF8=ACCEPT" capability is
    supported (see **RFC 6855**).
 
-   New in version 3.5: The "enable()" method itself, and **RFC 6855**
-   support.
+   Added in version 3.5: The "enable()" method itself, and **RFC
+   6855** support.
 
 IMAP4.expunge()
 
@@ -320,9 +320,9 @@ IMAP4.open(host, port, timeout=None)
 
    Opens socket to _port_ at _host_. The optional _timeout_ parameter
    specifies a timeout in seconds for the connection attempt. If
-   timeout is not given or is None, the global default socket timeout
-   is used. Also note that if the _timeout_ parameter is set to be
-   zero, it will raise a "ValueError" to reject creating a non-
+   timeout is not given or is "None", the global default socket
+   timeout is used. Also note that if the _timeout_ parameter is set
+   to be zero, it will raise a "ValueError" to reject creating a non-
    blocking socket. This method is implicitly called by the "IMAP4"
    constructor. The connection objects established by this method will
    be used in the "IMAP4.read()", "IMAP4.readline()", "IMAP4.send()",
@@ -447,7 +447,7 @@ IMAP4.starttls(ssl_context=None)
    encryption on the IMAP connection.  Please read Security
    considerations for best practices.
 
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.4: The method now supports hostname check with
    "ssl.SSLContext.check_hostname" and _Server Name Indication_ (see
@@ -528,7 +528,7 @@ IMAP4.unselect()
    "imaplib.IMAP4.close()", except that no messages are permanently
    removed from the currently selected mailbox.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 IMAP4.xatom(name[, ...])
 
@@ -554,7 +554,7 @@ IMAP4.utf8_enabled
    "enable()" command is successfully issued for the "UTF8=ACCEPT"
    capability.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 
 IMAP4 Example

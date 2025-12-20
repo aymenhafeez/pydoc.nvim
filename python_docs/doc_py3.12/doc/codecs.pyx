@@ -1,5 +1,5 @@
-Python 3.12.3
-*codecs.pyx*                                  Last change: 2024 May 24
+Python 3.12.12
+*codecs.pyx*                                  Last change: 2025 Dec 20
 
 "codecs" — Codec registry and base classes
 ******************************************
@@ -155,7 +155,7 @@ codecs.unregister(search_function)
    Unregister a codec search function and clear the registry’s cache.
    If the search function is not registered, do nothing.
 
-   New in version 3.10.
+   Added in version 3.10.
 
 While the builtin "open()" and the associated "io" module are the
 recommended approach for working with encoded text files, this module
@@ -346,13 +346,13 @@ codecs:
 |                     |                          | as an error.                                |
 +---------------------+--------------------------+---------------------------------------------+
 
-New in version 3.1: The "'surrogateescape'" and "'surrogatepass'"
+Added in version 3.1: The "'surrogateescape'" and "'surrogatepass'"
 error handlers.
 
 Changed in version 3.4: The "'surrogatepass'" error handler now works
 with utf-16* and utf-32* codecs.
 
-New in version 3.5: The "'namereplace'" error handler.
+Added in version 3.5: The "'namereplace'" error handler.
 
 Changed in version 3.5: The "'backslashreplace'" error handler now
 works with decoding and translating.
@@ -449,7 +449,7 @@ codecs.namereplace_errors(exception)
    German lowercase letter "'ß'" will be converted to byte sequence
    "\N{LATIN SMALL LETTER SHARP S}" .
 
-   New in version 3.5.
+   Added in version 3.5.
 
 
 Stateless Encoding and Decoding
@@ -1000,7 +1000,7 @@ exist:
 +-------------------+----------------------------------+----------------------------------+
 | cp037             | IBM037, IBM039                   | English                          |
 +-------------------+----------------------------------+----------------------------------+
-| cp273             | 273, IBM273, csIBM273            | German  New in version 3.4.      |
+| cp273             | 273, IBM273, csIBM273            | German  Added in version 3.4.    |
 +-------------------+----------------------------------+----------------------------------+
 | cp424             | EBCDIC-CP-HE, IBM424             | Hebrew                           |
 +-------------------+----------------------------------+----------------------------------+
@@ -1058,7 +1058,7 @@ exist:
 +-------------------+----------------------------------+----------------------------------+
 | cp1026            | ibm1026                          | Turkish                          |
 +-------------------+----------------------------------+----------------------------------+
-| cp1125            | 1125, ibm1125, cp866u, ruscii    | Ukrainian  New in version 3.4.   |
+| cp1125            | 1125, ibm1125, cp866u, ruscii    | Ukrainian  Added in version 3.4. |
 +-------------------+----------------------------------+----------------------------------+
 | cp1140            | ibm1140                          | Western Europe                   |
 +-------------------+----------------------------------+----------------------------------+
@@ -1155,11 +1155,11 @@ exist:
 +-------------------+----------------------------------+----------------------------------+
 | koi8_r            |                                  | Russian                          |
 +-------------------+----------------------------------+----------------------------------+
-| koi8_t            |                                  | Tajik  New in version 3.5.       |
+| koi8_t            |                                  | Tajik  Added in version 3.5.     |
 +-------------------+----------------------------------+----------------------------------+
 | koi8_u            |                                  | Ukrainian                        |
 +-------------------+----------------------------------+----------------------------------+
-| kz1048            | kz_1048, strk1048_2002, rk1048   | Kazakh  New in version 3.5.      |
+| kz1048            | kz_1048, strk1048_2002, rk1048   | Kazakh  Added in version 3.5.    |
 +-------------------+----------------------------------+----------------------------------+
 | mac_cyrillic      | maccyrillic                      | Bulgarian, Byelorussian,         |
 |                   |                                  | Macedonian, Russian, Serbian     |
@@ -1247,7 +1247,7 @@ object_ to "str" decoding, similar to the Unicode text encodings.
 | oem                  |           | Windows only: Encode the    |
 |                      |           | operand according to the    |
 |                      |           | OEM codepage (CP_OEMCP).    |
-|                      |           | New in version 3.6.         |
+|                      |           | Added in version 3.6.       |
 +----------------------+-----------+-----------------------------+
 | palmos               |           | Encoding of PalmOS 3.5.     |
 +----------------------+-----------+-----------------------------+
@@ -1322,7 +1322,7 @@ only produces "str" output).
 [1] In addition to _bytes-like objects_, "'base64_codec'" also accepts
     ASCII-only instances of "str" for decoding
 
-New in version 3.2: Restoration of the binary transforms.
+Added in version 3.2: Restoration of the binary transforms.
 
 Changed in version 3.4: Restoration of the aliases for the binary
 transforms.
@@ -1342,7 +1342,7 @@ mapping. It is not supported by "str.encode()" (which only produces
 |                      |           | encryption of the operand.  |
 +----------------------+-----------+-----------------------------+
 
-New in version 3.2: Restoration of the "rot_13" text transform.
+Added in version 3.2: Restoration of the "rot_13" text transform.
 
 Changed in version 3.4: Restoration of the "rot13" alias.
 

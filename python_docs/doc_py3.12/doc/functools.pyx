@@ -1,5 +1,5 @@
-Python 3.12.3
-*functools.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*functools.pyx*                               Last change: 2025 Dec 20
 
 "functools" — Higher-order functions and operations on callable objects
 ***********************************************************************
@@ -45,7 +45,7 @@ The "functools" module defines the following functions:
    if another thread makes an additional call before the initial call
    has been completed and cached.
 
-   New in version 3.9.
+   Added in version 3.9.
 
 @functools.cached_property(func)
 
@@ -105,7 +105,7 @@ The "functools" module defines the following functions:
    See How do I cache method calls? for more details on how this
    differs from "cached_property()".
 
-   New in version 3.8.
+   Added in version 3.8.
 
    Changed in version 3.12: Prior to Python 3.12, "cached_property"
    included an undocumented lock to ensure that in multi-threaded
@@ -136,7 +136,7 @@ functools.cmp_to_key(func)
    For sorting examples and a brief sorting tutorial, see Sorting
    Techniques.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 @functools.lru_cache(user_function)
 @functools.lru_cache(maxsize=128, typed=False)
@@ -257,7 +257,7 @@ functools.cmp_to_key(func)
       >>> fib.cache_info()
       CacheInfo(hits=28, misses=16, maxsize=None, currsize=16)
 <
-   New in version 3.2.
+   Added in version 3.2.
 
    Changed in version 3.3: Added the _typed_ option.
 
@@ -310,9 +310,9 @@ functools.cmp_to_key(func)
      a superclass defines a comparison operator, _total_ordering_ will
      not implement it again, even if the original method is abstract.
 
-   New in version 3.2.
+   Added in version 3.2.
 
-   Changed in version 3.4: Returning NotImplemented from the
+   Changed in version 3.4: Returning "NotImplemented" from the
    underlying comparison function for unrecognised types is now
    supported.
 
@@ -388,7 +388,7 @@ class functools.partialmethod(func, /, *args, **keywords)
       >>> c.alive
       True
 <
-   New in version 3.4.
+   Added in version 3.4.
 
 functools.reduce(function, iterable[, initializer])
 
@@ -479,6 +479,26 @@ functools.reduce(function, iterable[, initializer])
       ...     print(arg.real, arg.imag)
       ...
 <
+   For code that dispatches on a collections type (e.g., "list"), but
+   wants to typehint the items of the collection (e.g., "list[int]"),
+   the dispatch type should be passed explicitly to the decorator
+   itself with the typehint going into the function definition:
+>
+      >>> @fun.register(list)
+      ... def _(arg: list[int], verbose=False):
+      ...     if verbose:
+      ...         print("Enumerate this:")
+      ...     for i, elem in enumerate(arg):
+      ...         print(i, elem)
+<
+   Note:
+
+     At runtime the function will dispatch on an instance of a list
+     regardless of the type contained within the list i.e. "[1,2,3]"
+     will be dispatched the same as "["foo", "bar", "baz"]". The
+     annotation provided in this example is for static type checkers
+     only and has no runtime impact.
+
    To enable registering _lambdas_ and pre-existing functions, the
    "register()" attribute can also be used in a functional form:
 >
@@ -562,7 +582,7 @@ functools.reduce(function, iterable[, initializer])
       >>> fun.registry[object]
       <function fun at 0x103fe0000>
 <
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.7: The "register()" attribute now supports
    using type annotations.
@@ -617,7 +637,7 @@ class functools.singledispatchmethod(func)
    The same pattern can be used for other similar decorators:
    "@staticmethod", "@abstractmethod", and others.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)
 
@@ -629,9 +649,9 @@ functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated
    the original function. The default values for these arguments are
    the module level constants "WRAPPER_ASSIGNMENTS" (which assigns to
    the wrapper function’s "__module__", "__name__", "__qualname__",
-   "__annotations__" and "__doc__", the documentation string) and
-   "WRAPPER_UPDATES" (which updates the wrapper function’s "__dict__",
-   i.e. the instance dictionary).
+   "__annotations__", "__type_params__", and "__doc__", the
+   documentation string) and "WRAPPER_UPDATES" (which updates the
+   wrapper function’s "__dict__", i.e. the instance dictionary).
 
    To allow access to the original function for introspection and
    other purposes (e.g. bypassing a caching decorator such as
@@ -659,6 +679,9 @@ functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated
    Changed in version 3.4: The "__wrapped__" attribute now always
    refers to the wrapped function, even if that function defined a
    "__wrapped__" attribute. (see bpo-17482)
+
+   Changed in version 3.12: The "__type_params__" attribute is now
+   copied by default.
 
 @functools.wraps(wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)
 
@@ -714,9 +737,9 @@ partial.keywords
    The keyword arguments that will be supplied when the "partial"
    object is called.
 
-"partial" objects are like "function" objects in that they are
-callable, weak referenceable, and can have attributes.  There are some
-important differences.  For instance, the "__name__" and "__doc__"
+"partial" objects are like function objects in that they are callable,
+weak referenceable, and can have attributes. There are some important
+differences.  For instance, the "__name__" and "function.__doc__"
 attributes are not created automatically.  Also, "partial" objects
 defined in classes behave like static methods and do not transform
 into bound methods during instance attribute look-up.

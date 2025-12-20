@@ -80,8 +80,6 @@ datetime.pyx	datetime.pyx	/*datetime.pyx*
 dbm.pyx	dbm.pyx	/*dbm.pyx*
 debug.pyx	debug.pyx	/*debug.pyx*
 decimal.pyx	decimal.pyx	/*decimal.pyx*
-default	itertools.pyx	/*default*
-delay	asyncio-future.pyx	/*delay*
 development.pyx	development.pyx	/*development.pyx*
 devmode.pyx	devmode.pyx	/*devmode.pyx*
 dialog.pyx	dialog.pyx	/*dialog.pyx*
@@ -111,7 +109,6 @@ enum.pyx	enum.pyx	/*enum.pyx*
 errno.pyx	errno.pyx	/*errno.pyx*
 errors.pyx	errors.pyx	/*errors.pyx*
 exceptions.pyx	exceptions.pyx	/*exceptions.pyx*
-fallback	configparser.pyx	/*fallback*
 faulthandler.pyx	faulthandler.pyx	/*faulthandler.pyx*
 fcntl.pyx	fcntl.pyx	/*fcntl.pyx*
 filecmp.pyx	filecmp.pyx	/*filecmp.pyx*
@@ -126,8 +123,6 @@ ftplib.pyx	ftplib.pyx	/*ftplib.pyx*
 functional.pyx	functional.pyx	/*functional.pyx*
 functions.pyx	functions.pyx	/*functions.pyx*
 functools.pyx	functools.pyx	/*functools.pyx*
-fut	asyncio-future.pyx	/*fut*
-fut	asyncio-future.pyx	/*fut*
 gc.pyx	gc.pyx	/*gc.pyx*
 getopt.pyx	getopt.pyx	/*getopt.pyx*
 getpass.pyx	getpass.pyx	/*getpass.pyx*
@@ -188,7 +183,6 @@ introduction.pyx	introduction.pyx	/*introduction.pyx*
 io.pyx	io.pyx	/*io.pyx*
 ipaddress.pyx	ipaddress.pyx	/*ipaddress.pyx*
 ipc.pyx	ipc.pyx	/*ipc.pyx*
-iterable	itertools.pyx	/*iterable*
 itertools.pyx	itertools.pyx	/*itertools.pyx*
 json.pyx	json.pyx	/*json.pyx*
 keyword.pyx	keyword.pyx	/*keyword.pyx*
@@ -204,7 +198,6 @@ mailcap.pyx	mailcap.pyx	/*mailcap.pyx*
 markup.pyx	markup.pyx	/*markup.pyx*
 marshal.pyx	marshal.pyx	/*marshal.pyx*
 math.pyx	math.pyx	/*math.pyx*
-may	multiprocessing.pyx	/*may*
 mimetypes.pyx	mimetypes.pyx	/*mimetypes.pyx*
 mm.pyx	mm.pyx	/*mm.pyx*
 mmap.pyx	mmap.pyx	/*mmap.pyx*
@@ -214,15 +207,12 @@ msilib.pyx	msilib.pyx	/*msilib.pyx*
 msvcrt.pyx	msvcrt.pyx	/*msvcrt.pyx*
 multiprocessing.pyx	multiprocessing.pyx	/*multiprocessing.pyx*
 multiprocessing.shared_memory.pyx	multiprocessing.shared_memory.pyx	/*multiprocessing.shared_memory.pyx*
-name	xmlrpc.server.pyx	/*name*
 netdata.pyx	netdata.pyx	/*netdata.pyx*
 netrc.pyx	netrc.pyx	/*netrc.pyx*
 nis.pyx	nis.pyx	/*nis.pyx*
 nntplib.pyx	nntplib.pyx	/*nntplib.pyx*
 numbers.pyx	numbers.pyx	/*numbers.pyx*
 numeric.pyx	numeric.pyx	/*numeric.pyx*
-only	multiprocessing.pyx	/*only*
-only	multiprocessing.pyx	/*only*
 operator.pyx	operator.pyx	/*operator.pyx*
 optparse.pyx	optparse.pyx	/*optparse.pyx*
 os.path.pyx	os.path.pyx	/*os.path.pyx*
@@ -240,7 +230,6 @@ plistlib.pyx	plistlib.pyx	/*plistlib.pyx*
 poplib.pyx	poplib.pyx	/*poplib.pyx*
 posix.pyx	posix.pyx	/*posix.pyx*
 pprint.pyx	pprint.pyx	/*pprint.pyx*
-pred	itertools.pyx	/*pred*
 profile.pyx	profile.pyx	/*profile.pyx*
 pty.pyx	pty.pyx	/*pty.pyx*
 pwd.pyx	pwd.pyx	/*pwd.pyx*
@@ -252,7 +241,6 @@ python.pyx	python.pyx	/*python.pyx*
 queue.pyx	queue.pyx	/*queue.pyx*
 quopri.pyx	quopri.pyx	/*quopri.pyx*
 random.pyx	random.pyx	/*random.pyx*
-raw	configparser.pyx	/*raw*
 re.pyx	re.pyx	/*re.pyx*
 readline.pyx	readline.pyx	/*readline.pyx*
 reprlib.pyx	reprlib.pyx	/*reprlib.pyx*
@@ -277,7 +265,6 @@ socketserver.pyx	socketserver.pyx	/*socketserver.pyx*
 spwd.pyx	spwd.pyx	/*spwd.pyx*
 sqlite3.pyx	sqlite3.pyx	/*sqlite3.pyx*
 ssl.pyx	ssl.pyx	/*ssl.pyx*
-start	itertools.pyx	/*start*
 stat.pyx	stat.pyx	/*stat.pyx*
 statistics.pyx	statistics.pyx	/*statistics.pyx*
 stdlib.pyx	stdlib.pyx	/*stdlib.pyx*
@@ -336,17 +323,12 @@ urllib.request.pyx	urllib.request.pyx	/*urllib.request.pyx*
 urllib.robotparser.pyx	urllib.robotparser.pyx	/*urllib.robotparser.pyx*
 uu.pyx	uu.pyx	/*uu.pyx*
 uuid.pyx	uuid.pyx	/*uuid.pyx*
-value	asyncio-future.pyx	/*value*
-vars	configparser.pyx	/*vars*
 venv.pyx	venv.pyx	/*venv.pyx*
-very	multiprocessing.pyx	/*very*
-very	multiprocessing.pyx	/*very*
 warnings.pyx	warnings.pyx	/*warnings.pyx*
 wave.pyx	wave.pyx	/*wave.pyx*
 weakref.pyx	weakref.pyx	/*weakref.pyx*
 webbrowser.pyx	webbrowser.pyx	/*webbrowser.pyx*
 whatnow.pyx	whatnow.pyx	/*whatnow.pyx*
-will	lzma.pyx	/*will*
 windows.pyx	windows.pyx	/*windows.pyx*
 winreg.pyx	winreg.pyx	/*winreg.pyx*
 winsound.pyx	winsound.pyx	/*winsound.pyx*

@@ -1,5 +1,5 @@
-Python 3.12.3
-*hmac.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*hmac.pyx*                                    Last change: 2025 Dec 20
 
 "hmac" — Keyed-Hashing for Message Authentication
 *************************************************
@@ -40,7 +40,7 @@ hmac.digest(key, msg, digest)
    only used when _digest_ is a string and name of a digest algorithm,
    which is supported by OpenSSL.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 An HMAC object has the following methods:
 
@@ -97,13 +97,13 @@ HMAC.block_size
 
    The internal block size of the hash algorithm in bytes.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 HMAC.name
 
    The canonical name of this HMAC, always lowercase, e.g. "hmac-md5".
 
-   New in version 3.4.
+   Added in version 3.4.
 
 Changed in version 3.10: Removed the undocumented attributes
 "HMAC.digest_cons", "HMAC.inner", and "HMAC.outer".
@@ -124,7 +124,7 @@ hmac.compare_digest(a, b)
      timing attack could theoretically reveal information about the
      types and lengths of _a_ and _b_—but not their values.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    Changed in version 3.10: The function uses OpenSSL’s
    "CRYPTO_memcmp()" internally when available.

@@ -1,5 +1,5 @@
-Python 3.12.3
-*multiprocessing.pyx*                         Last change: 2024 May 24
+Python 3.12.12
+*multiprocessing.pyx*                         Last change: 2025 Dec 20
 
 "multiprocessing" — Process-based parallelism
 *********************************************
@@ -249,7 +249,8 @@ processes:
           print(q.get())    # prints "[42, None, 'hello']"
           p.join()
 <
-   Queues are thread and process safe.
+   Queues are thread and process safe. Any object put into a
+   "multiprocessing" queue will be serialized.
 
 **Pipes**
 
@@ -277,6 +278,9 @@ processes:
    to the _same_ end of the pipe at the same time.  Of course there is
    no risk of corruption from processes using different ends of the
    pipe at the same time.
+
+   The "send()" method serializes the object and "recv()" re-creates
+   the object.
 
 
 Synchronization between processes
@@ -646,7 +650,7 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
       calls.  On POSIX, this is a file descriptor usable with
       primitives from the "select" module.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    terminate()
 
@@ -671,7 +675,7 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
 
       Same as "terminate()" but using the "SIGKILL" signal on POSIX.
 
-      New in version 3.7.
+      Added in version 3.7.
 
    close()
 
@@ -681,7 +685,7 @@ class multiprocessing.Process(group=None, target=None, name=None, args=(), kwarg
       methods and attributes of the "Process" object will raise
       "ValueError".
 
-      New in version 3.7.
+      Added in version 3.7.
 
    Note that the "start()", "join()", "is_alive()", "terminate()" and
    "exitcode" methods should only be called by the process that
@@ -747,6 +751,11 @@ If you use "JoinableQueue" then you **must** call
 else the semaphore used to count the number of unfinished tasks may
 eventually overflow, raising an exception.
 
+One difference from other Python queue implementations, is that
+"multiprocessing" queues serializes all objects that are put into them
+using "pickle". The object return by the get method is a re-created
+object that does not share memory with the original object.
+
 Note that one can also create a shared queue by using a manager object
 – see Managers.
 
@@ -807,6 +816,9 @@ multiprocessing.Pipe([duplex])
    only be used for receiving messages and "conn2" can only be used
    for sending messages.
 
+   The "send()" method serializes the object using "pickle" and the
+   "recv()" re-creates the object.
+
 class multiprocessing.Queue([maxsize])
 
    Returns a process shared queue implemented using a pipe and a few
@@ -834,6 +846,8 @@ class multiprocessing.Queue([maxsize])
       Return "True" if the queue is empty, "False" otherwise.  Because
       of multithreading/multiprocessing semantics, this is not
       reliable.
+
+      May raise an "OSError" on closed queues. (not guaranteed)
 
    full()
 
@@ -934,11 +948,13 @@ class multiprocessing.SimpleQueue
       example, "get()", "put()" and "empty()" methods must no longer
       be called.
 
-      New in version 3.9.
+      Added in version 3.9.
 
    empty()
 
       Return "True" if the queue is empty, "False" otherwise.
+
+      Always raises an "OSError" if the SimpleQueue is closed.
 
    get()
 
@@ -1014,7 +1030,7 @@ multiprocessing.parent_process()
    the "current_process()". For the main process, "parent_process"
    will be "None".
 
-   New in version 3.8.
+   Added in version 3.8.
 
 multiprocessing.freeze_support()
 
@@ -1050,7 +1066,7 @@ multiprocessing.get_all_start_methods()
    and "'forkserver'".  Not all platforms support all methods.  See
    Contexts and start methods.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 multiprocessing.get_context(method=None)
 
@@ -1062,7 +1078,7 @@ multiprocessing.get_context(method=None)
    "ValueError" is raised if the specified start method is not
    available.  See Contexts and start methods.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 multiprocessing.get_start_method(allow_none=False)
 
@@ -1076,7 +1092,7 @@ multiprocessing.get_start_method(allow_none=False)
    The return value can be "'fork'", "'spawn'", "'forkserver'" or
    "None".  See Contexts and start methods.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.8: On macOS, the _spawn_ start method is now
    the default.  The _fork_ start method should be considered unsafe
@@ -1112,7 +1128,7 @@ multiprocessing.set_forkserver_preload(module_names)
    Only meaningful when using the "'forkserver'" start method. See
    Contexts and start methods.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 multiprocessing.set_start_method(method, force=False)
 
@@ -1129,7 +1145,7 @@ multiprocessing.set_start_method(method, force=False)
 
    See Contexts and start methods.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 Note:
 
@@ -1285,7 +1301,7 @@ class multiprocessing.Barrier(parties[, action[, timeout]])
 
    A barrier object: a clone of "threading.Barrier".
 
-   New in version 3.3.
+   Added in version 3.3.
 
 class multiprocessing.BoundedSemaphore([value])
 
@@ -1443,16 +1459,6 @@ Note:
   On macOS, "sem_timedwait" is unsupported, so calling "acquire()"
   with a timeout will emulate that function’s behavior using a
   sleeping loop.
-
-Note:
-
-  If the SIGINT signal generated by "Ctrl-C" arrives while the main
-  thread is blocked by a call to "BoundedSemaphore.acquire()",
-  "Lock.acquire()", "RLock.acquire()", "Semaphore.acquire()",
-  "Condition.acquire()" or "Condition.wait()" then the call will be
-  immediately interrupted and "KeyboardInterrupt" will be raised.This
-  differs from the behaviour of "threading" where SIGINT will be
-  ignored while the equivalent blocking calls are in progress.
 
 Note:
 
@@ -1837,7 +1843,7 @@ class multiprocessing.managers.SyncManager
       Create a shared "threading.Barrier" object and return a proxy
       for it.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    BoundedSemaphore([value])
 
@@ -2326,7 +2332,7 @@ class multiprocessing.pool.Pool([processes[, initializer[, initargs[, maxtaskspe
       Hence an _iterable_ of "[(1,2), (3, 4)]" results in "[func(1,2),
       func(3,4)]".
 
-      New in version 3.3.
+      Added in version 3.3.
 
    starmap_async(func, iterable[, chunksize[, callback[, error_callback]]])
 
@@ -2334,7 +2340,7 @@ class multiprocessing.pool.Pool([processes[, initializer[, initargs[, maxtaskspe
       over _iterable_ of iterables and calls _func_ with the iterables
       unpacked. Returns a result object.
 
-      New in version 3.3.
+      Added in version 3.3.
 
    close()
 
@@ -2449,9 +2455,9 @@ multiprocessing.connection.Client(address[, family[, authkey]])
    this can generally be omitted since it can usually be inferred from
    the format of _address_. (See Address Formats)
 
-   If _authkey_ is given and not None, it should be a byte string and
-   will be used as the secret key for an HMAC-based authentication
-   challenge. No authentication is done if _authkey_ is None.
+   If _authkey_ is given and not "None", it should be a byte string
+   and will be used as the secret key for an HMAC-based authentication
+   challenge. No authentication is done if _authkey_ is "None".
    "AuthenticationError" is raised if authentication fails. See
    Authentication keys.
 
@@ -2484,9 +2490,9 @@ class multiprocessing.connection.Listener([address[, family[, backlog[, authkey]
    is passed to the "listen()" method of the socket once it has been
    bound.
 
-   If _authkey_ is given and not None, it should be a byte string and
-   will be used as the secret key for an HMAC-based authentication
-   challenge. No authentication is done if _authkey_ is None.
+   If _authkey_ is given and not "None", it should be a byte string
+   and will be used as the secret key for an HMAC-based authentication
+   challenge. No authentication is done if _authkey_ is "None".
    "AuthenticationError" is raised if authentication fails. See
    Authentication keys.
 
@@ -2551,7 +2557,7 @@ multiprocessing.connection.wait(object_list, timeout=None)
    handle or pipe handle.  (Note that pipe handles and socket handles
    are **not** waitable handles.)
 
-   New in version 3.3.
+   Added in version 3.3.
 
 **Examples**
 

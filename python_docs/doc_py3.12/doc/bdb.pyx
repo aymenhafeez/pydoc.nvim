@@ -1,5 +1,5 @@
-Python 3.12.3
-*bdb.pyx*                                     Last change: 2024 May 24
+Python 3.12.12
+*bdb.pyx*                                     Last change: 2025 Dec 20
 
 "bdb" — Debugger framework
 **************************
@@ -68,7 +68,7 @@ class bdb.Breakpoint(self, file, line, temporary=False, cond=None, funcname=None
 
       * Number of times hit.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    bpprint(out=None)
 
@@ -87,7 +87,7 @@ class bdb.Breakpoint(self, file, line, temporary=False, cond=None, funcname=None
 
    temporary
 
-      True if a "Breakpoint" at (file, line) is temporary.
+      "True" if a "Breakpoint" at (file, line) is temporary.
 
    cond
 
@@ -100,7 +100,7 @@ class bdb.Breakpoint(self, file, line, temporary=False, cond=None, funcname=None
 
    enabled
 
-      True if "Breakpoint" is enabled.
+      "True" if "Breakpoint" is enabled.
 
    bpbynumber
 
@@ -226,15 +226,16 @@ class bdb.Bdb(skip=None)
 
    is_skipped_line(module_name)
 
-      Return True if _module_name_ matches any skip pattern.
+      Return "True" if _module_name_ matches any skip pattern.
 
    stop_here(frame)
 
-      Return True if _frame_ is below the starting frame in the stack.
+      Return "True" if _frame_ is below the starting frame in the
+      stack.
 
    break_here(frame)
 
-      Return True if there is an effective breakpoint for this line.
+      Return "True" if there is an effective breakpoint for this line.
 
       Check whether a line or function breakpoint exists and is in
       effect.  Delete temporary breakpoints based on information from
@@ -242,7 +243,7 @@ class bdb.Bdb(skip=None)
 
    break_anywhere(frame)
 
-      Return True if any breakpoint exists for _frame_’s filename.
+      Return "True" if any breakpoint exists for _frame_’s filename.
 
    Derived classes should override these methods to gain control over
    debugger operation.
@@ -251,6 +252,9 @@ class bdb.Bdb(skip=None)
 
       Called from "dispatch_call()" if a break might stop inside the
       called function.
+
+      _argument_list_ is not used anymore and will always be "None".
+      The argument is kept for backwards compatibility.
 
    user_line(frame)
 
@@ -348,11 +352,12 @@ class bdb.Bdb(skip=None)
       numeric string, if the given breakpoint never existed or has
       been deleted, a "ValueError" is raised.
 
-      New in version 3.2.
+      Added in version 3.2.
 
    get_break(filename, lineno)
 
-      Return True if there is a breakpoint for _lineno_ in _filename_.
+      Return "True" if there is a breakpoint for _lineno_ in
+      _filename_.
 
    get_breaks(filename, lineno)
 
@@ -420,7 +425,7 @@ Finally, the module defines the following functions:
 
 bdb.checkfuncname(b, frame)
 
-   Return True if we should break here, depending on the way the
+   Return "True" if we should break here, depending on the way the
    "Breakpoint" _b_ was set.
 
    If it was set via line number, it checks if "b.line" is the same as
@@ -435,12 +440,12 @@ bdb.effective(file, line, frame)
 
    The _active breakpoint_ is the first entry in "bplist" for the
    ("file", "line") (which must exist) that is "enabled", for which
-   "checkfuncname()" is True, and that has neither a False "condition"
+   "checkfuncname()" is true, and that has neither a false "condition"
    nor positive "ignore" count.  The _flag_, meaning that a temporary
-   breakpoint should be deleted, is False only when the "cond" cannot
-   be evaluated (in which case, "ignore" count is ignored).
+   breakpoint should be deleted, is "False" only when the "cond"
+   cannot be evaluated (in which case, "ignore" count is ignored).
 
-   If no such entry exists, then (None, None) is returned.
+   If no such entry exists, then "(None, None)" is returned.
 
 bdb.set_trace()
 

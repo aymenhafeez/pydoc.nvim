@@ -1,5 +1,5 @@
-Python 3.12.3
-*importlib.resources.abc.pyx*                 Last change: 2024 May 24
+Python 3.12.12
+*importlib.resources.abc.pyx*                 Last change: 2025 Dec 20
 
 "importlib.resources.abc" – Abstract base classes for resources
 ***************************************************************
@@ -8,7 +8,7 @@ Python 3.12.3
 
 ======================================================================
 
-New in version 3.11.
+Added in version 3.11.
 
 class importlib.resources.abc.ResourceReader
 
@@ -22,7 +22,7 @@ class importlib.resources.abc.ResourceReader
    a data file that lives next to the "__init__.py" file of the
    package. The purpose of this class is to help abstract out the
    accessing of such data files so that it does not matter if the
-   package and its data file(s) are stored in a e.g. zip file versus
+   package and its data file(s) are stored e.g. in a zip file versus
    on the file system.
 
    For any of methods of this class, a _resource_ argument is expected
@@ -42,43 +42,46 @@ class importlib.resources.abc.ResourceReader
    "None". An object compatible with this ABC should only be returned
    when the specified module is a package.
 
-   Deprecated since version 3.12, will be removed in version 3.14: Use
+   Deprecated since version 3.12: Use
    "importlib.resources.abc.TraversableResources" instead.
 
    abstractmethod open_resource(resource)
 
-      Returns an opened, _file-like object_ for binary reading of the
-      _resource_.
+         Returns an opened, _file-like object_ for binary reading of
+         the _resource_.
 
-      If the resource cannot be found, "FileNotFoundError" is raised.
+         If the resource cannot be found, "FileNotFoundError" is
+         raised.
 
    abstractmethod resource_path(resource)
 
-      Returns the file system path to the _resource_.
+         Returns the file system path to the _resource_.
 
-      If the resource does not concretely exist on the file system,
-      raise "FileNotFoundError".
+         If the resource does not concretely exist on the file system,
+         raise "FileNotFoundError".
 
    abstractmethod is_resource(name)
 
-      Returns "True" if the named _name_ is considered a resource.
-      "FileNotFoundError" is raised if _name_ does not exist.
+         Returns "True" if the named _name_ is considered a resource.
+         "FileNotFoundError" is raised if _name_ does not exist.
 
    abstractmethod contents()
 
-      Returns an _iterable_ of strings over the contents of the
-      package. Do note that it is not required that all names returned
-      by the iterator be actual resources, e.g. it is acceptable to
-      return names for which "is_resource()" would be false.
+         Returns an _iterable_ of strings over the contents of the
+         package. Do note that it is not required that all names
+         returned by the iterator be actual resources, e.g. it is
+         acceptable to return names for which "is_resource()" would be
+         false.
 
-      Allowing non-resource names to be returned is to allow for
-      situations where how a package and its resources are stored are
-      known a priori and the non-resource names would be useful. For
-      instance, returning subdirectory names is allowed so that when
-      it is known that the package and resources are stored on the
-      file system then those subdirectory names can be used directly.
+         Allowing non-resource names to be returned is to allow for
+         situations where how a package and its resources are stored
+         are known a priori and the non-resource names would be
+         useful. For instance, returning subdirectory names is allowed
+         so that when it is known that the package and resources are
+         stored on the file system then those subdirectory names can
+         be used directly.
 
-      The abstract method returns an iterable of no items.
+         The abstract method returns an iterable of no items.
 
 class importlib.resources.abc.Traversable
 
@@ -99,11 +102,11 @@ class importlib.resources.abc.Traversable
 
    abstractmethod is_dir()
 
-      Return True if self is a directory.
+      Return "True" if self is a directory.
 
    abstractmethod is_file()
 
-      Return True if self is a file.
+      Return "True" if self is a file.
 
    abstractmethod joinpath(*pathsegments)
 

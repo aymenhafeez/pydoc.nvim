@@ -1,5 +1,5 @@
-Python 3.12.3
-*zipimport.pyx*                               Last change: 2024 May 24
+Python 3.12.12
+*zipimport.pyx*                               Last change: 2025 Dec 20
 
 "zipimport" — Import modules from Zip archives
 **********************************************
@@ -81,20 +81,20 @@ class zipimport.zipimporter(archivepath)
       Implementation of "importlib.abc.Loader.create_module()" that
       returns "None" to explicitly request the default semantics.
 
-      New in version 3.10.
+      Added in version 3.10.
 
    exec_module(module)
 
       Implementation of "importlib.abc.Loader.exec_module()".
 
-      New in version 3.10.
+      Added in version 3.10.
 
    find_spec(fullname, target=None)
 
       An implementation of
       "importlib.abc.PathEntryFinder.find_spec()".
 
-      New in version 3.10.
+      Added in version 3.10.
 
    get_code(fullname)
 
@@ -115,7 +115,7 @@ class zipimport.zipimporter(archivepath)
       module was imported. Raise "ZipImportError" if the module
       couldn’t be imported.
 
-      New in version 3.1.
+      Added in version 3.1.
 
    get_source(fullname)
 
@@ -142,7 +142,7 @@ class zipimport.zipimporter(archivepath)
       Clear out the internal cache of information about files found
       within the ZIP archive.
 
-      New in version 3.10.
+      Added in version 3.10.
 
    archive
 

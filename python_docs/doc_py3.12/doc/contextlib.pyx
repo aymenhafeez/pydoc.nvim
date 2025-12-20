@@ -1,5 +1,5 @@
-Python 3.12.3
-*contextlib.pyx*                              Last change: 2024 May 24
+Python 3.12.12
+*contextlib.pyx*                              Last change: 2025 Dec 20
 
 "contextlib" — Utilities for "with"-statement contexts
 ******************************************************
@@ -27,7 +27,7 @@ class contextlib.AbstractContextManager
    default returns "None". See also the definition of Context Manager
    Types.
 
-   New in version 3.6.
+   Added in version 3.6.
 
 class contextlib.AbstractAsyncContextManager
 
@@ -38,7 +38,7 @@ class contextlib.AbstractAsyncContextManager
    default returns "None". See also the definition of Asynchronous
    Context Managers.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 @contextlib.contextmanager
 
@@ -102,56 +102,56 @@ class contextlib.AbstractAsyncContextManager
 
 @contextlib.asynccontextmanager
 
-      Similar to "contextmanager()", but creates an asynchronous
-      context manager.
+   Similar to "contextmanager()", but creates an asynchronous context
+   manager.
 
-      This function is a _decorator_ that can be used to define a
-      factory function for "async with" statement asynchronous context
-      managers, without needing to create a class or separate
-      "__aenter__()" and "__aexit__()" methods. It must be applied to
-      an _asynchronous generator_ function.
+   This function is a _decorator_ that can be used to define a factory
+   function for "async with" statement asynchronous context managers,
+   without needing to create a class or separate "__aenter__()" and
+   "__aexit__()" methods. It must be applied to an _asynchronous
+   generator_ function.
 
-      A simple example:
+   A simple example:
 >
-         from contextlib import asynccontextmanager
+      from contextlib import asynccontextmanager
 
-         @asynccontextmanager
-         async def get_connection():
-             conn = await acquire_db_connection()
-             try:
-                 yield conn
-             finally:
-                 await release_db_connection(conn)
+      @asynccontextmanager
+      async def get_connection():
+          conn = await acquire_db_connection()
+          try:
+              yield conn
+          finally:
+              await release_db_connection(conn)
 
-         async def get_all_users():
-             async with get_connection() as conn:
-                 return conn.query('SELECT ...')
+      async def get_all_users():
+          async with get_connection() as conn:
+              return conn.query('SELECT ...')
 <
-      New in version 3.7.
+   Added in version 3.7.
 
-      Context managers defined with "asynccontextmanager()" can be
-      used either as decorators or with "async with" statements:
+   Context managers defined with "asynccontextmanager()" can be used
+   either as decorators or with "async with" statements:
 >
-         import time
-         from contextlib import asynccontextmanager
+      import time
+      from contextlib import asynccontextmanager
 
-         @asynccontextmanager
-         async def timeit():
-             now = time.monotonic()
-             try:
-                 yield
-             finally:
-                 print(f'it took {time.monotonic() - now}s to run')
+      @asynccontextmanager
+      async def timeit():
+          now = time.monotonic()
+          try:
+              yield
+          finally:
+              print(f'it took {time.monotonic() - now}s to run')
 
-         @timeit()
-         async def main():
-             # ... async code ...
+      @timeit()
+      async def main():
+          # ... async code ...
 <
-      When used as a decorator, a new generator instance is implicitly
-      created on each function call. This allows the otherwise “one-
-      shot” context managers created by "asynccontextmanager()" to
-      meet the requirement that context managers support multiple
-      invocations in order to be used as decorators.
+   When used as a decorator, a new generator instance is implicitly
+   created on each function call. This allows the otherwise “one-shot”
+   context managers created by "asynccontextmanager()" to meet the
+   requirement that context managers support multiple invocations in
+   order to be used as decorators.
 
    Changed in version 3.10: Async context managers created with
    "asynccontextmanager()" can be used as decorators.
@@ -223,7 +223,7 @@ contextlib.aclosing(thing)
    and context variables work as expected, and the exit code isn’t run
    after the lifetime of some task it depends on).
 
-   New in version 3.10.
+   Added in version 3.10.
 
 contextlib.nullcontext(enter_result=None)
 
@@ -268,7 +268,7 @@ contextlib.nullcontext(enter_result=None)
           async with cm as session:
               # Send http requests with session
 <
-   New in version 3.7.
+   Added in version 3.7.
 
    Changed in version 3.10: _asynchronous context manager_ support was
    added.
@@ -310,14 +310,14 @@ contextlib.suppress(*exceptions)
    This context manager is reentrant.
 
    If the code within the "with" block raises a "BaseExceptionGroup",
-   suppressed exceptions are removed from the group.  If any
-   exceptions in the group are not suppressed, a group containing them
-   is re-raised.
+   suppressed exceptions are removed from the group.  Any exceptions
+   of the group which are not suppressed are re-raised in a new group
+   which is created using the original group’s "derive()" method.
 
-   New in version 3.4.
+   Added in version 3.4.
 
    Changed in version 3.12: "suppress" now supports suppressing
-   exceptions raised as part of an "BaseExceptionGroup".
+   exceptions raised as part of a "BaseExceptionGroup".
 
 contextlib.redirect_stdout(new_target)
 
@@ -357,7 +357,7 @@ contextlib.redirect_stdout(new_target)
 
    This context manager is reentrant.
 
-   New in version 3.4.
+   Added in version 3.4.
 
 contextlib.redirect_stderr(new_target)
 
@@ -366,7 +366,7 @@ contextlib.redirect_stderr(new_target)
 
    This context manager is reentrant.
 
-   New in version 3.5.
+   Added in version 3.5.
 
 contextlib.chdir(path)
 
@@ -383,7 +383,7 @@ contextlib.chdir(path)
 
    This context manager is reentrant.
 
-   New in version 3.11.
+   Added in version 3.11.
 
 class contextlib.ContextDecorator
 
@@ -465,7 +465,7 @@ class contextlib.ContextDecorator
      original construct with the explicit "with" statement inside the
      function should be used.
 
-   New in version 3.2.
+   Added in version 3.2.
 
 class contextlib.AsyncContextDecorator
 
@@ -505,7 +505,7 @@ class contextlib.AsyncContextDecorator
       The bit in the middle
       Finishing
 <
-   New in version 3.10.
+   Added in version 3.10.
 
 class contextlib.ExitStack
 
@@ -548,7 +548,7 @@ class contextlib.ExitStack
    suitable foundation for higher level context managers that
    manipulate the exit stack in application specific ways.
 
-   New in version 3.3.
+   Added in version 3.3.
 
    enter_context(cm)
 
@@ -631,7 +631,7 @@ class contextlib.AsyncExitStack
    The "close()" method is not implemented; "aclose()" must be used
    instead.
 
-   coroutine enter_async_context(cm)
+   async enter_async_context(cm)
 
       Similar to "ExitStack.enter_context()" but expects an
       asynchronous context manager.
@@ -649,7 +649,7 @@ class contextlib.AsyncExitStack
       Similar to "ExitStack.callback()" but expects a coroutine
       function.
 
-   coroutine aclose()
+   async aclose()
 
       Similar to "ExitStack.close()" but properly handles awaitables.
 
@@ -662,7 +662,7 @@ class contextlib.AsyncExitStack
           # the async with statement, even if attempts to open a connection
           # later in the list raise an exception.
 <
-   New in version 3.7.
+   Added in version 3.7.
 
 
 Examples and Recipes
@@ -802,7 +802,7 @@ skip executing that callback:
        if result:
            stack.pop_all()
 <
-This allows the intended cleanup up behaviour to be made explicit up
+This allows the intended cleanup behaviour to be made explicit up
 front, rather than requiring a separate flag variable.
 
 If a particular application uses this pattern a lot, it can be

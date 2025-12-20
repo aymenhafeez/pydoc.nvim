@@ -1,10 +1,10 @@
-Python 3.12.3
-*lzma.pyx*                                    Last change: 2024 May 24
+Python 3.12.12
+*lzma.pyx*                                    Last change: 2025 Dec 20
 
 "lzma" — Compression using the LZMA algorithm
 *********************************************
 
-New in version 3.3.
+Added in version 3.3.
 
 **Source code:** Lib/lzma.py
 
@@ -289,7 +289,7 @@ class lzma.LZMADecompressor(format=FORMAT_AUTO, memlimit=None, filters=None)
       "False" if the "decompress()" method can provide more
       decompressed data before requiring new uncompressed input.
 
-      New in version 3.5.
+      Added in version 3.5.
 
 lzma.compress(data, format=FORMAT_XZ, check=-1, preset=None, filters=None)
 

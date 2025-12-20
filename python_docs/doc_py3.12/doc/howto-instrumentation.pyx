@@ -1,5 +1,5 @@
-Python 3.12.3
-*howto-instrumentation.pyx*                   Last change: 2024 May 24
+Python 3.12.12
+*howto-instrumentation.pyx*                   Last change: 2025 Dec 20
 
 Instrumenting CPython with DTrace and SystemTap
 ***********************************************
@@ -309,7 +309,7 @@ import__find__load__start(str modulename)
    Fires before "importlib" attempts to find and load the module.
    "arg0" is the module name.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 import__find__load__done(str modulename, int found)
 
@@ -317,7 +317,7 @@ import__find__load__done(str modulename, int found)
    is the module name, "arg1" indicates if module was successfully
    loaded.
 
-   New in version 3.7.
+   Added in version 3.7.
 
 audit(str event, void *tuple)
 
@@ -325,7 +325,7 @@ audit(str event, void *tuple)
    the event name as C string, "arg1" is a "PyObject" pointer to a
    tuple object.
 
-   New in version 3.8.
+   Added in version 3.8.
 
 
 SystemTap Tapsets

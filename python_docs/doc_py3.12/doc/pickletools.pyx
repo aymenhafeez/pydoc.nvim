@@ -1,5 +1,5 @@
-Python 3.12.3
-*pickletools.pyx*                             Last change: 2024 May 24
+Python 3.12.12
+*pickletools.pyx*                             Last change: 2025 Dec 20
 
 "pickletools" — Tools for pickle developers
 *******************************************
@@ -19,7 +19,7 @@ probably won’t find the "pickletools" module relevant.
 Command line usage
 ==================
 
-New in version 3.2.
+Added in version 3.2.
 
 When invoked from the command line, "python -m pickletools" will
 disassemble the contents of one or more pickle files.  Note that if

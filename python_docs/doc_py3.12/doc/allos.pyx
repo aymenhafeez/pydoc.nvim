@@ -1,5 +1,5 @@
-Python 3.12.3
-*allos.pyx*                                   Last change: 2024 May 24
+Python 3.12.12
+*allos.pyx*                                   Last change: 2025 Dec 20
 
 Generic Operating System Services
 *********************************
@@ -82,20 +82,8 @@ as well.  Here’s an overview:
 
   * Timezone Constants
 
-* "argparse" — Parser for command-line options, arguments and sub-
-  commands
-
-  * Core Functionality
-
-  * Quick Links for add_argument()
-
-  * Example
-
-    * Creating a parser
-
-    * Adding arguments
-
-    * Parsing arguments
+* "argparse" — Parser for command-line options, arguments and
+  subcommands
 
   * ArgumentParser objects
 
@@ -187,9 +175,37 @@ as well.  Here’s an overview:
 
     * Intermixed parsing
 
-  * Upgrading optparse code
+    * Registering custom types or actions
 
   * Exceptions
+
+    * Argparse Tutorial
+
+      * Concepts
+
+      * The basics
+
+      * Introducing Positional arguments
+
+      * Introducing Optional arguments
+
+        * Short options
+
+      * Combining Positional and Optional arguments
+
+      * Getting a little more advanced
+
+        * Specifying ambiguous arguments
+
+        * Conflicting options
+
+      * How to translate the argparse output
+
+      * Custom type converters
+
+      * Conclusion
+
+    * Upgrading optparse code
 
 * "getopt" — C-style parser for command line options
 
