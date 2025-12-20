@@ -63,11 +63,15 @@ ${TAB}@echo "Build finished. The vimhelp pages are in build/vimhelp."
 EOL
     
     # Prefix the files in the howto folder with "howto-"
-    # Also, rename all the references we know about
-    sed -i 's/howto\/index.rst/howto\/howto-index.rst/g' contents.rst
     cd howto
     for file in $(ls *.rst); do mv $file howto-$file; done
-    sed -i 's/\([^[:space:]]*.rst\)/howto-\1/g' howto-index.rst
+    cd ..
+
+    # Also, rename all the references we know about
+    sed -i 's/howto\/index.rst/howto\/howto-index.rst/g' contents.rst
+    sed -i 's/\([^[:space:]/]*.rst\)/howto-\1/g' library/argparse.rst
+    cd howto
+    sed -i 's/\([^[:space:]/]*.rst\)/howto-\1/g' howto-index.rst
     cd ..
 
     # Build the help files
