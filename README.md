@@ -7,15 +7,16 @@ This plugin is 90% a copy of https://github.com/girishji/pythondoc.vim, which is
 
 In addition to pythondoc.vim, this plugin let's you choose between Python versions: 3.8 to 3.14.
 
-***
-
-## [![asciicast](https://asciinema.org/a/661709.svg)](https://asciinema.org/a/661709)
+---
+[![asciicast](https://asciinema.org/a/661709.svg)](https://asciinema.org/a/661709)
+---
 
 ## Install
 
 Install via your preffered package manager.
 
 `RazorBest/pydoc.nvim`
+
 
 ## Setup
 
@@ -57,14 +58,13 @@ In order to update all the versions, run from the root of this repo:
 `./build_python_docs.sh`
 
 This script permforms the following:
-
-* Clones the Python repo in tmp/cpython
-* Extracts the available versions greater than `MIN_VERSION`
-* Checks out on every version and performs the following, for each:
-  * Installs the virtual environment for the `Doc` and `vimbuilder`
-  * Modifies `Doc/conf.py` for `vimbuilder`
-  * Creates a makefile that runs sphinx with the `vimbuilder` extension
-  * Runs the makefile
-  * Copies the built files in `python_docs`, in the corresponding version
-  * Adds the Python version at the beginning of all the help files
-  * Runs vim helptags on the files
+- Clones the Python repo in tmp/cpython
+- Extracts the available versions greater than `MIN_VERSION`
+- Checks out on every version and performs the following, for each:
+   * Installs the virtual environment for the `Doc` and `vimbuilder`
+   * Modifies `Doc/conf.py` for `vimbuilder`
+   * Creates a makefile that runs sphinx with the `vimbuilder` extension
+   * Runs the makefile
+   * Copies the built files in `python_docs`, in the corresponding version
+   * Adds the Python version at the beginning of all the help files
+   * Runs vim helptags on the files
