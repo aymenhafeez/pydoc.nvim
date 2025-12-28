@@ -74,6 +74,11 @@ M.setup = function(opts)
     version = opts["version"] or M.latest_version
 
     M.select_version(version, true)
+
+    local has_telescope, telescope = pcall(require, "telescope")
+    if has_telescope then
+        pcall(telescope.load_extension, "pydoc")
+    end
 end
 
 
